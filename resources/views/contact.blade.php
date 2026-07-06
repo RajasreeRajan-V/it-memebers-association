@@ -437,7 +437,6 @@ textarea.form-control{
 </div>
 
 <!-- RIGHT -->
-
 <div class="col-lg-6">
 
 <div class="contact-form">
@@ -445,64 +444,96 @@ textarea.form-control{
 <h3>Send Us a Message</h3>
 <p class="sub">Fill out the form below and our team will get back to you shortly.</p>
 
+<!-- Display Validation Errors -->
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <form method="POST" action="">
     @csrf
 
     <div class="row">
 
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="name">Your Name</label>
+            <label class="form-label" for="full_name">Full Name <span class="text-danger">*</span></label>
             <input
-                id="name"
-                name="name"
+                id="full_name"
+                name="full_name"
                 type="text"
-                class="form-control"
+                class="form-control @error('full_name') is-invalid @enderror"
                 placeholder="John Doe"
+                value="{{ old('full_name') }}"
                 required>
+            @error('full_name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="email">Email Address</label>
+            <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
             <input
                 id="email"
                 name="email"
                 type="email"
-                class="form-control"
+                class="form-control @error('email') is-invalid @enderror"
                 placeholder="john@example.com"
+                value="{{ old('email') }}"
                 required>
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="phone">Phone Number</label>
+            <label class="form-label" for="phone">Phone Number <span class="text-danger">*</span></label>
             <input
                 id="phone"
                 name="phone"
                 type="tel"
-                class="form-control"
-                placeholder="+91 98765 43210"
+                class="form-control @error('phone') is-invalid @enderror"
+                placeholder="9876543210"
+                value="{{ old('phone') }}"
                 required>
+            @error('phone')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="col-md-6 mb-3">
-            <label class="form-label" for="subject">Subject <small class="text-muted">(Optional)</small></label>
+            <label class="form-label" for="subject">Subject <span class="text-danger">*</span></label>
             <input
                 id="subject"
                 name="subject"
                 type="text"
-                class="form-control"
-                placeholder="How can we help?">
+                class="form-control @error('subject') is-invalid @enderror"
+                placeholder="How can we help?"
+                value="{{ old('subject') }}"
+                required>
+            @error('subject')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
     </div>
 
     <div class="mb-4">
-        <label class="form-label" for="message">Message <small class="text-muted">(Optional)</small></label>
+        <label class="form-label" for="message">Message <span class="text-danger">*</span></label>
         <textarea
             id="message"
             name="message"
-            class="form-control"
+            class="form-control @error('message') is-invalid @enderror"
             rows="4"
-            placeholder="Write your message here..."></textarea>
+            placeholder="Write your message here..."
+            required>{{ old('message') }}</textarea>
+        @error('message')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 
     <button type="submit" class="btn btn-send">
