@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ContactusController;
+use App\Http\Controllers\Admin\ApplicationController;
+
+use Illuminate\Support\Facades\Route;
+
+Route::name('admin.')->group(function () {
+    Route::post("/do-login", [LoginController::class,'doLogin'])->name('do.login');
+    Route::middleware(['auth:admin'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+
+});
+});        
