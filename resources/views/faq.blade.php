@@ -1,0 +1,505 @@
+@extends('layouts.app')
+
+@section('title','FAQ')
+
+@section('content')
+
+<style>
+/*==================================================
+            FAQ PAGE — PROFESSIONAL REDESIGN
+==================================================*/
+
+:root{
+    --primary:;
+    --primary-dark:#1e1b3a;
+    --ink:#181433;
+    --muted:#5c5a78;
+    --border:#dcdaec;
+    --surface:#ffffff;
+    --bg:#e7e6f2;
+    --navy:#1e1b3a;
+    --navy-2:#141130;
+    --navy-border:#33305a;
+    --radius-lg:22px;
+    --radius-md:14px;
+    --shadow-soft:0 10px 30px rgba(20,17,48,.08);
+    --shadow-hover:0 20px 45px rgba(20,17,48,.14);
+}
+
+body{
+    background:var(--bg);
+}
+
+/* ---------- Hero ---------- */
+.faq-hero{
+    position:relative;
+    background:
+        linear-gradient(120deg,rgba(20,17,48,.93),rgba(30,27,58,.88)),
+        url('{{ asset("assets/img/cloud1.png") }}') center center/cover;
+    padding:64px 0 56px;
+    text-align:center;
+    color:#fff;
+    overflow:hidden;
+}
+
+.faq-hero::after{
+    content:"";
+    position:absolute;
+    inset:auto 0 0 0;
+    height:50px;
+    background:linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events:none;
+}
+
+.faq-hero .eyebrow{
+    display:inline-block;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--primary);
+    background:rgba(94,234,212,.1);
+    border:1px solid rgba(94,234,212,.35);
+    padding:5px 15px;
+    border-radius:999px;
+    margin-bottom:14px;
+}
+
+.faq-hero h1{
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:8px;
+    letter-spacing:-.02em;
+}
+
+.faq-hero p{
+    max-width:560px;
+    margin:auto;
+    font-size:14.5px;
+    line-height:1.6;
+    color:#d7d5e8;
+}
+
+/* ---------- Search Bar ---------- */
+.faq-search{
+    max-width:440px;
+    margin:20px auto 0;
+    position:relative;
+}
+
+.faq-search input{
+    width:100%;
+    height:42px;
+    border-radius:50px;
+    border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    padding:0 18px 0 42px;
+    font-size:13.5px;
+    backdrop-filter:blur(6px);
+}
+
+.faq-search input::placeholder{
+    color:#b9b7d1;
+}
+
+.faq-search input:focus{
+    outline:none;
+    border-color:var(--primary);
+    background:rgba(255,255,255,.12);
+}
+
+.faq-search svg{
+    position:absolute;
+    left:16px;
+    top:50%;
+    transform:translateY(-50%);
+    color:#b9b7d1;
+}
+
+/* ---------- Main Section ---------- */
+.faq-section{
+    padding:0 0 60px;
+    margin-top:-28px;
+    position:relative;
+    z-index:2;
+}
+
+.faq-category{
+    font-size:11.5px;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--primary-dark);
+    margin:24px 0 10px;
+}
+
+.faq-category:first-of-type{
+    margin-top:0;
+}
+
+/* ---------- Accordion Grid (2 per row) ---------- */
+.faq-accordion{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:10px;
+    align-items:start;
+}
+
+.faq-accordion .accordion-item{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md) !important;
+    margin-bottom:0;
+    overflow:hidden;
+    box-shadow:var(--shadow-soft);
+    transition:box-shadow .25s ease;
+}
+
+.faq-accordion .accordion-item:hover{
+    box-shadow:var(--shadow-hover);
+}
+
+.faq-accordion .accordion-header{
+    margin:0;
+}
+
+.faq-accordion .accordion-button{
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--surface);
+    padding:13px 18px;
+    box-shadow:none !important;
+    border:none;
+}
+
+.faq-accordion .accordion-button::after{
+    width:22px;
+    height:22px;
+    background-color:#f0effa;
+    background-image:none;
+    border-radius:50%;
+    position:relative;
+    flex-shrink:0;
+    transition:transform .25s ease, background-color .25s ease;
+}
+
+.faq-accordion .accordion-button::after{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23181433' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:12px;
+}
+
+.faq-accordion .accordion-button:not(.collapsed){
+    color:var(--navy);
+    background:var(--surface);
+}
+
+.faq-accordion .accordion-button:not(.collapsed)::after{
+    background-color:var(--primary);
+    transform:rotate(180deg);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23181433' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.faq-accordion .accordion-button:focus{
+    box-shadow:none;
+    border-color:transparent;
+}
+
+.faq-accordion .accordion-body{
+    padding:0 18px 15px 18px;
+    color:var(--muted);
+    font-size:13.5px;
+    line-height:1.6;
+}
+
+.faq-accordion .accordion-body ul{
+    margin:10px 0 0;
+    padding-left:20px;
+}
+
+.faq-accordion .accordion-body li{
+    margin-bottom:4px;
+}
+
+/* ---------- Still have questions CTA ---------- */
+.faq-cta{
+    background:var(--navy);
+    border-radius:var(--radius-lg);
+    padding:26px 28px;
+    text-align:center;
+    margin-top:28px;
+    box-shadow:var(--shadow-soft);
+    border:1px solid var(--navy-border);
+}
+
+.faq-cta h3{
+    color:#fff;
+    font-weight:800;
+    font-size:18px;
+    margin-bottom:4px;
+}
+
+.faq-cta p{
+    color:#a9a7c4;
+    font-size:13px;
+    margin-bottom:14px;
+}
+
+.faq-cta .btn-cta{
+    background: #ffffff;
+    color: #000;
+    border: 1px solid #e5e7eb;
+    border-radius: 50px;
+    padding: 10px 26px;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.12);
+    transition: all .2s ease;
+}
+
+.faq-cta .btn-cta:hover{
+    background: #f8f9fa;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(0,0,0,.18);
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:767px){
+    .faq-hero{ padding:50px 0 46px; }
+    .faq-hero h1{ font-size:26px; }
+    .faq-accordion{ grid-template-columns:1fr; }
+    .faq-accordion .accordion-button{ font-size:13.5px; padding:12px 15px; }
+    .faq-accordion .accordion-body{ padding:0 15px 14px 15px; }
+}
+
+</style>
+
+<!-- HERO -->
+<section class="faq-hero">
+    <div class="container">
+        <span class="eyebrow" style="color:#E3A028;">Support Center</span>
+        <h1>Frequently Asked Questions</h1>
+        <p>
+            Everything you need to know about registering, choosing a role,
+            and using the platform. Can't find your answer? Reach out to our team.
+        </p>
+
+        <div class="faq-search">
+        
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+<div class="container" style="max-width:900px;">
+
+    <p class="faq-category">Getting Started</p>
+
+    <div class="accordion faq-accordion" id="faqAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                    How do I join the platform?
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Click "Register" on the homepage, choose the role that best
+                    describes you, and fill in the required details. Once submitted,
+                    your registration is reviewed before your account is activated.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                    What roles can I register as?
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    You can join as a Student, Employee, Employer, Freelancer,
+                    Investor, or Mentor. Each role has its own dashboard and set
+                    of features tailored to what you're looking to do on the platform.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                    How long does verification take?
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Our admin team typically reviews and verifies new registrations
+                    within 1–2 business days. You'll receive an email once your
+                    account has been approved or if additional information is needed.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                    What happens after I'm approved?
+                </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    You'll receive an email with your login credentials. Once you
+                    sign in, you'll land on your role-based dashboard where you can
+                    start exploring opportunities and using the platform's features.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                    Can I upgrade my role later?
+                </button>
+            </h2>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Yes. From your dashboard, click "Upgrade Role" and select the
+                    new role you'd like to switch to. Our team will verify your
+                    eligibility before granting access to the new dashboard.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="faq-category">Students &amp; Employees</p>
+
+    <div class="accordion faq-accordion" id="faqAccordion2">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                    How do I apply for a job or internship?
+                </button>
+            </h2>
+            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                    Browse open listings from your dashboard and click "Apply."
+                    Your application is forwarded to the employer for review, and
+                    you'll be notified of the outcome by email.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                    How does mentorship or resume review work?
+                </button>
+            </h2>
+            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                    Request mentorship or a resume review directly from your
+                    dashboard. Available mentors accept requests, and sessions are
+                    scheduled and confirmed once verified by our team.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
+                    Can employees post articles or take on side projects?
+                </button>
+            </h2>
+            <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion2">
+                <div class="accordion-body">
+                    Yes. Employees can publish technical articles and apply for
+                    side projects from their dashboard. Articles go live once
+                    reviewed for quality, and project applications are forwarded
+                    to the relevant employer.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="faq-category">Employers, Freelancers &amp; Investors</p>
+
+    <div class="accordion faq-accordion" id="faqAccordion3">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
+                    How do employers post a job or project?
+                </button>
+            </h2>
+            <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion3">
+                <div class="accordion-body">
+                    From the Employer Dashboard, choose "Post Job," "Post Project,"
+                    or "Post Internship," fill in the listing details, and submit
+                    for review. Once approved, it goes live to the right audience —
+                    students, employees, or freelancers.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
+                    How do freelancers get hired?
+                </button>
+            </h2>
+            <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion3">
+                <div class="accordion-body">
+                    Freelancers can bid on open projects with a proposed amount
+                    and timeline, or post their services and portfolio for
+                    employers to discover. Selected bids move straight into
+                    active work.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq11">
+                    How do investors view startup profiles?
+                </button>
+            </h2>
+            <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion3">
+                <div class="accordion-body">
+                    Investors can browse basic startup profiles from their
+                    dashboard and request full access to a pitch deck, financials,
+                    and team background. Once verified, they can connect directly
+                    with founders.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="faq-cta">
+        <h3>Still have questions?</h3>
+        <p>Our support team is happy to help with anything not covered above.</p>
+        <a href="{{ route('contact') ?? '#' }}" class="btn-cta">
+            Contact Us
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
+
+</div>
+</section>
+
+@endsection

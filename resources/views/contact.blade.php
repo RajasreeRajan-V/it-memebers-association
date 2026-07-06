@@ -1,0 +1,526 @@
+@extends('layouts.app')
+
+@section('title','Contact Us')
+
+@section('content')
+
+<style>
+/*==================================================
+            CONTACT PAGE — PROFESSIONAL REDESIGN
+==================================================*/
+
+:root{
+    --primary:#1E1B3A;  /* Changed to your color */
+    --primary-dark:#161432;  /* Darker version for hover effects */
+    --ink: #181433;
+    --muted:#5c5a78;
+    --border:#dcdaec;
+    --surface: #ffffff;
+    --bg:#e7e6f2;
+    --navy:  #F0EFFA;
+    --navy-2:#F0EFFA;
+    --navy-border:#33305a;
+    --radius-lg:22px;
+    --radius-md:14px;
+    --shadow-soft:0 10px 30px rgba(20,17,48,.08);
+    --shadow-hover:0 20px 45px rgba(20,17,48,.16);
+}
+
+body{
+    background:var(--bg);
+}
+
+/* ---------- Hero ---------- */
+.contact-hero{
+    position:relative;
+    background:
+        linear-gradient(120deg,rgba(30,27,58,.93),rgba(22,20,50,.88)),
+        url('{{ asset("assets/img/cloud1.png") }}') center center/cover;
+    padding:72px 0 68px;
+    text-align:center;
+    color:#fff;
+    overflow:hidden;
+}
+
+.contact-hero::after{
+    content:"";
+    position:absolute;
+    inset:auto 0 0 0;
+    height:60px;
+    background:linear-gradient(to bottom, transparent, var(--bg));
+    pointer-events:none;
+}
+
+.contact-hero .hero-inner{
+    max-width:600px;
+    margin:0 auto;
+}
+
+.contact-hero .eyebrow{
+    display:inline-block;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:11px;
+    font-weight:700;
+    color:#fff;
+    background:rgba(30,27,58,.3);
+    border:1px solid rgba(255,255,255,.25);
+    padding:6px 16px;
+    border-radius:999px;
+    margin-bottom:18px;
+}
+
+.contact-hero h1{
+    font-size:38px;
+    font-weight:800;
+    margin-bottom:12px;
+    letter-spacing:-.02em;
+}
+
+.contact-hero p{
+    max-width:560px;
+    margin:auto;
+    font-size:15px;
+    line-height:1.7;
+    color: #d7d5e8;
+}
+
+/* ---------- Main Section ---------- */
+.contact-section{
+    padding:0 0 100px;
+    margin-top:-60px;
+    position:relative;
+    z-index:2;
+}
+
+/* ---------- Left Card ---------- */
+.contact-card{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:26px 24px;
+    box-shadow:var(--shadow-soft);
+    border:1px solid var(--border);
+    aspect-ratio:1/1;
+    width:100%;
+    max-width:460px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.contact-card h3{
+    font-weight:800;
+    font-size:19px;
+    margin-bottom:6px;
+    color:var(--ink);
+}
+
+.contact-card .sub{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:18px;
+    line-height:1.5;
+}
+
+.info-box{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:10px;
+    border-radius:var(--radius-md);
+    margin-bottom:4px;
+    transition:background .25s ease, transform .25s ease;
+}
+
+.info-box:hover{
+    background: #f0effa;
+    transform:translateX(2px);
+}
+
+.info-icon{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    border-radius:12px;
+    background: #ffffff;
+    color: #E3A028;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:16px;
+    box-shadow:0 6px 14px rgba(30,27,58,.32);
+}
+
+.info-box h5{
+    font-weight:700;
+    font-size:13.5px;
+    margin-bottom:2px;
+    color:var(--ink);
+}
+
+.info-box p{
+    color:var(--muted);
+    margin:0;
+    line-height:1.5;
+    font-size:12.5px;
+}
+
+.info-box a{
+    color:var(--muted);
+    text-decoration:none;
+}
+.info-box a:hover{
+    color: #1E1B3A;  /* Updated */
+}
+
+.social-row{
+    display:flex;
+    gap:8px;
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+}
+
+.social-row a{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background: #8682ad;
+    color: #ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    text-decoration:none;
+    transition:.25s ease;
+}
+
+.social-row a:hover{
+    background:;
+    color: #fff;
+    transform:translateY(-3px);
+}
+
+/* ---------- Form ---------- */
+.contact-form{
+    background:var(--navy);
+    border-radius:var(--radius-lg);
+    padding:26px 24px;
+    box-shadow:var(--shadow-soft);
+    border:1px solid var(--border);
+    aspect-ratio:1/1;
+    width:100%;
+    max-width:460px;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.contact-form form{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    height:100%;
+}
+
+.contact-form h3{
+    font-weight:800;
+    font-size:19px;
+    margin-bottom:4px;
+    color: #000000;
+}
+
+.contact-form .sub{
+    color: #000000;
+    font-size:13px;
+    margin-bottom:18px;
+}
+
+.contact-form .form-label{
+    color: #000000;
+}
+
+.contact-form .form-control{
+    background:var(--navy-2);
+    border:1.5px solid var(--navy-border);
+    color:#000000;
+}
+
+.contact-form .form-control::placeholder{
+    color:#7c7a9c;
+}
+
+.contact-form .form-control:focus{
+    background:var(--navy-2);
+    border-color:#1E1B3A;  /* Updated */
+    box-shadow:0 0 0 4px rgba(30,27,58,.15);
+}
+
+.contact-form .form-note{
+    color:#8b89a8;
+}
+
+.form-label{
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:5px;
+    display:inline-block;
+}
+
+.form-control{
+    height:42px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    padding:8px 14px;
+    font-size:13.5px;
+    background:#fbfcfe;
+    transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+textarea.form-control{
+    height:auto;
+}
+
+.form-control::placeholder{
+    color:#a3aebc;
+}
+
+.form-control:focus{
+    box-shadow:0 0 0 4px rgba(30,27,58,.15);  /* Updated */
+    border-color:#1E1B3A;  /* Updated */
+    background:#fff;
+    outline:none;
+}
+
+.btn-send{
+    background: #ffffff;  /* Changed to white */
+    color: #1E1B3A;  /* Navy text color */
+    border: 2px solid #1E1B3A;  /* Navy border */
+    border-radius: 50px;
+    padding: 11px 28px;
+    font-weight: 700;
+    font-size: 13.5px;
+    letter-spacing: .01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,.08);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+}
+
+.btn-send:hover{
+    background: #1E1B3A;  /* Navy on hover */
+    color: #ffffff;  /* White text on hover */
+    border-color: #1E1B3A;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(30,27,58,.25);
+}
+
+.btn-send:active{
+    transform: translateY(0);
+}
+
+.form-note{
+    font-size:12.5px;
+    color:var(--muted);
+    margin-top:14px;
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:991px){
+
+.contact-card{
+    margin-bottom:28px;
+}
+
+.contact-hero{
+    padding:56px 0 52px;
+}
+
+.contact-hero h1{
+    font-size:30px;
+}
+
+.contact-form,
+.contact-card{
+    padding:32px 26px;
+}
+
+}
+
+@media(max-width:575px){
+.contact-hero h1{
+    font-size:25px;
+}
+.contact-hero p{
+    font-size:13.5px;
+}
+}
+
+</style>
+
+<!-- HERO -->
+<section class="contact-hero">
+    <div class="container">
+        <div class="hero-inner">
+            <span class="eyebrow" style="color:#E3A028;">We're here to help</span>
+            <h1>Get In Touch</h1>
+            <p>
+                Have a question, suggestion, or partnership inquiry?
+                We'd love to hear from you. Send us a message and our team
+                will get back to you as soon as possible.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section">
+
+<div class="container">
+
+<div class="row g-4 justify-content-center">
+
+<!-- LEFT -->
+<div class="col-lg-6">
+
+<div class="contact-card">
+
+<h3>Contact Information</h3>
+<p class="sub">Reach out through any of the channels below — we typically respond within one business day.</p>
+
+<div class="info-box">
+    <div class="info-icon">
+        <i class="fa-solid fa-location-dot"></i>
+    </div>
+    <div>
+        <h5>Address</h5>
+        <p>123 Business Street<br>Kochi, Kerala 682001</p>
+    </div>
+</div>
+
+<div class="info-box">
+    <div class="info-icon">
+       <i class="fa-solid fa-envelope"></i>
+    </div>
+    <div>
+        <h5>Email</h5>
+        <p>
+            <a href="mailto:info@nexus.com">info@nexus.com</a><br>
+            <a href="mailto:support@nexus.com">support@nexus.com</a>
+        </p>
+    </div>
+</div>
+
+<div class="info-box">
+    <div class="info-icon">
+        <i class="fa-solid fa-phone"></i>
+    </div>
+    <div>
+        <h5>Phone</h5>
+        <p><a href="tel:+919876543210">+91 98765 43210</a></p>
+    </div>
+</div>
+
+<div class="social-row">
+    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="#" aria-label="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="col-lg-6">
+
+<div class="contact-form">
+
+<h3>Send Us a Message</h3>
+<p class="sub">Fill out the form below and our team will get back to you shortly.</p>
+
+<form method="POST" action="">
+    @csrf
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="name">Your Name</label>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                class="form-control"
+                placeholder="John Doe"
+                required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="email">Email Address</label>
+            <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-control"
+                placeholder="john@example.com"
+                required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="phone">Phone Number</label>
+            <input
+                id="phone"
+                name="phone"
+                type="tel"
+                class="form-control"
+                placeholder="+91 98765 43210"
+                required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label" for="subject">Subject <small class="text-muted">(Optional)</small></label>
+            <input
+                id="subject"
+                name="subject"
+                type="text"
+                class="form-control"
+                placeholder="How can we help?">
+        </div>
+
+    </div>
+
+    <div class="mb-4">
+        <label class="form-label" for="message">Message <small class="text-muted">(Optional)</small></label>
+        <textarea
+            id="message"
+            name="message"
+            class="form-control"
+            rows="4"
+            placeholder="Write your message here..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-send">
+        Send Message <i class="fa-solid fa-paper-plane"></i>
+    </button>
+
+    <p class="form-note">We respect your privacy — your information will never be shared with third parties.</p>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+@endsection
