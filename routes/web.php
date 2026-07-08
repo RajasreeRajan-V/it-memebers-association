@@ -17,4 +17,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
 require __DIR__.'/auth.php';
+require __DIR__.'/student.php';
+require __DIR__.'/employee.php';
+require __DIR__.'/employer.php';
+require __DIR__.'/freelancer.php';
+require __DIR__.'/investor.php';
+require __DIR__.'/mentor.php';
