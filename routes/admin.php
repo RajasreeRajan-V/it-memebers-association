@@ -14,7 +14,14 @@ Route::name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('registrations', [RegistrationApprovalController::class, 'index'])
+        ->name('registrations.index');
 
+    Route::patch('registrations/{id}/approve', [RegistrationApprovalController::class, 'approve'])
+        ->name('registrations.approve');
+
+    Route::patch('registrations/{id}/reject', [RegistrationApprovalController::class, 'reject'])
+        ->name('registrations.reject');
 
 });
 });        

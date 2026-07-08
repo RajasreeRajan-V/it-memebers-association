@@ -6,27 +6,49 @@
     <title>Login - Admin Panel</title>
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <style>
+        /*
+         * Fallback tokens: mirrors admin.css so this page still looks right
+         * even if the stylesheet above 404s. If admin.css loads, its :root
+         * values win automatically since both blocks define the same names.
+         */
+        :root {
+            --ink: #17131F;
+            --bg: #F3F1FA;
+            --surface: #FFFFFF;
+            --sidebar: #1B1530;
+            --sidebar-strong: #241C3D;
+            --accent: #6C5CE7;
+            --accent-deep: #4B3FB8;
+            --accent-soft: #EDEAFB;
+            --muted: #6E6889;
+            --border: #E5E1F3;
+        }
+
+        body {
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        }
+
         .login-wrapper {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--light-lilac);
+            background-color: var(--bg);
             padding: 1rem;
         }
 
         .login-card {
             width: 100%;
             max-width: 380px;
-            background-color: #ffffff;
+            background-color: var(--surface);
             border-radius: 10px;
-            box-shadow: 0 4px 16px rgba(35, 25, 50, 0.15);
+            box-shadow: 0 4px 16px rgba(23, 19, 31, 0.15);
             overflow: hidden;
         }
 
         .login-header {
-            background-color: var(--dark-purple);
-            color: var(--light-lilac);
+            background-color: var(--sidebar-strong);
+            color: var(--bg);
             text-align: center;
             padding: 2rem 1.5rem 1.5rem;
         }
@@ -36,12 +58,13 @@
             height: 56px;
             margin: 0 auto 0.75rem;
             border-radius: 50%;
-            background-color: var(--mid-purple);
+            background: linear-gradient(135deg, var(--accent), var(--accent-deep));
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.4rem;
             font-weight: 700;
+            color: #ffffff;
         }
 
         .login-header h1 {
@@ -67,25 +90,25 @@
             display: block;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--dark-purple);
+            color: var(--ink);
             margin-bottom: 0.4rem;
         }
 
         .form-control {
             width: 100%;
             padding: 0.65rem 0.85rem;
-            border: 1px solid #c9c7dd;
+            border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 0.95rem;
-            color: var(--dark-purple);
+            color: var(--ink);
             background-color: #fbfbfd;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: var(--mid-purple);
-            box-shadow: 0 0 0 3px rgba(80, 68, 130, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
         }
 
         .form-control.is-invalid {
@@ -110,17 +133,17 @@
             display: flex;
             align-items: center;
             gap: 0.4rem;
-            color: var(--dark-purple);
+            color: var(--ink);
             cursor: pointer;
         }
 
         .form-options a {
-            color: var(--mid-purple);
+            color: var(--accent);
             font-weight: 600;
         }
 
         .form-options a:hover {
-            color: var(--deep-blue);
+            color: var(--accent-deep);
             text-decoration: underline;
         }
 
@@ -129,23 +152,24 @@
             padding: 0.75rem;
             border: none;
             border-radius: 6px;
-            background-color: var(--blue-purple);
+            background-color: var(--accent);
             color: #ffffff;
             font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
         }
 
         .btn-login:hover {
-            background-color: var(--deep-blue);
+            background-color: var(--accent-deep);
         }
 
         .login-footer {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.8rem;
-            color: var(--mid-purple);
+            color: var(--muted);
         }
 
         .alert-error {
