@@ -54,3 +54,9 @@ Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
 Route::view('/cookie-policy', 'cookie-policy')->name('cookie-policy');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/student.php';
+require __DIR__.'/employee.php';
+require __DIR__.'/employer.php';
+require __DIR__.'/freelancer.php';
+require __DIR__.'/investor.php';
+require __DIR__.'/mentor.php';
