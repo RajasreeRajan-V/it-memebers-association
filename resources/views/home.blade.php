@@ -1401,26 +1401,39 @@
     </section>
 
     {{-- ============ NEWSLETTER ============ --}}
-    <section class="py-6">
-        <div class="container">
-            <div class="home-newsletter home-reveal">
-                <div class="row align-items-center g-4">
-                    <div class="col-lg-6">
-                        <span class="section-eyebrow">Stay Updated</span>
-                        <h3 class="section-title mb-2">Get New Jobs &amp; Opportunities in Your Inbox</h3>
-                        <p class="text-muted mb-0">Join our weekly digest of verified jobs, projects, pitch openings, and events. No spam, unsubscribe anytime.</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <form class="d-flex flex-wrap flex-lg-nowrap gap-2">
-                            <input type="email" class="form-control flex-grow-1" placeholder="Enter your email address" required>
-                            <button type="submit" class="btn btn-teal">Subscribe</button>
-                        </form>
-                    </div>
+  <section class="py-6">
+    <div class="container">
+        <div class="home-newsletter home-reveal">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <span class="section-eyebrow">Stay Updated</span>
+                    <h3 class="section-title mb-2">Get New Jobs &amp; Opportunities in Your Inbox</h3>
+                    <p class="text-muted mb-0">
+                        Join our weekly digest of verified jobs, projects, pitch openings, and events. No spam, unsubscribe anytime.
+                    </p>
+                </div>
+
+                <div class="col-lg-6">
+                    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="d-flex flex-wrap flex-lg-nowrap gap-2">
+                        @csrf
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control flex-grow-1"
+                            placeholder="Enter your email address"
+                            required
+                        >
+
+                        <button type="submit" class="btn btn-teal">
+                            Subscribe
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
 </div>
 
 <script>

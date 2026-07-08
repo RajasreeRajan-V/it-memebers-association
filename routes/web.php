@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsletterController;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +45,9 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
+
+Route::post('/newsletter', [NewsletterController::class, 'subscribe'])
+    ->name('newsletter.subscribe');
 
 Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
