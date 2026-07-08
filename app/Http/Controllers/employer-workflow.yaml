@@ -1,0 +1,507 @@
+              
+                       Employer Workflow:-
+
+
+Employer Registers
+        │
+        ▼
+Admin Verifies Employer Documents
+        │
+        ▼
+Employer Account Approved
+        │
+        ▼
+Employer Logs In
+        │
+        ▼
+Employer Dashboard
+        │
+        ├───────────────────────────────────────────────┐
+        │                                               │
+        ▼                                               
+     1- DASHBOARD OVERVIEW:-
+                                                     
+Employer can see:-
+
+- Total Active Jobs
+- Total Internships
+- Total Projects
+- Total Applications Received
+- Shortlisted Candidates
+- Pending Jobs
+- Expired Jobs
+- Total Profile Views
+- Active Startup Profiles
+- Interview Schedule (Today's Interviews)
+- Recent Activities
+- Hired Candidates
+- Notifications  ──────────────────────────────── 
+                                                 |       
+                                                 |
+                                                 |
+                                                 ▼ 
+
+                              A new job application has been received.
+                              A freelancer submitted a new bid.
+                              Your job post has been approved by the admin.
+                              Your internship has been approved.
+                              Your startup profile has been approved.
+                              A shortlisted candidate accepted the interview invitation.
+                              Membership renewal reminder.
+
+                         The employer can click Notifications to view all updates.
+                  
+
+- Membership Status  ──────────────────────────────────
+         |                                             |       
+         |                                             |
+         |                                             ▼ 
+         |                                           
+         |                        Current Plan (e.g., Employer Membership)
+         ▼                        Status (Active / Expired / Pending)
+Work Flow of membership           Membership Start Date
+         |                         Membership Expiry Date
+         |                         Renew Membership button (if the membership is about to expire)
+         ▼
+Membership Status
+(Status: Active / Expired / Expiring Soon)
+        │
+        ▼
+Employer clicks "Renew Membership"
+        │
+        ▼
+System displays:
+• Current Plan
+• Expiry Date
+• Renewal Fee
+• Renewal Duration
+        │
+        ▼
+Employer clicks "Proceed to Payment"
+        │
+        ▼
+Online Payment Gateway
+(Razorpay / PayU / etc.)
+        │
+        ▼
+Payment Successful
+        │
+        ▼
+System records payment
+        │
+        ▼
+Admin verifies payment
+(Automatic or Manual)
+        │
+   ┌────┴────┐
+   │         │
+   ▼         ▼
+Approved   Failed/Rejected
+   │         │
+   ▼         ▼
+Membership  Retry Payment
+Extended
+   │
+   ▼
+New Expiry Date Updated
+   │
+   ▼
+Confirmation Email & Notification Sent
+   │
+   ▼
+Employer continues posting
+• Jobs
+• Internships
+• Projects
+• Startup Profiles
+
+      
+
+             2- COMPANY PROFILE (is the employer's business information.)
+
+
+Click "Company Profile"
+        │
+        ▼
+Fill Company Details
+        │
+        ├── Company Name
+        ├── Company Type :- Private Limited, Public Limited, Partnership, Sole Proprietorship, NGO,
+                            Government Organization(optional)
+        ├── Company Logo 
+        ├── Industry
+        ├── About Company
+        ├── Website
+        ├── Email & Phone
+        ├── Address
+        ├── GST/PAN (Optional)
+        ├── Team Size
+        └── Social Media Links :- fb insta linkedin whatsapp  (optional)
+        │
+        ▼
+Click "Save & Submit"
+        │
+        ▼
+Admin Reviews Company Profile
+        │
+        ├── Verify company information
+        ├── Check contact details
+        ├── Review company description
+        └── Verify GST/PAN (if provided)
+        │
+        ▼
+      ┌───────────────┴───────────────┐
+      │                               │
+      ▼                               ▼
+ Approved                      Needs Changes
+      │                               │
+      ▼                               ▼
+Company Profile Live        Employer Receives
+on the Platform             Correction Request
+      │                               │
+      ▼                               ▼
+Visible to Members         Edit & Resubmit
+      │
+      ▼
+Employer Can Update Profile Anytime
+        │
+        ▼
+Admin Reviews Updated Information
+        │
+        ▼
+Updated Company Profile Published
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      3-   POST JOB:-
+
+Click "Post Job"
+        │
+        ▼
+Fill Job Details
+- Job Title
+- Employment Type :-Full-time, Part-time, Contract, Freelance, 
+- Experience
+- Salary
+- Skills
+- Location :- State, District, City
+- Work mode :- Onsite, hybrid, Remote
+- Qualification
+- Description
+        │
+        ▼
+Submit Job
+        │
+        ▼
+Status = Pending
+        │
+        ▼
+Admin Reviews Job
+        │
+   ┌────┴────┐
+   │         │
+Approve    Reject
+   │         │
+   ▼         ▼
+Job Goes    Employer Gets
+Live        Rejection Reason
+   │
+   ▼
+Students & Employees View Job
+   │
+   ▼
+Candidates Apply
+   │
+   ▼
+Employer Reviews Applications
+   │
+   ▼
+Shortlist Candidates
+   │
+   ▼
+Schedule Interview   
+        ├── Schedule Interview
+        ├── Select Date & Time
+        ├── Send Interview Invitation
+        ├── Conduct Interview
+        └── Update Interview Status
+   │
+   ▼
+Hire Candidate
+        ├── Select Candidate
+        ├── Send Offer / Hire
+        └── Recruitment Completed
+
+
+
+       4-   POST INTERNSHIPS:-
+
+
+Click "Post Internship"
+        │
+        ▼
+Fill Internship Details :-
+
+        Internship Title
+        Internship Type :- Full-time, Part-time, Remote, Hybrid, On-site
+        Location :- Country, State, City
+        Internship Description :- About the internship, Roles and responsibilities
+        Duration
+        Stipend(optional)
+    │
+    ▼
+Submit
+     │
+     ▼
+Admin Approval
+        │
+   ┌────┴────┐
+   │         │
+Approve    Reject
+   │
+   ▼
+Internship Visible
+Only to Students
+        │
+        ▼
+Students Apply
+        │
+        ▼
+Employer Reviews Applications
+        │
+        ▼
+Shortlist
+        │
+        ▼
+Select Intern
+
+   
+
+                 5-   POST PROJECTS:-
+
+
+Click "Post Project"
+        │
+        ▼
+Fill Project Details
+- Project Title (eg,ecommerce,website..)
+- Project Description 
+- Project Type
+- Budget
+- Duration
+- Skills
+- Deadline
+        │
+        ▼
+Submit
+        │
+        ▼
+Admin Approval
+        │
+   ┌────┴────┐
+   │         │
+Approve    Reject
+   │
+   ▼
+Project Visible
+Only to Freelancers
+        │
+        ▼
+Freelancers Submit Bids
+        │
+        ▼
+Employer Reviews Bids
+        │
+        ▼
+Select Freelancer
+        │
+        ▼
+Project Starts
+        │
+        ▼
+Project Completed
+        │
+        ▼
+Employer Confirms Completion
+        │
+        ▼
+Payment Released         
+
+
+
+            6: STARTUP PROFILE
+
+Click "Startup Profile"
+        │
+        ▼
+Fill Startup Information
+- Startup Name
+- Startup Logo (Optional)
+- Team Size(total number of people currently working in the startup.Examples:-11–25 Members)
+- Location(state, district, city)
+- Website (Optional)
+- Industry
+- Founder Name
+- Funding Required (how much investment (money) the startup is looking to raise from investors)
+- Business Description
+- Contact Email
+- Phone Number
+
+        │
+        ▼
+Upload Pitch Summary
+        │
+        ▼
+Submit
+        │
+        ▼
+Admin Reviews
+        │
+   ┌────┴────┐
+   │         │
+Approve    Reject
+   │
+   ▼
+Visible Only
+to Investors
+        │
+        ▼
+Investors View Profile
+        │
+        ▼
+Investor Requests Pitch Deck
+        │
+        ▼
+Admin Approves Request
+        │
+        ▼
+Investor Contacts Employer
+
+
+
+
+             7: VIEW APPLICATIONS & HIRE
+
+Employer Opens Applications
+        │
+        ▼
+View
+- Student Applications (who applied for internships)
+- Employee Applications (who applied for jobs)
+- Freelancer Bids (who submitted bids for outsourced projects)
+        │
+        ▼
+Review Resume / Portfolio
+        │
+        ▼
+Shortlist (If an applicant matches the requirements, the employer clicks Shortlist.
+The applicant receives a notification such as:
+"Congratulations! You have been shortlisted for the next stage.")
+        │
+        ▼
+Schedule Interview / Discussion (For Students & Employees: An interview (online or offline).)
+        │
+        ▼
+Select Candidate (After the interview or discussion, the employer makes a decision.
+                  Select the best student for the internship.
+                  Select the best employee for the job.
+                  Select the best freelancer for the project.)
+        │
+        ▼
+Hire Candidate / Select Freelancer (The employer confirms the selection.
+                                    Student → Internship offered.
+                                    Employee → Job offered.
+                                    Freelancer → Project assigned)
+        │
+        ▼
+Notification Sent : The system automatically notifies the selected person.
+                "Congratulations! You have been selected for the Software Developer position."
+                "Congratulations! You have been selected for the internship."
+                "Your bid has been accepted. The project has been assigned to you."
+
+        Applicants who are not selected may receive:
+
+        Thank you for your interest. We encourage you to apply for future opportunities.
+        Thank you for your application. We wish you success and hope to connect with you again soon.
+        Your application has been reviewed. We appreciate your interest and wish you the very best.
+        Thank you for applying. We look forward to receiving your application for future openings.
+        We appreciate your time and interest. We hope to see you apply again in the future.
+        Thank you for your application. We wish you all the best in your career journey.
+    │
+    ▼
+Recruitment Completed :-  
+        The job or internship can be marked as Closed.
+        The freelancer begins working on the assigned project.
+        The selected applicant can view the new status in My Applications..
+
+
+
+
+
+        8: SETTINGS
+
+Click "Settings"
+        │
+        ▼
+Choose the Setting to Update
+        │
+        ├── Change Password
+        ├── Membership Settings
+        └── Delete Account (Optional)
+        │
+        ▼
+Make Required Changes
+        │
+        ▼
+Click "Save Changes"
+        │
+        ▼
+System Validates Information
+        │
+        ▼
+      ┌───────────────┴───────────────┐
+      │                               │
+      ▼                               ▼
+Changes Saved                  Validation Failed
+      │                               │
+      ▼                               ▼
+Success Message              Show Error Message
+      │                               │
+      ▼                               ▼
+Updated Settings Active       Employer Corrects Details
+
+
+
+
+
+
+    Notifications ✅
+
+Employer receives notifications like:
+
+New application received
+New freelancer bid
+Job approved by admin
+Internship approved
+Startup profile approved
+Membership expiring soon
+Interview accepted
+Candidate accepted offer
+Admin announcements
