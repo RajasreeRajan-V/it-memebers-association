@@ -206,7 +206,7 @@
                 <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
                 <span class="nav-divider d-none d-lg-block"></span>
                 <li class="nav-item">
-                    <a href="#" class="navbar-login">
+                    <a href="{{ route('membership') }}" class="navbar-login">
                         <span class="login-badge">👤</span>
                         <span>Membership</span>
                     </a>

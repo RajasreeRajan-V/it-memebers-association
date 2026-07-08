@@ -918,7 +918,7 @@
                             profile, listing, and pitch checked by our team before it goes live.
                         </p>
                         <div class="home-hero-cta d-flex gap-3 flex-wrap">
-                            <a href="" class="btn btn-gold">Join the Network</a>
+                            <a href="{{ route('membership') }}" class="btn btn-gold">Join the Network</a>
                             <a href="#roles" class="btn btn-outline-light">Explore Roles</a>
                         </div>
                     </div>
@@ -1216,7 +1216,7 @@
                             <li>Enroll in courses and skill tracks</li>
                             <li>Get resume reviews and mentorship</li>
                         </ul>
-                        <a href="" class="role-cta">Register as a Student →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Student →</a>
                     </div>
                 </div>
 
@@ -1230,7 +1230,7 @@
                             <li>Publish technical articles</li>
                             <li>Request confidential legal help</li>
                         </ul>
-                        <a href="" class="role-cta">Register as an Employee →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Employee →</a>
                     </div>
                 </div>
 
@@ -1245,7 +1245,7 @@
                             <li>Share a startup pitch or profile</li>
                             <li>Review applications in one dashboard</li>
                         </ul>
-                        <a href="" class="role-cta">Register as an Employer →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Employer →</a>
                     </div>
                 </div>
 
@@ -1259,7 +1259,7 @@
                             <li>List services &amp; showcase portfolio</li>
                             <li>Get paid through monitored payouts</li>
                         </ul>
-                        <a href="" class="role-cta">Register as a Freelancer →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Freelancer →</a>
                     </div>
                 </div>
 
@@ -1273,7 +1273,7 @@
                             <li>Request full pitch deck access</li>
                             <li>Connect directly with founders</li>
                         </ul>
-                        <a href="" class="role-cta">Register as an Investor →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Investor →</a>
                     </div>
                 </div>
 
@@ -1287,7 +1287,7 @@
                             <li>Host workshops &amp; webinars</li>
                             <li>Conduct mock interviews</li>
                         </ul>
-                        <a href="" class="role-cta">Register as a Mentor →</a>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Mentor →</a>
                     </div>
                 </div>
             </div>
@@ -1306,7 +1306,7 @@
                     <p class="text-muted mb-0">
                         Can't find what you're looking for? Reach out to our support team and we'll get back to you within a day.
                     </p>
-                    <a href="" class="btn btn-outline-dark mt-3">Contact Support</a>
+                    <a href="{{ route('contact') }}" class="btn btn-outline-dark mt-3">Contact Support</a>
                 </div>
                 <div class="col-lg-8 home-reveal">
                     <div class="accordion home-faq" id="homeFaqAccordion">
