@@ -1,62 +1,27 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\NewsletterController;
-
-
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-
-
-
-
-
-Route::get('/', function () {
-    return view('home');
+    return view('home.index');
 })->name('home');
 
 Route::get('/about', function () {
-    return view('about');
+    return view('home.about');
 })->name('about');
 
-Route::get('/events', function () {
-    return view('events');
-})->name('events');
-
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
+Route::get('/membership', function () {
+    return view('home.membership');
+})->name('membership');
 
 Route::get('/contact', function () {
-    return view('contact');
+    return view('home.contact');
 })->name('contact');
 
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 
-Route::post('/newsletter', [NewsletterController::class, 'subscribe'])
-    ->name('newsletter.subscribe');
-
-Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
-Route::view('/terms-of-service', 'terms-of-service')->name('terms-of-service');
-Route::view('/cookie-policy', 'cookie-policy')->name('cookie-policy');
-
-require __DIR__.'/auth.php';
-require __DIR__.'/student.php';
-require __DIR__.'/employee.php';
-require __DIR__.'/employer.php';
-require __DIR__.'/freelancer.php';
-require __DIR__.'/investor.php';
-require __DIR__.'/mentor.php';
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');

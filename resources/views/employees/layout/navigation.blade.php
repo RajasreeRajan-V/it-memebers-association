@@ -89,7 +89,7 @@
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span>Logout</span>
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form id="logout-form" action="{{ route('membership-logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         <div class="copy">

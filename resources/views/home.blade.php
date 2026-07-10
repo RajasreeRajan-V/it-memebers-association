@@ -1454,6 +1454,18 @@
     document.querySelectorAll('.home-page .home-reveal').forEach(function(el){
         io.observe(el);
     });
+
+
+    (function(){
+    var nav = document.querySelector('.site-navbar');
+    if(!nav) return;
+    function onScroll(){
+        if(window.scrollY > 12){ nav.classList.add('is-scrolled'); }
+        else{ nav.classList.remove('is-scrolled'); }
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+})();
 })();
 </script>
 @endsection

@@ -699,7 +699,7 @@
 
                 <div class="sidebar-footer">
                     <a href="#" class="nav-item"><i class="fas fa-user"></i> Profile</a>
-                    <a href="#" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="{{ route('membership-logout') }}" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </nav>
         </aside>

@@ -20,6 +20,8 @@ Route::post("/logout", [LoginController::class,'logout'])->name('logout');
 
 Route::get('/membership', [CommonLoginController::class, 'login'])->name('membership');
 Route::post('/do_login', [CommonLoginController::class, 'authenticate'])->name('do_login');
+Route::post('/membership-logout', [CommonLoginController::class, 'logout'])->name('membership-logout');
+
 
 Route::get('/registration', [RegistrationController::class, 'register'])->name('registration');
 Route::post('/do_registration', [RegistrationController::class, 'store'])->name('do_registration');
