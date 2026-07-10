@@ -10,9 +10,7 @@ Route::get('/about', function () {
     return view('home.about');
 })->name('about');
 
-Route::get('/membership', function () {
-    return view('home.membership');
-})->name('membership');
+
 
 Route::get('/contact', function () {
     return view('home.contact');
