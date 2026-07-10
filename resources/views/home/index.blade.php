@@ -3,37 +3,37 @@
 @section('content')
 
 <!-- Hero -->
-<section class="hero" id="home">
+
+
+
+
+<section class="hero" id="about">
     <div class="container hero-inner">
+
+        <!-- Left Side Content -->
         <div class="hero-copy">
-            <p class="eyebrow">Careers · Freelance · Learning · Capital</p>
+            <p class="eyebrow"></p>
+
             <h1>
-                One Platform,<br />
+                One Platform<br>
                 <span class="accent-text">Endless Opportunities</span>
             </h1>
+
             <p class="hero-sub">
                 Jobs, internships, projects, courses, investments and mentorship —
                 everything in one place, built around the way you actually work.
             </p>
-            <div class="hero-actions">
-                <a href="#register" class="btn btn-primary btn-lg">Join Now</a>
-                <a href="#portals" class="btn btn-outline btn-lg">Learn More</a>
-            </div>
-
-            <div class="hero-stats">
-
-            </div>
         </div>
 
-        <div class="hero-visual">
-            <div class="hero-blob" aria-hidden="true"></div>
-            <div class="hero-dots" aria-hidden="true"></div>
-            <div class="hero-card">
-                <!-- Replace the src below with your own image, e.g. "images/hero-team.png" -->
-                <img src="{{ asset('assets/img/hero-team.png') }}" alt="Hero Image" loading="lazy" />
-            </div>
-
+        <!-- Right Side Image -->
+        <div class="hero-image">
+            <img
+                src="{{ asset('assets/img/hero-team.png') }}"
+                alt="About SkillConnect"
+                width="700">
         </div>
+
+    </div>
 </section>
 
 <!-- Portals -->
@@ -60,7 +60,7 @@
                 <div class="portal-body">
                     <h3>Employer Portal</h3>
                     <p>Post jobs, screen applicants, and build your team.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -75,7 +75,7 @@
                 <div class="portal-body">
                     <h3>Employee Portal</h3>
                     <p>Find jobs, build skills, grow your career.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -91,7 +91,7 @@
                 <div class="portal-body">
                     <h3>Student Portal</h3>
                     <p>Find internships, courses and scholarships.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -105,7 +105,7 @@
                 <div class="portal-body">
                     <h3>Freelancer Portal</h3>
                     <p>Bid on projects, showcase work, get paid.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -121,7 +121,7 @@
                 <div class="portal-body">
                     <h3>Investor Portal</h3>
                     <p>Discover startups and back new ideas early.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
@@ -138,7 +138,7 @@
                 <div class="portal-body">
                     <h3>Mentor Portal</h3>
                     <p>Teach, guide and support the next generation.</p>
-                    <a href="#" class="portal-link">Enter <span aria-hidden="true">→</span></a>
+                    <a href="#" class="portal-link">Register <span aria-hidden="true">→</span></a>
                 </div>
             </article>
 
