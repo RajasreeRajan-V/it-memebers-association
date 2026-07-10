@@ -368,15 +368,20 @@
         </nav>
 
         <!-- Footer -->
-        <div class="sidebar-footer">
-            <a href="#" class="nav-item" onclick="event.preventDefault(); alert('Logout action');">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <span>Logout</span>
-            </a>
-            <div class="copy">
-                &copy; 2026 Astra Student
-            </div>
-        </div>
+        <!-- Footer -->
+<div class="sidebar-footer">
+    <form id="logoutForm" action="{{ route('membership-logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+
+    <a href="#" class="nav-item" id="logoutBtn">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+    <div class="copy">
+        &copy; 2026 Astra Student
+    </div>
+</div>
     </aside>
 
     <!-- ===== MAIN CONTENT ===== -->
@@ -412,81 +417,88 @@
     </main>
 
     <!-- ===== SCRIPTS ===== -->
-    <script>
-        (function() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebarClose = document.getElementById('sidebarClose');
+   <script>
+    (function() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebarClose = document.getElementById('sidebarClose');
+        const logoutBtn = document.getElementById('logoutBtn'); // ADDED
 
-            function openSidebar() {
-                sidebar.classList.add('sidebar-open');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
+        function openSidebar() {
+            sidebar.classList.add('sidebar-open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-            function closeSidebar() {
-                sidebar.classList.remove('sidebar-open');
-                overlay.classList.remove('active');
+        function closeSidebar() {
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Open from mobile hamburger
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                openSidebar();
+            });
+        }
+
+        // Close from X button
+        if (sidebarClose) {
+            sidebarClose.addEventListener('click', closeSidebar);
+        }
+
+        // Close on overlay click
+        if (overlay) {
+            overlay.addEventListener('click', closeSidebar);
+        }
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        // Close sidebar when a nav link is clicked (mobile)
+        document.querySelectorAll('.sidebar .nav-item').forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) closeSidebar();
+            });
+        });
+
+        // Reset state on resize to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeSidebar();
                 document.body.style.overflow = '';
             }
+        });
 
-            // Open from mobile hamburger
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    openSidebar();
-                });
+        // Logout handler -- ADDED
+        logoutBtn?.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('logoutForm').submit();
+        });
+
+        // Highlight active link based on current URL (simple demo)
+        const currentPath = window.location.pathname;
+        document.querySelectorAll('.sidebar .nav-item').forEach(function(item) {
+            // remove any existing active class from others
+            if (item.href && currentPath.includes(item.href.split('/').pop())) {
+                document.querySelectorAll('.sidebar .nav-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
             }
+        });
 
-            // Close from X button
-            if (sidebarClose) {
-                sidebarClose.addEventListener('click', closeSidebar);
-            }
-
-            // Close on overlay click
-            if (overlay) {
-                overlay.addEventListener('click', closeSidebar);
-            }
-
-            // Close on Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeSidebar();
-            });
-
-            // Close sidebar when a nav link is clicked (mobile)
-            document.querySelectorAll('.sidebar .nav-item').forEach(function(link) {
-                link.addEventListener('click', function() {
-                    if (window.innerWidth <= 768) closeSidebar();
-                });
-            });
-
-            // Reset state on resize to desktop
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    closeSidebar();
-                    document.body.style.overflow = '';
-                }
-            });
-
-            // Highlight active link based on current URL (simple demo)
-            const currentPath = window.location.pathname;
-            document.querySelectorAll('.sidebar .nav-item').forEach(function(item) {
-                // remove any existing active class from others
-                if (item.href && currentPath.includes(item.href.split('/').pop())) {
-                    document.querySelectorAll('.sidebar .nav-item').forEach(el => el.classList.remove('active'));
-                    item.classList.add('active');
-                }
-            });
-
-            // if no active found, keep first as active (demo)
-            const hasActive = document.querySelector('.sidebar .nav-item.active');
-            if (!hasActive) {
-                const first = document.querySelector('.sidebar .nav-item');
-                if (first) first.classList.add('active');
-            }
-        })();
-    </script>
+        // if no active found, keep first as active (demo)
+        const hasActive = document.querySelector('.sidebar .nav-item.active');
+        if (!hasActive) {
+            const first = document.querySelector('.sidebar .nav-item');
+            if (first) first.classList.add('active');
+        }
+    })();
+</script>
 
 </body>
 </html>

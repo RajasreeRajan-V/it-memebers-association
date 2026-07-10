@@ -1,0 +1,1704 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+        }
+        
+        .navbar{
+            background:#0d1b2a;
+        }
+
+        .navbar a{
+            color:white !important;
+        }
+
+        footer{
+            background:#0d1b2a;
+            color:white;
+            padding:40px 0;
+        }
+
+        .hero{
+            padding:120px 0;
+            background:linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)),
+            url('{{ asset("assets/img/cloud1.png") }}') center/cover;
+            color:white;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="home-page">
+
+    <nav class="navbar navbar-expand-lg site-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <span class="brand-mark">N</span>
+            Nexus Association
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
+                <li class="nav-item"><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">About</a></li>
+                <li class="nav-item"><a href="{{ route('events') }}" class="nav-link {{ request()->routeIs('events') ? 'active' : '' }}">Events</a></li>
+                <li class="nav-item"><a href="{{ route('faq') }}" class="nav-link {{ request()->routeIs('faq') ? 'active' : '' }}">FAQ</a></li>
+                <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a></li>
+                <span class="nav-divider d-none d-lg-block"></span>
+                <li class="nav-item">
+                    <a href="{{ route('membership') }}" class="navbar-login">
+                        <span class="login-badge">👤</span>
+                        <span>Membership</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <section class="home-hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="home-hero-copy">
+                        <span class="home-hero-eyebrow">Nexus Association <span class="chip">Verified Network</span></span>
+                        <h1>Building Connections Between <span class="accent">Talent</span> &amp; Opportunity</h1>
+                        <p class="lede">
+                            One verified platform where students, professionals, businesses, freelancers,
+                            investors and mentors register, get approved, and grow together — with every
+                            profile, listing, and pitch checked by our team before it goes live.
+                        </p>
+                        <div class="home-hero-cta d-flex gap-3 flex-wrap">
+                            <a href="{{ route('membership') }}" class="btn btn-gold">Join the Network</a>
+                            <a href="#roles" class="btn btn-outline-light">Explore Roles</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="home-hero-visual">
+                        <span class=""><span class=""></span></span>
+                        <div class="visual-frame">
+                            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1000&q=80" alt="Nexus Association members collaborating at a networking session">
+                        </div>
+                        <div class="home-hero-stat-card">
+                            <div class="stat-icon">🤝</div>
+                            <div>
+                                <div class="stat-num">10,000+</div>
+                                <div class="stat-label">Verified members across 6 roles</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home-hero-wave">
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,24 C240,56 480,0 720,18 C960,36 1200,58 1440,26 L1440,60 L0,60 Z" fill="#ffffff"></path>
+            </svg>
+        </div>
+    </section>
+
+
+
+   
+    <section class="home-stats py-4">
+        <div class="container">
+            <div class="row text-center g-4 home-reveal-stagger">
+                <div class="col-6 col-lg-3 stat-col home-reveal">
+                    <div class="stat-num">10,000+</div>
+                    <div class="stat-label">Verified Members</div>
+                </div>
+                <div class="col-6 col-lg-3 stat-col home-reveal">
+                    <div class="stat-num">1,200+</div>
+                    <div class="stat-label">Jobs &amp; Internships Posted</div>
+                </div>
+                <div class="col-6 col-lg-3 stat-col home-reveal">
+                    <div class="stat-num">300+</div>
+                    <div class="stat-label">Startups Funded &amp; Mentored</div>
+                </div>
+                <div class="col-6 col-lg-3 home-reveal">
+                    <div class="stat-num">8</div>
+                    <div class="stat-label">Live Events This Month</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="py-6">
+        <div class="container">
+            <div class="text-center mb-5 home-reveal">
+                <span class="section-eyebrow">Our Ecosystem</span>
+                <h2 class="section-title">Our Collaboration Model</h2>
+                <p class="section-lead">
+                    A connected ecosystem where every role contributes to growth and opportunity —
+                    verified end to end, from registration to first opportunity.
+                </p>
+            </div>
+
+            <div class="row g-4 home-reveal-stagger">
+                <div class="col-md-6 col-lg-3 home-reveal">
+                    <div class="home-model-card text-center p-4 h-100" style="--bar-color:var(--home-violet);">
+                        <div class="home-model-icon icon-student">🎓</div>
+                        <h5 class="fw-bold">Talent Development</h5>
+                        <p class="text-muted mb-0">
+                            Students gain skills, mentorship, and real-world exposure through courses, hackathons, and internships.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 home-reveal">
+                    <div class="home-model-card text-center p-4 h-100" style="--bar-color:var(--home-rose);">
+                        <div class="home-model-icon icon-employer">🏢</div>
+                        <h5 class="fw-bold">Business Growth</h5>
+                        <p class="text-muted mb-0">
+                            Employers connect with skilled talent and scalable workforce solutions, from full-time hires to short-term projects.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 home-reveal">
+                    <div class="home-model-card text-center p-4 h-100" style="--bar-color:var(--home-teal);">
+                        <div class="home-model-icon icon-freelancer">💼</div>
+                        <h5 class="fw-bold">Freelance Economy</h5>
+                        <p class="text-muted mb-0">
+                            Freelancers find projects, showcase expertise, build trust, and get paid securely through a monitored payout process.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 home-reveal">
+                    <div class="home-model-card text-center p-4 h-100" style="--bar-color:var(--home-gold);">
+                        <div class="home-model-icon icon-investor">📊</div>
+                        <h5 class="fw-bold">Investment &amp; Mentorship</h5>
+                        <p class="text-muted mb-0">
+                            Investors and mentors support innovation, startups, and career journeys with verified access and direct connections.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="home-mission py-6">
+        <div class="container text-center">
+            <blockquote class="home-reveal">
+                We believe opportunity should be earned on merit, not luck — so every member,
+                listing and pitch on Nexus is reviewed by a real person before it reaches the community.
+            </blockquote>
+           <div class="mission-byline home-reveal" style="color:#E3A028;">
+    — THE NEXUS VERIFICATION TEAM
+</div>
+        </div>
+    </section>
+
+
+
+    <section class="home-flow py-6">
+        <div class="container">
+            <div class="text-center mb-5 home-reveal">
+                <span class="section-eyebrow">Inside the Platform</span>
+                <h2 class="section-title">Everything Runs in One Place</h2>
+                <p class="section-lead">From your first application to your next collaboration, the whole journey happens inside a single dashboard.</p>
+            </div>
+
+            <div class="row g-4 home-reveal-stagger">
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-teal);">📋</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Verified Job Board</h6>
+                            <p class="text-muted small mb-0">Every job, internship and project is screened before it's visible to applicants.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-blue);">📚</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Courses &amp; Resources</h6>
+                            <p class="text-muted small mb-0">Skill tracks, training material and mock interviews to help members level up.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-rose);">🗓️</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Events &amp; Webinars</h6>
+                            <p class="text-muted small mb-0">Live sessions, hackathons and pitch nights hosted directly on the platform.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-violet);">💬</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Direct Messaging</h6>
+                            <p class="text-muted small mb-0">Reach mentors, founders and employers through a monitored inbox.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-gold);color:#1a1200;">🛡️</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Verified Badges</h6>
+                            <p class="text-muted small mb-0">Every profile carries a visible mark of admin review, so trust travels with you.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-feature-card">
+                        <div class="home-feature-icon" style="background:var(--home-navy);">📈</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Progress Dashboard</h6>
+                            <p class="text-muted small mb-0">Track applications, bids, mentorship sessions and pitch requests in real time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="py-6">
+        <div class="container">
+            <div class="text-center mb-5 home-reveal">
+                <span class="section-eyebrow">Why Members Stay</span>
+                <h2 class="section-title">Everything Is Verified. Nothing Is Guesswork.</h2>
+                <p class="section-lead">
+                    Every registration, job post, pitch and bid passes through admin review before
+                    it reaches the community — so the people and opportunities you meet here are real.
+                </p>
+            </div>
+
+            <div class="row g-4 home-reveal-stagger">
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Admin-verified profiles</h6>
+                            <p class="text-muted mb-0 small">Every member is checked before their dashboard goes live.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">One account, six roles</h6>
+                            <p class="text-muted mb-0 small">Request a role upgrade any time — from Student to Employee or beyond.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Direct, tracked communication</h6>
+                            <p class="text-muted mb-0 small">Email and WhatsApp updates keep you informed at every stage.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Secure, monitored payouts</h6>
+                            <p class="text-muted mb-0 small">Freelance payments are released only after admin confirmation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Cross-role collaboration</h6>
+                            <p class="text-muted mb-0 small">Students, freelancers, employers and investors operate in one shared network.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-benefit">
+                        <div class="benefit-check">✓</div>
+                        <div>
+                            <h6 class="fw-bold mb-1">A real support team</h6>
+                            <p class="text-muted mb-0 small">Questions and disputes are handled by people, not a ticket queue that goes nowhere.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-3 home-reveal">
+                <a href="" class="btn btn-outline-dark">Learn about verification</a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="py-6" id="roles">
+        <div class="container">
+            <div class="text-center mb-5 home-reveal">
+                <span class="section-eyebrow">Membership</span>
+                <h2 class="section-title">Choose Your Role</h2>
+                <p class="section-lead">Six ways to join the community — every application is verified by our admin team before it goes live.</p>
+            </div>
+
+            <div class="row g-4 home-reveal-stagger">
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+                        <div class="home-role-icon icon-student">🎓</div>
+                        <h5 class="fw-bold">Student</h5>
+                        <p class="text-muted mb-0">For learners building a career runway before graduation.</p>
+                        <ul class="role-perks">
+                            <li>Apply to verified jobs &amp; internships</li>
+                            <li>Enroll in courses and skill tracks</li>
+                            <li>Get resume reviews and mentorship</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Student →</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+                        <div class="home-role-icon icon-employee">👨‍💼</div>
+                        <h5 class="fw-bold">Employee</h5>
+                        <p class="text-muted mb-0">For working professionals exploring what's next.</p>
+                        <ul class="role-perks">
+                            <li>Explore new roles &amp; side projects</li>
+                            <li>Publish technical articles</li>
+                            <li>Request confidential legal help</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Employee →</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+
+                        <div class="home-role-icon icon-employer">🏢</div>
+                        <h5 class="fw-bold">Employer</h5>
+                        <p class="text-muted mb-0">For teams hiring talent or outsourcing work.</p>
+                        <ul class="role-perks">
+                            <li>Post jobs, projects &amp; internships</li>
+                            <li>Share a startup pitch or profile</li>
+                            <li>Review applications in one dashboard</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Employer →</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+                        <div class="home-role-icon icon-freelancer">💼</div>
+                        <h5 class="fw-bold">Freelancer</h5>
+                        <p class="text-muted mb-0">For independent professionals who bid on real work.</p>
+                        <ul class="role-perks">
+                            <li>Bid on verified client projects</li>
+                            <li>List services &amp; showcase portfolio</li>
+                            <li>Get paid through monitored payouts</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Freelancer →</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+                        <div class="home-role-icon icon-investor">📊</div>
+                        <h5 class="fw-bold">Investor</h5>
+                        <p class="text-muted mb-0">For angels and early-stage backers sourcing deal flow.</p>
+                        <ul class="role-perks">
+                            <li>Browse verified startup profiles</li>
+                            <li>Request full pitch deck access</li>
+                            <li>Connect directly with founders</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as an Investor →</a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 home-reveal">
+                    <div class="home-role-card">
+                        <div class="home-role-icon icon-mentor">🧠</div>
+                        <h5 class="fw-bold">Mentor</h5>
+                        <p class="text-muted mb-0">For experienced professionals giving back.</p>
+                        <ul class="role-perks">
+                            <li>Guide mentees one-on-one</li>
+                            <li>Host workshops &amp; webinars</li>
+                            <li>Conduct mock interviews</li>
+                        </ul>
+                        <a href="{{ route('registration') }}" class="role-cta">Register as a Mentor →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section class="home-flow py-6">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 home-reveal">
+                    <span class="section-eyebrow">Common Questions</span>
+                    <h2 class="section-title mb-3">Frequently Asked Questions</h2>
+                    <p class="text-muted mb-0">
+                        Can't find what you're looking for? Reach out to our support team and we'll get back to you within a day.
+                    </p>
+                    <a href="{{ route('contact') }}" class="btn btn-outline-dark mt-3">Contact Support</a>
+                </div>
+                <div class="col-lg-8 home-reveal">
+                    <div class="accordion home-faq" id="homeFaqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How long does verification usually take?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Most registrations are reviewed within 24–48 hours. Employers submitting a startup profile or investment pitch may take a little longer, since our team checks company and team details more closely.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What happens if my registration is rejected?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    You'll receive an email explaining the reason for rejection. You're welcome to correct the issue and re-apply, and our team is happy to clarify what's missing.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Can I switch roles later, like from Student to Employee?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Yes. You can request a role upgrade from your dashboard at any time, and our team re-verifies your new details before switching your dashboard over.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Is mentorship really open to everyone?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Yes — mentorship sessions on Nexus are open to every verified student and employee. Mentors volunteer their time, and we simply verify their experience before matching them.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Who can see a startup's pitch deck?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Startup profiles are visible only to verified investors, and even then, only basic details are shown until the investor requests — and is approved for — full access to the pitch deck, financials, and traction reports.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+                                    Is my profile information kept private?
+                                </button>
+                            </h2>
+                            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Your contact details are never shown publicly. Other members only see what you choose to share on your profile, and sensitive documents used for verification are visible to our admin team alone.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+                                    What if I have a dispute with another member?
+                                </button>
+                            </h2>
+                            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#homeFaqAccordion">
+                                <div class="accordion-body">
+                                    Open a case from your dashboard and our support team will step in to review the conversation, listings and any payments involved before helping both sides reach a resolution.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <section class="py-6">
+    <div class="container">
+        <div class="home-newsletter home-reveal">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <span class="section-eyebrow">Stay Updated</span>
+                    <h3 class="section-title mb-2">Get New Jobs &amp; Opportunities in Your Inbox</h3>
+                    <p class="text-muted mb-0">
+                        Join our weekly digest of verified jobs, projects, pitch openings, and events. No spam, unsubscribe anytime.
+                    </p>
+                </div>
+
+                <div class="col-lg-6">
+                    <form action="{{ route('newsletter.subscribe') }}" method="POST" class="d-flex flex-wrap flex-lg-nowrap gap-2">
+                        @csrf
+
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control flex-grow-1"
+                            placeholder="Enter your email address"
+                            required
+                        >
+
+                        <button type="submit" class="btn btn-teal">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+<script>
+(function(){
+    if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.home-reveal').forEach(function(el){ el.classList.add('is-visible'); });
+        return;
+    }
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.home-page .home-reveal').forEach(function(el){
+        io.observe(el);
+    });
+})();
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+<style>
+   
+    .home-page{
+        --home-ink:#132A3A;
+        --home-navy:#0E2233;
+        --home-navy-2:#153349;
+        --home-gold:#E3A028;
+        --home-gold-dark:#c98c1e;
+        --home-teal:#1C7C72;
+        --home-rose:#C65D45;
+        --home-violet:#5B4B8A;
+        --home-blue:#2C6E9E;
+        --home-bg-soft: #F6F4EF;
+        --home-line: rgba(19,42,58,0.10);
+        --home-shadow-sm: 0 6px 16px rgba(19,42,58,.08);
+        --home-shadow-md: 0 16px 36px rgba(19,42,58,.12);
+        --font-display:'Sora', 'Segoe UI', sans-serif;
+        --font-body:'Inter', 'Segoe UI', sans-serif;
+        font-family: var(--font-body);
+        overflow-x:hidden;
+    }
+
+    .home-page h1, .home-page h2, .home-page h3, .home-page h4, .home-page h5, .home-page h6{
+        font-family: var(--font-display);
+    }
+
+    .home-page .section-eyebrow{
+        display:inline-flex;
+        align-items:center;
+        gap:.5rem;
+        font-size:.72rem;
+        letter-spacing:.16em;
+        text-transform:uppercase;
+        font-weight:700;
+        color:var(--home-teal);
+        margin-bottom:.75rem;
+    }
+    .home-page .section-eyebrow::before{
+        content:"";
+        width:22px;
+        height:2px;
+        background:var(--home-teal);
+        display:inline-block;
+        border-radius:2px;
+    }
+    .home-page .section-eyebrow.on-dark{ color:var(--home-gold); }
+    .home-page .section-eyebrow.on-dark::before{ background:var(--home-gold); }
+
+    .home-page .section-title{
+        font-weight:800;
+        color:var(--home-ink);
+        letter-spacing:-.02em;
+    }
+
+    .home-page .section-lead{
+        color:#5B6B76;
+        max-width:640px;
+        margin-left:auto;
+        margin-right:auto;
+        font-size:1.02rem;
+    }
+
+    .home-page .py-6{ padding-top:5.5rem; padding-bottom:5.5rem; }
+
+    /* ---------- REVEAL-ON-SCROLL ANIMATION SYSTEM ---------- */
+    @keyframes home-pulse{
+        0%,100%{ transform:scale(1); }
+        50%{ transform:scale(1.06); }
+    }
+    @keyframes home-float{
+        0%,100%{ transform:translateY(0); }
+        50%{ transform:translateY(-8px); }
+    }
+    .home-reveal{
+        opacity:0;
+        transform:translateY(28px) scale(.97);
+        transition:opacity .65s cubic-bezier(.21,.9,.32,1), transform .65s cubic-bezier(.21,.9,.32,1);
+        will-change:opacity, transform;
+    }
+    .home-reveal.is-visible{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+    /* staggered delays for children inside a revealing row */
+    .home-reveal-stagger .home-reveal:nth-child(1){ transition-delay:.02s; }
+    .home-reveal-stagger .home-reveal:nth-child(2){ transition-delay:.10s; }
+    .home-reveal-stagger .home-reveal:nth-child(3){ transition-delay:.18s; }
+    .home-reveal-stagger .home-reveal:nth-child(4){ transition-delay:.26s; }
+    .home-reveal-stagger .home-reveal:nth-child(5){ transition-delay:.34s; }
+    .home-reveal-stagger .home-reveal:nth-child(6){ transition-delay:.42s; }
+
+    .home-icon-float{
+        animation:home-float 3.4s ease-in-out infinite;
+    }
+
+    /* ---------- HERO ---------- */
+    .home-hero{
+        position:relative;
+        color:#fff;
+        padding:8rem 0 9.5rem;
+        overflow:hidden;
+        background:
+            linear-gradient(115deg, rgba(9,20,30,.94) 0%, rgba(11,26,39,.9) 42%, rgba(11,23,35,.82) 100%),
+            url('https://images.unsplash.com/photo-1531058020387-3be344556be6?auto=format&fit=crop&w=1920&q=80') center 28% / cover no-repeat;
+    }
+    .home-hero::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:
+            radial-gradient(55% 55% at 8% 8%, rgba(227,160,40,.16), transparent 60%),
+            radial-gradient(45% 45% at 96% 90%, rgba(28,124,114,.20), transparent 60%);
+        pointer-events:none;
+    }
+    .home-hero .container{ position:relative; z-index:1; }
+
+    .home-hero-eyebrow{
+        display:inline-flex;
+        align-items:center;
+        gap:.4rem;
+        background:rgba(255,255,255,.08);
+        border:1px solid rgba(255,255,255,.22);
+        backdrop-filter:blur(6px);
+        color:#fff;
+        padding:.35rem .5rem .35rem 1rem;
+        border-radius:999px;
+        font-size:.72rem;
+        letter-spacing:.1em;
+        text-transform:uppercase;
+        font-weight:700;
+        margin-bottom:1.75rem;
+    }
+    .home-hero-eyebrow .chip{
+        background:var(--home-gold);
+        color:#1a1200;
+        font-weight:800;
+        border-radius:999px;
+        padding:.28rem .7rem;
+        letter-spacing:.02em;
+        text-transform:none;
+    }
+
+    .home-hero-copy{ text-align:center; }
+    .home-hero-copy h1{
+        font-weight:800;
+        letter-spacing:-.03em;
+        line-height:1.1;
+        font-size:clamp(2rem, 3.6vw, 3.05rem);
+        max-width:640px;
+        margin:0 auto;
+    }
+    .home-hero-copy h1 .accent{ color:var(--home-gold); }
+
+    .home-hero-copy .lede{
+        max-width:560px;
+        margin:1.15rem auto 0;
+        font-size:1.06rem;
+        color:rgba(255,255,255,.82);
+        line-height:1.7;
+    }
+
+    .home-hero-cta{ margin-top:2.25rem; justify-content:center; }
+    .home-hero-cta .btn{
+        border-radius:9px;
+        padding:.8rem 1.9rem;
+        font-weight:700;
+        font-size:.98rem;
+        transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .home-hero-cta .btn-gold{
+        background:var(--home-gold);
+        border:1px solid var(--home-gold);
+        color:#1a1200;
+        box-shadow:0 10px 24px rgba(227,160,40,.32);
+    }
+    .home-hero-cta .btn-gold:hover{
+        background:var(--home-gold-dark);
+        border-color:var(--home-gold-dark);
+        color:#1a1200;
+        transform:translateY(-2px) scale(1.03);
+    }
+    .home-hero-cta .btn-outline-light{
+        border-radius:9px;
+        padding:.8rem 1.9rem;
+        font-weight:600;
+        border-width:1.5px;
+    }
+    .home-hero-cta .btn-outline-light:hover{
+        color:var(--home-ink);
+        transform:translateY(-2px) scale(1.03);
+    }
+
+    .home-hero-proof{
+        margin-top:2.5rem;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:.85rem;
+        flex-wrap:wrap;
+    }
+    .home-avatar-stack{
+        display:flex;
+    }
+    .home-avatar-stack span{
+        width:34px;
+        height:34px;
+        border-radius:50%;
+        border:2px solid var(--home-navy);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:.72rem;
+        font-weight:700;
+        color:#fff;
+        margin-left:-10px;
+    }
+    .home-avatar-stack span:first-child{ margin-left:0; }
+    .home-hero-proof .proof-text{
+        font-size:.85rem;
+        color:rgba(255,255,255,.75);
+        text-align:left;
+    }
+    .home-hero-proof .proof-text strong{ color:#fff; }
+
+    /* ---- Hero visual / second image ---- */
+    .home-hero-visual{
+        position:relative;
+        max-width:460px;
+        margin:3.25rem auto 1.25rem;
+        animation:home-float 5s ease-in-out infinite;
+    }
+    .home-hero-visual .visual-frame{
+        position:relative;
+        border-radius:22px;
+        overflow:hidden;
+        border:1px solid rgba(255,255,255,.18);
+        box-shadow:0 26px 60px rgba(4,12,20,.45);
+    }
+    .home-hero-visual .visual-frame img{
+        width:100%;
+        height:360px;
+        object-fit:cover;
+        display:block;
+    }
+    .home-hero-visual .visual-frame::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:linear-gradient(190deg, rgba(14,34,51,0) 45%, rgba(9,19,29,.6) 100%);
+    }
+    .home-hero-pill{
+        position:absolute;
+        top:16px;
+        left:16px;
+        z-index:2;
+        background:rgba(255,255,255,.96);
+        color:var(--home-navy);
+        font-size:.7rem;
+        font-weight:800;
+        letter-spacing:.03em;
+        padding:.45rem .85rem;
+        border-radius:999px;
+        display:inline-flex;
+        align-items:center;
+        gap:.45rem;
+        box-shadow:0 10px 22px rgba(0,0,0,.2);
+    }
+    .home-hero-pill .dot{
+        width:7px;height:7px;border-radius:50%;background:var(--home-teal);
+        box-shadow:0 0 0 3px rgba(28,124,114,.18);
+        animation:home-pulse 1.8s ease-in-out infinite;
+    }
+    .home-hero-stat-card{
+        position:relative;
+        margin:-2.75rem auto 0;
+        max-width:280px;
+        background:#fff;
+        border-radius:16px;
+        padding:1rem 1.15rem;
+        box-shadow:0 20px 44px rgba(4,12,20,.28);
+        display:flex;
+        align-items:center;
+        gap:.85rem;
+        z-index:2;
+        transition:transform .25s ease, box-shadow .25s ease;
+    }
+    .home-hero-stat-card:hover{
+        transform:translateY(-4px) scale(1.03);
+        box-shadow:0 26px 52px rgba(4,12,20,.34);
+    }
+    .home-hero-stat-card .stat-icon{
+        width:42px;height:42px;border-radius:12px;
+        background:var(--home-gold);
+        display:flex;align-items:center;justify-content:center;
+        font-size:1.15rem; flex:0 0 auto;
+        animation:home-pulse 2.6s ease-in-out infinite;
+    }
+    .home-hero-stat-card .stat-num{
+        font-family:var(--font-display);
+        font-weight:800;
+        color:var(--home-ink);
+        font-size:1.1rem;
+        line-height:1;
+    }
+    .home-hero-stat-card .stat-label{
+        font-size:.72rem;
+        color:#5B6B76;
+        margin-top:.2rem;
+    }
+
+    @media (min-width:992px){
+        .home-hero-copy{ text-align:left; }
+        .home-hero-copy h1{ margin:0; max-width:600px; }
+        .home-hero-copy .lede{ margin-left:0; margin-right:0; }
+        .home-hero-cta{ justify-content:flex-start; }
+        .home-hero-proof{ justify-content:flex-start; }
+        .home-hero-visual{ margin:0; max-width:none; }
+        .home-hero-stat-card{ margin:0; position:absolute; left:-1.5rem; bottom:-1.75rem; }
+    }
+
+    .home-hero-wave{
+        position:absolute;
+        left:0; right:0; bottom:-1px;
+        line-height:0;
+        z-index:2;
+    }
+    .home-hero-wave svg{ width:100%; height:60px; display:block; }
+
+    /* ---------- Trust strip ---------- */
+    .home-trust{
+        background:#fff;
+        border-bottom:1px solid var(--home-line);
+        position:relative;
+    }
+    .home-trust .trust-label{
+        font-size:.7rem;
+        text-transform:uppercase;
+        letter-spacing:.14em;
+        color:#8A97A0;
+        font-weight:700;
+    }
+    .home-trust .trust-item{
+        font-size:.92rem;
+        font-weight:700;
+        color:#94A0A8;
+        opacity:.9;
+        white-space:nowrap;
+    }
+
+    /* ---------- Stats strip ---------- */
+    .home-stats{
+        background:var(--home-navy);
+        color:#fff;
+        position:relative;
+    }
+    .home-stats .stat-num{
+        font-family:var(--font-display);
+        font-size:2.15rem;
+        font-weight:800;
+        color:var(--home-gold);
+        line-height:1;
+        transition:transform .25s ease;
+        display:inline-block;
+    }
+    .home-stats .stat-col:hover .stat-num{
+        transform:scale(1.12);
+    }
+    .home-stats .stat-label{
+        font-size:.83rem;
+        color:rgba(255,255,255,.68);
+        letter-spacing:.03em;
+        margin-top:.4rem;
+    }
+    .home-stats .stat-col{
+        border-right:1px solid rgba(255,255,255,.12);
+        cursor:default;
+    }
+    .home-stats .stat-col:last-child{
+        border-right:none;
+    }
+
+    /* ---------- Mission / pull-quote band ---------- */
+    .home-mission{
+        background:#fff;
+        position:relative;
+    }
+    .home-mission blockquote{
+        font-family:var(--font-display);
+        font-weight:700;
+        color:var(--home-ink);
+        font-size:clamp(1.35rem, 2.4vw, 1.85rem);
+        line-height:1.45;
+        letter-spacing:-.01em;
+        max-width:900px;
+        margin:0 auto;
+        position:relative;
+        padding:0 1rem;
+    }
+    .home-mission blockquote::before{
+        content:"“";
+        font-family:var(--font-display);
+        color:var(--home-gold);
+        font-size:3.5rem;
+        line-height:0;
+        display:block;
+        margin-bottom:.5rem;
+    }
+    .home-mission .mission-byline{
+        margin-top:1.5rem;
+        font-size:.85rem;
+        color:#5B6B76;
+        font-weight:600;
+        letter-spacing:.02em;
+    }
+
+    /* ---------- Collaboration model cards ---------- */
+    .home-model-card{
+        position:relative;
+        border:1px solid var(--home-line);
+        border-radius:16px;
+        overflow:hidden;
+        transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease, border-color .22s ease;
+        background:#F6F4EF;
+    }
+    .home-model-card::before{
+        content:"";
+        position:absolute;
+        top:0; left:0; right:0;
+        height:3px;
+        background:var(--bar-color, var(--home-teal));
+    }
+    .home-model-card:hover{
+        transform:translateY(-6px) scale(1.035);
+        box-shadow:var(--home-shadow-md);
+        border-color:transparent;
+    }
+    .home-model-card:hover .home-model-icon{
+        transform:scale(1.12) rotate(-4deg);
+    }
+    .home-model-icon{
+        width:56px;
+        height:56px;
+        border-radius:14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.5rem;
+        margin:0 auto 1rem;
+        color:#fff;
+        transition:transform .25s cubic-bezier(.2,.85,.4,1.4);
+    }
+
+    /* ---------- How it works timeline ---------- */
+    .home-flow{
+        background:var(--home-bg-soft);
+    }
+    .home-flow-track{
+        position:relative;
+    }
+    .home-flow-track::before{
+        content:"";
+        position:absolute;
+        top:28px;
+        left:calc(10% + 28px);
+        right:calc(10% + 28px);
+        height:2px;
+        background:repeating-linear-gradient(
+            to right,
+            var(--home-teal) 0 10px,
+            transparent 10px 18px
+        );
+        opacity:.45;
+        z-index:0;
+        display:none;
+    }
+    @media (min-width:992px){
+        .home-flow-track::before{ display:block; }
+    }
+    .home-flow-step{
+        position:relative;
+        z-index:1;
+        background:#fff;
+        border:1px solid var(--home-line);
+        border-radius:14px;
+        padding:2rem 1.35rem 1.5rem;
+        height:100%;
+        text-align:center;
+        transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease, border-color .22s ease;
+    }
+    .home-flow-step:hover{
+        transform:translateY(-7px) scale(1.035);
+        box-shadow:var(--home-shadow-sm);
+        border-color:transparent;
+    }
+    .home-flow-step:hover .flow-num{
+        transform:scale(1.14);
+    }
+    .home-flow-step .flow-num{
+        font-family:var(--font-display);
+        font-size:1.05rem;
+        font-weight:800;
+        color:#fff;
+        background:var(--home-teal);
+        width:56px;
+        height:56px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin:0 auto 1.1rem;
+        box-shadow:0 0 0 6px var(--home-bg-soft);
+        border:2px solid #fff;
+        transition:transform .25s cubic-bezier(.2,.85,.4,1.4);
+    }
+    .home-flow-step .flow-icon{
+        font-size:1.4rem;
+        margin-bottom:.6rem;
+    }
+    .home-flow-step.step-1 .flow-num{ background:var(--home-teal); }
+    .home-flow-step.step-2 .flow-num{ background:var(--home-blue); }
+    .home-flow-step.step-3 .flow-num{ background:var(--home-gold); color:#1a1200; }
+    .home-flow-step.step-4 .flow-num{ background:var(--home-rose); }
+    .home-flow-step.step-5 .flow-num{ background:var(--home-violet); }
+
+    /* ---------- Role cards ---------- */
+ .home-role-card{
+    position:relative;
+    border:1px solid var(--home-line);
+    border-radius:16px;
+    padding:1.75rem 1.5rem 1.5rem;
+    height:100%;
+    background:#F6F4EF;
+    display:flex;
+    flex-direction:column;
+    transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease, border-color .22s ease;
+}
+    .home-role-card:hover{
+        transform:translateY(-6px) scale(1.03);
+        box-shadow:var(--home-shadow-md);
+        border-color:transparent;
+    }
+    .home-role-card:hover .home-role-icon{
+        transform:scale(1.12) rotate(-4deg);
+    }
+    .home-role-card.is-popular{
+        border-color:var(--home-gold);
+        box-shadow:0 10px 26px rgba(227,160,40,.16);
+
+    }
+    .home-role-card .popular-tag{
+        position:absolute;
+        top:-12px;
+        right:1.25rem;
+        background:var(--home-gold);
+        color: #1a1200;
+        font-size:.68rem;
+        font-weight:800;
+        letter-spacing:.04em;
+        text-transform:uppercase;
+        padding:.3rem .7rem;
+        border-radius:999px;
+        box-shadow:0 4px 10px rgba(227,160,40,.35);
+        animation:home-pulse 2.2s ease-in-out infinite;
+    }
+    .home-role-icon{
+        width:52px;
+        height:52px;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.4rem;
+        margin-bottom:1rem;
+        color:#fff;
+        transition:transform .25s cubic-bezier(.2,.85,.4,1.4);
+    }
+    .home-role-card ul.role-perks{
+        list-style:none;
+        padding:0;
+        margin:1rem 0 1.25rem;
+        flex-grow:1;
+    }
+    .home-role-card ul.role-perks li{
+        font-size:.88rem;
+        color:#5B6B76;
+        padding-left:1.35rem;
+        position:relative;
+        margin-bottom:.5rem;
+        line-height:1.5;
+    }
+    .home-role-card ul.role-perks li::before{
+        content:"✓";
+        position:absolute;
+        left:0;
+        top:0;
+        color:var(--home-teal);
+        font-weight:800;
+        font-size:.8rem;
+    }
+    .home-role-card .role-cta{
+        font-size:.85rem;
+        font-weight:700;
+        color:var(--home-ink);
+        text-decoration:none;
+        display:inline-flex;
+        align-items:center;
+        gap:.35rem;
+        margin-top:auto;
+        transition:gap .2s ease, color .2s ease;
+    }
+    .home-role-card .role-cta:hover{ color:var(--home-teal); gap:.6rem; }
+    .icon-student{background:var(--home-violet);}
+    .icon-employee{background:var(--home-blue);}
+    .icon-employer{background:var(--home-rose);}
+    .icon-freelancer{background:var(--home-teal);}
+    .icon-investor{background:var(--home-gold);}
+    .icon-mentor{background:var(--home-navy);}
+
+    /* ---------- Platform features ---------- */
+    .home-feature-card{
+        display:flex;
+        gap:1rem;
+        align-items:flex-start;
+        padding:1.5rem;
+        border:1px solid var(--home-line);
+        border-radius:14px;
+        background: #fff;
+        height:100%;
+        transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease, border-color .22s ease;
+    }
+    .home-feature-card:hover{
+        transform:translateY(-5px) scale(1.03);
+        box-shadow:var(--home-shadow-sm);
+        border-color:transparent;
+    }
+    .home-feature-card:hover .home-feature-icon{
+        transform:scale(1.15) rotate(-6deg);
+    }
+    .home-feature-icon{
+        flex:0 0 auto;
+        width:46px;
+        height:46px;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:1.25rem;
+        color:#fff;
+        transition:transform .25s cubic-bezier(.2,.85,.4,1.4);
+    }
+
+    /* ---------- Featured opportunities ---------- */
+    .home-listing-card{
+        border:1px solid var(--home-line);
+        border-radius:16px;
+        background:#fff;
+        padding:1.75rem;
+        height:100%;
+        transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease, border-color .22s ease;
+    }
+    .home-listing-card:hover{
+        transform:translateY(-6px) scale(1.02);
+        box-shadow:var(--home-shadow-md);
+        border-color:transparent;
+    }
+    .home-listing-top{
+        display:flex;
+        align-items:flex-start;
+        justify-content:space-between;
+        gap:.75rem;
+        margin-bottom:.9rem;
+    }
+    .home-listing-tag{
+        display:inline-block;
+        font-size:.68rem;
+        font-weight:800;
+        letter-spacing:.05em;
+        text-transform:uppercase;
+        padding:.3rem .65rem;
+        border-radius:999px;
+    }
+    .home-listing-verified{
+        display:inline-flex;
+        align-items:center;
+        gap:.3rem;
+        font-size:.7rem;
+        font-weight:700;
+        color:var(--home-teal);
+        white-space:nowrap;
+    }
+    .home-listing-meta{
+        display:flex;
+        flex-wrap:wrap;
+        gap:.4rem 1rem;
+        font-size:.8rem;
+        color:#8A97A0;
+        margin:.75rem 0 1rem;
+        padding-top:.9rem;
+        border-top:1px dashed var(--home-line);
+    }
+    .home-listing-org{
+        width:38px;
+        height:38px;
+        border-radius:10px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+        font-weight:700;
+        font-size:.8rem;
+        flex:0 0 auto;
+    }
+
+    /* ---------- Why join ---------- */
+    .home-benefit{
+        display:flex;
+        gap:1rem;
+        align-items:flex-start;
+        padding:1rem;
+        border-radius:12px;
+        transition:transform .2s ease, background .2s ease;
+    }
+    .home-benefit:hover{
+        transform:translateX(4px);
+        background:rgba(28,124,114,.06);
+    }
+    .home-benefit .benefit-check{
+        flex:0 0 auto;
+        width:34px;
+        height:34px;
+        border-radius:50%;
+        background:rgba(28,124,114,.12);
+        color:var(--home-teal);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-weight:800;
+        transition:transform .25s cubic-bezier(.2,.85,.4,1.4), background .2s ease, color .2s ease;
+    }
+    .home-benefit:hover .benefit-check{
+        transform:scale(1.15) rotate(8deg);
+        background:var(--home-teal);
+        color:#fff;
+    }
+
+    /* ---------- Testimonials ---------- */
+    .home-testimonial-card{
+        border:1px solid var(--home-line);
+        border-radius:16px;
+        background:#fff;
+        padding:1.85rem 1.6rem;
+        height:100%;
+        transition:transform .22s cubic-bezier(.2,.85,.4,1.4), box-shadow .22s ease;
+    }
+    .home-testimonial-card:hover{
+        transform:translateY(-6px) scale(1.03);
+        box-shadow:var(--home-shadow-md);
+    }
+    .home-testimonial-card .stars{
+        color:var(--home-gold);
+        letter-spacing:.15rem;
+        margin-bottom:.75rem;
+    }
+    .home-testimonial-card p.quote{
+        color:var(--home-ink);
+        font-size:.95rem;
+        line-height:1.7;
+    }
+    .home-testimonial-avatar{
+        width:42px;
+        height:42px;
+        border-radius:50%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+        font-weight:700;
+        font-size:.85rem;
+    }
+
+    /* ---------- FAQ ---------- */
+    .home-faq .accordion-item{
+        border:1px solid var(--home-line);
+        border-radius:12px !important;
+        overflow:hidden;
+        margin-bottom:.85rem;
+        transition:box-shadow .2s ease;
+    }
+    .home-faq .accordion-item:hover{
+        box-shadow:var(--home-shadow-sm);
+    }
+    .home-faq .accordion-button{
+        font-weight:700;
+        color:var(--home-ink);
+        background:#fff;
+    }
+    .home-faq .accordion-button:not(.collapsed){
+        color:var(--home-teal);
+        background:#fff;
+        box-shadow:none;
+    }
+    .home-faq .accordion-button:focus{
+        box-shadow:none;
+        border-color:var(--home-line);
+    }
+    .home-faq .accordion-button::after{
+        flex-shrink:0;
+    }
+    .home-faq .accordion-body{
+        color:#5B6B76;
+        font-size:.92rem;
+        line-height:1.7;
+    }
+
+    /* ---------- Newsletter ---------- */
+    .home-newsletter{
+        background:#fff;
+        border:1px solid var(--home-line);
+        border-radius:20px;
+        padding:2.5rem;
+        box-shadow:var(--home-shadow-sm);
+        transition:box-shadow .25s ease;
+    }
+    .home-newsletter:hover{
+        box-shadow:var(--home-shadow-md);
+    }
+    .home-newsletter .form-control{
+        border-radius:8px;
+        padding:.7rem 1rem;
+        border:1px solid var(--home-line);
+    }
+    .home-newsletter .btn-teal{
+        background:var(--home-teal);
+        border:1px solid var(--home-teal);
+        color:#fff;
+        font-weight:600;
+        border-radius:8px;
+        padding:.7rem 1.6rem;
+        white-space:nowrap;
+        transition:transform .18s ease, background .18s ease;
+    }
+    .home-newsletter .btn-teal:hover{
+        background:#166861;
+        border-color:#166861;
+        color:#fff;
+        transform:translateY(-2px) scale(1.04);
+    }
+
+    /* ---------- CTA band ---------- */
+    .home-cta-band{
+        position:relative;
+        background:
+            radial-gradient(70% 120% at 100% 0%, rgba(227,160,40,.18), transparent 55%),
+            linear-gradient(120deg, var(--home-navy), #1C3B52);
+        border-radius:20px;
+        color:#fff;
+        padding:3rem 2.5rem;
+        overflow:hidden;
+    }
+    .home-cta-band .btn-gold{
+        background:var(--home-gold);
+        border:1px solid var(--home-gold);
+        color:#1a1200;
+        font-weight:700;
+        border-radius:9px;
+        padding:.75rem 1.9rem;
+        box-shadow:0 10px 24px rgba(227,160,40,.28);
+        transition:transform .18s ease, background .18s ease;
+    }
+    .home-cta-band .btn-gold:hover{
+        background:var(--home-gold-dark);
+        border-color:var(--home-gold-dark);
+        color:#1a1200;
+        transform:translateY(-2px) scale(1.04);
+    }
+    .home-cta-band .btn-outline-light{
+        border-radius:9px;
+        padding:.75rem 1.9rem;
+        font-weight:600;
+        transition:transform .18s ease;
+    }
+    .home-cta-band .btn-outline-light:hover{
+        transform:translateY(-2px) scale(1.04);
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce){
+        .home-reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+        .home-hero-visual, .home-hero-pill .dot, .home-hero-stat-card .stat-icon, .home-role-card .popular-tag{
+            animation:none !important;
+        }
+    }
+</style>
+<style>
+:root{
+    --nav-bg:#0e1226;
+    --nav-bg-scroll:rgba(13,17,34,.94);
+    --nav-border:rgba(255,255,255,.08);
+    --nav-text:rgba(255,255,255,.72);
+    --nav-text-hover:#ffffff;
+    --nav-accent:#E3A028;
+    --nav-brand-chip:#1C7C72;
+}
+
+.site-navbar{
+    background:linear-gradient(180deg, var(--nav-bg), #0b0f20);
+    border-bottom:1px solid var(--nav-border);
+    padding:.8rem 0;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    transition:background .25s ease, padding .25s ease, box-shadow .25s ease;
+}
+
+.site-navbar.is-scrolled{
+    background:var(--nav-bg-scroll);
+    backdrop-filter:blur(12px);
+    padding:.55rem 0;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.site-navbar .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* ---------- Brand ---------- */
+.site-navbar .navbar-brand{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    font-weight:800;
+    font-size:1.08rem;
+    letter-spacing:-.01em;
+    color:#fff !important;
+    transition:opacity .18s ease;
+}
+
+.site-navbar .navbar-brand:hover{
+    opacity:.9;
+}
+
+.site-navbar .navbar-brand .brand-mark{
+    width:34px;
+    height:34px;
+    border-radius:10px;
+    background:linear-gradient(135deg, var(--nav-brand-chip), #135b54);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.88rem;
+    font-weight:800;
+    color:#fff;
+    flex-shrink:0;
+    box-shadow:0 6px 14px rgba(28,124,114,.4);
+}
+
+/* ---------- Nav links ---------- */
+.site-navbar .navbar-nav{
+    gap:.1rem;
+    align-items:center;
+}
+
+.site-navbar .nav-item{
+    position:relative;
+}
+
+.site-navbar .nav-link{
+    color:var(--nav-text) !important;
+    font-weight:600;
+    font-size:.9rem;
+    padding:.5rem .9rem !important;
+    border-radius:8px;
+    transition:color .18s ease, background .18s ease;
+}
+
+.site-navbar .nav-link:hover,
+.site-navbar .nav-link:focus{
+    color:var(--nav-text-hover) !important;
+    background:rgba(255,255,255,.06);
+}
+
+.site-navbar .nav-link.active{
+    color:#fff !important;
+}
+
+.site-navbar .nav-link.active::after{
+    content:"";
+    position:absolute;
+    left:.9rem;
+    right:.9rem;
+    bottom:.05rem;
+    height:2px;
+    background:var(--nav-accent);
+    border-radius:2px;
+}
+
+/* ---------- Divider before the membership button ---------- */
+.site-navbar .nav-divider{
+    width:1px;
+    height:22px;
+    background:rgba(255,255,255,.14);
+    margin:0 .65rem;
+    flex-shrink:0;
+}
+
+/* ---------- Toggler ---------- */
+.site-navbar .navbar-toggler{
+    border:1px solid rgba(255,255,255,.25) !important;
+    border-radius:8px;
+    padding:.4rem .55rem;
+    background:transparent !important;
+}
+
+.site-navbar .navbar-toggler:focus{
+    box-shadow:0 0 0 3px rgba(227,160,40,.25);
+}
+
+.site-navbar .navbar-toggler-icon{
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ---------- Membership button — short, high-contrast pill ---------- */
+.site-navbar .navbar-login,
+.site-navbar .navbar-login:link,
+.site-navbar .navbar-login:visited{
+    display:inline-flex;
+    align-items:center;
+    gap:.3rem;
+    color:#1a1200 !important;
+    font-weight:700 !important;
+    font-size:.85rem;
+    letter-spacing:.01em;
+    padding:.42rem .95rem !important;
+    border-radius:999px;
+    border:none;
+    background:linear-gradient(135deg, #f2bb52, var(--nav-accent) 65%, #c98c1e);
+    box-shadow:0 5px 14px rgba(227,160,40,.35);
+    text-decoration:none !important;
+    transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+
+.site-navbar .navbar-login:hover,
+.site-navbar .navbar-login:focus{
+    color:#1a1200 !important;
+    text-decoration:none !important;
+    transform:translateY(-2px);
+    box-shadow:0 9px 20px rgba(227,160,40,.48);
+    filter:brightness(1.04);
+}
+
+.site-navbar .navbar-login .login-badge{
+    font-size:.85rem;
+    line-height:1;
+}
+
+@media (max-width:991.98px){
+    .site-navbar .navbar-collapse{
+        margin-top:.85rem;
+        padding-top:.85rem;
+        border-top:1px solid var(--nav-border);
+    }
+    .site-navbar .navbar-nav{
+        align-items:flex-start;
+    }
+    .site-navbar .nav-link.active::after{ display:none; }
+    .site-navbar .nav-link.active{
+        background:rgba(227,160,40,.12);
+        color:var(--nav-accent) !important;
+    }
+    .site-navbar .nav-divider{
+        display:none;
+    }
+    .site-navbar .navbar-login{
+        display:inline-flex;
+        margin:.6rem 0 0 .9rem;
+    }
+}
+</style>
