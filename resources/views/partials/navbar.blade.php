@@ -19,9 +19,12 @@
 
       <nav class="main-nav" aria-label="Primary">
         <a href="{{ route('home') }}">Home</a>
-        <a href="#portals">About</a>
-        <a href="#membership">Membership</a>
-        <a href="#contact">Contact</a>
+        <a href="{{ route('about') }}">About</a>
+        <a href="{{ route('membership') }}">Membership</a>
+        <a href="{{ route('events') }}">events</a>
+        <a href="{{ route('FAQs') }}">FAQs</a>
+        <a href="{{ route('contact') }}">Contact</a>
+
       </nav>
 
       <div class="header-actions">
