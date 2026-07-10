@@ -16,96 +16,116 @@
     </div>
 
     {{-- Navigation --}}
-    <nav class="sidebar-nav">
-        <div class="nav-label">Main</div>
+ <nav class="sidebar-nav">
 
-        <a href="{{ route('employer.dashboard') }}"
-           class="nav-item {{ request()->routeIs('employer.dashboard') ? 'active' : '' }}">
-            <i class="fa-solid fa-house"></i>
-            <span>Dashboard</span>
-        </a>
+    {{-- ================= Dashboard ================= --}}
+    <div class="nav-label">Dashboard</div>
 
-        {{-- <a href="{{ route('employer.jobs.index') }}"
-           class="nav-item {{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-briefcase"></i>
-            <span>Job Postings</span>
-            <span class="badge">{{ $activeJobs ?? 12 }}</span>
-        </a> --}}
+    <a href="{{ route('employer.dashboard') }}"
+        class="nav-item {{ request()->routeIs('employer.dashboard') ? 'active' : '' }}">
+        <i class="fa-solid fa-house"></i>
+        <span>Dashboard</span>
+    </a>
 
-        {{-- <a href="{{ route('employer.applications.index') }}"
-           class="nav-item {{ request()->routeIs('employer.applications.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-file-lines"></i>
-            <span>Applications</span>
-            <span class="badge">{{ $pendingApplications ?? 8 }}</span>
-        </a> --}}
 
-        {{-- <a href="{{ route('employer.employees.index') }}"
-           class="nav-item {{ request()->routeIs('employer.employees.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-users"></i>
-            <span>Employees</span>
-            <span class="badge">{{ $totalEmployees ?? 24 }}</span>
-        </a> --}}
+    {{-- ================= Company ================= --}}
+    <div class="nav-label">Company</div>
 
-        <div class="nav-label">Management</div>
+    <a href="{{ route('employer.startup-profile.show') }}"
+        class="nav-item {{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-building"></i>
+        <span>Company Profile</span>
+    </a>
 
-        {{-- <a href="{{ route('employer.interviews.index') }}"
-           class="nav-item {{ request()->routeIs('employer.interviews.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-handshake"></i>
-            <span>Interviews</span>
-            @if($upcomingInterviews ?? 0 > 0)
-                <span class="badge">{{ $upcomingInterviews }}</span>
-            @endif
-        </a> --}}
 
-        {{-- <a href="{{ route('employer.departments.index') }}"
-           class="nav-item {{ request()->routeIs('employer.departments.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-sitemap"></i>
-            <span>Departments</span>
-        </a> --}}
+    {{-- ================= Recruitment ================= --}}
+    <div class="nav-label">Recruitment</div>
 
-        {{-- <a href="{{ route('employer.attendance.index') }}"
-           class="nav-item {{ request()->routeIs('employer.attendance.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-clock"></i>
-            <span>Attendance</span>
-        </a> --}}
+    <a href="{{ route('employer.jobs.index') }}"
+        class="nav-item {{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-briefcase"></i>
+        <span>Jobs</span>
+    </a>
 
-        {{-- <a href="{{ route('employer.leaves.index') }}"
-           class="nav-item {{ request()->routeIs('employer.leaves.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-calendar-day"></i>
-            <span>Leave Requests</span>
-            @if($pendingLeaves ?? 0 > 0)
-                <span class="badge">{{ $pendingLeaves }}</span>
-            @endif
-        </a> --}}
+    <a href="{{ route('employer.internships.index') }}"
+        class="nav-item {{ request()->routeIs('employer.internships.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-user-graduate"></i>
+        <span>Internships</span>
+    </a>
 
-        <div class="nav-label">Analytics</div>
+    <a href="{{ route('employer.projects.index') }}"
+        class="nav-item {{ request()->routeIs('employer.projects.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-diagram-project"></i>
+        <span>Projects</span>
+    </a>
 
-        {{-- <a href="{{ route('employer.reports.index') }}"
-           class="nav-item {{ request()->routeIs('employer.reports.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-chart-simple"></i>
-            <span>Reports</span>
-        </a> --}}
 
-        {{-- <a href="{{ route('employer.analytics.index') }}"
-           class="nav-item {{ request()->routeIs('employer.analytics.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Analytics</span>
-        </a> --}}
+    {{-- ================= Startup ================= --}}
+    <div class="nav-label">Startup</div>
 
-        <div class="nav-label">Settings</div>
+    <a href="{{ route('employer.startup-profile.show') }}"
+        class="nav-item {{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-rocket"></i>
+        <span>Startup Profile</span>
+    </a>
 
-        {{-- <a href="{{ route('employer.profile.edit') }}"
-           class="nav-item {{ request()->routeIs('employer.profile.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-user"></i>
-            <span>Profile</span>
-        </a> --}}
 
-        {{-- <a href="{{ route('employer.settings.index') }}"
-           class="nav-item {{ request()->routeIs('employer.settings.*') ? 'active' : '' }}">
-            <i class="fa-solid fa-gear"></i>
-            <span>Settings</span>
-        </a> --}}
-    </nav>
+    {{-- ================= Applications ================= --}}
+    <!-- <div class="nav-label">Applications</div>
+
+    <a href="#">
+        <i class="fa-solid fa-file-lines"></i>
+        <span>Applications</span>
+    </a> -->
+
+    <!-- <a href="#">
+        <i class="fa-solid fa-user-check"></i>
+        <span>Shortlisted</span>
+    </a> -->
+
+    <!-- <a href="#">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Interviews</span>
+    </a> -->
+
+    <!-- <a href="#">
+        <i class="fa-solid fa-user-tie"></i>
+        <span>Hired Candidates</span>
+    </a> -->
+
+
+    {{-- ================= Membership ================= --}}
+    <!-- <div class="nav-label">Membership</div>
+
+    <a href="#">
+        <i class="fa-solid fa-crown"></i>
+        <span>Membership</span>
+    </a> -->
+
+    <!-- <a href="#">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Payments</span>
+    </a> -->
+
+
+    {{-- ================= Notifications ================= --}}
+    <!-- <div class="nav-label">Notifications</div>
+
+    <a href="#">
+        <i class="fa-solid fa-bell"></i>
+        <span>Notifications</span>
+    </a> -->
+
+
+    {{-- ================= Settings ================= --}}
+    <!-- <div class="nav-label">Settings</div>
+
+    <a href="">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+    </a> -->
+
+</nav>
 
     {{-- Footer --}}
     <div class="sidebar-footer">
@@ -113,7 +133,7 @@
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span>Logout</span>
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form id="logout-form" action="{{ route('membership-logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         <div class="copy">
