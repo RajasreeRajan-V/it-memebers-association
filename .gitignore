@@ -44,3 +44,7 @@ _ide_helper.php
 # Laravel
 Homestead.json
 Homestead.yaml
+
+# Debugbar
+/storage/debugbar/*
+!/storage/debugbar/.gitignore
