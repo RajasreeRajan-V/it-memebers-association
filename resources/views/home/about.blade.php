@@ -7,12 +7,12 @@
     <div class="container hero-inner">
 
         <!-- Left Side Image -->
-        <div class="hero-image">
+        <div class="hero-image reveal">
             <img src="{{ asset('assets/img/about-team.png') }}" alt="About SkillConnect">
         </div>
 
         <!-- Right Side Content -->
-        <div class="hero-copy">
+        <div class="hero-copy reveal reveal-delay-1">
             <p class="eyebrow">About Us</p>
 
             <h1>
@@ -33,13 +33,13 @@
 <!-- Our Story -->
 <section class="portals">
     <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
             <h2>Our Story</h2>
             <p>How a simple frustration turned into a platform for everyone.</p>
         </div>
 
         <div class="story-grid">
-            <div class="story-text">
+            <div class="story-text reveal">
                 <p>
                     SkillConnect started with a simple observation: opportunity is
                     everywhere, but it's scattered. Employers post jobs on one site,
@@ -61,20 +61,20 @@
             </div>
 
             <div class="story-stats">
-                <div class="stat-box">
-                    <span class="stat-num">10K+</span>
+                <div class="stat-box reveal">
+                    <span class="stat-num" data-count="10000">0</span>
                     <span class="stat-label">Active Users</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-num">2K+</span>
+                <div class="stat-box reveal reveal-delay-1">
+                    <span class="stat-num" data-count="2000">0</span>
                     <span class="stat-label">Jobs Posted</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-num">500+</span>
+                <div class="stat-box reveal reveal-delay-2">
+                    <span class="stat-num" data-count="500">0</span>
                     <span class="stat-label">Startups Funded</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-num">6</span>
+                <div class="stat-box reveal reveal-delay-3">
+                    <span class="stat-num" data-count="6">0</span>
                     <span class="stat-label">Portals, One Platform</span>
                 </div>
             </div>
@@ -85,7 +85,7 @@
 <!-- Mission / Values -->
 <section class="portals" style="background: var(--white);">
     <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
             <h2>Our Mission</h2>
             <p>
                 We believe growth happens fastest when the right people, skills and
@@ -96,7 +96,7 @@
 
         <div class="portal-grid">
 
-            <article class="portal-card portal-blue">
+            <article class="portal-card portal-blue reveal">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M12 2 2 7l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8"
@@ -111,7 +111,7 @@
                 </div>
             </article>
 
-            <article class="portal-card portal-green">
+            <article class="portal-card portal-green reveal reveal-delay-1">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M12 21c4.97-3.5 8-7.1 8-11a8 8 0 1 0-16 0c0 3.9 3.03 7.5 8 11Z"
@@ -125,7 +125,7 @@
                 </div>
             </article>
 
-            <article class="portal-card portal-pink">
+            <article class="portal-card portal-pink reveal reveal-delay-2">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
@@ -138,7 +138,7 @@
                 </div>
             </article>
 
-            <article class="portal-card portal-yellow">
+            <article class="portal-card portal-yellow reveal">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
@@ -152,7 +152,7 @@
                 </div>
             </article>
 
-            <article class="portal-card portal-purple">
+            <article class="portal-card portal-purple reveal reveal-delay-1">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8"
@@ -167,7 +167,7 @@
                 </div>
             </article>
 
-            <article class="portal-card portal-cyan">
+            <article class="portal-card portal-cyan reveal reveal-delay-2">
                 <div class="portal-icon">
                     <svg viewBox="0 0 24 24" fill="none">
                         <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8"
@@ -186,20 +186,17 @@
     </div>
 </section>
 
-
-
-
 <!-- Why Choose Us -->
 <section class="portals">
     <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
             <h2>Why Choose SkillConnect</h2>
             <p>What sets us apart from scattered, single-purpose platforms.</p>
         </div>
 
         <div class="feature-list">
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">01</div>
                 <div class="feature-icon feature-blue">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -215,7 +212,7 @@
                 </div>
             </div>
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">02</div>
                 <div class="feature-icon feature-green">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -230,7 +227,7 @@
                 </div>
             </div>
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">03</div>
                 <div class="feature-icon feature-pink">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -244,7 +241,7 @@
                 </div>
             </div>
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">04</div>
                 <div class="feature-icon feature-yellow">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -260,7 +257,7 @@
                 </div>
             </div>
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">05</div>
                 <div class="feature-icon feature-purple">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -275,7 +272,7 @@
                 </div>
             </div>
 
-            <div class="feature-row">
+            <div class="feature-row reveal">
                 <div class="feature-num">06</div>
                 <div class="feature-icon feature-cyan">
                     <svg viewBox="0 0 24 24" fill="none">
@@ -295,11 +292,10 @@
     </div>
 </section>
 
-
 <!-- How It Works -->
 <section class="portals" style="background: var(--white);">
     <div class="container">
-        <div class="section-head">
+        <div class="section-head reveal">
             <h2>How It Works</h2>
             <p>Getting started on SkillConnect takes three simple steps.</p>
         </div>
@@ -307,7 +303,7 @@
         <div class="process-track">
             <div class="process-line" aria-hidden="true"></div>
 
-            <div class="process-step">
+            <div class="process-step reveal">
                 <div class="process-dot">1</div>
                 <div class="process-body">
                     <h3>Choose Your Portal</h3>
@@ -315,7 +311,7 @@
                 </div>
             </div>
 
-            <div class="process-step">
+            <div class="process-step reveal reveal-delay-1">
                 <div class="process-dot">2</div>
                 <div class="process-body">
                     <h3>Build Your Profile</h3>
@@ -323,7 +319,7 @@
                 </div>
             </div>
 
-            <div class="process-step">
+            <div class="process-step reveal reveal-delay-2">
                 <div class="process-dot process-dot-active">3</div>
                 <div class="process-body">
                     <h3>Start Connecting</h3>
@@ -336,7 +332,7 @@
 
 <!-- CTA -->
 <section class="portals">
-    <div class="container about-cta">
+    <div class="container about-cta reveal">
         <h2>Ready to find your portal?</h2>
         <p>Join thousands already hiring, learning, freelancing and investing on SkillConnect.</p>
         <div class="hero-actions" style="justify-content: center;">
@@ -345,5 +341,48 @@
         </div>
     </div>
 </section>
+
+<script>
+if (!window.__aboutRevealInit) {
+    window.__aboutRevealInit = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Scroll reveal animation
+        const revealEls = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        revealEls.forEach(el => observer.observe(el));
+
+        // Animated stat counters (Our Story section)
+        const statNumbers = document.querySelectorAll('.stat-num[data-count]');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'), 10);
+                    const duration = 1500;
+                    const start = performance.now();
+
+                    function tick(now) {
+                        const progress = Math.min((now - start) / duration, 1);
+                        el.textContent = Math.floor(progress * target).toLocaleString() + (target >= 1000 ? '+' : '');
+                        if (progress < 1) requestAnimationFrame(tick);
+                        else el.textContent = target.toLocaleString() + (target >= 1000 ? '+' : '');
+                    }
+                    requestAnimationFrame(tick);
+                    statObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.4 });
+        statNumbers.forEach(el => statObserver.observe(el));
+    });
+}
+</script>
 
 @endsection
