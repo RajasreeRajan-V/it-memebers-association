@@ -16,6 +16,10 @@ Route::get('/contact', function () {
     return view('home.contact');
 })->name('contact');
 
+Route::get('/members', function () {
+    return view('home.member_guide');
+})->name('members');
+
 Route::get('/events', function () {
     return view('home.events');
 })->name('events');
@@ -31,3 +35,8 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
+
+
+
+require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
