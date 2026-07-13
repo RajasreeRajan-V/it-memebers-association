@@ -22,13 +22,14 @@
         <a href="{{ route('about') }}" style="color: black; font-weight: bold">About</a>
         <a href="{{ route('events') }}" style="color: black; font-weight: bold;">events</a>
         <a href="{{ route('FAQs') }}" style="color: black; font-weight: bold;">FAQs</a>
+        <a href="{{ route('members') }}" style="color: black; font-weight: bold;">How to be a Member</a>
         <a href="{{ route('contact') }}" style="color: black; font-weight: bold;">Contact</a>
 
       </nav>
 
       <div class="header-actions">
         <a href="#login" class="btn btn-ghost">Login</a>
-        <a href="#register" class="btn btn-primary">Register</a>
+        <a href="{{ route('registration') }}" class="btn btn-primary">Membership</a>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
