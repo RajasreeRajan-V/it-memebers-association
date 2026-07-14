@@ -17,17 +17,18 @@
       SkillConnect
     </a>
 
-      <nav class="main-nav" aria-label="Primary">
-        <a href="{{ route('home') }}" style="color: white; font-weight: bold;">Home</a>
-        <a href="{{ route('about') }}" style="color: white; font-weight: bold">About</a>
-        <a href="{{ route('events') }}" style="color: white; font-weight: bold;">events</a>
-        <a href="{{ route('FAQs') }}" style="color: white; font-weight: bold;">FAQs</a>
-        <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
-        <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="{{ route('home') }}" style="color: black; font-weight: bold;">Home</a>
+      <a href="{{ route('about') }}" style="color: black; font-weight: bold">About</a>
+      <a href="{{ route('events') }}" style="color: black; font-weight: bold;">Events</a>
+      <a href="{{ route('FAQs') }}" style="color: black; font-weight: bold;">FAQs</a>
+      <a href="{{ route('members') }}" style="color: black; font-weight: bold;">How to be a Member</a>
+      <a href="{{ route('contact') }}" style="color: black; font-weight: bold;">Contact</a>
+    </nav>
 
     <div class="header-actions">
-      <!-- Login button opens the modal -->
-      <button id="loginBtn" class="btn btn-ghost" style="background:none;border:none;cursor:pointer;font-weight:600;font-size:1rem;">Login</button>
+      <!-- Login button - now properly defined -->
+      <button id="loginBtn" class="btn btn-ghost" style="background:none;border:none;cursor:pointer;font-weight:600;font-size:1rem;color:#2d3748;padding:8px 16px;transition:color 0.3s;">Login</button>
       <a href="{{ route('registration') }}" class="btn btn-primary">Membership</a>
     </div>
 
@@ -37,7 +38,7 @@
   </div>
 </header>
 
-<!-- ===== LOGIN MODAL (from provided code) ===== -->
+<!-- ===== LOGIN MODAL ===== -->
 <div class="login-modal-overlay" id="loginModal">
   <div class="login-modal">
     <!-- Close Button -->
@@ -885,44 +886,48 @@
     }
 
     // Login Modal Elements
-const loginModal = document.getElementById('loginModal');
-const loginTriggers = document.querySelectorAll('[data-login-trigger]');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const loginModal = document.getElementById('loginModal');
+    const loginTriggers = document.querySelectorAll('[data-login-trigger]');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const loginBtn = document.getElementById('loginBtn'); // <-- FIXED: Added this line
 
- function showLoginModal() {
-  if (loginModal) {
-    loginModal.classList.add('visible');
-    loginModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => {
-      const emailInput = loginModal.querySelector('input[name="email"]');
-      if (emailInput) emailInput.focus();
-    }, 400);
-  }
-}
+    function showLoginModal() {
+      if (loginModal) {
+        loginModal.classList.add('visible');
+        loginModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+          const emailInput = loginModal.querySelector('input[name="email"]');
+          if (emailInput) emailInput.focus();
+        }, 400);
+      }
+    }
 
-function hideLoginModal() {
-  if (loginModal) {
-    loginModal.classList.remove('visible');
-    loginModal.style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
-}
-  
-loginTriggers.forEach(function(trigger) {
-  trigger.addEventListener('click', function(e) {
-    e.preventDefault();
-    showLoginModal();
-  });
-});
+    function hideLoginModal() {
+      if (loginModal) {
+        loginModal.classList.remove('visible');
+        loginModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }
+    }
 
-if (loginBtn) {
+    // Handle any elements with data-login-trigger attribute
+    loginTriggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        showLoginModal();
+      });
+    });
+
+    // Handle the main login button
+    if (loginBtn) { // <-- FIXED: Now loginBtn is defined
       loginBtn.addEventListener('click', function(e) {
         e.preventDefault();
         showLoginModal();
       });
     }
 
+    // Close modal handlers
     if (modalCloseBtn) {
       modalCloseBtn.addEventListener('click', hideLoginModal);
     }
@@ -933,13 +938,14 @@ if (loginBtn) {
       });
     }
 
+    // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && loginModal && loginModal.classList.contains('visible')) {
         hideLoginModal();
       }
     });
 
-    // Password toggle
+    // Password toggle visibility
     const passwordToggle = document.getElementById('passwordToggle');
     if (passwordToggle) {
       passwordToggle.addEventListener('click', function() {
@@ -976,6 +982,7 @@ if (loginBtn) {
     if (hasStatus && loginModal && loginModal.querySelector('.alert-success')) {
       showLoginModal();
     }
+
     @if (session('open_login_modal'))
       showLoginModal();
     @endif
