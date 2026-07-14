@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Models\StudentRegistration;
 use App\Models\EmployeeRegistration;
@@ -16,10 +17,10 @@ use App\Models\User;
 class RegistrationController extends Controller
 {
     protected array $fees = [
-        'student'     => 500,
-        'employee'    => 1000,
-        'freelancer'  => 1500,
-        'employer'    => 5000,
+        'student'     => 0,
+        'employee'    => 0,
+        'freelancer'  => 0,
+        'employer'    => 0,
         'investor'    => 10000,
         'mentor'      => 0, // free
     ];
@@ -35,7 +36,7 @@ class RegistrationController extends Controller
         // Validate all fields
         $validated = $request->validate(
             array_merge(
-                $this->getBaseValidationRules(),
+                $this->getBaseValidationRules($request->role),
                 $this->getRoleValidationRules($request->role)
             )
         );
@@ -48,6 +49,11 @@ class RegistrationController extends Controller
 
             $fee = $this->fees[$role];
 
+
+            $password = $role === 'investor'
+                ? null
+                : Hash::make($validated['password']);
+
             // Create User
             $user = User::create([
 
@@ -57,8 +63,7 @@ class RegistrationController extends Controller
 
                 'phone' => $validated['phone'] ?? null,
 
-                // Password will be generated after admin approval
-                'password' => null,
+                'password' => $password,
 
                 'role' => $role,
 
@@ -66,9 +71,9 @@ class RegistrationController extends Controller
 
                 'payment_status' => $fee > 0 ? 'pending' : 'paid',
 
-                'verification_status' => 'pending',
+                'verification_status' => $role === 'investor' ? 'pending' : 'approved',
 
-                'status' => 'inactive',
+                'status' => $role === 'investor' ? 'inactive' : 'active',
 
             ]);
 
@@ -82,19 +87,13 @@ class RegistrationController extends Controller
 
             DB::commit();
 
-            /*
-        |--------------------------------------------------------------------------
-        | Redirect
-        |--------------------------------------------------------------------------
-        */
-
             // Mentor Registration (Free)
             if ($fee == 0) {
 
                 return redirect()->route('membership')
                     ->with(
                         'success',
-                        'Registration submitted successfully. Your account is waiting for admin approval.'
+                        'Registration submitted successfully'
                     );
             }
 
@@ -114,7 +113,7 @@ class RegistrationController extends Controller
         }
     }
 
-    protected function getBaseValidationRules()
+    protected function getBaseValidationRules($role = null)
     {
         return [
             'role'     => ['required', Rule::in(array_keys($this->fees))],
@@ -122,6 +121,12 @@ class RegistrationController extends Controller
             'email'    => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone'    => ['nullable', 'string', 'max:20'],
             'terms'    => ['accepted'],
+
+            // Password is required from the form for every role except investor.
+            // Investors don't set a password here; it's generated after admin approval.
+            'password' => $role === 'investor'
+                ? ['nullable']
+                : ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 

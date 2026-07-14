@@ -47,12 +47,15 @@
             <div class="hero-membership">
                 <div class="membership-card">
                     <span class="membership-glow"></span>
-                <div class="membership-badge">
-    <svg viewBox="0 0 24 24" width="28" height="28">
-        <path d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z" stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.15)"/>
-        <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-    </svg>
-</div>
+                    <div class="membership-badge">
+                        <svg viewBox="0 0 24 24" width="28" height="28">
+                            <path
+                                d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
+                                stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.15)" />
+                            <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="white" stroke-width="1.5"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
                     <h3>Ready to Get Started?</h3>
                     <p>Join thousands of professionals who are already part of our growing community.</p>
                     <div class="membership-actions">
@@ -247,7 +250,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" id="passwordFieldGroup">
                                 <label class="form-label">
                                     <span>Password</span>
                                     <span class="required">*</span>
@@ -259,14 +262,15 @@
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
                                             fill="none" />
                                     </svg>
-                                    <input type="password" name="password" required placeholder="Minimum 8 characters">
+                                    <input type="password" name="password" id="passwordInput" required
+                                        placeholder="Minimum 8 characters">
                                 </div>
                                 @error('password')
                                     <span class="error-message">{{ $message }}</span>
                                 @enderror
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" id="passwordConfirmFieldGroup">
                                 <label class="form-label">
                                     <span>Confirm Password</span>
                                     <span class="required">*</span>
@@ -278,8 +282,8 @@
                                         <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
                                             fill="none" />
                                     </svg>
-                                    <input type="password" name="password_confirmation" required
-                                        placeholder="Re-enter your password">
+                                    <input type="password" name="password_confirmation" id="passwordConfirmInput"
+                                        required placeholder="Re-enter your password">
                                 </div>
                             </div>
                         </div>
@@ -1914,6 +1918,13 @@
             const progressSteps = document.querySelectorAll('.step');
             const connectors = document.querySelectorAll('.step-connector');
 
+            // Password field elements - hidden/disabled for the investor role,
+            // since investor accounts are provisioned with a password by an admin.
+            const passwordFieldGroup = document.getElementById('passwordFieldGroup');
+            const passwordConfirmFieldGroup = document.getElementById('passwordConfirmFieldGroup');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordConfirmInput = document.getElementById('passwordConfirmInput');
+
             const roleConfig = {
                 student: {
                     title: 'Student Details',
@@ -1969,6 +1980,24 @@
                 }
             }
 
+            // Toggle the password fields based on role: investors don't set their
+            // own password (it's issued by an admin after verification), so we
+            // hide the inputs, drop the "required" attribute, and clear any value.
+            function togglePasswordFields(role) {
+                const isInvestor = role === 'investor';
+
+                passwordFieldGroup.style.display = isInvestor ? 'none' : '';
+                passwordConfirmFieldGroup.style.display = isInvestor ? 'none' : '';
+
+                passwordInput.required = !isInvestor;
+                passwordConfirmInput.required = !isInvestor;
+
+                if (isInvestor) {
+                    passwordInput.value = '';
+                    passwordConfirmInput.value = '';
+                }
+            }
+
             function updateProgress(step) {
                 progressSteps.forEach((s, index) => {
                     const stepNum = index + 1;
@@ -2006,6 +2035,7 @@
             const initialRole = document.querySelector('.role-radio-card input[type="radio"]:checked');
             if (initialRole) {
                 renderRoleFields(initialRole.value);
+                togglePasswordFields(initialRole.value);
                 const config = roleConfig[initialRole.value];
                 document.documentElement.style.setProperty('--accent-color', config.accent);
             }
@@ -2013,6 +2043,7 @@
             roleRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     renderRoleFields(this.value);
+                    togglePasswordFields(this.value);
 
                     setTimeout(() => {
                         document.getElementById('step3-section').scrollIntoView({

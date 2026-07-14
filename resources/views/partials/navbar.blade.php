@@ -151,7 +151,7 @@
             </div>
           @endif
 
-          <form method="POST" action="{{ route('login') }}" class="login-form">
+          <form method="POST" action="{{ route('do_login') }}" class="login-form">
             @csrf
 
             <div class="form-group-login">
@@ -977,5 +977,8 @@ if (loginBtn) {
     if (hasStatus && loginModal && loginModal.querySelector('.alert-success')) {
       showLoginModal();
     }
+    @if (session('open_login_modal'))
+      showLoginModal();
+    @endif
   });
 </script>
