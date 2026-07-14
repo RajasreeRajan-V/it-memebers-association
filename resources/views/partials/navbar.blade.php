@@ -18,17 +18,17 @@
     </a>
 
     <nav class="main-nav" aria-label="Primary">
-      <a href="{{ route('home') }}" style="color: black; font-weight: bold;">Home</a>
-      <a href="{{ route('about') }}" style="color: black; font-weight: bold">About</a>
-      <a href="{{ route('events') }}" style="color: black; font-weight: bold;">Events</a>
-      <a href="{{ route('FAQs') }}" style="color: black; font-weight: bold;">FAQs</a>
-      <a href="{{ route('members') }}" style="color: black; font-weight: bold;">How to be a Member</a>
-      <a href="{{ route('contact') }}" style="color: black; font-weight: bold;">Contact</a>
+      <a href="{{ route('home') }}" style="color: white; font-weight: bold;">Home</a>
+      <a href="{{ route('about') }}" style="color: white; font-weight: bold">About</a>
+      <a href="{{ route('events') }}" style="color: white; font-weight: bold;">Events</a>
+      <a href="{{ route('FAQs') }}" style="color: white; font-weight: bold;">FAQs</a>
+      <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
+      <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
     </nav>
 
     <div class="header-actions">
       <!-- Login button - now properly defined -->
-      <button id="loginBtn" class="btn btn-ghost" style="background:none;border:none;cursor:pointer;font-weight:600;font-size:1rem;color:#2d3748;padding:8px 16px;transition:color 0.3s;">Login</button>
+      <button id="loginBtn" class="btn btn-ghost" style="background:none;border:none;cursor:pointer;font-weight:600;font-size:1rem;color:#ffffff;padding:8px 16px;transition:color 0.3s;">Login</button>
       <a href="{{ route('registration') }}" class="btn btn-primary">Membership</a>
     </div>
 
@@ -244,7 +244,7 @@
 <style>
   /* ===== Header Styles ===== */
   .site-header {
-    background: #fff;
+    background: #0F172A;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
@@ -266,7 +266,7 @@
     gap: 8px;
     font-size: 1.5rem;
     font-weight: 800;
-    color: #1a202c;
+    color: #ffffff;
     text-decoration: none;
   }
   .logo-mark {

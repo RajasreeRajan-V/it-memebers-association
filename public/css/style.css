@@ -1,8 +1,8 @@
 /* ===== Tokens ===== */
 :root {
-  --primary: #0F172A;      /* Navy Blue */
-  --secondary: #2563EB;     /* Royal Blue */
-  --accent: #06B6D4;        /* Cyan */
+  --primary: #0F172A;      
+  --secondary: #2563EB;     
+  --accent: #06B6D4;        
   --white: #FFFFFF;
   --light-bg: #F8FAFC;
   --text: #1E293B;
