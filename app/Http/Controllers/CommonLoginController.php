@@ -10,41 +10,41 @@ use Illuminate\Validation\ValidationException;
 class CommonLoginController extends Controller
 {
     public function login()
-    {
-        return view('login');
+{
+    return redirect()->route('home')->with('open_login_modal', true);
+}
+    public function authenticate(Request $request)
+{
+    $credentials = $request->validate([
+        'email'    => ['required', 'email'],
+        'password' => ['required', 'string'],
+    ]);
+
+    $user = User::where('email', $credentials['email'])->first();
+
+    // Only investors need to be "approved" before they can log in
+    if ($user && $user->role === 'investor' && $user->verification_status !== 'approved') {
+        throw ValidationException::withMessages([
+            'email' => 'Your registration is still pending approval. Please wait for admin confirmation.',
+        ])->errorBag('login');
     }
-     public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required', 'string'],
-        ]);
 
-        $user = User::where('email', $credentials['email'])->first();
-
-        // Block login for anyone not yet approved
-        if ($user && $user->verification_status !== 'approved') {
-            throw ValidationException::withMessages([
-                'email' => 'Your registration is still pending approval. Please wait for admin confirmation.',
-            ]);
-        }
-
-        if ($user && $user->status !== 'active') {
-            throw ValidationException::withMessages([
-                'email' => 'Your account is inactive. Please contact support.',
-            ]);
-        }
-
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
-        }
-
-        $request->session()->regenerate();
-
-        return $this->redirectToDashboard(Auth::user());
+    if ($user && $user->status !== 'active') {
+        throw ValidationException::withMessages([
+            'email' => 'Your account is inactive. Please contact support.',
+        ])->errorBag('login');
     }
+
+    if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        throw ValidationException::withMessages([
+            'email' => 'The provided credentials do not match our records.',
+        ])->errorBag('login');
+    }
+
+    $request->session()->regenerate();
+
+    return $this->redirectToDashboard(Auth::user());
+}
       protected function redirectToDashboard(User $user)
     {
         return match ($user->role) {
