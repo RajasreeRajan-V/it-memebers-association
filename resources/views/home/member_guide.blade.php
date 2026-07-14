@@ -754,7 +754,7 @@
         </div>
 
         <!-- Admin Contact for Urgent Issues -->
-        <div class="admin-contact">
+        <!-- <div class="admin-contact">
             <div class="admin-contact-inner">
                 <svg class="admin-icon" viewBox="0 0 24 24" width="48" height="48">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="white" stroke-width="2" fill="none"/>
@@ -768,10 +768,10 @@
                     <a href="#" class="btn btn-secondary" onclick="openEscalation()">Escalate Issue</a>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Status Tracking -->
-        <div class="status-tracking">
+        <!-- <div class="status-tracking">
             <h3>
                 <svg class="section-icon" viewBox="0 0 24 24" width="24" height="24">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" fill="none"/>
@@ -787,7 +787,7 @@
                 <button class="btn btn-primary" onclick="trackStatus()">Track Status</button>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>
 
 <!-- Quick Support Modal -->
@@ -1102,7 +1102,7 @@
 .role-upgrade-section {
     margin: 40px 0;
     padding: 30px;
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    background: linear-gradient(135deg, #b2c0d3 0%, #5591D1 100%);
     border-radius: 20px;
 }
 

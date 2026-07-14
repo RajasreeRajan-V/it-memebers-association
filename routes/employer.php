@@ -18,7 +18,7 @@ Route::middleware(['auth'])
 
 
               // ---- Post Job ----
-     Route::resource('jobs', JobController::class); // no public "show" needed on employer side
+    //  Route::resource('jobs', JobController::class); 
 
         // ---- Post Internship ----
         Route::resource('internships', InternshipController::class)
@@ -39,7 +39,11 @@ Route::middleware(['auth'])
             ->name('startup-profile.edit');
         Route::put('/startup-profile', [StartupProfileController::class, 'update'])
             ->name('startup-profile.update');
-    });
+
+    // Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+    // Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+});
+  
 
 
 
