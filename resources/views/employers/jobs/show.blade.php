@@ -1,252 +1,353 @@
-{{-- resources/views/employer/jobs/show.blade.php --}}
-@extends('employers.layout.app')
 
-@section('title', 'Job Details')
-@section('page-title', 'Job Details')
-@section('page-subtitle', $job->title)
-
-@section('content')
-
-    <a href="{{ route('employer.jobs.index') }}" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Job Postings
-    </a>
-
-    <div class="detail-card">
-        {{-- Header --}}
-        <div class="detail-header">
-            <div>
-                <h1>{{ $job->title }}</h1>
-                <div class="detail-meta">
-                    <span><i class="fas fa-briefcase"></i> {{ ucfirst(str_replace('-', ' ', $job->employment_type)) }}</span>
-                    <span><i class="fas fa-location-dot"></i> {{ ucfirst($job->work_mode) }}</span>
-                    <span><i class="far fa-clock"></i> Posted {{ $job->created_at->diffForHumans() }}</span>
-                </div>
+<div class="job-detail-wrapper">
+    <div class="job-detail-header">
+        <div>
+            <h1>{{ $job->title }}</h1>
+            <div class="job-meta">
+                <span class="meta-item">
+                    <strong>Employment Type:</strong> {{ ucfirst($job->employment_type) }}
+                </span>
+                <span class="meta-item">
+                    <strong>Work Mode:</strong> {{ ucfirst($job->work_mode) }}
+                </span>
+                <span class="meta-item">
+                    <strong>Location:</strong> {{ $job->city }}, {{ $job->district }}, {{ $job->state }}
+                </span>
+                @if($job->country)
+                    <span class="meta-item">
+                        <strong>Country:</strong> {{ $job->country }}
+                    </span>
+                @endif
             </div>
-            <span class="status-badge status-{{ $job->status }} status-lg">{{ ucfirst($job->status) }}</span>
+        </div>
+        <div class="job-actions-top">
+            <a href="{{ route('employer.jobs.edit', $job->id) }}" class="btn btn-primary">Edit</a>
+            <form action="{{ route('employer.jobs.destroy', $job->id) }}" method="POST" style="display:inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="job-detail-body">
+        <div class="job-info-grid">
+            <div class="info-card">
+                <h3>Status</h3>
+                <span class="badge badge-{{ $job->status }}">{{ ucfirst($job->status) }}</span>
+                @if($job->status == 'pending')
+                    <p class="info-hint">Waiting for admin approval</p>
+                @elseif($job->status == 'approved')
+                    <p class="info-hint">Active and visible to applicants</p>
+                @elseif($job->status == 'rejected')
+                    <p class="info-hint">This job was not approved</p>
+                @endif
+            </div>
+
+            @if($job->experience)
+                <div class="info-card">
+                    <h3>Experience</h3>
+                    <p>{{ $job->experience }}</p>
+                </div>
+            @endif
+
+            @if($job->salary)
+                <div class="info-card">
+                    <h3>Salary</h3>
+                    <p>{{ $job->salary }}</p>
+                </div>
+            @endif
+
+            @if($job->qualification)
+                <div class="info-card">
+                    <h3>Qualification</h3>
+                    <p>{{ $job->qualification }}</p>
+                </div>
+            @endif
         </div>
 
-        {{-- Rejection reason banner --}}
-        @if($job->status === 'rejected' && $job->rejection_reason)
-            <div class="reason-banner">
-                <i class="fas fa-circle-info"></i>
-                <div>
-                    <strong>Rejected by admin</strong>
-                    <p>{{ $job->rejection_reason }}</p>
+        @if($job->skills)
+            <div class="info-card skills-card">
+                <h3>Skills</h3>
+                <div class="skills-list">
+                    @foreach(is_array($job->skills) ? $job->skills : explode(',', $job->skills) as $skill)
+                        <span class="skill-tag">{{ trim($skill) }}</span>
+                    @endforeach
                 </div>
             </div>
         @endif
 
-        {{-- Key details grid --}}
-        <div class="detail-body">
-            <div class="detail-grid">
-                <div class="detail-item">
-                    <span><i class="fas fa-briefcase"></i> Employment Type</span>
-                    <strong>{{ ucfirst(str_replace('-', ' ', $job->employment_type)) }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="fas fa-house-laptop"></i> Work Mode</span>
-                    <strong>{{ ucfirst($job->work_mode) }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="fas fa-user-clock"></i> Experience</span>
-                    <strong>{{ $job->experience ?: '—' }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="fas fa-sack-dollar"></i> Salary</span>
-                    <strong>{{ $job->salary ?: '—' }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="fas fa-graduation-cap"></i> Qualification</span>
-                    <strong>{{ $job->qualification ?: '—' }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="fas fa-map-location-dot"></i> Location</span>
-                    <strong>{{ collect([$job->city, $job->district, $job->state])->filter()->implode(', ') ?: '—' }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="far fa-calendar"></i> Posted On</span>
-                    <strong>{{ $job->created_at->format('d M Y, h:i A') }}</strong>
-                </div>
-                <div class="detail-item">
-                    <span><i class="far fa-clock"></i> Last Updated</span>
-                    <strong>{{ $job->updated_at->format('d M Y, h:i A') }}</strong>
-                </div>
-            </div>
-
-            {{-- Skills --}}
-            <div class="detail-block">
-                <span class="block-label"><i class="fas fa-screwdriver-wrench"></i> Skills Required</span>
-                <div class="skills-wrap">
-                    @forelse($job->skills ?? [] as $skill)
-                        <span class="skill-chip">{{ $skill }}</span>
-                    @empty
-                        <span class="no-data">No skills listed</span>
-                    @endforelse
-                </div>
-            </div>
-
-            {{-- Description --}}
-            <div class="detail-block">
-                <span class="block-label"><i class="fas fa-file-lines"></i> Job Description</span>
-                <p class="description-text">{{ $job->description }}</p>
+        <div class="info-card description-card">
+            <h3>Job Description</h3>
+            <div class="description-content">
+                {!! nl2br(e($job->description)) !!}
             </div>
         </div>
 
-        {{-- Footer actions --}}
-        <div class="detail-footer">
-            <a href="{{ route('employer.jobs.edit', $job) }}" class="btn-primary">
-                <i class="fas fa-pen"></i> Edit Job
-            </a>
-            <form action="{{ route('employer.jobs.destroy', $job) }}" method="POST"
-                  onsubmit="return confirm('Delete this job posting?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-danger">
-                    <i class="fas fa-trash"></i> Delete Job
-                </button>
-            </form>
-            <a href="{{ route('employer.jobs.index') }}" class="btn-secondary">Back to List</a>
+        @if($job->rejection_reason)
+            <div class="info-card rejection-card">
+                <h3>Rejection Reason</h3>
+                <p class="rejection-text">{{ $job->rejection_reason }}</p>
+            </div>
+        @endif
+
+        <div class="info-card meta-card">
+            <h3>Additional Information</h3>
+            <div class="meta-grid">
+                <div>
+                    <strong>Created:</strong>
+                    <span>{{ $job->created_at->format('F d, Y h:i A') }}</span>
+                </div>
+                <div>
+                    <strong>Last Updated:</strong>
+                    <span>{{ $job->updated_at->format('F d, Y h:i A') }}</span>
+                </div>
+                <div>
+                    <strong>Job ID:</strong>
+                    <span>#{{ $job->id }}</span>
+                </div>
+                @if($job->expires_at)
+                    <div>
+                        <strong>Expires:</strong>
+                        <span>{{ $job->expires_at->format('F d, Y') }}</span>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 
-@endsection
+    <div class="job-detail-footer">
+        <a href="{{ route('employer.jobs.index') }}" class="btn btn-secondary">← Back to Jobs</a>
+    </div>
+</div>
 
-@push('styles')
-    @include('employers.partials.list-styles')
-    <style>
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #64748b;
-            text-decoration: none;
-            margin-bottom: 1.25rem;
-        }
-        .back-link:hover { color: #7c3aed; }
+<style>
+    .job-detail-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1f2937;
+    }
 
-        .detail-card {
-            background: #fff;
-            border-radius: 18px;
-            border: 1px solid #edf2f7;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            overflow: hidden;
+    .job-detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .job-detail-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 12px;
+        color: #111827;
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .meta-item {
+        font-size: 0.9rem;
+        color: #4b5563;
+    }
+
+    .meta-item strong {
+        color: #374151;
+    }
+
+    .job-actions-top {
+        display: flex;
+        gap: 8px;
+    }
+
+    .job-detail-body {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .job-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+    }
+
+    .info-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .info-card h3 {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6b7280;
+        margin: 0 0 8px;
+    }
+
+    .info-card p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #111827;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-approved {
+        background: #d1fae5;
+        color: #065f46;
+    }
+
+    .badge-rejected {
+        background: #fecaca;
+        color: #991b1b;
+    }
+
+    .info-hint {
+        font-size: 0.8rem !important;
+        color: #6b7280 !important;
+        margin-top: 4px !important;
+    }
+
+    .skills-card .skills-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 4px;
+    }
+
+    .skill-tag {
+        background: #f3f4f6;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: #4b5563;
+    }
+
+    .description-content {
+        margin-top: 8px;
+        line-height: 1.8;
+        color: #374151;
+        white-space: pre-wrap;
+    }
+
+    .rejection-card {
+        border-color: #fecaca;
+        background: #fef2f2;
+    }
+
+    .rejection-text {
+        color: #991b1b !important;
+    }
+
+    .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+    }
+
+    .meta-grid div {
+        font-size: 0.9rem;
+        color: #4b5563;
+    }
+
+    .meta-grid strong {
+        color: #374151;
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-bottom: 2px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        transition: background-color 0.15s ease;
+    }
+
+    .btn-primary {
+        background: #4f46e5;
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background: #4338ca;
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: #4b5563;
+        border: 1px solid #d1d5db;
+    }
+
+    .btn-secondary:hover {
+        background: #f3f4f6;
+    }
+
+    .btn-danger {
+        background: #fecaca;
+        color: #991b1b;
+    }
+
+    .btn-danger:hover {
+        background: #fca5a5;
+    }
+
+    .job-detail-footer {
+        padding-top: 24px;
+        border-top: 1px solid #f3f4f6;
+    }
+
+    @media (max-width: 640px) {
+        .job-detail-header {
+            flex-direction: column;
         }
 
-        .detail-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1rem;
-            padding: 1.75rem 1.75rem 1.25rem;
-            border-bottom: 1px solid #f1f5f9;
-            flex-wrap: wrap;
-        }
-        .detail-header h1 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 0.5rem;
-        }
-        .detail-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.82rem;
-            color: #64748b;
-        }
-        .detail-meta span { display: flex; align-items: center; gap: 0.4rem; }
-        .detail-meta i { color: #a78bfa; }
-
-        .status-lg { font-size: 0.78rem; padding: 0.35rem 1.1rem; flex-shrink: 0; }
-
-        .reason-banner {
-            display: flex;
-            gap: 0.75rem;
-            background: #fef2f2;
-            border-bottom: 1px solid #fecaca;
-            color: #991b1b;
-            padding: 1rem 1.75rem;
-            font-size: 0.85rem;
-        }
-        .reason-banner i { font-size: 1.1rem; margin-top: 0.1rem; }
-        .reason-banner strong { display: block; margin-bottom: 0.15rem; }
-        .reason-banner p { color: #b91c1c; }
-
-        .detail-body { padding: 1.75rem; }
-
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 1.25rem 1.5rem;
-            margin-bottom: 1.75rem;
-            padding-bottom: 1.75rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .detail-item span {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #94a3b8;
-            margin-bottom: 0.3rem;
-        }
-        .detail-item span i { color: #c4b5fd; font-size: 0.85rem; }
-        .detail-item strong { font-size: 0.95rem; color: #0f172a; font-weight: 600; }
-
-        .detail-block { margin-bottom: 1.75rem; }
-        .detail-block:last-child { margin-bottom: 0; }
-        .block-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #334155;
-            margin-bottom: 0.75rem;
-        }
-        .block-label i { color: #7c3aed; }
-
-        .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-        .skill-chip {
-            background: #ede9fe;
-            color: #6d28d9;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.35rem 0.95rem;
-            border-radius: 20px;
-        }
-        .no-data { font-size: 0.85rem; color: #94a3b8; }
-
-        .description-text {
-            font-size: 0.92rem;
-            color: #334155;
-            line-height: 1.8;
-            white-space: pre-line;
+        .job-actions-top {
+            width: 100%;
         }
 
-        .detail-footer {
-            display: flex;
-            gap: 0.75rem;
-            padding: 1.25rem 1.75rem;
-            border-top: 1px solid #f1f5f9;
-            background: #fafbfc;
-            flex-wrap: wrap;
+        .job-actions-top .btn {
+            flex: 1;
         }
-        .btn-danger {
-            display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer;
-            padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem;
-            background: #fee2e2; color: #991b1b;
-        }
-        .btn-danger:hover { background: #fecaca; }
 
-        @media (max-width: 640px) {
-            .detail-header, .detail-body, .detail-footer { padding-left: 1.25rem; padding-right: 1.25rem; }
-            .detail-footer { flex-direction: column; }
-            .detail-footer .btn-primary, .detail-footer .btn-danger, .detail-footer .btn-secondary { width: 100%; justify-content: center; }
+        .job-info-grid {
+            grid-template-columns: 1fr;
         }
-    </style>
-@endpush
+
+        .meta-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

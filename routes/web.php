@@ -37,12 +37,6 @@ Route::get('/register', function () {
 })->name('register');
 
 
-//EMPLOYER ROUTES
-
-    Route::get('employer/jobs/create', [JobController::class, 'create'])->name('jobs.create');
-    Route::post('employer/jobs', [JobController::class, 'store'])->name('jobs.store');
-
-
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
 require __DIR__.'/employer.php';

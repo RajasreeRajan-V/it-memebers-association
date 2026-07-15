@@ -1,3 +1,4 @@
+
 <div class="job-form-wrapper">
 
     <div class="job-form-header">
@@ -16,7 +17,19 @@
         </div>
     @endif
 
-    <form action="{{ route('jobs.store') }}" method="POST" class="job-form">
+    @if (session('success'))
+        <div class="alert alert-success">
+            <p>{{ session('success') }}</p>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-error">
+            <p>{{ session('error') }}</p>
+        </div>
+    @endif
+
+    <form action="{{ route('employer.jobs.store') }}" method="POST" class="job-form" enctype="multipart/form-data">
         @csrf
 
         {{-- Job Title --}}
@@ -25,6 +38,9 @@
             <input type="text" name="title" id="title" required
                    value="{{ old('title') }}"
                    placeholder="e.g. Senior Backend Developer">
+            @error('title')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-grid">
@@ -38,6 +54,9 @@
                         <option value="{{ $value }}" @selected(old('employment_type') == $value)>{{ $label }}</option>
                     @endforeach
                 </select>
+                @error('employment_type')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Work Mode --}}
@@ -49,6 +68,9 @@
                         <option value="{{ $value }}" @selected(old('work_mode') == $value)>{{ $label }}</option>
                     @endforeach
                 </select>
+                @error('work_mode')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Experience --}}
@@ -57,6 +79,9 @@
                 <input type="text" name="experience" id="experience"
                        value="{{ old('experience') }}"
                        placeholder="e.g. 2-4 years">
+                @error('experience')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Salary --}}
@@ -65,6 +90,9 @@
                 <input type="text" name="salary" id="salary"
                        value="{{ old('salary') }}"
                        placeholder="e.g. $60,000 - $80,000 / year">
+                @error('salary')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Qualification --}}
@@ -73,6 +101,9 @@
                 <input type="text" name="qualification" id="qualification"
                        value="{{ old('qualification') }}"
                        placeholder="e.g. Bachelor's degree in Computer Science">
+                @error('qualification')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Skills --}}
@@ -82,6 +113,9 @@
                        value="{{ old('skills') }}"
                        placeholder="Comma-separated, e.g. Laravel, MySQL, REST APIs">
                 <p class="hint">Separate each skill with a comma.</p>
+                @error('skills')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -95,6 +129,9 @@
                     <input type="text" name="country" id="country"
                            value="{{ old('country') }}"
                            placeholder="e.g. India">
+                    @error('country')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -102,6 +139,9 @@
                     <input type="text" name="state" id="state" required
                            value="{{ old('state') }}"
                            placeholder="e.g. Kerala">
+                    @error('state')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -109,6 +149,9 @@
                     <input type="text" name="district" id="district" required
                            value="{{ old('district') }}"
                            placeholder="e.g. Kasaragod">
+                    @error('district')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -116,6 +159,9 @@
                     <input type="text" name="city" id="city" required
                            value="{{ old('city') }}"
                            placeholder="e.g. Kanhangad">
+                    @error('city')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
         </div>
@@ -125,11 +171,14 @@
             <label for="description">Description <span class="required">*</span></label>
             <textarea name="description" id="description" rows="6" required
                       placeholder="Describe the role, responsibilities, and requirements...">{{ old('description') }}</textarea>
+            @error('description')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
         </div>
 
         {{-- Actions --}}
         <div class="form-actions">
-            <a href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ route('employer.jobs.index') }}" class="btn btn-secondary">Cancel</a>
             <button type="submit" class="btn btn-primary">Publish Job</button>
         </div>
 
@@ -169,6 +218,12 @@
         border: 1px solid #fecaca;
     }
 
+    .alert-success {
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+    }
+
     .alert-title {
         font-size: 0.875rem;
         font-weight: 600;
@@ -181,6 +236,12 @@
         padding-left: 18px;
         color: #b91c1c;
         font-size: 0.85rem;
+    }
+
+    .error-message {
+        color: #dc2626;
+        font-size: 0.8rem;
+        margin-top: 4px;
     }
 
     .job-form {
@@ -304,9 +365,11 @@
     .btn-secondary {
         background: transparent;
         color: #4b5563;
+        border: 1px solid #d1d5db;
     }
 
     .btn-secondary:hover {
+        background: #f3f4f6;
         color: #1f2937;
     }
 
