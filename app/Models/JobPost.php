@@ -19,6 +19,7 @@ class JobPost extends Model
         'experience',
         'salary',
         'skills',
+        'country',
         'state',
         'district',
         'city',

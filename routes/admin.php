@@ -26,4 +26,9 @@ Route::name('admin.')->group(function () {
     Route::post('/registrations/approve-all-investors',[RegistrationApprovalController::class, 'approveAllInvestors'])
        ->name('registrations.approveAllInvestors');
 });
-});        
+});      
+
+
+Route::get('/jobs', [\App\Http\Controllers\Admin\JobApprovalController::class, 'index'])->name('admin.jobs.index');
+Route::post('/jobs/{id}/approve', [\App\Http\Controllers\Admin\JobApprovalController::class, 'approve'])->name('admin.jobs.approve');
+Route::post('/jobs/{id}/reject', [\App\Http\Controllers\Admin\JobApprovalController::class, 'reject'])->name('admin.jobs.reject');

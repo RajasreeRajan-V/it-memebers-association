@@ -41,6 +41,17 @@
             @endif
         </a>
 
+
+
+        <a href="{{ Route::has('admin.jobs.index') ? route('admin.jobs.index') : '#' }}"
+    class="nav-item {{ request()->routeIs('admin.jobs.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-briefcase"></i>
+    <span>Job Approvals</span>
+    @if(($pendingJobApprovals ?? 0) > 0)
+        <span class="badge">{{ $pendingJobApprovals }}</span>
+    @endif
+</a>
+
         <div class="nav-label">Management</div>
 
         <a href="{{ Route::has('admin.products.index') ? route('admin.products.index') : '#' }}"
