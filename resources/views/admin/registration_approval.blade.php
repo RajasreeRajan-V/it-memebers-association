@@ -898,18 +898,19 @@
             <span style="font-weight:400; font-size:0.8rem; color:#3A5079;">— review &amp; approve</span>
         </div>
 
-        <div class="right">
-            <form method="GET" action="{{ route('admin.registrations.index') }}" style="width:100%;">
-                <select name="role" class="filter-select" onchange="this.form.submit()">
-                    <option value="">All Roles</option>
-                    @foreach (['student', 'employee', 'employer', 'freelancer', 'investor', 'mentor'] as $roleOption)
-                        <option value="{{ $roleOption }}" {{ request('role') == $roleOption ? 'selected' : '' }}>
-                            {{ ucfirst($roleOption) }}
-                        </option>
-                    @endforeach
-                </select>
-            </form>
-        </div>
+<div class="right">
+    <form action="{{ route('admin.registrations.approveAllInvestors') }}" method="POST">
+        @csrf
+
+        <button
+            type="submit"
+            class="btn-sm btn-approve"
+            onclick="return confirm('Approve all pending investors?')">
+            <i class="fas fa-check-double"></i>
+            Approve All Investors
+        </button>
+    </form>
+</div>
     </div>
 
     {{-- TABLE CONTAINER --}}

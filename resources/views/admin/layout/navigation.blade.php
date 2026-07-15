@@ -70,7 +70,7 @@
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             <span>Logout</span>
         </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         <div style="padding: 0.75rem 0.5rem 0; font-size: 0.7rem; color: rgba(255,255,255,0.2); text-align: center;">

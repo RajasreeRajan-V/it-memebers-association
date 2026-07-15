@@ -76,4 +76,46 @@ class RegistrationApprovalController extends Controller
 
         return back()->with('success', "{$user->name}'s registration has been rejected.");
     }
+
+    public function approveAllInvestors()
+{
+    $investors = User::where('role', 'investor')
+        ->where('verification_status', 'pending')
+        ->get();
+
+    if ($investors->isEmpty()) {
+        return back()->with('error', 'No pending investors found.');
+    }
+
+    $approvedCount = 0;
+
+    foreach ($investors as $user) {
+
+        $plainPassword = Str::password(12);
+
+        $user->update([
+            'verification_status' => 'approved',
+            'status' => 'active',
+            'password' => Hash::make($plainPassword),
+        ]);
+
+        try {
+            Mail::to($user->email)
+                ->send(new RegistrationApprovedMail($user, $plainPassword));
+
+            $approvedCount++;
+
+        } catch (\Exception $e) {
+
+            Log::error(
+                "Investor email failed ({$user->email}): ".$e->getMessage()
+            );
+        }
+    }
+
+    return back()->with(
+        'success',
+        "{$approvedCount} investor(s) approved successfully and login credentials have been emailed."
+    );
+}
 }
