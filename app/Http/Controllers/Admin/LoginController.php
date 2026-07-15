@@ -34,7 +34,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (auth()->guard('admin')->attempt($credentials)) {
-        return redirect()->route('admin.dashboard'); 
+        return redirect()->route('admin.admin-dashboard'); 
     }
 
         return redirect()->back()->with('error', 'Invalid email or password') ->with('login_type', 'admin')

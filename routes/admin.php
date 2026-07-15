@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::name('admin.')->group(function () {
     Route::post("/do-login", [LoginController::class,'doLogin'])->name('do.login');
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin-dashboard');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('registrations', [RegistrationApprovalController::class, 'index'])
@@ -23,6 +23,8 @@ Route::name('admin.')->group(function () {
     Route::patch('registrations/{id}/reject', [RegistrationApprovalController::class, 'reject'])
         ->name('registrations.reject');
 
+    Route::post('/registrations/approve-all-investors',[RegistrationApprovalController::class, 'approveAllInvestors'])
+       ->name('registrations.approveAllInvestors');
 });
 });      
 
