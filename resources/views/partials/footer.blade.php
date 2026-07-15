@@ -27,26 +27,28 @@
                 </div>
             </div>
 
-            <div class="footer-cols">
-                <div>
-                    <h4>Company</h4>
-                    <a href="#">About</a>
-                    <a href="#">Membership</a>
-                    <a href="#">Contact</a>
-                </div>
-                <div>
-                    <h4>Support</h4>
-                    <a href="#">Help</a>
-                    <a href="#">FAQ</a>
-                    <a href="#">Privacy</a>
-                </div>
-                <div>
-                    <h4>Portals</h4>
-                    <a href="#portals">Student</a>
-                    <a href="#portals">Employer</a>
-                    <a href="#portals">Freelancer</a>
-                </div>
-            </div>
+           <div class="footer-cols">
+    <div>
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Membership</a>
+        <a href="#">Contact</a>
+    </div>
+    <div>
+        <h4>Support</h4>
+        <a href="#">Help</a>
+        <a href="#">FAQ</a>
+        <a href="{{ route('privacy.policy') }}">Privacy Policy</a>
+        <a href="{{ route('cookie.policy') }}">Cookie Policy</a>
+        <a href="{{ route('terms.conditions') }}">Terms & Conditions</a>
+    </div>
+    <div>
+        <h4>Portals</h4>
+        <a href="#portals">Student</a>
+        <a href="#portals">Employer</a>
+        <a href="#portals">Freelancer</a>
+    </div>
+</div>
 
         </div>
 
