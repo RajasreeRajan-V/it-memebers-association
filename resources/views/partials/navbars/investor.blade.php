@@ -18,12 +18,12 @@
     </a>
 
     <nav class="main-nav" aria-label="Primary">
-      <a href="{{ route('home') }}" style="color: black; font-weight: bold;">Home</a>
-      <a href="{{ route('about') }}" style="color: black; font-weight: bold">About</a>
-      <a href="{{ route('events') }}" style="color: black; font-weight: bold;">events</a>
-      <a href="{{ route('FAQs') }}" style="color: black; font-weight: bold;">FAQs</a>
-      <a href="{{ route('members') }}" style="color: black; font-weight: bold;">How to be a Member</a>
-      <a href="{{ route('contact') }}" style="color: black; font-weight: bold;">Contact</a>
+      <a href="{{ route('home') }}" style="color: white; font-weight: bold;">Home</a>
+      <a href="{{ route('about') }}" style="color: white; font-weight: bold">About</a>
+      <a href="{{ route('events') }}" style="color: white; font-weight: bold;">events</a>
+      <a href="{{ route('FAQs') }}" style="color: white; font-weight: bold;">FAQs</a>
+      <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
+      <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
     </nav>
 
     <div class="header-actions">
@@ -45,7 +45,7 @@
 <style>
   /* ===== Header Styles ===== */
   .site-header {
-    background: #fff;
+    background: #0F172A;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
@@ -67,7 +67,7 @@
     gap: 8px;
     font-size: 1.5rem;
     font-weight: 800;
-    color: #1a202c;
+    color: #ffffff;
     text-decoration: none;
   }
   .logo-mark {
