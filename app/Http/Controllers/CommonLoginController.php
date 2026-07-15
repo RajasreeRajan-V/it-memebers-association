@@ -41,9 +41,9 @@ class CommonLoginController extends Controller
         ])->errorBag('login');
     }
 
-    $request->session()->regenerate();
+$request->session()->regenerate();
 
-    return $this->redirectToDashboard(Auth::user());
+return redirect()->route('dashboard');
 }
       protected function redirectToDashboard(User $user)
     {

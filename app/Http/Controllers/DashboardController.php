@@ -6,30 +6,32 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-     public function index(Request $request)
+    public function index(Request $request)
     {
         $user = $request->user();
 
-        // Fetch whatever data is relevant to this role
-        $data = match ($user->role) {
-            'student'    => ['stats' => $this->studentStats($user)],
-            'employee'   => ['stats' => $this->employeeStats($user)],
-            'employer'   => ['stats' => $this->employerStats($user)],
-            'freelancer' => ['stats' => $this->freelancerStats($user)],
-            'investor'   => ['stats' => $this->investorStats($user)],
-            'mentor'     => ['stats' => $this->mentorStats($user)],
-            'admin'      => ['stats' => $this->adminStats($user)],
-            default      => ['stats' => []],
+        $stats = match ($user->role) {
+            'student'    => $this->studentStats($user),
+            'employee'   => $this->employeeStats($user),
+            'employer'   => $this->employerStats($user),
+            'freelancer' => $this->freelancerStats($user),
+            'investor'   => $this->investorStats($user),
+            'mentor'     => $this->mentorStats($user),
+            'admin'      => $this->adminStats($user),
+            default      => [],
         };
 
-        return view('dashboard', $data + ['role' => $user->role]);
+        return view('dashboard-layouts.index', [
+            'role'  => $user->role,
+            'stats' => $stats,
+        ]);
     }
 
-    private function studentStats($user)    { return []; /* your query */ }
-    private function employeeStats($user)   { return []; }
-    private function employerStats($user)   { return []; }
-    private function freelancerStats($user) { return []; }
-    private function investorStats($user)   { return []; }
-    private function mentorStats($user)     { return []; }
-    private function adminStats($user)      { return []; }
+    private function studentStats($user)    { return ['message' => 'Welcome student!']; }
+    private function employeeStats($user)   { return ['message' => 'Welcome employee!']; }
+    private function employerStats($user)   { return ['message' => 'Welcome employer!']; }
+    private function freelancerStats($user) { return ['message' => 'Welcome freelancer!']; }
+    private function investorStats($user)   { return ['message' => 'Welcome investor!']; }
+    private function mentorStats($user)     { return ['message' => 'Welcome mentor!']; }
+    private function adminStats($user)      { return ['message' => 'Welcome admin!']; }
 }
