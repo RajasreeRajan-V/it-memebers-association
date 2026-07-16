@@ -38,7 +38,7 @@
                 <div class="job-card">
                     <div class="job-card-header">
                         <div>
-                            <h2>{{ $job->job_title }}</h2>
+                            <h2>{{ $job->title }}</h2>
                             <p class="job-meta">
                                 {{ $job->employer->name ?? 'Unknown employer' }}
                                 &middot; {{ ucfirst($job->employment_type) }}

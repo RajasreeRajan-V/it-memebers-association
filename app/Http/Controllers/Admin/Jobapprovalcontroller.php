@@ -3,61 +3,59 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\JobApprovedMail;
+use App\Mail\JobRejectedMail;
 use App\Models\JobPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class JobApprovalController extends Controller
 {
-    /**
-     * List job posts for admin review, filterable by status.
-     */
     public function index(Request $request)
     {
-        $query = JobPost::with('employer')->latest();
+        $status = $request->get('status', 'pending');
 
-        // Default to showing pending jobs unless a status filter is given
-        $status = $request->input('status', 'pending');
-
-        if ($status !== 'all') {
-            $query->where('status', $status);
-        }
-
-        $jobs = $query->paginate(10)->withQueryString();
+        $jobs = JobPost::with('employer')
+            ->when($status !== 'all', fn ($q) => $q->where('status', $status))
+            ->latest()
+            ->paginate(10);
 
         return view('admin.job_approval', compact('jobs', 'status'));
     }
 
-    /**
-     * Approve a pending job post.
-     */
-    public function approve($id)
-    {
-        $job = JobPost::findOrFail($id);
+    public function approve(JobPost $job)
+{
+    $job->update([
+        'status' => 'approved',
+        'rejection_reason' => null,
+    ]);
 
-        $job->update([
-            'status'            => 'approved',
-            'rejection_reason'  => null,
-        ]);
-
-        return back()->with('success', "\"{$job->job_title}\" has been approved and is now live.");
+    if ($job->employer && $job->employer->email) {
+        Mail::to($job->employer->email)->send(new JobApprovedMail($job));
+    } else {
+        \Log::warning("Job #{$job->id} approved but has no valid employer/email to notify.");
     }
 
-    /**
-     * Reject a job post with a reason.
-     */
-    public function reject(Request $request, $id)
-    {
-        $job = JobPost::findOrFail($id);
+    return back()->with('success', 'Job post approved' . ($job->employer ? ' and the employer has been notified.' : ', but no employer email was found to notify.'));
+}
 
-        $validated = $request->validate([
-            'rejection_reason' => ['nullable', 'string', 'max:500'],
-        ]);
+public function reject(Request $request, JobPost $job)
+{
+    $request->validate([
+        'rejection_reason' => ['nullable', 'string', 'max:500'],
+    ]);
 
-        $job->update([
-            'status'            => 'rejected',
-            'rejection_reason'  => $validated['rejection_reason'] ?? null,
-        ]);
+    $job->update([
+        'status' => 'rejected',
+        'rejection_reason' => $request->rejection_reason,
+    ]);
 
-        return back()->with('success', "\"{$job->job_title}\" has been rejected.");
+    if ($job->employer && $job->employer->email) {
+        Mail::to($job->employer->email)->send(new JobRejectedMail($job));
+    } else {
+        \Log::warning("Job #{$job->id} rejected but has no valid employer/email to notify.");
     }
+
+    return back()->with('success', 'Job post rejected' . ($job->employer ? ' and the employer has been notified.' : ', but no employer email was found to notify.'));
+}
 }

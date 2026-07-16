@@ -7,7 +7,7 @@
     <div class="container hero-inner">
 
         <div class="hero-copy reveal">
-            <p class="eyebrow">🚀 Welcome to SkillConnect</p>
+            <p class="eyebrow"></p>
 
             <h1>
                 One Platform<br>
@@ -46,23 +46,59 @@
 <!-- Stats -->
 <section class="home-stats-section">
     <div class="container">
-        <div class="home-stats-grid">
-            <div class="home-stat-item reveal">
-                <span class="home-stat-number" data-count="50000">0</span>+
-                <p>Active Users</p>
+        <div class="home-stats-grid home-stats-grid-cards">
+
+            <div class="home-stat-card reveal">
+                <div class="home-stat-card-icon home-stat-icon-indigo">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
+                        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div class="home-stat-card-body">
+                    <span class="home-stat-number" data-count="50000">0</span><span class="home-stat-plus"></span>
+                    <p>Active Users</p>
+                </div>
             </div>
-            <div class="home-stat-item reveal reveal-delay-1">
-                <span class="home-stat-number" data-count="12000">0</span>+
-                <p>Jobs Posted</p>
+
+            <div class="home-stat-card reveal reveal-delay-1">
+                <div class="home-stat-card-icon home-stat-icon-blue">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="home-stat-card-body">
+                    <span class="home-stat-number" data-count="12000">0</span><span class="home-stat-plus"></span>
+                    <p>Jobs Posted</p>
+                </div>
             </div>
-            <div class="home-stat-item reveal reveal-delay-2">
-                <span class="home-stat-number" data-count="3200">0</span>+
-                <p>Courses Available</p>
+
+            <div class="home-stat-card reveal reveal-delay-2">
+                <div class="home-stat-card-icon home-stat-icon-cyan">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                        <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="home-stat-card-body">
+                    <span class="home-stat-number" data-count="3200">0</span><span class="home-stat-plus"></span>
+                    <p>Courses Available</p>
+                </div>
             </div>
-            <div class="home-stat-item reveal reveal-delay-3">
-                <span class="home-stat-number" data-count="850">0</span>+
-                <p>Startups Funded</p>
+
+            <div class="home-stat-card reveal reveal-delay-3">
+                <div class="home-stat-card-icon home-stat-icon-pink">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="home-stat-card-body">
+                    <span class="home-stat-number" data-count="850">0</span><span class="home-stat-plus"></span>
+                    <p>Startups Funded</p>
+                </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -564,6 +600,88 @@
         <a href="#portals" class="btn btn-primary btn-lg">Join SkillConnect Today</a>
     </div>
 </section>
+
+<style>
+    /* Removes the card-style highlight (background/border/shadow) around the
+       hero image on this page only, leaving just the plain image. */
+    .hero .hero-card {
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+    }
+    .hero .hero-card img {
+        border-radius: 16px;
+    }
+    /* Overrides the shared .hero-blob color just for this page */
+    .hero .hero-blob {
+        background: #9fd6ff;
+    }
+
+    /* Card-style stats model */
+    .home-stats-grid-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+    .home-stat-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: #ffffff;
+        border: 1px solid #e6e9f2;
+        border-radius: 14px;
+        padding: 20px 18px;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .home-stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 28px rgba(30, 41, 79, 0.08);
+        border-color: #dfe2f5;
+    }
+    .home-stat-card-icon {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .home-stat-card-icon svg { width: 22px; height: 22px; }
+    .home-stat-icon-indigo { background: #eef2ff; color: #4338ca; }
+    .home-stat-icon-blue   { background: #ecfeff; color: #0e7490; }
+    .home-stat-icon-cyan   { background: #fffbeb; color: #b45309; }
+    .home-stat-icon-pink   { background: #ecfdf5; color: #047857; }
+
+    .home-stat-card-body { line-height: 1.1; }
+    .home-stat-card-body .home-stat-number {
+        font-size: 1.7rem;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -0.01em;
+    }
+    .home-stat-card-body .home-stat-plus {
+        font-size: 1.7rem;
+        font-weight: 800;
+        color: #111827;
+    }
+    .home-stat-card-body p {
+        margin: 3px 0 0;
+        font-size: 0.85rem;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    @media (max-width: 900px) {
+        .home-stats-grid-cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+        .home-stats-grid-cards { grid-template-columns: 1fr; }
+    }
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
