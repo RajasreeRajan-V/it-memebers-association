@@ -9,11 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $projects = Project::where('employer_id', Auth::id())
+            ->when($request->search, function ($query, $search) {
+                $query->where('title', 'like', "%{$search}%");
+            })
+            ->when($request->status, function ($query, $status) {
+                $query->where('status', $status);
+            })
             ->latest()
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('employers.projects.index', compact('projects'));
     }
@@ -25,79 +32,71 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $this->validateProject($request);
-        $validated['skills'] = $this->skillsToArray($request->input('skills'));
-        $validated['employer_id'] = Auth::id();
-        $validated['status'] = 'pending';
+        $data = $this->validateProject($request);
+        $data['employer_id'] = Auth::id();
+        $data['status'] = 'open';
 
-        Project::create($validated);
+        Project::create($data);
 
-        return redirect()
-            ->route('employer.projects.index')
-            ->with('success', 'Project submitted successfully and is awaiting admin approval.');
+        return redirect()->route('employer.projects.index')
+            ->with('success', 'Project posted successfully.');
+    }
+
+    public function show(Project $project)
+    {
+        $this->authorizeOwner($project);
+
+        return view('employer.projects.show', compact('project'));
     }
 
     public function edit(Project $project)
     {
         $this->authorizeOwner($project);
 
-        return view('employers.projects.edit', compact('project'));
+        return view('employer.projects.edit', compact('project'));
     }
 
     public function update(Request $request, Project $project)
     {
         $this->authorizeOwner($project);
 
-        $validated = $this->validateProject($request);
-        $validated['skills'] = $this->skillsToArray($request->input('skills'));
-        $validated['status'] = 'pending';
-        $validated['rejection_reason'] = null;
+        $data = $this->validateProject($request);
+        $project->update($data);
 
-        $project->update($validated);
-
-        return redirect()
-            ->route('employer.projects.index')
-            ->with('success', 'Project updated successfully and is awaiting admin approval.');
+        return redirect()->route('employer.projects.index')
+            ->with('success', 'Project updated successfully.');
     }
 
     public function destroy(Project $project)
     {
         $this->authorizeOwner($project);
+
         $project->delete();
 
-        return redirect()
-            ->route('employer.projects.index')
-            ->with('success', 'Project deleted.');
+        return redirect()->route('employer.projects.index')
+            ->with('success', 'Project deleted successfully.');
     }
 
     private function validateProject(Request $request): array
     {
         return $request->validate([
-            'title'        => ['required', 'string', 'max:255'],
-            'description'  => ['required', 'string'],
-            'project_type' => ['nullable', 'string', 'max:100'],
-            'budget'       => ['required', 'string', 'max:100'],
-            'duration'     => ['nullable', 'string', 'max:100'],
-            'skills'       => ['nullable', 'string'],
-            'deadline'     => ['nullable', 'date'],
+            'title'             => ['required', 'string', 'max:255'],
+            'project_type'      => ['required', 'in:fixed,hourly'],
+            'budget'            => ['required', 'string', 'max:100'],
+            'duration'          => ['required', 'string', 'max:100'],
+            'experience_level'  => ['nullable', 'in:entry,intermediate,expert'],
+            'skills'            => ['nullable', 'string', 'max:500'],
+            'deadline'          => ['nullable', 'date'],
+            'country'           => ['nullable', 'string', 'max:100'],
+            'state'             => ['required', 'string', 'max:100'],
+            'district'          => ['required', 'string', 'max:100'],
+            'city'              => ['required', 'string', 'max:100'],
+            'description'       => ['required', 'string'],
         ]);
-    }
-
-    private function skillsToArray(?string $skills): array
-    {
-        if (!$skills) {
-            return [];
-        }
-
-        return collect(explode(',', $skills))
-            ->map(fn ($s) => trim($s))
-            ->filter()
-            ->values()
-            ->all();
     }
 
     private function authorizeOwner(Project $project): void
     {
-        abort_unless($project->employer_id === Auth::id(), 403);
+        abort_if($project->employer_id !== Auth::id(), 403, 'You do not have access to this project.');
     }
 }
