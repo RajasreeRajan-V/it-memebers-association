@@ -18,8 +18,31 @@
     </a>
 
     <nav class="main-nav" aria-label="Primary">
-      <a href="{{ route('home') }}" style="color: white; font-weight: bold;">Home</a>
-      <a href="{{ route('about') }}" style="color: white; font-weight: bold">About</a>
+   <nav class="main-nav" aria-label="Primary">
+    <a href="{{ route('dashboard') }}" style="color: white; font-weight: bold;">
+        Home
+    </a>
+
+    <div class="dropdown">
+        <a href="#" style="color: white; font-weight: bold;">
+            Job Management
+        </a>
+
+        <ul class="dropdown-menu">
+            <li>
+                <a href="{{ route('employer.jobs.create') }}">
+                    Create Job
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('employer.jobs.index') }}">
+                    View Jobs
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
       <a href="{{ route('events') }}" style="color: white; font-weight: bold;">events</a>
       <a href="{{ route('FAQs') }}" style="color: white; font-weight: bold;">FAQs</a>
       <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
@@ -74,11 +97,73 @@
     display: flex;
     align-items: center;
   }
-  .main-nav {
+.main-nav {
     display: flex;
+    gap: 20px;
     align-items: center;
-    gap: 24px;
-  }
+}
+
+.nav-link {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+..dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-toggle {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    min-width: 140px; /* decrease width */
+    background: #fff;
+
+    border-radius: 10px;
+    padding: 6px 0;
+
+    list-style: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 14px;
+
+    color: #1f2937;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+    background: #f3f4f6;
+    color: #2563eb;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
   .main-nav a {
     text-decoration: none;
     font-weight: 600;
