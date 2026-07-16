@@ -24,7 +24,7 @@
     </a>
 
     <div class="dropdown">
-        <a href="#" style="color: white; font-weight: bold;">
+        <a href="" style="color: white; font-weight: bold;">
             Job Management
         </a>
 
