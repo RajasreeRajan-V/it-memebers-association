@@ -10,40 +10,49 @@
             <p class="eyebrow"><span class="ed-eyebrow-dot"></span> Employer Hub</p>
 
             <h1>
-                Welcome back,<br>
-                <span class="accent-text">{{ explode(' ', Auth::user()->name)[0] ?? 'there' }}</span>
+                Hire the Right Talent.<br>
+                <span class="accent-text">Build the Future.</span>
             </h1>
-            <p class="hero-title" style="color: #64B9D4; font-size: 0.9rem; font-weight: 500;">
-               hiring, startup, candidate tracking & building high-performing teams.
-            </p>
-
 
             <p class="hero-sub">
-                Streamline your hiring process with powerful tools designed for employers.
-                Create opportunities, manage applications, and discover the right talent
-                for your business—all in one place.
+                SkillConnect helps employers discover skilled professionals, interns,
+                freelancers, and startups to drive your business forward.
             </p>
 
             <div class="hero-actions">
                 <div class="ed-dropdown">
-                    <button type="button" class="btn btn-primary btn-lg" id="edPostToggle">+ New Posting</button>
+                    <button type="button" class="btn btn-primary btn-lg" id="edPostToggle">Post Opportunity</button>
                     <div class="ed-dropdown-menu" id="edPostMenu">
                         <a href="{{ route('employer.jobs.create') }}">Job</a>
                         <a href="{{ route('employer.internships.create') }}">Internship</a>
                         <a href="{{ route('employer.projects.create') }}">Project</a>
                     </div>
                 </div>
-                <a href="{{ route('employer.jobs.index') }}" class="btn btn-outline btn-lg">Manage Postings</a>
-                <a href="{{ route('employer.startup-profile.create') }}" class="btn btn-outline btn-lg">New Startup</a>
+                <a href="{{ route('employer.jobs.index') }}" class="btn btn-outline btn-lg">View Candidates</a>
+            </div>
+
+            <div class="ed-trust-row">
+                <div class="ed-trust-item">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12.5l2.2 2.2 4.8-5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span><strong>10,000+</strong> Employers</span>
+                </div>
+                <div class="ed-trust-item">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12.5l2.2 2.2 4.8-5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span><strong>2M+</strong> Active Candidates</span>
+                </div>
+                <!-- <div class="ed-trust-item">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12.5l2.2 2.2 4.8-5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span><strong>100K+</strong> Successful Hires</span>
+                </div> -->
             </div>
         </div>
 
-        {{-- Add your own image here — swap the src below (e.g. public/images/employer-hero.png) --}}
         <div class="hero-visual ed-hero-visual reveal reveal-delay-1">
             <div class="hero-blob"></div>
             <div class="hero-dots"></div>
             <div class="ed-illo-frame">
-                <img src="{{ asset('assets/img/employer.png') }}" alt="Employer dashboard overview" class="ed-illo-img"
+                <img src="{{ asset('assets/img/employer.png') }}"
+                    alt="Employer and colleague reviewing candidates on a laptop" class="ed-illo-img"
                     onerror="this.closest('.ed-illo-frame').classList.add('ed-illo-empty')">
                 <div class="ed-illo-placeholder">
                     <svg viewBox="0 0 24 24" fill="none" width="36" height="36">
@@ -55,6 +64,29 @@
                     <p>Add your image at<br><code>public/images/employer-hero.png</code></p>
                 </div>
             </div>
+
+            <div class="ed-float-card reveal reveal-delay-2">
+                <p class="ed-float-title">Here's what you can do</p>
+                <ul class="ed-float-list">
+                    <li>
+                        <span class="ed-float-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        Post Jobs &amp; Internships
+                    </li>
+                    <li>
+                        <span class="ed-float-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                        Receive Quality Applications
+                    </li>
+                    <li>
+                        <span class="ed-float-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/></svg></span>
+                        Shortlist &amp; Interview
+                    </li>
+                    <li>
+                        <span class="ed-float-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                        Hire Top Talent
+                    </li>
+                </ul>
+                <a href="{{ route('employer.jobs.index') }}" class="ed-float-link">Explore All Features <span aria-hidden="true">→</span></a>
+            </div>
         </div>
 
     </div>
@@ -65,6 +97,10 @@
     <div class="alert alert-success ed-alert-inline">{{ session('success') }}</div>
 </div>
 @endif
+
+
+
+
 
 {{-- ============ STATS ============ --}}
 <section class="ed-stats-section">
@@ -136,90 +172,140 @@
 
 
 
-{{-- ============ RECRUITMENT & PERFORMANCE ============ --}}
-<section class="ed-stats-section" style="padding-top:0;">
+
+{{-- ============ WHY SKILLCONNECT ============ --}}
+<section class="ed-why-section">
     <div class="container">
-        <div class="section-head reveal" style="margin-bottom:16px;">
-            <h2>Recruitment &amp; Performance</h2>
-            <p>How your postings are performing right now.</p>
-        </div>
+        <div class="ed-why-card reveal">
+            <div class="ed-why-copy">
+                <p class="ed-why-eyebrow"></p>
+                <h2>Everything you need to hire<br>better &amp; faster</h2>
+                <p class="ed-why-sub">Our employer tools and matching technology help you connect with the right talent quickly and efficiently.</p>
 
-        <div class="ed-stats-grid ed-stats-grid-full">
-            <div class="ed-stat-card ed-stat-blue reveal">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <div class="ed-why-grid">
+                    <div class="ed-why-item">
+                        <span class="ed-why-icon ed-why-blue"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/></svg></span>
+                        <div>
+                            <h3>Smart Matching</h3>
+                            <p>Our AI matches you with the most relevant candidates.</p>
+                        </div>
+                    </div>
+                    <div class="ed-why-item">
+                        <span class="ed-why-icon ed-why-green"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/></svg></span>
+                        <div>
+                            <h3>Quality Applications</h3>
+                            <p>Get applications from verified, skilled professionals.</p>
+                        </div>
+                    </div>
+                    <div class="ed-why-item">
+                        <span class="ed-why-icon ed-why-purple"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><circle cx="17" cy="9" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 20c.4-3.3 2.7-5.5 5.5-5.5s5.1 2.2 5.5 5.5M14.5 15.2c2 .2 3.6 1.9 3.9 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                        <div>
+                            <h3>Easy Collaboration</h3>
+                            <p>Manage your hiring process with your team seamlessly.</p>
+                        </div>
+                    </div>
+                    <div class="ed-why-item">
+                        <span class="ed-why-icon ed-why-amber"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9.5 12l1.8 1.8L15 10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        <div>
+                            <h3>Secure &amp; Reliable</h3>
+                            <p>Your data and hiring process are safe with us.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $totalApplications ?? 0 }}">0</span>
-                    <p>Applications Received</p>
-                </div>
+
+                <!-- <a href="{{ route('employer.jobs.index') }}" class="btn btn-primary btn-lg">Learn More About Us</a> -->
             </div>
 
-            <div class="ed-stat-card ed-stat-cyan reveal reveal-delay-1">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/></svg>
+            <div class="ed-why-stats">
+                <div class="ed-why-stat">
+                    <span class="ed-why-stat-num">10,000+</span>
+                    <span class="ed-why-stat-label">Companies</span>
                 </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $shortlistedCount ?? 0 }}">0</span>
-                    <p>Shortlisted Candidates</p>
+                <div class="ed-why-stat">
+                    <span class="ed-why-stat-num">2M+</span>
+                    <span class="ed-why-stat-label">Candidates</span>
                 </div>
-            </div>
-
-            <div class="ed-stat-card ed-stat-green reveal reveal-delay-2">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <div class="ed-why-stat">
+                    <span class="ed-why-stat-num">{{ $jobsCount ?? '100K+' }}</span>
+                    <span class="ed-why-stat-label">Jobs Posted</span>
                 </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $hiredCount ?? 0 }}">0</span>
-                    <p>Hired Candidates</p>
-                </div>
-            </div>
-
-            <div class="ed-stat-card ed-stat-amber reveal reveal-delay-3">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $pendingJobsCount ?? 0 }}">0</span>
-                    <p>Pending Jobs</p>
-                </div>
-            </div>
-
-            <div class="ed-stat-card ed-stat-blue reveal">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-                </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $expiredJobsCount ?? 0 }}">0</span>
-                    <p>Expired Jobs</p>
-                </div>
-            </div>
-
-            <div class="ed-stat-card ed-stat-cyan reveal reveal-delay-1">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg>
-                </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $profileViewsCount ?? 0 }}">0</span>
-                    <p>Total Profile Views</p>
-                </div>
-            </div>
-
-            <div class="ed-stat-card ed-stat-green reveal reveal-delay-2">
-                <div class="ed-stat-icon">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
-                </div>
-                <div class="ed-stat-body">
-                    <span class="ed-stat-number" data-count="{{ $activeStartupProfiles ?? 0 }}">0</span>
-                    <p>Active Startup Profiles</p>
+                <div class="ed-why-stat">
+                    <span class="ed-why-stat-num">{{ $hiredCount ?? '50K+' }}</span>
+                    <span class="ed-why-stat-label">Hires Made</span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+
+
+
+
+{{-- ============ QUICK ACTIONS STRIP ============ --}}
+<section class="ed-quickstrip-section">
+    <div class="container">
+        <div class="ed-quickstrip reveal">
+
+            <a href="{{ route('employer.jobs.create') }}" class="ed-quickstrip-item">
+                <span class="ed-quickstrip-icon ed-quickstrip-blue">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="ed-quickstrip-title">Post a Job</span>
+                <span class="ed-quickstrip-sub">Find the perfect full-time talent.</span>
+                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="{{ route('employer.internships.create') }}" class="ed-quickstrip-item">
+                <span class="ed-quickstrip-icon ed-quickstrip-green">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="ed-quickstrip-title">Post an Internship</span>
+                <span class="ed-quickstrip-sub">Hire enthusiastic interns.</span>
+                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="{{ route('employer.projects.create') }}" class="ed-quickstrip-item">
+                <span class="ed-quickstrip-icon ed-quickstrip-purple">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="ed-quickstrip-title">Post a Project</span>
+                <span class="ed-quickstrip-sub">Find skilled freelancers for your projects.</span>
+                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="{{ route('employer.startup-profile.create') }}" class="ed-quickstrip-item">
+                <span class="ed-quickstrip-icon ed-quickstrip-amber">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 21c0-4 2-6 2-6M12 3c3 2 5 6 5 10a5 5 0 0 1-10 0c0-4 2-8 5-10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="ed-quickstrip-title">Startup Profile</span>
+                <span class="ed-quickstrip-sub">Showcase your startup to the right people.</span>
+                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="{{ route('employer.jobs.index') }}" class="ed-quickstrip-item">
+                <span class="ed-quickstrip-icon ed-quickstrip-cyan">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </span>
+                <span class="ed-quickstrip-title">Search Candidates</span>
+                <span class="ed-quickstrip-sub">Search from millions of verified profiles.</span>
+                <span class="ed-quickstrip-cta">Search Now <span aria-hidden="true">→</span></span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
 {{-- ============ RECENT ACTIVITY ============ --}}
-<section class="ed-activity-section">
+<!-- <section class="ed-activity-section">
     <div class="container">
         <div class="section-head reveal">
             <h2>Recent Activity</h2>
@@ -286,12 +372,10 @@
             </div>
         </div>
     </div>
-</section>
-
-
+</section> -->
 
 {{-- ============ TODAY'S INTERVIEWS ============ --}}
-<section class="ed-activity-section">
+<!-- <section class="ed-activity-section">
     <div class="container">
         <div class="section-head reveal">
             <h2>Today's Interviews</h2>
@@ -319,10 +403,10 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ============ NOTIFICATIONS ============ --}}
-<section class="ed-activity-section">
+<!-- <section class="ed-activity-section">
     <div class="container">
         <div class="section-head reveal">
             <h2>Notifications
@@ -354,10 +438,10 @@
             @endforelse
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ============ UPCOMING DEADLINES ============ --}}
-<section class="ed-deadlines-section">
+<!-- <section class="ed-deadlines-section">
     <div class="container">
         <div class="section-head reveal">
             <h2>Upcoming Deadlines</h2>
@@ -382,7 +466,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 {{-- ============ STARTUP SPOTLIGHT ============ --}}
 <section class="ed-startup-section">
@@ -397,69 +481,6 @@
             <div class="ed-startup-actions">
                 <a href="#" class="btn btn-lg">List Your Startup</a>
             </div>
-        </div>
-    </div>
-</section>
-
-{{-- ============ QUICK ACTIONS (portal-card style) ============ --}}
-<section class="portals ed-portals">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>What would you like to post?</h2>
-            <p>Pick a posting type below and reach students, employees and freelancers in minutes.</p>
-        </div>
-
-        <div class="portal-grid ed-portal-grid">
-
-            <article class="portal-card portal-blue reveal">
-                <div class="portal-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <div class="portal-body">
-                    <h3>Post a Job</h3>
-                    <p>Open a full-time, part-time, contract or freelance role.</p>
-                    <a href="{{ route('employer.jobs.create') }}" class="portal-link">Post a Job <span
-                            aria-hidden="true">→</span></a>
-                </div>
-            </article>
-
-            <article class="portal-card portal-cyan reveal reveal-delay-1">
-                <div class="portal-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
-                        <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <div class="portal-body">
-                    <h3>Post an Internship</h3>
-                    <p>Bring in students for paid, unpaid or stipend internships.</p>
-                    <a href="{{ route('employer.internships.create') }}" class="portal-link">Post an Internship <span
-                            aria-hidden="true">→</span></a>
-                </div>
-            </article>
-
-            <article class="portal-card portal-yellow reveal reveal-delay-2">
-                <div class="portal-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <div class="portal-body">
-                    <h3>Post a Project</h3>
-                    <p>Get freelancers bidding on fixed-price or hourly work.</p>
-                    <a href="{{ route('employer.projects.create') }}" class="portal-link">Post a Project <span
-                            aria-hidden="true">→</span></a>
-                </div>
-            </article>
-
         </div>
     </div>
 </section>
@@ -579,10 +600,10 @@
     --ed-ink: #0f172a;
     --ed-muted: #64748b;
     --ed-line: #e6e9f2;
-    --ed-primary: #4f46e5;
-    --ed-primary-dark: #3730a3;
+    --ed-primary: #2f5fdb;
+    --ed-primary-dark: #1e40af;
     --ed-surface: #ffffff;
-    --ed-surface-soft: #f8f9ff;
+    --ed-surface-soft: #f5f8ff;
     --ed-radius-lg: 18px;
     --ed-radius-md: 14px;
     --ed-shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
@@ -618,7 +639,7 @@
     font-weight: 600;
     letter-spacing: 0.02em;
     color: var(--ed-primary-dark);
-    background: #eef0ff;
+    background: #eaf0ff;
     padding: 6px 12px;
     border-radius: 999px;
     margin-bottom: 14px;
@@ -628,8 +649,8 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #4f46e5;
-    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
+    background: var(--ed-primary);
+    box-shadow: 0 0 0 0 rgba(47, 95, 219, 0.5);
     animation: edPulse 2s infinite;
 }
 
@@ -670,14 +691,14 @@
 .btn-primary {
     background: var(--ed-primary);
     border: 1px solid var(--ed-primary);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.24);
+    box-shadow: 0 6px 16px rgba(47, 95, 219, 0.24);
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .btn-primary:hover {
     background: var(--ed-primary-dark);
     transform: translateY(-1px);
-    box-shadow: 0 10px 22px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 10px 22px rgba(47, 95, 219, 0.3);
 }
 
 .btn-primary:active {
@@ -765,12 +786,226 @@
     border-radius: 12px;
 }
 
+/* Trust row under hero copy */
+.ed-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--ed-line);
+    max-width: 500px;
+}
+
+.ed-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.84rem;
+    color: var(--ed-muted);
+}
+
+.ed-trust-item svg {
+    width: 17px;
+    height: 17px;
+    color: var(--ed-primary);
+    flex-shrink: 0;
+}
+
+.ed-trust-item strong {
+    color: var(--ed-ink);
+    font-weight: 700;
+}
+
+/* Floating capability card on hero image */
+.ed-float-card {
+    position: absolute;
+    top: 55%;
+    right: -4%;
+    z-index: 5;
+    background: #dce2ee;
+    border-radius: var(--ed-radius-md);
+    box-shadow: var(--ed-shadow-md);
+    padding: 18px 20px;
+    width: 232px;
+}
+
+.ed-float-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ed-ink);
+    margin: 0 0 10px;
+}
+
+.ed-float-list {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.ed-float-list li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 0.76rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.ed-float-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--ed-surface-soft);
+    color: var(--ed-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ed-float-icon svg {
+    width: 13px;
+    height: 13px;
+}
+
+.ed-float-link {
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--ed-primary);
+}
+
+.ed-float-link:hover {
+    color: var(--ed-primary-dark);
+}
+
+@media (max-width: 900px) {
+    .ed-float-card {
+        position: static;
+        width: 100%;
+        margin-top: 18px;
+    }
+}
+
+/* ===== Quick action strip ===== */
+.ed-quickstrip-section {
+    padding: 34px 0 8px;
+}
+
+.ed-quickstrip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    background: var(--ed-surface);
+    border: 1px solid var(--ed-line);
+    border-radius: var(--ed-radius-lg);
+    box-shadow: var(--ed-shadow-sm);
+    overflow: hidden;
+}
+
+.ed-quickstrip-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 22px 18px;
+    text-decoration: none;
+    border-right: 1px solid var(--ed-line);
+    transition: background 0.15s ease;
+}
+
+.ed-quickstrip-item:last-child {
+    border-right: none;
+}
+
+.ed-quickstrip-item:hover {
+    background: var(--ed-surface-soft);
+}
+
+.ed-quickstrip-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 6px;
+}
+
+.ed-quickstrip-icon svg {
+    width: 17px;
+    height: 17px;
+}
+
+.ed-quickstrip-blue {
+    background: #eaf0ff;
+    color: var(--ed-primary);
+}
+
+.ed-quickstrip-green {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.ed-quickstrip-purple {
+    background: #f4f0ff;
+    color: #7c3aed;
+}
+
+.ed-quickstrip-amber {
+    background: #fffbeb;
+    color: #b45309;
+}
+
+.ed-quickstrip-cyan {
+    background: #ecfeff;
+    color: #0e7490;
+}
+
+.ed-quickstrip-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--ed-ink);
+    letter-spacing: -0.01em;
+}
+
+.ed-quickstrip-sub {
+    font-size: 0.78rem;
+    color: var(--ed-muted);
+    line-height: 1.45;
+    margin-bottom: 6px;
+}
+
+.ed-quickstrip-cta {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ed-primary);
+}
+
+@media (max-width: 900px) {
+    .ed-quickstrip {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ed-quickstrip-item {
+        border-bottom: 1px solid var(--ed-line);
+    }
+}
+
+@media (max-width: 560px) {
+    .ed-quickstrip {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 /* ===== Stats section ===== */
 .ed-stats-section {
     padding: 40px 0 48px;
     position: relative;
     z-index: 1;
-    background: linear-gradient(180deg, #f7f8ff 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #f6f8ff 0%, #ffffff 100%);
 }
 
 .ed-stats-grid-full {
@@ -845,21 +1080,21 @@
 
 @keyframes edEyebrowPulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
+        box-shadow: 0 0 0 0 rgba(47, 95, 219, 0.5);
     }
 
     70% {
-        box-shadow: 0 0 0 6px rgba(79, 70, 229, 0);
+        box-shadow: 0 0 0 6px rgba(47, 95, 219, 0);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+        box-shadow: 0 0 0 0 rgba(47, 95, 219, 0);
     }
 }
 
 .ed-stat-blue .ed-stat-icon {
-    background: #eef2ff;
-    color: #4338ca;
+    background: #eaf0ff;
+    color: var(--ed-primary-dark);
 }
 
 .ed-stat-cyan .ed-stat-icon {
@@ -899,22 +1134,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 280px;
+    min-height: 320px;
 }
 
 .ed-hero-visual .hero-blob {
-    background: #cfeaff;
+    background: #cfe0ff;
 }
 
 .ed-illo-frame {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 580px;
+    max-width: 520px;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--ed-radius-lg);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--ed-shadow-md);
     animation: edFloat 4.5s ease-in-out infinite;
 }
 
@@ -953,7 +1191,7 @@
     background: #f1f2fa;
     padding: 2px 6px;
     border-radius: 6px;
-    color: #6366f1;
+    color: var(--ed-primary);
     font-size: 0.75rem;
 }
 
@@ -972,7 +1210,7 @@
     }
 
     .ed-illo-frame {
-        max-width: 340px;
+        max-width: 400px;
     }
 }
 
@@ -984,6 +1222,145 @@
 
 @media (max-width: 420px) {
     .ed-stats-grid-full {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== Why section ===== */
+.ed-why-section {
+    padding: 10px 0 54px;
+}
+
+.ed-why-card {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 30px;
+    background: var(--ed-surface);
+    border: 1px solid var(--ed-line);
+    border-radius: var(--ed-radius-lg);
+    padding: 40px;
+    box-shadow: var(--ed-shadow-sm);
+}
+
+.ed-why-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ed-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+}
+
+.ed-why-copy h2 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.ed-why-sub {
+    color: var(--ed-muted);
+    max-width: 460px;
+    line-height: 1.6;
+    margin-bottom: 26px;
+}
+
+.ed-why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-bottom: 28px;
+}
+
+.ed-why-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.ed-why-icon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ed-why-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.ed-why-blue {
+    background: #eaf0ff;
+    color: var(--ed-primary-dark);
+}
+
+.ed-why-green {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.ed-why-purple {
+    background: #f4f0ff;
+    color: #7c3aed;
+}
+
+.ed-why-amber {
+    background: #fffbeb;
+    color: #b45309;
+}
+
+.ed-why-item h3 {
+    font-size: 0.94rem;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.ed-why-item p {
+    font-size: 0.82rem;
+    color: var(--ed-muted);
+    line-height: 1.5;
+}
+
+.ed-why-stats {
+    background: var(--ed-surface-soft);
+    border-radius: var(--ed-radius-md);
+    padding: 26px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-content: center;
+}
+
+.ed-why-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ed-why-stat-num {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--ed-primary-dark);
+    letter-spacing: -0.01em;
+}
+
+.ed-why-stat-label {
+    font-size: 0.76rem;
+    color: var(--ed-muted);
+    font-weight: 500;
+}
+
+@media (max-width: 900px) {
+    .ed-why-card {
+        grid-template-columns: 1fr;
+    }
+
+    .ed-why-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -1043,8 +1420,8 @@
 }
 
 .ed-activity-blue {
-    background: #eef2ff;
-    color: #4338ca;
+    background: #eaf0ff;
+    color: var(--ed-primary-dark);
 }
 
 .ed-activity-cyan {
@@ -1180,11 +1557,11 @@
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    background: linear-gradient(135deg, #2f5fdb 0%, #1e3a8a 100%);
     border-radius: var(--ed-radius-lg);
     padding: 32px 34px;
     color: #fff;
-    box-shadow: 0 16px 32px rgba(55, 48, 163, 0.22);
+    box-shadow: 0 16px 32px rgba(30, 58, 138, 0.22);
 }
 
 .ed-startup-copy h2 {
@@ -1197,7 +1574,7 @@
 
 .ed-startup-copy p {
     font-size: 0.92rem;
-    color: #d9d7fb;
+    color: #dbe4ff;
     max-width: 480px;
     line-height: 1.6;
 }
@@ -1227,7 +1604,7 @@
 }
 
 .ed-startup-actions .btn:hover {
-    background: #eef0ff;
+    background: #eaf0ff;
     transform: translateY(-1px);
 }
 
@@ -1237,107 +1614,6 @@
         align-items: flex-start;
         text-align: left;
     }
-}
-
-/* ===== Quick actions ===== */
-.ed-portals {
-    padding-top: 14px;
-    padding-bottom: 8px;
-}
-
-.ed-portals .section-head h2 {
-    font-weight: 800;
-    letter-spacing: -0.01em;
-}
-
-.ed-portals .section-head p {
-    color: var(--ed-muted);
-}
-
-.ed-portal-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.portal-card {
-    border-radius: var(--ed-radius-lg);
-    border: 1px solid var(--ed-line);
-    box-shadow: var(--ed-shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.portal-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--ed-shadow-md);
-    border-color: #dfe2f5;
-}
-
-.portal-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 6px;
-    transition: transform 0.25s ease;
-}
-
-.portal-card:hover .portal-icon {
-    transform: scale(1.08) rotate(-4deg);
-}
-
-.portal-icon svg {
-    width: 22px;
-    height: 22px;
-}
-
-.portal-blue .portal-icon {
-    background: #eef2ff;
-    color: #4338ca;
-}
-
-.portal-cyan .portal-icon {
-    background: #ecfeff;
-    color: #0e7490;
-}
-
-.portal-yellow .portal-icon {
-    background: #fffbeb;
-    color: #b45309;
-}
-
-.portal-body h3 {
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 4px;
-}
-
-.portal-body p {
-    color: var(--ed-muted);
-    font-size: 0.9rem;
-    line-height: 1.55;
-}
-
-.portal-link {
-    color: var(--ed-primary);
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.portal-link span {
-    transition: transform 0.2s ease;
-    display: inline-block;
-}
-
-.portal-link:hover {
-    color: var(--ed-primary-dark);
-}
-
-.portal-link:hover span {
-    transform: translateX(3px);
 }
 
 /* ===== Recent postings ===== */
@@ -1367,8 +1643,8 @@
 }
 
 .ed-type-job {
-    background: #eef2ff;
-    color: #4338ca;
+    background: #eaf0ff;
+    color: var(--ed-primary-dark);
 }
 
 .ed-type-internship {
@@ -1422,7 +1698,7 @@
 }
 
 .listing-table tbody tr:hover {
-    background: #fafaff;
+    background: #fafbff;
 }
 
 .cell-title {
@@ -1545,9 +1821,6 @@
 }
 
 @media (max-width: 900px) {
-    .ed-portal-grid {
-        grid-template-columns: 1fr 1fr;
-    }
 
     .ed-tips-grid {
         grid-template-columns: 1fr 1fr;
@@ -1555,9 +1828,6 @@
 }
 
 @media (max-width: 640px) {
-    .ed-portal-grid {
-        grid-template-columns: 1fr;
-    }
 
     .ed-tips-grid {
         grid-template-columns: 1fr;
