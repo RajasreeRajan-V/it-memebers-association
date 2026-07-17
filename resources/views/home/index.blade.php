@@ -34,7 +34,7 @@
         </div>
 
         <div class="hero-visual reveal reveal-delay-1">
-            <div class="hero-blob"></div>
+            <!-- <div class="hero-blob"></div> -->
             <div class="hero-dots"></div>
             <div class="hero-card">
                 <img src="{{ asset('assets/img/hero-team.png') }}" alt="About SkillConnect">
@@ -615,9 +615,10 @@
         border-radius: 16px;
     }
     /* Overrides the shared .hero-blob color just for this page */
-    .hero .hero-blob {
-        background: #9fd6ff;
-    }
+   .hero .hero-blob {
+    background: #9fd6ff;
+    top: 25px;
+}
 
     /* Card-style stats model */
     .home-stats-grid-cards {

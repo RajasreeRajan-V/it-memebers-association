@@ -32,14 +32,10 @@ class StartupProfileController extends Controller
         return view('employers.startup-profile.show', compact('profile'));
     }
 
-    public function create()
-    {
-        if (StartupProfile::where('employer_id', Auth::id())->exists()) {
-            return redirect()->route('employer.startup-profile.edit');
-        }
-
-        return view('employers.startup-profile.create');
-    }
+  public function create()
+{
+    return view('employers.startup-profile.create');
+}
 
     public function store(Request $request)
     {
