@@ -92,34 +92,90 @@
     </div>
 </div>
 
-<div class="row-custom">
-    <div class="form-group-custom">
-        <label for="country" class="form-label-icon"><i class="fas fa-globe"></i> Country</label>
-        <input type="text" class="form-control-custom @error('country') is-invalid @enderror"
-               id="country" name="country" value="{{ old('country', $project->country ?? '') }}" placeholder="Country">
-        @error('country') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
+
+<div class="form-group-custom">
+    <label>Work Mode</label>
+
+    <select id="work_mode" name="work_mode" class="form-control-custom">
+        <option value="remote">Remote</option>
+        <option value="onsite">On-site</option>
+        <option value="hybrid">Hybrid</option>
+    </select>
+</div>
+
+<div id="locationFields">
+
+    <div class="row-custom">
+        <div class="form-group-custom">
+            <label for="country" class="form-label-icon">
+                <i class="fas fa-globe"></i> Country
+            </label>
+
+            <input type="text"
+                   class="form-control-custom @error('country') is-invalid @enderror"
+                   id="country"
+                   name="country"
+                   value="{{ old('country', $project->country ?? '') }}"
+                   placeholder="Country">
+
+            @error('country')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group-custom">
+            <label for="state" class="form-label-icon">
+                <i class="fas fa-map-pin"></i> State
+            </label>
+
+            <input type="text"
+                   class="form-control-custom @error('state') is-invalid @enderror"
+                   id="state"
+                   name="state"
+                   value="{{ old('state', $project->state ?? '') }}"
+                   placeholder="State">
+
+            @error('state')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group-custom">
+            <label for="district" class="form-label-icon">
+                <i class="fas fa-map-marked-alt"></i> District
+            </label>
+
+            <input type="text"
+                   class="form-control-custom @error('district') is-invalid @enderror"
+                   id="district"
+                   name="district"
+                   value="{{ old('district', $project->district ?? '') }}"
+                   placeholder="District">
+
+            @error('district')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group-custom">
+            <label for="city" class="form-label-icon">
+                <i class="fas fa-city"></i> City
+            </label>
+
+            <input type="text"
+                   class="form-control-custom @error('city') is-invalid @enderror"
+                   id="city"
+                   name="city"
+                   value="{{ old('city', $project->city ?? '') }}"
+                   placeholder="City">
+
+            @error('city')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
 
-    <div class="form-group-custom">
-        <label for="state" class="form-label-icon"><i class="fas fa-map-pin"></i> State <span class="required">*</span></label>
-        <input type="text" class="form-control-custom @error('state') is-invalid @enderror"
-               id="state" name="state" value="{{ old('state', $project->state ?? '') }}" placeholder="State" required>
-        @error('state') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="form-group-custom">
-        <label for="district" class="form-label-icon"><i class="fas fa-map-marked-alt"></i> District <span class="required">*</span></label>
-        <input type="text" class="form-control-custom @error('district') is-invalid @enderror"
-               id="district" name="district" value="{{ old('district', $project->district ?? '') }}" placeholder="District" required>
-        @error('district') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
-
-    <div class="form-group-custom">
-        <label for="city" class="form-label-icon"><i class="fas fa-city"></i> City <span class="required">*</span></label>
-        <input type="text" class="form-control-custom @error('city') is-invalid @enderror"
-               id="city" name="city" value="{{ old('city', $project->city ?? '') }}" placeholder="City" required>
-        @error('city') <div class="invalid-feedback">{{ $message }}</div> @enderror
-    </div>
 </div>
 
 <div class="form-group-custom">
