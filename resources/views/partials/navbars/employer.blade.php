@@ -25,7 +25,7 @@
 
                 <div class="dropdown">
                     <a href="" style="color: white; font-weight: bold;">
-                        Job
+                        Job Management
                     </a>
 
                     <ul class="dropdown-menu">
@@ -46,7 +46,7 @@
 
             <div class="dropdown">
                 <a href="#" style="color: white; font-weight: bold;">
-                    Internships
+                    Internship Programs
                 </a>
 
                 <ul class="dropdown-menu">
@@ -82,7 +82,25 @@
                     </li>
                 </ul>
             </div>
-            <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
+            <div class="dropdown">
+                <a href="#" style="color: white; font-weight: bold;">
+                    Startup Profile
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('employer.startup-profile.create') }}">
+                            Create StartUp
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('employer.startup-profile.index') }}">
+                            View StartUps
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
         </nav>
 
