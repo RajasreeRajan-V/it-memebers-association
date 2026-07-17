@@ -30,30 +30,30 @@ class ProjectController extends Controller
         return view('employers.projects.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $this->validateProject($request);
-        $data['employer_id'] = Auth::id();
-        $data['status'] = 'open';
+   public function store(Request $request)
+{
+    $data = $this->validateProject($request);
+    $data['employer_id'] = Auth::id();
+    $data['status'] = 'pending';
 
-        Project::create($data);
+    Project::create($data);
 
-        return redirect()->route('employer.projects.index')
-            ->with('success', 'Project posted successfully.');
-    }
+    return redirect()->route('employer.projects.index')
+        ->with('success', 'Project posted successfully.');
+}
 
     public function show(Project $project)
     {
         $this->authorizeOwner($project);
 
-        return view('employer.projects.show', compact('project'));
+        return view('employers.projects.show', compact('project'));
     }
 
     public function edit(Project $project)
     {
         $this->authorizeOwner($project);
 
-        return view('employer.projects.edit', compact('project'));
+        return view('employers.projects.edit', compact('project'));
     }
 
     public function update(Request $request, Project $project)
@@ -87,6 +87,7 @@ class ProjectController extends Controller
             'experience_level'  => ['nullable', 'in:entry,intermediate,expert'],
             'skills'            => ['nullable', 'string', 'max:500'],
             'deadline'          => ['nullable', 'date'],
+            'work_mode'         => ['required', 'in:remote,onsite,hybrid'],
             'country'           => ['nullable', 'string', 'max:100'],
             'state'             => ['required', 'string', 'max:100'],
             'district'          => ['required', 'string', 'max:100'],

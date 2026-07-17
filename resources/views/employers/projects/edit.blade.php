@@ -2,7 +2,7 @@
 
 @section('content')
 
-@include('employer.projects._styles')
+@include('employers.projects._styles')
 
 <div class="project-form-container">
     <div class="form-card">
@@ -17,7 +17,7 @@
             <form action="{{ route('employer.projects.update', $project) }}" method="POST" id="projectForm">
                 @csrf
                 @method('PUT')
-                @include('employer.projects._form', ['project' => $project])
+                @include('employers.projects._form', ['project' => $project])
 
                 <div class="form-actions">
                     <button type="submit" class="btn-custom btn-primary-custom">
@@ -31,5 +31,27 @@
         </div>
     </div>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const workMode = document.getElementById('work_mode');
+    const locationFields = document.getElementById('locationFields');
+
+    function toggleLocation() {
+        if (workMode.value === 'onsite' || workMode.value === 'hybrid') {
+            locationFields.style.display = 'block';
+        } else {
+            locationFields.style.display = 'none';
+        }
+    }
+
+    toggleLocation();
+
+    workMode.addEventListener('change', toggleLocation);
+
+});
+</script>
 
 @endsection

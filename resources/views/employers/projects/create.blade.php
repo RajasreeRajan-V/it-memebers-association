@@ -31,4 +31,25 @@
     </div>
 </div>
 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const workMode = document.getElementById('work_mode');
+    const locationFields = document.getElementById('locationFields');
+
+    function toggleLocation() {
+        if (workMode.value === 'onsite' || workMode.value === 'hybrid') {
+            locationFields.style.display = 'block';
+        } else {
+            locationFields.style.display = 'none';
+        }
+    }
+
+    workMode.addEventListener('change', toggleLocation);
+
+    toggleLocation();
+});
+</script>
+
 @endsection
