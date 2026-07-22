@@ -7,9 +7,12 @@
     <div class="container hero-inner">
 
         <!-- Left Side Image -->
-        <div class="hero-image reveal">
-            <img src="{{ asset('assets/img/about-team.png') }}" alt="About SkillConnect">
-        </div>
+     <div class="hero-image reveal">
+    <img
+        src="{{ asset('assets/img/about-team.png') }}"
+        alt="About SkillConnect"
+        style="width: 549px; max-width: 100%; height: auto;">
+</div>
 
         <!-- Right Side Content -->
         <div class="hero-copy reveal reveal-delay-1">

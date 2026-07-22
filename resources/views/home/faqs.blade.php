@@ -34,12 +34,12 @@
         </div>
 
         <!-- Right Side Image -->
-        <div class="hero-image reveal reveal-delay-1">
-            <img
-                src="{{ asset('assets/img/faq.png') }}"
-                alt="FAQ"
-                style="width: 800px; max-width: 100%; height: auto;">
-        </div>
+       <div class="hero-image reveal reveal-delay-1">
+    <img
+        src="{{ asset('assets/img/faq.png') }}"
+        alt="FAQ"
+        style="width: 880px; max-width: 100%; height: auto;">
+</div>
 
     </div>
 
