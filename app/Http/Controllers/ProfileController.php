@@ -2,372 +2,347 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use App\Models\StudentRegistration;
 use App\Models\EmployeeRegistration;
 use App\Models\EmployerRegistration;
 use App\Models\FreelancerRegistration;
 use App\Models\InvestorRegistration;
 use App\Models\MentorRegistration;
-use App\Models\User;
+use App\Models\StudentRegistration;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
-class RegistrationController extends Controller
+class ProfileController extends Controller
 {
-    protected array $fees = [
-        'student'     => 500,
-        'employee'    => 1000,
-        'freelancer'  => 1500,
-        'employer'    => 5000,
-        'investor'    => 10000,
-        'mentor'      => 0, // free — skips payment, goes straight to membership route
-    ];
+    /**
+     * Show the profile edit page.
+     */
 
-    public function register()
+    public function updateDetails(Request $request): RedirectResponse
     {
-        return view('home.registration');
-    }
+        $user = Auth::user();
+        $role = strtolower($user->role ?? '');
 
-    public function store(Request $request)
-    {
+        $rules = $this->rulesForRole($role);
 
-        // Validate all fields
-        $validated = $request->validate(
-            array_merge(
-                $this->getBaseValidationRules($request->role),
-                $this->getRoleValidationRules($request->role)
-            )
-        );
-
-        try {
-
-            DB::beginTransaction();
-
-            $role = $validated['role'];
-
-            $fee = $this->fees[$role];
-
-
-            $password = $role === 'investor'
-                ? null
-                : Hash::make($validated['password']);
-
-            // Create User
-            $user = User::create([
-
-                'name' => $validated['name'],
-
-                'email' => $validated['email'],
-
-                'phone' => $validated['phone'] ?? null,
-
-                'password' => $password,
-
-                'role' => $role,
-
-                'membership_fee' => $fee,
-
-                'payment_status' => $fee > 0 ? 'pending' : 'paid',
-
-                'verification_status' => $role === 'investor' ? 'pending' : 'approved',
-
-                'status' => $role === 'investor' ? 'inactive' : 'active',
-
-            ]);
-
-            // Store Role Specific Details
-            $this->storeRoleRegistration(
-                $role,
-                $user->id,
-                $request,
-                $validated
-            );
-
-            DB::commit();
-
-            // Free Roles (currently only Mentor) — skip payment entirely
-            if ($fee == 0) {
-
-                return redirect()->route('membership')
-                    ->with(
-                        'success',
-                        'Registration submitted successfully'
-                    );
-            }
-
-            // Paid Roles — Student, Employee, Freelancer, Employer, Investor
-            return redirect()->route('payment.show', [
-                'user' => $user->id,
-            ])->with('fee', $fee)->with('role', $role);
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            // Delete uploaded files if required
-
-            return back()
-                ->withInput()
-                ->with('error', 'Registration failed. ' . $e->getMessage());
+        if (empty($rules)) {
+            return back()->withErrors(['role' => 'We could not determine your account type.']);
         }
+
+        $validated = $request->validate($rules);
+
+        $registration = $this->registrationFor($user, $role);
+
+        if (! $registration) {
+            $modelClass = $this->modelClassForRole($role);
+            $registration = new $modelClass();
+            $registration->user_id = $user->id;
+        }
+
+        // Handle file fields separately (store on disk, keep old file if none uploaded)
+        foreach ($this->fileFieldsForRole($role) as $field) {
+            if ($request->hasFile($field)) {
+                if ($registration->{$field}) {
+                    Storage::disk('public')->delete($registration->{$field});
+                }
+                $validated[$field] = $request->file($field)->store("registrations/{$role}", 'public');
+            } else {
+                // don't overwrite existing file with null when nothing new was uploaded
+                unset($validated[$field]);
+            }
+        }
+
+        $registration->fill($validated);
+        $registration->save();
+
+        return back()->with('success', 'Your details have been updated.');
     }
 
-    protected function getBaseValidationRules($role = null)
+    /**
+     * Handle the resume dropzone upload (top resume-card form).
+     */
+    public function uploadResume(Request $request): RedirectResponse
     {
-        return [
-            'role'     => ['required', Rule::in(array_keys($this->fees))],
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone'    => ['nullable', 'string', 'max:20'],
-            'terms'    => ['accepted'],
+        $request->validate([
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:1024',
+        ]);
 
-            // Password is required from the form for every role except investor.
-            // Investors don't set a password here; it's generated after admin approval.
-            'password' => $role === 'investor'
-                ? ['nullable']
-                : ['required', 'string', 'min:8', 'confirmed'],
-        ];
+        $user = Auth::user();
+        $role = strtolower($user->role ?? '');
+
+        $path = $request->file('resume')->store('resumes', 'public');
+
+        $registration = $this->registrationFor($user, $role);
+
+        if ($registration) {
+            if ($registration->resume) {
+                Storage::disk('public')->delete($registration->resume);
+            }
+            $registration->update(['resume' => $path]);
+        } else {
+            // Fallback: store on the user record if no registration exists yet
+            $user->update(['resume' => $path]);
+        }
+
+        return back()->with('success', 'Resume uploaded successfully.');
     }
 
-    protected function getRoleValidationRules($role)
+    /**
+     * Handle avatar (profile photo) upload.
+     */
+    public function uploadAvatar(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'profile_photo' => 'required|image|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $role = strtolower($user->role ?? '');
+        $registration = $this->registrationFor($user, $role);
+
+        if (! $registration) {
+
+            $modelClass = $this->modelClassForRole($role);
+            if (! $modelClass) {
+                return back()->withErrors(['profile_photo' => 'We could not determine your account type.']);
+            }
+            $registration = new $modelClass();
+            $registration->user_id = $user->id;
+        }
+
+        if ($registration->profile_photo) {
+            Storage::disk('public')->delete($registration->profile_photo);
+        }
+
+        $path = $request->file('profile_photo')->store('avatars', 'public');
+        $registration->profile_photo = $path;
+        $registration->save();
+
+        return back()->with('success', 'Profile photo updated.');
+    }
+
+    /**
+     * Update the "Show to Corporates" / "Looking for Jobs" toggles.
+     */
+    public function updateToggles(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'show_to_corporates' => 'sometimes|boolean',
+            'looking_for_jobs' => 'sometimes|boolean',
+        ]);
+
+        Auth::user()->update([
+            'show_to_corporates' => $request->boolean('show_to_corporates'),
+            'looking_for_jobs' => $request->boolean('looking_for_jobs'),
+        ]);
+
+        return back()->with('success', 'Preferences updated.');
+    }
+
+    /**
+     * Resolve the user's role-specific registration model instance.
+     */
+    private function registrationFor($user, string $role)
     {
         return match ($role) {
+            'student' => $user->studentRegistration,
+            'employee' => $user->employeeRegistration,
+            'employer' => $user->employerRegistration,
+            'investor' => $user->investorRegistration,
+            'freelancer' => $user->freelancerRegistration,
+            'mentor' => $user->mentorRegistration,
+            default => null,
+        };
+    }
 
-            // ===========================
-            // STUDENT
-            // ===========================
-            'student' => [
+    /**
+     * Map a role to its Eloquent model class.
+     */
+    private function modelClassForRole(string $role): ?string
+    {
+        return match ($role) {
+            'student' => StudentRegistration::class,
+            'employee' => EmployeeRegistration::class,
+            'employer' => EmployerRegistration::class,
+            'investor' => InvestorRegistration::class,
+            'freelancer' => FreelancerRegistration::class,
+            'mentor' => MentorRegistration::class,
+            default => null,
+        };
+    }
 
-                'college_name'       => ['required', 'string', 'max:255'],
-                'university'         => ['required', 'string', 'max:255'],
-                'course'             => ['required', 'string', 'max:255'],
-                'year'               => ['required', 'string', 'max:50'],
-                'skills'             => ['nullable', 'string'],
-                'resume'             => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
-                'college_id_card'    => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
-                'interested_domain'  => ['nullable', 'string', 'max:255'],
-
-            ],
-
-            // ===========================
-            // EMPLOYEE
-            // ===========================
-            'employee' => [
-
-                'company_name'      => ['required', 'string', 'max:255'],
-                'designation'       => ['required', 'string', 'max:255'],
-                'experience_years'  => ['required', 'integer', 'min:0'],
-                'current_ctc'       => ['nullable', 'numeric', 'min:0'],
-                'expected_ctc'      => ['nullable', 'numeric', 'min:0'],
-                'skills'            => ['nullable', 'string'],
-                'resume'            => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
-                'linkedin'          => ['nullable', 'url', 'max:255'],
-                'experience_proof'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:3072'],
-
-            ],
-
-            // ===========================
-            // EMPLOYER
-            // ===========================
-            'employer' => [
-
-                'company_name'       => ['required', 'string', 'max:255'],
-                'gst_number'         => ['nullable', 'string', 'max:50'],
-                'pan_number'         => ['nullable', 'string', 'max:20'],
-                'company_address'    => ['required', 'string'],
-                'company_size'       => ['nullable', 'string', 'max:100'],
-                'industry'           => ['nullable', 'string', 'max:255'],
-                'website'            => ['nullable', 'url', 'max:255'],
-                'company_logo'       => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
-                'company_documents'  => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
-
-            ],
-
-            // ===========================
-            // FREELANCER
-            // ===========================
-            'freelancer' => [
-
-                'specialization' => ['required', 'string', 'max:255'],
-                'experience'     => ['required', 'integer', 'min:0'],
-                'hourly_rate'    => ['nullable', 'numeric', 'min:0'],
-                'portfolio_link' => ['nullable', 'url', 'max:255'],
-                'skills'         => ['nullable', 'string'],
-                'github'         => ['nullable', 'url', 'max:255'],
-                'linkedin'       => ['nullable', 'url', 'max:255'],
-                'availability'   => ['nullable', 'string', 'max:255'],
-
-            ],
-
-            // ===========================
-            // INVESTOR
-            // ===========================
-            'investor' => [
-
-                'organization'           => ['required', 'string', 'max:255'],
-                'investment_range'       => ['required', 'string', 'max:255'],
-                'preferred_sectors'      => ['required', 'string'],
-                'investment_stage'       => ['required', 'string', 'max:255'],
-                'linkedin'               => ['nullable', 'url', 'max:255'],
-                'website'                => ['nullable', 'url', 'max:255'],
-                'bio'                    => ['nullable', 'string'],
-                'verification_document'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
-
-            ],
-
-            // ===========================
-            // MENTOR
-            // ===========================
-            'mentor' => [
-
-                'company'              => ['required', 'string', 'max:255'],
-                'designation'          => ['required', 'string', 'max:255'],
-                'expertise'            => ['required', 'string'],
-                'years_of_experience'  => ['required', 'integer', 'min:0'],
-                'availability'         => ['nullable', 'string', 'max:255'],
-                'linkedin'             => ['nullable', 'url', 'max:255'],
-                'bio'                  => ['nullable', 'string'],
-                'resume'               => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
-
-            ],
-
+    /**
+     * File input names per role (used to store uploads separately from fill()).
+     */
+    private function fileFieldsForRole(string $role): array
+    {
+        return match ($role) {
+            'student' => ['college_id_card', 'resume'],
+            'employee' => ['resume', 'experience_proof'],
+            'employer' => ['company_logo', 'company_documents'],
+            'investor' => ['verification_document'],
+            'mentor' => ['resume'],
             default => [],
         };
     }
-    protected function storeRoleRegistration($role, $userId, Request $request, array $validated)
+
+    /**
+     * Validation rules per role, matching the fields in each
+     * profile.fields.{role} partial.
+     */
+    private function rulesForRole(string $role): array
     {
-        switch ($role) {
-
-            case 'student':
-
-                StudentRegistration::create([
-                    'user_id' => $userId,
-                    'college_name' => $validated['college_name'],
-                    'university' => $validated['university'],
-                    'course' => $validated['course'],
-                    'year' => $validated['year'],
-                    'skills' => $validated['skills'] ?? null,
-                    'resume' => $request->hasFile('resume')
-                        ? $request->file('resume')->store('students/resumes', 'public')
-                        : null,
-                    'college_id_card' => $request->hasFile('college_id_card')
-                        ? $request->file('college_id_card')->store('students/id_cards', 'public')
-                        : null,
-                    'interested_domain' => $validated['interested_domain'] ?? null,
-                ]);
-
-                break;
-
-            case 'employee':
-
-                EmployeeRegistration::create([
-                    'user_id' => $userId,
-                    'company_name' => $validated['company_name'],
-                    'designation' => $validated['designation'],
-                    'experience_years' => $validated['experience_years'],
-                    'current_ctc' => $validated['current_ctc'] ?? null,
-                    'expected_ctc' => $validated['expected_ctc'] ?? null,
-                    'skills' => $validated['skills'] ?? null,
-                    'resume' => $request->hasFile('resume')
-                        ? $request->file('resume')->store('employees/resumes', 'public')
-                        : null,
-                    'linkedin' => $validated['linkedin'] ?? null,
-                    'experience_proof' => $request->hasFile('experience_proof')
-                        ? $request->file('experience_proof')->store('employees/proofs', 'public')
-                        : null,
-                ]);
-
-                break;
-
-            case 'employer':
-
-                EmployerRegistration::create([
-                    'user_id' => $userId,
-                    'company_name' => $validated['company_name'],
-                    'gst_number' => $validated['gst_number'] ?? null,
-                    'pan_number' => $validated['pan_number'] ?? null,
-                    'company_address' => $validated['company_address'],
-                    'company_size' => $validated['company_size'] ?? null,
-                    'industry' => $validated['industry'] ?? null,
-                    'website' => $validated['website'] ?? null,
-                    'company_logo' => $request->hasFile('company_logo')
-                        ? $request->file('company_logo')->store('employers/logo', 'public')
-                        : null,
-                    'company_documents' => $request->hasFile('company_documents')
-                        ? $request->file('company_documents')->store('employers/documents', 'public')
-                        : null,
-                ]);
-
-                break;
-
-            case 'freelancer':
-
-                FreelancerRegistration::create([
-                    'user_id' => $userId,
-                    'specialization' => $validated['specialization'],
-                    'experience' => $validated['experience'],
-                    'hourly_rate' => $validated['hourly_rate'] ?? null,
-                    'portfolio_link' => $validated['portfolio_link'] ?? null,
-                    'skills' => $validated['skills'] ?? null,
-                    'github' => $validated['github'] ?? null,
-                    'linkedin' => $validated['linkedin'] ?? null,
-                    'availability' => $validated['availability'] ?? null,
-                ]);
-
-                break;
-
-            case 'investor':
-
-                InvestorRegistration::create([
-                    'user_id' => $userId,
-                    'organization' => $validated['organization'],
-                    'investment_range' => $validated['investment_range'],
-                    'preferred_sectors' => $validated['preferred_sectors'],
-                    'investment_stage' => $validated['investment_stage'],
-                    'linkedin' => $validated['linkedin'] ?? null,
-                    'website' => $validated['website'] ?? null,
-                    'bio' => $validated['bio'] ?? null,
-                    'verification_document' => $request->hasFile('verification_document')
-                        ? $request->file('verification_document')->store('investors/documents', 'public')
-                        : null,
-                ]);
-
-                break;
-
-            case 'mentor':
-
-                MentorRegistration::create([
-                    'user_id' => $userId,
-                    'company' => $validated['company'],
-                    'designation' => $validated['designation'],
-                    'expertise' => $validated['expertise'],
-                    'years_of_experience' => $validated['years_of_experience'],
-                    'availability' => $validated['availability'] ?? null,
-                    'linkedin' => $validated['linkedin'] ?? null,
-                    'bio' => $validated['bio'] ?? null,
-                    'resume' => $request->hasFile('resume')
-                        ? $request->file('resume')->store('mentors/resumes', 'public')
-                        : null,
-                ]);
-
-                break;
-        }
+        return match ($role) {
+            'student' => [
+                'college_name' => 'nullable|string|max:255',
+                'university' => 'nullable|string|max:255',
+                'course' => 'nullable|string|max:255',
+                'year' => 'nullable|string|max:50',
+                'interested_domain' => 'nullable|string|max:255',
+                'skills' => 'nullable|string|max:1000',
+                'college_id_card' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:1024',
+                'resume' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
+            ],
+            'employee' => [
+                'company_name' => 'nullable|string|max:255',
+                'designation' => 'nullable|string|max:255',
+                'experience_years' => 'nullable|integer|min:0',
+                'current_ctc' => 'nullable|numeric|min:0',
+                'expected_ctc' => 'nullable|numeric|min:0',
+                'linkedin' => 'nullable|url|max:255',
+                'skills' => 'nullable|string|max:1000',
+                'resume' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
+                'experience_proof' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:1024',
+            ],
+            'employer' => [
+                'company_name' => 'nullable|string|max:255',
+                'industry' => 'nullable|string|max:255',
+                'company_size' => 'nullable|string|max:50',
+                'gst_number' => 'nullable|string|max:50',
+                'pan_number' => 'nullable|string|max:50',
+                'website' => 'nullable|url|max:255',
+                'company_address' => 'nullable|string|max:2000',
+                'company_logo' => 'nullable|image|max:2048',
+                'company_documents' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:1024',
+            ],
+            'freelancer' => [
+                'specialization' => 'nullable|string|max:255',
+                'experience' => 'nullable|integer|min:0',
+                'hourly_rate' => 'nullable|numeric|min:0',
+                'availability' => 'nullable|string|max:50',
+                'portfolio_link' => 'nullable|url|max:255',
+                'github' => 'nullable|url|max:255',
+                'linkedin' => 'nullable|url|max:255',
+                'skills' => 'nullable|string|max:1000',
+            ],
+            'investor' => [
+                'organization' => 'nullable|string|max:255',
+                'investment_stage' => 'nullable|string|max:50',
+                'investment_range' => 'nullable|string|max:100',
+                'website' => 'nullable|url|max:255',
+                'linkedin' => 'nullable|url|max:255',
+                'verification_document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:1024',
+                'preferred_sectors' => 'nullable|string|max:1000',
+                'bio' => 'nullable|string|max:2000',
+            ],
+            'mentor' => [
+                'company' => 'nullable|string|max:255',
+                'designation' => 'nullable|string|max:255',
+                'years_of_experience' => 'nullable|integer|min:0',
+                'availability' => 'nullable|string|max:50',
+                'expertise' => 'nullable|string|max:1000',
+                'linkedin' => 'nullable|url|max:255',
+                'resume' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
+                'bio' => 'nullable|string|max:2000',
+            ],
+            default => [],
+        };
     }
-    public function showPayment(User $user)
-    {
-        $fee = $user->membership_fee;
 
-        // Safety net: if a free-role user somehow lands here, send them to
-        // the membership/login route instead of showing a ₹0 checkout screen.
-        if ($fee == 0) {
-            return redirect()->route('membership');
+    /**
+     * Simple profile-strength percentage based on how many
+     * user + registration fields are filled in.
+     */
+    private function calculateProfileStrength($user): int
+    {
+        $userFields = [$user->name, $user->email, $user->phone, $user->avatar, $user->language];
+        $filled = collect($userFields)->filter(fn($value) => ! empty($value))->count();
+        $total = count($userFields);
+
+        $role = strtolower($user->role ?? '');
+        $registration = $this->registrationFor($user, $role);
+
+        if ($registration) {
+            $regValues = collect($registration->getAttributes())
+                ->except(['id', 'user_id', 'created_at', 'updated_at']);
+
+            $filled += $regValues->filter(fn($value) => ! empty($value))->count();
+            $total += $regValues->count();
         }
 
-        return view('payment.show', [
-            'user' => $user,
-            'amount' => $fee, // in rupees; convert to paise (x100) for Razorpay
-            'razorpay_key' => config('services.razorpay.key'),
+        return $total > 0 ? (int) round(($filled / $total) * 100) : 0;
+    }
+    public function updateBasicInfo(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:20',
         ]);
+
+        $user->update($validated);
+
+        return back()->with('success', 'Your basic details have been updated.');
+    }
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user = Auth::user();
+
+        if (! Hash::check($request->current_password, $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => ['The current password you entered is incorrect.'],
+            ]);
+        }
+
+        if (Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => ['New password must be different from your current password.'],
+            ]);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back()->with('status', 'password-updated');
+    }
+    public function profile(Request $request)
+    {
+        $user = $request->user();
+        $role = strtolower($user->role ?? '');
+        $registration = $this->registrationFor($user, $role);
+
+        $profileStrength = $this->calculateProfileStrength($user);
+
+        $avatarImage = $registration && $registration->profile_photo
+            ? Storage::url($registration->profile_photo)
+            : null;
+        // dd($avatarImage);   
+        $coverImage = $registration && $registration->cover_photo
+            ? Storage::url($registration->cover_photo)
+            : null;
+
+        return view('profile.profile', compact('user', 'registration', 'profileStrength', 'avatarImage', 'coverImage'));
     }
 }
