@@ -23,6 +23,7 @@ class FreelancerRegistration extends Model
         'skills',
         'github',
         'linkedin',
+        'profile_photo',
         'availability',
     ];
 

@@ -24,6 +24,7 @@ class StudentRegistration extends Model
         'resume',
         'college_id_card',
         'interested_domain',
+        'profile_photo',
     ];
 
     /**

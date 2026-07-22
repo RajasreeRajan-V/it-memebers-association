@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class DashboardController extends Controller
 {
     public function index(Request $request)
@@ -34,4 +34,6 @@ class DashboardController extends Controller
     private function investorStats($user)   { return ['message' => 'Welcome investor!']; }
     private function mentorStats($user)     { return ['message' => 'Welcome mentor!']; }
     private function adminStats($user)      { return ['message' => 'Welcome admin!']; }
+
+    
 }
