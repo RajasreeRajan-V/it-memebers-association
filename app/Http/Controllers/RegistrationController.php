@@ -17,12 +17,12 @@ use App\Models\User;
 class RegistrationController extends Controller
 {
     protected array $fees = [
-        'student'     => 0,
-        'employee'    => 0,
-        'freelancer'  => 0,
-        'employer'    => 0,
+        'student'     => 500,
+        'employee'    => 1000,
+        'freelancer'  => 1500,
+        'employer'    => 5000,
         'investor'    => 10000,
-        'mentor'      => 0, // free
+        'mentor'      => 0, // free — skips payment, goes straight to membership route
     ];
 
     public function register()
@@ -87,7 +87,7 @@ class RegistrationController extends Controller
 
             DB::commit();
 
-            // Mentor Registration (Free)
+            // Free Roles (currently only Mentor) — skip payment entirely
             if ($fee == 0) {
 
                 return redirect()->route('membership')
@@ -97,7 +97,7 @@ class RegistrationController extends Controller
                     );
             }
 
-            // Paid Roles
+            // Paid Roles — Student, Employee, Freelancer, Employer, Investor
             return redirect()->route('payment.show', [
                 'user' => $user->id,
             ])->with('fee', $fee)->with('role', $role);
@@ -358,8 +358,10 @@ class RegistrationController extends Controller
     {
         $fee = $user->membership_fee;
 
+        // Safety net: if a free-role user somehow lands here, send them to
+        // the membership/login route instead of showing a ₹0 checkout screen.
         if ($fee == 0) {
-            return redirect()->route('registration.success');
+            return redirect()->route('membership');
         }
 
         return view('payment.show', [

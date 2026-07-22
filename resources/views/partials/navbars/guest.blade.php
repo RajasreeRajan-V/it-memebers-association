@@ -9,7 +9,7 @@
           <defs>
             <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
               <stop stop-color="#4F46E5"/>
-              <stop offset="1" stop-color="#14B8A6"/>
+              <stop offset="1" stop-color="#2080D4"/>
             </linearGradient>
           </defs>
         </svg>
@@ -299,7 +299,7 @@
   right: 0;
   bottom: -4px;
   height: 2px;
-  background: linear-gradient(135deg, #4F46E5, #14B8A6);
+  background: linear-gradient(135deg, #4F46E5, #2080D4);
   border-radius: 2px;
 }
   .header-actions {
