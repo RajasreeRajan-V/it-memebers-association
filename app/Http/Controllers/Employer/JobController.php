@@ -19,7 +19,7 @@ class JobController extends Controller
                 $query->where('status', $status);
             })
             ->latest()
-            ->paginate(10)
+            ->paginate(4)
             ->withQueryString();
 
         return view('employers.jobs.index', compact('jobs'));
@@ -30,15 +30,12 @@ class JobController extends Controller
         return view('employers.jobs.create');
     }
 
-    /**
-     * Store a newly created job.
-     * New jobs always start as "pending" — they only go live after admin approval.
-     */
     public function store(Request $request)
     {
         $data = $this->validateJob($request);
         $data['employer_id'] = Auth::id();
-        $data['status'] = 'pending';        // <-- was 'active', now waits for admin review
+        $data['status'] = 'pending';
+        $data['is_active'] = true;
         $data['rejection_reason'] = null;
 
         JobPost::create($data);
@@ -61,11 +58,6 @@ class JobController extends Controller
         return view('employers.jobs.edit', compact('job'));
     }
 
-    /**
-     * Update an existing job.
-     * If an employer edits a rejected/approved job, send it back to "pending"
-     * so admin reviews the new version before it goes live again.
-     */
     public function update(Request $request, JobPost $job)
     {
         $this->authorizeOwner($job);
@@ -78,6 +70,22 @@ class JobController extends Controller
 
         return redirect()->route('employer.jobs.index')
             ->with('success', 'Job updated and resubmitted for review.');
+    }
+
+    /**
+     * Toggle whether an employer's job listing is visible/active.
+     * Does not touch the admin approval "status" field.
+     */
+    public function toggleActive(JobPost $job)
+    {
+        $this->authorizeOwner($job);
+
+        $job->update(['is_active' => ! $job->is_active]);
+
+        return back()->with(
+            'success',
+            $job->is_active ? 'Job marked as active.' : 'Job marked as inactive.'
+        );
     }
 
     public function destroy(JobPost $job)

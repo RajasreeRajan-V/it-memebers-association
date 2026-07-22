@@ -2,16 +2,16 @@
 
 @section('content')
 
-<div class="job-form-wrapper">
+<div class="jobpost-wrapper">
 
-    <div class="job-form-header">
+    <div class="jobpost-header">
         <h1>Post a New Job</h1>
         <p>Fill in the details below to publish a job opening.</p>
     </div>
 
     @if ($errors->any())
-        <div class="alert alert-error">
-            <p class="alert-title">Please fix the following:</p>
+        <div class="jobpost-alert jobpost-alert-error">
+            <p class="jobpost-alert-title">Please fix the following:</p>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -20,13 +20,19 @@
         </div>
     @endif
 
-    <form action="{{ route('employer.jobs.store') }}" method="POST" class="job-form">
+    @if (session('success'))
+        <div class="jobpost-alert jobpost-alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <form action="{{ route('employer.jobs.store') }}" method="POST" class="jobpost-form">
         @csrf
         @include('employers.jobs._form')
 
-        <div class="form-actions">
-            <a href="{{ route('employer.jobs.index') }}" class="btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary">Publish Job</button>
+        <div class="jobpost-actions">
+            <a href="{{ route('employer.jobs.index') }}" class="jobpost-btn jobpost-btn-secondary">Cancel</a>
+            <button type="submit" class="jobpost-btn jobpost-btn-primary">Publish Job</button>
         </div>
     </form>
 </div>

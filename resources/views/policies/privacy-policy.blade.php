@@ -274,9 +274,7 @@ body{ background:var(--legal-bg); }
             <h2 id="cookies"><span class="num">8</span> Cookies</h2>
             <p>
                 We use cookies and similar technologies to keep you signed in, remember your
-                preferences, and understand how the platform is used. See our
-                <a href="{{ route('cookie-policy') }}">Cookie Policy</a> for details on the types of
-                cookies we use and how to manage them.
+                preferences, and understand how the platform is used.
             </p>
 
             <h2 id="children"><span class="num">9</span> Children's Privacy</h2>

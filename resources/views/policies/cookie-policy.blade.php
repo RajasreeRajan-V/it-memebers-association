@@ -201,7 +201,7 @@ body{ background:var(--legal-bg); }
 <!-- HERO -->
 <section class="legal-hero">
     <div class="container">
-        <span class="eyebrow">Legal</span>
+       
         <h1>Cookie Policy</h1>
         <p class="updated">Last updated: {{ now()->format('F j, Y') }}</p>
     </div>
@@ -228,8 +228,7 @@ body{ background:var(--legal-bg); }
             <p>
                 This Cookie Policy explains how Nexus Association ("Nexus," "we," "us," or "our")
                 uses cookies and similar technologies when you visit our platform, and how you can
-                manage your preferences. It should be read alongside our
-                <a href="{{ route('privacy-policy') }}">Privacy Policy</a>.
+                manage your preferences.
             </p>
 
             <h2 id="what-are-cookies"><span class="num">1</span> What Are Cookies</h2>
