@@ -22,6 +22,7 @@ class MentorRegistration extends Model
         'years_of_experience',
         'availability',
         'linkedin',
+        'profile_photo',
         'bio',
         'resume',
     ];

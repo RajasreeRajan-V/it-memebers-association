@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\CommonLoginController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\DashboardController;
 
@@ -33,4 +34,38 @@ Route::post('/do_registration', [RegistrationController::class, 'store'])->name(
 Route::get('/payment/{user}', [RegistrationController::class, 'showPayment'])->name('payment.show');
 Route::get('/payment/{user}/verify', [RegistrationController::class, 'verifyPayment'])->name('payment.verify');
 
-Route::middleware('auth')->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::middleware('member.auth')->get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::middleware('member.auth')->get('/profile', [ProfileController::class, 'profile'])->name('profile');
+
+Route::middleware('member.auth')->group(function () {
+ 
+    // GET /profile — shows the page in profile.profile (the view you shared)
+    Route::get('/profile-edit', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+ 
+    // PUT /profile/details — the "Save Changes" form inside #editProfileSection
+    Route::put('/profile/details', [ProfileController::class, 'updateDetails'])
+        ->name('profile.details.update');
+ 
+    // POST /profile/resume — the top resume-card "Upload Resume" form
+    Route::post('/profile/resume', [ProfileController::class, 'uploadResume'])
+        ->name('profile.resume.upload');
+ 
+    // POST /profile/avatar — the camera icon avatar upload
+    Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar'])
+        ->name('profile.avatar.upload');
+ 
+    // PATCH /profile/toggles — the "Show to Corporates" / "Looking for Jobs" switches
+    Route::patch('/profile/toggles', [ProfileController::class, 'updateToggles'])
+        ->name('profile.toggles.update');
+
+    Route::put('/profile/basic-info', [ProfileController::class, 'updateBasicInfo'])
+        ->name('profile.basic.update');
+
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
+     ->name('profile.password.update');
+
+    Route::post('/profile/picture', [ProfileController::class, 'uploadAvatar'])
+        ->name('profile.picture.upload');
+});

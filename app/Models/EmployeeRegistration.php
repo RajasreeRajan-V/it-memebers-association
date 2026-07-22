@@ -24,6 +24,7 @@ class EmployeeRegistration extends Model
         'skills',
         'resume',
         'linkedin',
+        'profile_photo', 
         'experience_proof',
     ];
 
