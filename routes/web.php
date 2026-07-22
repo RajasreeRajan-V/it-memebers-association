@@ -28,15 +28,10 @@ Route::get('/FAQs', function () {
     return view('home.FAQs');
 })->name('FAQs');
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
 
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
-
-
 
 
 
@@ -45,5 +40,5 @@ Route::view('/cookie-policy', 'policies.cookie-policy')->name('cookie.policy');
 Route::view('/terms-and-conditions', 'policies.terms-and-conditions')->name('terms.conditions');
 
 require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
+
 require __DIR__.'/employer.php';

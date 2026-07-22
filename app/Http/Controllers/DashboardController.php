@@ -8,6 +8,7 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use Illuminate\Support\Facades\Storage;
 class DashboardController extends Controller
 {
     public function index(Request $request)
@@ -116,4 +117,5 @@ class DashboardController extends Controller
     {
         return ['message' => 'Welcome admin!'];
     }
+    
 }

@@ -65,9 +65,19 @@
                                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" />
                             </svg>
                         </button>
-                        <a href="#" class="btn btn-secondary" id="membershipLoginBtn" data-login-trigger>
-                            <span>Login</span>
-                        </a>
+
+                        @guest
+                            <a href="#" class="btn btn-secondary" id="membershipLoginBtn" data-login-trigger>
+                                <span>Login</span>
+                            </a>
+                        @else
+                            <form method="POST" action="{{ route('member-logout') }}" style="margin:0;">
+                                @csrf
+                                <button type="submit" class="btn btn-secondary" id="membershipLogoutBtn">
+                                    <span>Sign Out</span>
+                                </button>
+                            </form>
+                        @endguest
                     </div>
                     <p class="membership-note">
                         <svg viewBox="0 0 24 24" width="14" height="14">

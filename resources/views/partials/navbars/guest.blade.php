@@ -18,13 +18,13 @@
     </a>
 
     <nav class="main-nav" aria-label="Primary">
-      <a href="{{ route('home') }}" style="color: white; font-weight: bold;">Home</a>
-      <a href="{{ route('about') }}" style="color: white; font-weight: bold">About</a>
-      <a href="{{ route('events') }}" style="color: white; font-weight: bold;">events</a>
-      <a href="{{ route('FAQs') }}" style="color: white; font-weight: bold;">FAQs</a>
-      <a href="{{ route('members') }}" style="color: white; font-weight: bold;">How to be a Member</a>
-      <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
-    </nav>
+  <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+  <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+  <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
+  <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
+  <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a Member</a>
+  <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+</nav>
 
     <div class="header-actions">
       <!-- Login button opens the modal -->
@@ -278,15 +278,30 @@
     align-items: center;
     gap: 24px;
   }
-  .main-nav a {
-    text-decoration: none;
-    font-weight: 600;
-    color: #2d3748;
-    transition: color 0.3s;
-  }
-  .main-nav a:hover {
-    color: #4A90D9;
-  }
+.main-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  transition: color 0.3s;
+  position: relative;
+  padding: 6px 2px;
+}
+.main-nav a:hover {
+  color: #ffffff;
+}
+.main-nav a.active {
+  color: #ffffff;
+}
+.main-nav a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: linear-gradient(135deg, #4F46E5, #14B8A6);
+  border-radius: 2px;
+}
   .header-actions {
     display: flex;
     align-items: center;
