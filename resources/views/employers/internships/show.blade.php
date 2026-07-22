@@ -1,106 +1,119 @@
+@extends('layouts.app')
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4>Internship Details</h4>
-                    <a href="{{ route('employer.internships.index') }}" class="btn btn-secondary">Back to List</a>
-                </div>
-                <div class="card-body">
-                    <h5>{{ $internship->title }}</h5>
-                    <hr>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Type:</strong> 
-                            <span class="badge bg-info">{{ ucfirst($internship->internship_type) }}</span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Work Mode:</strong> {{ ucfirst($internship->work_mode) }}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Duration:</strong> {{ $internship->duration }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Stipend:</strong> {{ $internship->stipend ?? 'Not specified' }}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Start Date:</strong> {{ $internship->start_date ? $internship->start_date->format('M d, Y') : 'Flexible' }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>End Date:</strong> {{ $internship->end_date ? $internship->end_date->format('M d, Y') : 'Flexible' }}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Positions:</strong> {{ $internship->positions }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>Qualification:</strong> {{ $internship->qualification ?? 'Not specified' }}
-                        </div>
-                    </div>
-                    
-                    @if($internship->skills)
-                    <div class="mb-3">
-                        <strong>Required Skills:</strong><br>
-                        @foreach($internship->skills as $skill)
-                            <span class="badge bg-primary me-1">{{ $skill }}</span>
-                        @endforeach
-                    </div>
-                    @endif
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>Country:</strong> {{ $internship->country ?? 'Not specified' }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>State:</strong> {{ $internship->state }}
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <strong>District:</strong> {{ $internship->district }}
-                        </div>
-                        <div class="col-md-6">
-                            <strong>City:</strong> {{ $internship->city }}
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Status:</strong>
-                        <span class="badge bg-{{ $internship->status == 'approved' ? 'success' : ($internship->status == 'pending' ? 'warning' : 'danger') }}">
-                            {{ ucfirst($internship->status) }}
-                        </span>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Description:</strong>
-                        <p>{{ $internship->description }}</p>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <strong>Posted:</strong> {{ $internship->created_at->format('M d, Y') }}
-                    </div>
-                    
-                    <div class="d-grid gap-2 d-md-flex">
-                        <a href="{{ route('employer.internships.edit', $internship->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('employer.internships.destroy', $internship->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this internship?')">Delete</button>
-                        </form>
-                    </div>
-                </div>
+@section('content')
+
+<div class="detail-wrapper">
+
+    <div class="detail-header">
+        <div>
+            <a href="{{ route('employer.internships.index') }}" class="back-link">&larr; Back to Internships</a>
+            <h1>{{ $internship->title }}</h1>
+            <span class="badge badge-{{ $internship->status == 'active' ? 'green' : 'gray' }}">{{ ucfirst($internship->status) }}</span>
+        </div>
+        <div class="detail-actions">
+            <a href="{{ route('employer.internships.edit', $internship) }}" class="btn btn-secondary">Edit</a>
+            <form action="{{ route('employer.internships.destroy', $internship) }}" method="POST"
+                  onsubmit="return confirm('Delete this internship? This cannot be undone.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <div class="detail-card">
+        <div class="detail-grid">
+            <div class="detail-item">
+                <span class="detail-label">Type</span>
+                <span class="detail-value">{{ ucfirst($internship->internship_type) }}</span>
             </div>
+            <div class="detail-item">
+                <span class="detail-label">Work Mode</span>
+                <span class="detail-value">{{ ucfirst($internship->work_mode) }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Duration</span>
+                <span class="detail-value">{{ $internship->duration }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Stipend</span>
+                <span class="detail-value">{{ $internship->stipend ?: '—' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Start &ndash; End Date</span>
+                <span class="detail-value">
+                    {{ optional($internship->start_date)->format('M d, Y') ?: '—' }}
+                    &ndash;
+                    {{ optional($internship->end_date)->format('M d, Y') ?: '—' }}
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Positions</span>
+                <span class="detail-value">{{ $internship->positions ?: 1 }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Qualification</span>
+                <span class="detail-value">{{ $internship->qualification ?: '—' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">{{ collect([$internship->city, $internship->district, $internship->state, $internship->country])->filter()->implode(', ') }}</span>
+            </div>
+        </div>
+
+        @if ($internship->skills)
+    <div class="detail-section">
+        <span class="detail-label">Required Skills</span>
+
+        <div class="skill-tags">
+            @foreach ($internship->skills as $skill)
+                <span class="skill-tag">{{ trim($skill) }}</span>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+        <div class="detail-section">
+            <span class="detail-label">Description</span>
+            <p class="detail-description">{{ $internship->description }}</p>
+        </div>
+
+        <div class="detail-footer">
+            Posted on {{ $internship->created_at->format('M d, Y') }}
         </div>
     </div>
 </div>
+
+<style>
+    .detail-wrapper { max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: #1f2937; }
+    .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .back-link { font-size: 0.82rem; color: #6b7280; text-decoration: none; display: inline-block; margin-bottom: 8px; }
+    .back-link:hover { color: #4f46e5; }
+    .detail-header h1 { font-size: 1.6rem; font-weight: 600; margin: 0 8px 0 0; display: inline; color: #111827; }
+    .detail-actions { display: flex; gap: 10px; }
+    .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; font-size: 0.9rem; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; vertical-align: middle; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-gray { background: #f3f4f6; color: #6b7280; }
+    .detail-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 32px; }
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .detail-item { display: flex; flex-direction: column; gap: 4px; }
+    .detail-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: #9ca3af; }
+    .detail-value { font-size: 0.95rem; color: #111827; }
+    .detail-section { margin-bottom: 24px; padding-top: 20px; border-top: 1px solid #f3f4f6; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .skill-tag { background: #eef2ff; color: #4338ca; font-size: 0.8rem; padding: 4px 12px; border-radius: 999px; }
+    .detail-description { font-size: 0.9rem; line-height: 1.6; color: #374151; margin-top: 8px; white-space: pre-line; }
+    .detail-footer { font-size: 0.8rem; color: #9ca3af; padding-top: 16px; border-top: 1px solid #f3f4f6; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 0.85rem; font-weight: 500; padding: 8px 16px; cursor: pointer; border: none; text-decoration: none; }
+    .btn-secondary { background: transparent; color: #4b5563; border: 1px solid #d1d5db; }
+    .btn-secondary:hover { background: #f3f4f6; }
+    .btn-danger { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .btn-danger:hover { background: #fee2e2; }
+</style>
+
+@endsection

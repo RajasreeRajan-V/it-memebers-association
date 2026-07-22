@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\Storage;
 
 class StartupProfileController extends Controller
 {
-    /**
-     * Show the employer's startup profile, or send them to create one.
-     */
+    public function index()
+    {
+        $profile = StartupProfile::where('employer_id', Auth::id())->first();
+
+        if (!$profile) {
+            return redirect()->route('employer.startup-profile.create');
+        }
+
+        return view('employers.startup-profile.index', compact('profile'));
+    }
+
     public function show()
     {
         $profile = StartupProfile::where('employer_id', Auth::id())->first();
@@ -24,15 +32,10 @@ class StartupProfileController extends Controller
         return view('employers.startup-profile.show', compact('profile'));
     }
 
-    public function create()
-    {
-        // Already has a profile? send them to edit instead.
-        if (StartupProfile::where('employer_id', Auth::id())->exists()) {
-            return redirect()->route('employer.startup-profile.edit');
-        }
-
-        return view('employers.startup-profile.create');
-    }
+  public function create()
+{
+    return view('employers.startup-profile.create');
+}
 
     public function store(Request $request)
     {
@@ -51,7 +54,7 @@ class StartupProfileController extends Controller
         StartupProfile::create($validated);
 
         return redirect()
-            ->route('employer.startup-profile.show')
+            ->route('employer.startup-profile.index')
             ->with('success', 'Startup profile submitted successfully and is awaiting admin approval.');
     }
 
@@ -82,15 +85,33 @@ class StartupProfileController extends Controller
             $validated['pitch_summary_path'] = $request->file('pitch_summary')->store('pitch-summaries', 'public');
         }
 
-        // Any edit sends it back for re-approval
         $validated['status'] = 'pending';
         $validated['rejection_reason'] = null;
 
         $profile->update($validated);
 
         return redirect()
-            ->route('employer.startup-profile.show')
+            ->route('employer.startup-profile.index')
             ->with('success', 'Startup profile updated successfully and is awaiting admin approval.');
+    }
+
+    public function destroy()
+    {
+        $profile = StartupProfile::where('employer_id', Auth::id())->firstOrFail();
+
+        if ($profile->logo_path) {
+            Storage::disk('public')->delete($profile->logo_path);
+        }
+
+        if ($profile->pitch_summary_path) {
+            Storage::disk('public')->delete($profile->pitch_summary_path);
+        }
+
+        $profile->delete();
+
+        return redirect()
+            ->route('employer.startup-profile.create')
+            ->with('success', 'Startup profile deleted.');
     }
 
     private function validateProfile(Request $request): array
@@ -99,6 +120,7 @@ class StartupProfileController extends Controller
             'startup_name'          => ['required', 'string', 'max:255'],
             'logo'                  => ['nullable', 'image', 'max:2048'],
             'team_size'             => ['nullable', 'string', 'max:100'],
+            'country'               => ['nullable', 'string', 'max:100'],
             'state'                 => ['nullable', 'string', 'max:100'],
             'district'              => ['nullable', 'string', 'max:100'],
             'city'                  => ['nullable', 'string', 'max:100'],

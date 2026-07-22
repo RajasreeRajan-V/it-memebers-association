@@ -15,6 +15,7 @@ class StartupProfile extends Model
         'startup_name',
         'logo_path',
         'team_size',
+        'country',
         'state',
         'district',
         'city',
