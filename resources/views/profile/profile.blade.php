@@ -10,9 +10,6 @@
 
     @php
         $user = Auth::user();
-        $profileStrength = $profileStrength ?? 3;
-        $coverImage = $user->cover_image ?? null;
-        $avatarImage = $user->avatar ?? null;
 
         // Get role-specific registration
         $role = strtolower($user->role ?? '');

@@ -70,21 +70,30 @@
 /* ===== Profile Hero ===== */
 .profile-hero {
     min-height: 200px;
-    background: var(--bg-dark) linear-gradient(135deg, #33404f, #1c2431);
-    background-size: cover;
-    background-position: center;
+    background: var(--bg-dark);
     position: relative;
+    overflow: hidden;
 }
 
-.profile-hero::before {
+.profile-cover {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+}
+
+.profile-cover::before {
     content: '';
     position: absolute;
     inset: 0;
     background: rgba(15, 23, 42, 0.5);
+    z-index: 1;
 }
 
 .profile-hero-inner {
     position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -158,6 +167,7 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+    margin-bottom: 8px; /* small gap after the buttons */
 }
 
 /* ===== Info Bar ===== */
@@ -169,7 +179,7 @@
 .profile-info-inner {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
     flex-wrap: wrap;
     padding: 16px 0;
 }
@@ -198,6 +208,23 @@
 
 .info-strength {
     min-width: 200px;
+}
+
+.info-grid {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+    /* allows truncation to work inside flex */
+}
+
+.info-value-truncate {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .strength-low {
@@ -597,9 +624,10 @@ textarea.form-control {
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-    .profile-hero-inner {
-        flex-direction: column;
-        text-align: center;
+    .profile-info-inner {
+        justify-content: center;
+        gap: 16px;
+        padding: 20px 16px;   /* was 16px 0 — now has left/right breathing room */
     }
 
     .profile-identity {
@@ -611,8 +639,24 @@ textarea.form-control {
         gap: 16px;
     }
 
+     .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px 16px;
+        width: 100%;
+        padding: 0 4px;       /* tiny extra inset so text isn't flush to the grid edge */
+    }
+    .info-item {
+        min-width: 0;
+    }
+    .info-value-truncate {
+        max-width: 100%;
+    }
+    .info-password {
+        grid-column: 1 / -1; /* password gets its own full-width row */
+    }
     .info-edit-btn {
-        margin: 0 auto;
+            margin: 4px auto 0;
     }
 
     .profile-header {
@@ -637,8 +681,31 @@ textarea.form-control {
     .form-grid {
         grid-template-columns: 1fr;
     }
-}
+    .profile-hero-inner {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 28px; /* extra space below the button row before hero ends */
+    }
 
+    .profile-hero-actions {
+        margin-top: 4px;
+        margin-bottom: 12px;
+        justify-content: center;
+        width: 100%;
+    }
+}
+@media (max-width: 400px) {
+    .info-grid {
+        grid-template-columns: 1fr; /* single column on very small phones */
+    }
+
+    .info-password {
+        grid-column: auto;
+    }
+    .container {
+        padding: 0 16px;
+    }
+}
 /* ===== Edit Basic Info / Change Password Modals ===== */
 .modal-overlay {
     position: fixed;

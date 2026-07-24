@@ -334,5 +334,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeChangePasswordModal();
             }
         });
+
+        // Re-open modal after a redirect-back with password validation errors,
+        // and focus the field that actually failed.
+        if (window.reopenChangePasswordModal) {
+            openChangePasswordModal();
+
+            const currentPasswordError = document.getElementById('currentPasswordError');
+            const newPasswordError = document.getElementById('newPasswordError');
+
+            if (currentPasswordError && currentPasswordError.textContent.trim()) {
+                document.getElementById('current_password').focus();
+            } else if (newPasswordError && newPasswordError.textContent.trim()) {
+                document.getElementById('new_password').focus();
+            }
+        }
     }
 });
