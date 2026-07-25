@@ -66,6 +66,9 @@ Route::middleware('member.auth')->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
      ->name('profile.password.update');
 
+    Route::post('/profile/password/verify-current', [ProfileController::class, 'verifyCurrentPassword'])
+        ->name('profile.password.verify-current');
+
     Route::post('/profile/picture', [ProfileController::class, 'uploadAvatar'])
         ->name('profile.picture.upload');
 });
