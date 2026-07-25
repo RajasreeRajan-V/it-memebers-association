@@ -1,5 +1,7 @@
 <!-- Updated Site Header -->
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <header class="site-header">
     <div class="container header-inner">
         <a href="#" class="logo">
@@ -10,7 +12,7 @@
                     <defs>
                         <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#4F46E5" />
-                            <stop offset="1" stop-color="#14B8A6" />
+                            <stop offset="1" stop-color="#2080D4" />
                         </linearGradient>
                     </defs>
                 </svg>
@@ -20,12 +22,12 @@
 
         <nav class="main-nav" aria-label="Primary">
             <nav class="main-nav" aria-label="Primary">
-                <a href="{{ route('dashboard') }}" style="color: white; font-weight: bold;">
+                <a href="{{ route('dashboard') }}" style="color: white; font-weight: ;">
                     Home
                 </a>
 
                 <div class="dropdown">
-                    <a href="" style="color: white; font-weight: bold;">
+                    <a href="" style="color: white; font-weight: ;">
                         Job Management
                     </a>
 
@@ -46,7 +48,7 @@
             </nav>
 
             <div class="dropdown">
-                <a href="#" style="color: white; font-weight: bold;">
+                <a href="{{ route('dashboard') }}" style="color: white; font-weight: ;">
                     Internship Programs
                 </a>
 
@@ -65,7 +67,7 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <a href="#" style="color: white; font-weight: bold;">
+                <a href="{{ route('dashboard') }}" style="color: white; font-weight: ;">
                     Projects
                 </a>
 
@@ -84,7 +86,7 @@
                 </ul>
             </div>
             <div class="dropdown">
-                <a href="#" style="color: white; font-weight: bold;">
+                <a href="{{ route('dashboard') }}" style="color: white; font-weight: ;">
                     Startup Profile
                 </a>
 
@@ -102,7 +104,7 @@
                     </li>
                 </ul>
             </div>
-            <a href="{{ route('contact') }}" style="color: white; font-weight: bold;">Contact</a>
+
         </nav>
 
         <div class="header-actions">
@@ -165,7 +167,7 @@
 
 .nav-link {
     color: white;
-    font-weight: bold;
+    font-weight: yy;
     text-decoration: none;
 }
 
@@ -178,6 +180,22 @@
     color: white;
     font-weight: bold;
     text-decoration: none;
+}
+
+
+/* Dropdown button text color */
+.dropdown > a {
+    color: #000000 !important;
+}
+
+/* Dropdown menu text */
+.dropdown-menu li a {
+    color: #000000 !important;
+}
+
+/* Hover effect */
+.dropdown > a:hover {
+    color: #f0f2f4 !important;
 }
 
 .dropdown-menu {
@@ -226,11 +244,15 @@
     display: block;
 }
 
+/* Navigation Font Style */
 .main-nav a {
-    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
     font-weight: 600;
-    color: #2d3748;
-    transition: color 0.3s;
+    letter-spacing: 0.2px;
+    color: #ffffff !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .main-nav a:hover {

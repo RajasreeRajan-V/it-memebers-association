@@ -9,7 +9,7 @@
           <defs>
             <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
               <stop stop-color="#4F46E5"/>
-              <stop offset="1" stop-color="#14B8A6"/>
+              <stop offset="1" stop-color="#2080D4"/>
             </linearGradient>
           </defs>
         </svg>
@@ -57,7 +57,7 @@
             <svg viewBox="0 0 24 24" width="40" height="40">
               <path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z" fill="white" stroke="none"/>
             </svg>
-            <span>Premium</span>
+            <span></span>
           </div>
           <h2>Welcome Back</h2>
           <p class="branding-subtitle">Sign in to continue your professional journey and unlock exclusive opportunities.</p>
@@ -93,7 +93,7 @@
             </div>
           </div>
 
-          <div class="branding-testimonial">
+          <!-- <div class="branding-testimonial">
             <div class="testimonial-avatars">
               <img src="https://ui-avatars.com/api/?name=John+Doe&background=4A90D9&color=fff&size=28" alt="User">
               <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=2ECC71&color=fff&size=28" alt="User">
@@ -102,7 +102,7 @@
             </div>
             <p class="testimonial-text">"Joining this community transformed my career."</p>
             <p class="testimonial-author">— Alex Rivera</p>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -299,7 +299,7 @@
   right: 0;
   bottom: -4px;
   height: 2px;
-  background: linear-gradient(135deg, #4F46E5, #14B8A6);
+  background: linear-gradient(135deg, #4F46E5, #2080D4);
   border-radius: 2px;
 }
   .header-actions {

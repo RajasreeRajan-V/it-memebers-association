@@ -22,6 +22,8 @@ Route::middleware(['auth'])
         Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
         Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
         Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+      Route::patch('/jobs/{job}/toggle-active', [JobController::class, 'toggleActive'])
+    ->name('jobs.toggle-active');
 
         // ---- Internship Routes ----
         Route::get('/internships', [InternshipController::class, 'index'])->name('internships.index');

@@ -20,8 +20,9 @@
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title...">
         <select name="status">
             <option value="">All Statuses</option>
-            <option value="active" @selected(request('status') == 'active')>Active</option>
-            <option value="closed" @selected(request('status') == 'closed')>Closed</option>
+            <option value="pending" @selected(request('status') == 'pending')>Pending</option>
+            <option value="approved" @selected(request('status') == 'approved')>Approved</option>
+            <option value="rejected" @selected(request('status') == 'rejected')>Rejected</option>
         </select>
         <button type="submit" class="btn btn-secondary">Filter</button>
     </form>
@@ -34,6 +35,7 @@
                     <th>Type</th>
                     <th>Location</th>
                     <th>Status</th>
+                    <th>Visibility</th>
                     <th>Posted</th>
                     <th class="text-right">Actions</th>
                 </tr>
@@ -45,14 +47,28 @@
                         <td>{{ ucfirst(str_replace('-', ' ', $job->employment_type)) }}</td>
                         <td>{{ $job->city }}, {{ $job->state }}</td>
                         <td>
-                            <span class="badge badge-{{ $job->status == 'active' ? 'green' : 'gray' }}">
+                            <span class="badge badge-{{ $job->status == 'approved' ? 'green' : ($job->status == 'rejected' ? 'red' : 'gray') }}">
                                 {{ ucfirst($job->status) }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge badge-{{ $job->is_active ? 'green' : 'gray' }}">
+                                {{ $job->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
                         <td>{{ $job->created_at->format('M d, Y') }}</td>
                         <td class="text-right actions-cell">
                             <a href="{{ route('employer.jobs.show', $job) }}" class="action-link">View</a>
                             <a href="{{ route('employer.jobs.edit', $job) }}" class="action-link">Edit</a>
+
+                            <form action="{{ route('employer.jobs.toggle-active', $job) }}" method="POST" class="inline-form">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="action-link {{ $job->is_active ? 'action-danger' : 'action-success' }}">
+                                    {{ $job->is_active ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </form>
+
                             <form action="{{ route('employer.jobs.destroy', $job) }}" method="POST" class="inline-form"
                                   onsubmit="return confirm('Delete this job? This cannot be undone.');">
                                 @csrf
@@ -63,7 +79,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="empty-state">No jobs posted yet. Click "Post a Job" to get started.</td>
+                        <td colspan="7" class="empty-state">No jobs posted yet. Click "Post a Job" to get started.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -94,11 +110,13 @@
     .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
     .badge-green { background: #dcfce7; color: #166534; }
     .badge-gray { background: #f3f4f6; color: #6b7280; }
+    .badge-red { background: #fef2f2; color: #dc2626; }
     .text-right { text-align: right; }
     .actions-cell { white-space: nowrap; }
     .action-link { color: #4f46e5; text-decoration: none; font-weight: 500; margin-left: 14px; font-size: 0.83rem; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
     .action-link:hover { text-decoration: underline; }
     .action-danger { color: #dc2626; }
+    .action-success { color: #059669; }
     .inline-form { display: inline; }
     .empty-state { text-align: center; padding: 40px 16px; color: #9ca3af; }
     .pagination-wrap { margin-top: 20px; }

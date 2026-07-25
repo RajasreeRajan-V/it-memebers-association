@@ -27,6 +27,7 @@ class JobPost extends Model
         'qualification',
         'description',
         'status',
+        'is_active',
         'rejection_reason',
         'expires_at',
     ];
@@ -34,6 +35,7 @@ class JobPost extends Model
     protected $casts = [
         'skills'     => 'array',
         'expires_at' => 'datetime',
+        'is_active'  => 'boolean',
     ];
 
     public function employer()
@@ -44,7 +46,7 @@ class JobPost extends Model
     // Convenience scopes
     public function scopeActive($query)
     {
-        return $query->where('status', 'approved');
+        return $query->where('status', 'approved')->where('is_active', true);
     }
 
     public function scopePending($query)

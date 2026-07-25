@@ -174,7 +174,7 @@ body{ background:var(--legal-bg); }
 <!-- HERO -->
 <section class="legal-hero">
     <div class="container">
-        <span class="eyebrow">Legal</span>
+       
         <h1>Terms of Service</h1>
         <p class="updated">Last updated: {{ now()->format('F j, Y') }}</p>
     </div>
@@ -213,7 +213,7 @@ body{ background:var(--legal-bg); }
             <h2 id="acceptance"><span class="num">1</span> Acceptance of Terms</h2>
             <p>
                 By registering for an account, you confirm that you have read, understood, and
-                agree to these Terms and our <a href="{{ route('privacy-policy') }}">Privacy Policy</a>.
+                agree to these Terms and our Privacy Policy
                 We may update these Terms from time to time, and continued use of the platform after
                 changes take effect constitutes your acceptance of the revised Terms.
             </p>
