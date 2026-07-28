@@ -838,3 +838,13 @@ textarea.form-control {
 .modal-btn-cancel:hover {
     background: #e2e8f0;
 }
+.field-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #2563eb;
+    text-decoration: none;
+}
+.field-link:hover {
+    text-decoration: underline;
+}

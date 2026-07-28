@@ -61,7 +61,13 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
-        $this->profileService->updatePassword($request);
+        try {
+            $this->profileService->updatePassword($request);
+        } catch (ValidationException $e) {
+            return back()
+                ->withErrors($e->errors(), $e->errorBag)
+                ->withInput($request->only(['password', 'password_confirmation']));
+        }
 
         return back()->with('status', 'password-updated');
     }

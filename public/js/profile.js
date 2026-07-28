@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     // ---------- Validation helpers ----------
     function showFieldError(el, message) {
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const avatarForm = document.getElementById('avatarForm');
 
     if (avatarInput && avatarForm) {
-        avatarInput.addEventListener('change', function(e) {
+        avatarInput.addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (avatarError) avatarError.textContent = '';
             if (!file) return;
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        dropzone.addEventListener('drop', function(e) {
+        dropzone.addEventListener('drop', function (e) {
             const files = e.dataTransfer.files;
             if (files && files.length) {
                 resumeInput.files = files;
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        resumeInput.addEventListener('change', function() {
+        resumeInput.addEventListener('change', function () {
             if (this.files && this.files.length) {
                 fileNameLabel.textContent = this.files[0].name;
                 dropzone.classList.remove('is-invalid');
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (resumeForm) {
-        resumeForm.addEventListener('submit', function(e) {
+        resumeForm.addEventListener('submit', function (e) {
             let valid = true;
             const allowedExt = ['pdf', 'docx', 'doc'];
             const maxSize = 1 * 1024 * 1024; // 1MB
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const editSection = document.getElementById('editProfileSection');
 
     if (editBtn && editSection) {
-        editBtn.addEventListener('click', function() {
+        editBtn.addEventListener('click', function () {
             editSection.hidden = false;
             editSection.scrollIntoView({
                 behavior: 'smooth',
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ---------- Basic info form validation ----------
     const basicInfoForm = document.getElementById('basicInfoForm');
     if (basicInfoForm) {
-        basicInfoForm.addEventListener('submit', function(e) {
+        basicInfoForm.addEventListener('submit', function (e) {
             let valid = true;
             const nameInput = document.getElementById('modal_name');
             const emailInput = document.getElementById('modal_email');
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ---------- Change password form validation ----------
     const changePasswordForm = document.getElementById('changePasswordForm');
     if (changePasswordForm) {
-        changePasswordForm.addEventListener('submit', function(e) {
+        changePasswordForm.addEventListener('submit', function (e) {
             let valid = true;
             const currentInput = document.getElementById('current_password');
             const newInput = document.getElementById('new_password');
@@ -220,11 +220,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // `pattern="..."` to those inputs to plug them into this check.
     const profileDetailsForm = document.getElementById('profileDetailsForm');
     if (profileDetailsForm) {
-        profileDetailsForm.addEventListener('submit', function(e) {
+        profileDetailsForm.addEventListener('submit', function (e) {
             let valid = true;
             let firstInvalid = null;
 
-            profileDetailsForm.querySelectorAll('input, select, textarea').forEach(function(input) {
+            profileDetailsForm.querySelectorAll('input, select, textarea').forEach(function (input) {
                 const wrapper = input.closest('.form-group') || input.parentElement;
                 let errorEl = wrapper.querySelector('.field-error');
                 if (!errorEl) {
@@ -294,11 +294,11 @@ document.addEventListener('DOMContentLoaded', function() {
         basicInfoModalClose.addEventListener('click', closeBasicInfoModal);
         basicInfoModalCancel.addEventListener('click', closeBasicInfoModal);
 
-        basicInfoModalOverlay.addEventListener('click', function(e) {
+        basicInfoModalOverlay.addEventListener('click', function (e) {
             if (e.target === basicInfoModalOverlay) closeBasicInfoModal();
         });
 
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && !basicInfoModalOverlay.hidden) {
                 closeBasicInfoModal();
             }
@@ -315,9 +315,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e) e.preventDefault();
         changePasswordModalOverlay.hidden = false;
     }
+    function clearChangePasswordForm() {
+        if (!changePasswordForm) return;
+
+        changePasswordForm.querySelectorAll('input[type="password"]').forEach(function (input) {
+            input.value = '';
+            clearFieldError(input);
+        });
+
+        const confirmError = document.getElementById('confirmPasswordError');
+        if (confirmError) confirmError.textContent = '';
+    }
 
     function closeChangePasswordModal() {
         changePasswordModalOverlay.hidden = true;
+        clearChangePasswordForm();
     }
 
     if (changePasswordBtn && changePasswordModalOverlay) {
@@ -325,11 +337,11 @@ document.addEventListener('DOMContentLoaded', function() {
         changePasswordModalClose.addEventListener('click', closeChangePasswordModal);
         changePasswordModalCancel.addEventListener('click', closeChangePasswordModal);
 
-        changePasswordModalOverlay.addEventListener('click', function(e) {
+        changePasswordModalOverlay.addEventListener('click', function (e) {
             if (e.target === changePasswordModalOverlay) closeChangePasswordModal();
         });
 
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && !changePasswordModalOverlay.hidden) {
                 closeChangePasswordModal();
             }
