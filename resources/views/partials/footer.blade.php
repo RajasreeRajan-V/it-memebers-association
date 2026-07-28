@@ -44,12 +44,12 @@
     </div>
     <div>
         <h4>Portals</h4>
-        <a href="#portals">Student</a>
-        <a href="#portals">Employer</a>
-        <a href="#portals">Freelancer</a>
-        <a href="#portals">Mentor</a>
-        <a href="#portals">Employee</a>
-        <a href="#portals">Investor</a>
+        <a href="{{ route('membership') }}">Student</a>
+        <a href="{{ route('membership') }}">Employer</a>
+        <a href="{{ route('membership') }}">Freelancer</a>
+        <a href="{{ route('membership') }}">Mentor</a>
+        <a href="{{ route('membership') }}">Employee</a>
+        <a href="{{ route('membership') }}">Investor</a>
     </div>
 </div>
 

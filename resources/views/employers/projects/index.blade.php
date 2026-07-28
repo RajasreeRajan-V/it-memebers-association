@@ -20,8 +20,8 @@
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title...">
         <select name="status">
             <option value="">All Statuses</option>
-            <option value="open" @selected(request('status') == 'open')>Open</option>
-            <option value="closed" @selected(request('status') == 'closed')>Closed</option>
+            <option value="active" @selected(request('status') == 'active')>Active</option>
+            <option value="deactive" @selected(request('status') == 'deactive')>Deactive</option>
         </select>
         <button type="submit" class="btn btn-secondary">Filter</button>
     </form>
@@ -46,13 +46,20 @@
                         <td>{{ $project->duration }}</td>
                         <td>{{ $project->city }}, {{ $project->state }}</td>
                         <td>
-                            <span class="badge badge-{{ $project->status == 'open' ? 'green' : 'gray' }}">
+                            <span class="badge badge-{{ $project->status == 'active' ? 'green' : 'gray' }}">
                                 {{ ucfirst($project->status) }}
                             </span>
                         </td>
                         <td class="text-right actions-cell">
                             <a href="{{ route('employer.projects.show', $project) }}" class="action-link">View</a>
                             <a href="{{ route('employer.projects.edit', $project) }}" class="action-link">Edit</a>
+                            <form action="{{ route('employer.projects.toggle-status', $project) }}" method="POST" class="inline-form">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="action-link">
+                                    {{ $project->status === 'active' ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </form>
                             <form action="{{ route('employer.projects.destroy', $project) }}" method="POST" class="inline-form"
                                   onsubmit="return confirm('Delete this project? This cannot be undone.');">
                                 @csrf

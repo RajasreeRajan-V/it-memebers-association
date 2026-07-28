@@ -42,7 +42,7 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg,  var(--secondary));
     color: #fff;
 }
 

@@ -339,7 +339,7 @@
         <h2>Ready to find your portal?</h2>
         <p>Join thousands already hiring, learning, freelancing and investing on SkillConnect.</p>
         <div class="hero-actions" style="justify-content: center;">
-            <a href="#portals" class="btn btn-primary btn-lg">Get Started</a>
+            <a href="{{ route('membership') }}" class="btn btn-primary btn-lg">Get Started</a>
             <a href="{{ route('contact') }}" class="btn btn-outline btn-lg">Contact Us</a>
         </div>
     </div>

@@ -38,5 +38,6 @@
 </div>
 
 @include('employers.jobs._styles')
+@include('employers.jobs._scripts')
 
 @endsection

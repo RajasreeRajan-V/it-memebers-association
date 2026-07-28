@@ -77,26 +77,78 @@ class InternshipController extends Controller
             ->with('success', 'Internship deleted successfully.');
     }
 
-    private function validateInternship(Request $request): array
+    public function toggleStatus(Internship $internship)
     {
-        return $request->validate([
-            'title'            => ['required', 'string', 'max:255'],
-            'internship_type'  => ['required', 'in:paid,unpaid,stipend'],
-            'work_mode'        => ['required', 'in:onsite,hybrid,remote'],
-            'duration'         => ['required', 'string', 'max:100'],
-            'stipend'          => ['nullable', 'string', 'max:100'],
-            'start_date'       => ['nullable', 'date'],
-            'end_date'         => ['nullable', 'date', 'after:start_date'],
-            'positions'        => ['nullable', 'integer', 'min:1'],
-            'qualification'    => ['nullable', 'string', 'max:255'],
-            'skills'           => ['nullable', 'string', 'max:500'],
-            'country'          => ['nullable', 'string', 'max:100'],
-            'state'            => ['required', 'string', 'max:100'],
-            'district'         => ['required', 'string', 'max:100'],
-            'city'             => ['required', 'string', 'max:100'],
-            'description'      => ['required', 'string'],
-        ]);
+        $this->authorizeOwner($internship);
+
+        $internship->status = $internship->status === 'active' ? 'deactive' : 'active';
+        $internship->save();
+
+        $message = $internship->status === 'active'
+            ? 'Internship activated successfully.'
+            : 'Internship deactivated successfully.';
+
+        return redirect()->route('employer.internships.index')
+            ->with('success', $message);
     }
+
+private function validateInternship(Request $request): array
+{
+    return $request->validate([
+        'title' => [
+            'required', 'string', 'max:255',
+            'regex:/^[A-Za-z0-9\s\-\&\(\)\.,]+$/',
+        ],
+        'internship_type' => ['required', 'in:paid,unpaid,stipend'],
+        'work_mode'       => ['required', 'in:onsite,hybrid,remote'],
+        'duration' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z0-9\s\-]+$/',
+        ],
+        'stipend' => [
+            'nullable', 'string', 'max:100',
+            'regex:/^[0-9₹$,\.\-\s\/]+$/',
+        ],
+        'start_date' => ['nullable', 'date'],
+        'end_date'   => ['nullable', 'date', 'after:start_date'],
+        'positions'  => ['nullable', 'integer', 'min:1'],
+        'qualification' => [
+            'nullable', 'string', 'max:255',
+            'regex:/^[A-Za-z0-9\s,\.\-\(\)\&]+$/',
+        ],
+        'skills' => [
+            'nullable', 'string', 'max:500',
+            'regex:/^[A-Za-z0-9\s,\.\-\+#\/]+$/',
+        ],
+        'country' => [
+            'nullable', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+        'state' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+        'district' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+        'city' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+        'description' => ['required', 'string', 'max:5000'],
+    ], [
+        'title.regex'         => 'Title can only contain letters, numbers, and & ( ) . , -',
+        'duration.regex'      => 'Duration can only contain letters, numbers, and -',
+        'stipend.regex'       => 'Stipend can only contain numbers and ₹ $ , . - /  (no letters).',
+        'qualification.regex' => 'Qualification can only contain letters, numbers, and , . - ( ) &',
+        'skills.regex'        => 'Skills can only contain letters, numbers, and , . - + # /',
+        'country.regex'       => 'Country can only contain letters.',
+        'state.regex'         => 'State can only contain letters.',
+        'district.regex'      => 'District can only contain letters.',
+        'city.regex'          => 'City can only contain letters.',
+    ]);
+}
 
     private function authorizeOwner(Internship $internship): void
     {

@@ -92,16 +92,20 @@
     </div>
 </div>
 
-
-
 <div class="form-group-custom">
-    <label>Work Mode</label>
-
-    <select id="work_mode" name="work_mode" class="form-control-custom">
-        <option value="remote">Remote</option>
-        <option value="onsite">On-site</option>
-        <option value="hybrid">Hybrid</option>
+    <label for="work_mode" class="form-label-icon">
+        <i class="fas fa-map-marker-alt"></i>
+        Work Mode <span class="required">*</span>
+    </label>
+    <select class="form-control-custom @error('work_mode') is-invalid @enderror"
+            id="work_mode" name="work_mode" required>
+        @foreach (['remote' => 'Remote', 'onsite' => 'On-site', 'hybrid' => 'Hybrid'] as $value => $label)
+            <option value="{{ $value }}" @selected(old('work_mode', $project->work_mode ?? 'remote') == $value)>
+                {{ $label }}
+            </option>
+        @endforeach
     </select>
+    @error('work_mode') <div class="invalid-feedback">{{ $message }}</div> @enderror
 </div>
 
 <div id="locationFields">

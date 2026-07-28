@@ -26,6 +26,7 @@ Route::middleware(['auth'])
     ->name('jobs.toggle-active');
 
         // ---- Internship Routes ----
+     // ---- Internship Routes ----
         Route::get('/internships', [InternshipController::class, 'index'])->name('internships.index');
         Route::get('/internships/create', [InternshipController::class, 'create'])->name('internships.create');
         Route::post('/internships', [InternshipController::class, 'store'])->name('internships.store');
@@ -33,15 +34,20 @@ Route::middleware(['auth'])
         Route::get('/internships/{internship}/edit', [InternshipController::class, 'edit'])->name('internships.edit');
         Route::put('/internships/{internship}', [InternshipController::class, 'update'])->name('internships.update');
         Route::delete('/internships/{internship}', [InternshipController::class, 'destroy'])->name('internships.destroy');
+        Route::patch('/internships/{internship}/toggle-status', [InternshipController::class, 'toggleStatus'])
+            ->name('internships.toggle-status');
 
         // ---- Project Routes ----
-        Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-        Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-        Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-        Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-        Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
-        Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+        // ---- Project Routes ----
+Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+Route::patch('/projects/{project}/toggle-status', [ProjectController::class, 'toggleStatus'])
+    ->name('projects.toggle-status');
 
 
 
