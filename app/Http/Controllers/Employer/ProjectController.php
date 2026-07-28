@@ -30,17 +30,17 @@ class ProjectController extends Controller
         return view('employers.projects.create');
     }
 
-   public function store(Request $request)
-{
-    $data = $this->validateProject($request);
-    $data['employer_id'] = Auth::id();
-    $data['status'] = 'pending';
+    public function store(Request $request)
+    {
+        $data = $this->validateProject($request);
+        $data['employer_id'] = Auth::id();
+        $data['status'] = 'active';
 
-    Project::create($data);
+        Project::create($data);
 
-    return redirect()->route('employer.projects.index')
-        ->with('success', 'Project posted successfully.');
-}
+        return redirect()->route('employer.projects.index')
+            ->with('success', 'Project posted successfully.');
+    }
 
     public function show(Project $project)
     {
@@ -77,22 +77,90 @@ class ProjectController extends Controller
             ->with('success', 'Project deleted successfully.');
     }
 
+    public function toggleStatus(Project $project)
+    {
+        $this->authorizeOwner($project);
+
+        $project->status = $project->status === 'active' ? 'deactive' : 'active';
+        $project->save();
+
+        $message = $project->status === 'active'
+            ? 'Project activated successfully.'
+            : 'Project deactivated successfully.';
+
+        return redirect()->route('employer.projects.index')
+            ->with('success', $message);
+    }
+
     private function validateProject(Request $request): array
     {
         return $request->validate([
-            'title'             => ['required', 'string', 'max:255'],
-            'project_type'      => ['required', 'in:fixed,hourly'],
-            'budget'            => ['required', 'string', 'max:100'],
-            'duration'          => ['required', 'string', 'max:100'],
-            'experience_level'  => ['nullable', 'in:entry,intermediate,expert'],
-            'skills'            => ['nullable', 'string', 'max:500'],
-            'deadline'          => ['nullable', 'date'],
-            'work_mode'         => ['required', 'in:remote,onsite,hybrid'],
-            'country'           => ['nullable', 'string', 'max:100'],
-            'state'             => ['required', 'string', 'max:100'],
-            'district'          => ['required', 'string', 'max:100'],
-            'city'              => ['required', 'string', 'max:100'],
-            'description'       => ['required', 'string'],
+            // Alphabets + Numbers + Special characters
+            'title' => [
+                'required', 'string', 'max:255',
+                'regex:/^[A-Za-z0-9\s\-&().,]+$/',
+            ],
+
+            'project_type' => ['required', 'in:fixed,hourly'],
+
+            // Numbers + currency symbols only (no letters)
+            'budget' => [
+                'required', 'string', 'max:100',
+                'regex:/^[0-9₹$,.\-\s\/]+$/',
+            ],
+
+            // Alphabets + Numbers + Hyphen
+            'duration' => [
+                'required', 'string', 'max:100',
+                'regex:/^[A-Za-z0-9\s-]+$/',
+            ],
+
+            'experience_level' => ['nullable', 'in:entry,intermediate,expert'],
+
+            // Alphabets + Numbers + Special characters
+            'skills' => [
+                'nullable', 'string', 'max:500',
+                'regex:/^[A-Za-z0-9\s,.\-+#\/]+$/',
+            ],
+
+            'deadline'  => ['nullable', 'date'],
+            'work_mode' => ['required', 'in:remote,onsite,hybrid'],
+
+            // Alphabets only
+            'country' => [
+                'nullable', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
+
+            // Alphabets only
+            'state' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
+
+            // Alphabets only
+            'district' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
+
+            // Alphabets only
+            'city' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
+
+            // Any characters
+            'description' => ['required', 'string', 'max:5000'],
+        ], [
+            'title.regex'    => 'Title can only contain letters, numbers, and & ( ) . , -',
+            'budget.regex'   => 'Budget can only contain numbers and ₹ $ , . - / (no letters).',
+            'duration.regex' => 'Duration can only contain letters, numbers, and -',
+            'skills.regex'   => 'Skills can only contain letters, numbers, and , . - + # /',
+            'country.regex'  => 'Country can only contain letters.',
+            'state.regex'    => 'State can only contain letters.',
+            'district.regex' => 'District can only contain letters.',
+            'city.regex'     => 'City can only contain letters.',
         ]);
     }
 

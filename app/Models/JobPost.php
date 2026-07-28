@@ -44,13 +44,25 @@ class JobPost extends Model
     }
 
     // Convenience scopes
+
+    /**
+     * Jobs visible to employees — only checks is_active = 1.
+     */
     public function scopeActive($query)
     {
-        return $query->where('status', 'approved')->where('is_active', true);
+        return $query->where('is_active', true);
     }
 
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
+    }
+
+    /**
+     * Jobs posted by a specific employer (used on the employer dashboard).
+     */
+    public function scopeByEmployer($query, $employerId)
+    {
+        return $query->where('employer_id', $employerId);
     }
 }

@@ -1,0 +1,485 @@
+EMPLOYEE DASHBOARD
+┌─────────────────────────────────────────────────────────────┐
+│                    EMPLOYEE DASHBOARD                       │
+├─────────────────────────────────────────────────────────────┤
+│ 1. View Jobs                                                │
+│ 2. View Side Projects                                       │
+│ 3. Post Technical Articles                                  │
+│ 4. Request Legal Help                                       │
+│ 5. Register for Training & Workshops                        │
+│ 6. Report Workplace Issues                                  │
+│ 7. Notifications                                            │
+│ 8. Profile & Resume                                         │
+└─────────────────────────────────────────────────────────────┘
+1. VIEW JOBS
+Employee
+
+↓
+
+Open Jobs
+
+↓
+
+Browse Jobs
+
+↓
+
+Apply Filters
+
+Location
+Salary
+Experience
+Company
+Job Type
+Skills
+
+↓
+
+Open Job Details
+
+↓
+
+View
+
+Company
+Description
+Skills Required
+Salary
+Benefits
+Deadline
+
+↓
+
+Click Apply
+
+↓
+
+Resume Selection
+
+↓
+
+Submit Application
+
+↓
+
+Employer Receives Application
+
+↓
+
+Application Status
+
+Applied
+Under Review
+Shortlisted
+Interview
+Selected
+Rejected
+2. VIEW SIDE PROJECTS
+
+Employee
+
+↓
+
+Open Side Projects
+
+↓
+
+Browse Available Projects
+
+↓
+
+Filter
+
+Remote
+Paid
+Technology
+Duration
+
+↓
+
+Open Project Details
+
+↓
+
+View
+
+Project Description
+Required Skills
+Budget
+Timeline
+
+↓
+
+Click Apply
+
+↓
+
+Send Proposal
+
+↓
+
+Employer Reviews
+
+↓
+
+Accepted
+
+↓
+
+Join Project
+
+↓
+
+Work Completion
+
+↓
+
+Payment
+
+↓
+
+Project Completed
+
+3. POST TECHNICAL ARTICLES
+
+Employee
+
+↓
+
+Open Articles
+
+↓
+
+Click
+
+Write Article
+
+↓
+
+Enter
+
+Title
+Category
+Cover Image
+Tags
+Content
+References
+
+↓
+
+Preview
+
+↓
+
+Submit
+
+↓
+
+Admin Review
+
+↓
+
+Approved
+
+↓
+
+Published
+
+↓
+
+Readers
+
+Like
+Comment
+Share
+Bookmark
+
+↓
+
+Employee Dashboard Shows
+
+Total Articles
+Views
+Likes
+Comments
+4. REQUEST LEGAL HELP
+
+Employee
+
+↓
+
+Open Legal Support
+
+↓
+
+Click
+
+Request Help
+
+↓
+
+Choose Issue Type
+
+Salary Issue
+Termination
+Harassment
+Contract
+Notice Period
+PF
+Labour Law
+Other
+
+↓
+
+Describe Issue
+
+↓
+
+Upload Documents
+
+Offer Letter
+Payslip
+Agreement
+Evidence
+
+↓
+
+Submit Request
+
+↓
+
+Admin Assigns Legal Expert
+
+↓
+
+Legal Expert Reviews
+
+↓
+
+Discussion
+
+↓
+
+Advice Provided
+
+↓
+
+Issue Closed
+
+↓
+
+Feedback
+
+5. REGISTER FOR TRAINING / WORKSHOP
+
+Employee
+
+↓
+
+Open Training
+
+↓
+
+Browse Programs
+
+↓
+
+View Details
+
+Trainer
+Date
+Duration
+Certificate
+Fees
+
+↓
+
+Click Register
+
+↓
+
+Payment (If Paid)
+
+↓
+
+Registration Successful
+
+↓
+
+Receive Confirmation
+
+↓
+
+Attend Workshop
+
+↓
+
+Complete Training
+
+↓
+
+Receive Certificate
+
+↓
+
+Certificate Added to Profile
+
+6. REPORT WORKPLACE ISSUE
+
+Employee
+
+↓
+
+Open Workplace Support
+
+↓
+
+Click
+
+Report Issue
+
+↓
+
+Choose Category
+
+Harassment
+Discrimination
+Safety
+Salary Delay
+Policy Violation
+Toxic Environment
+Other
+
+↓
+
+Describe Incident
+
+↓
+
+Upload Evidence
+
+↓
+
+Choose
+
+Anonymous Report
+
+OR
+
+Normal Report
+
+↓
+
+Submit
+
+↓
+
+Admin Receives Report
+
+↓
+
+Investigation
+
+↓
+
+Status Updates
+
+Submitted
+Under Investigation
+In Progress
+Resolved
+Closed
+
+↓
+
+Employee Gives Feedback
+
+NOTIFICATIONS
+
+Employee receives notifications for:
+
+New Job Matches
+Side Project Invitations
+Interview Schedule
+Application Updates
+Training Announcements
+Legal Case Updates
+Workplace Issue Status
+Article Comments & Likes
+Membership Renewal
+PROFILE & RESUME
+
+Employee can manage:
+
+Personal Information
+Name
+Email
+Phone
+Address
+Professional Details
+Skills
+Experience
+Current Company
+Designation
+Expected Salary
+Resume
+Portfolio
+GitHub
+LinkedIn
+Website
+Certificates
+Upload Certificates
+Training Certificates
+Employment
+Work History
+Current Employment
+Documents
+Resume
+ID Proof
+Experience Certificates
+COMPLETE EMPLOYEE FLOW
+Registration
+      │
+      ▼
+Membership Payment
+      │
+      ▼
+Admin Verification
+      │
+      ▼
+Employee Dashboard
+      │
+      ├────────► View Jobs
+      │             │
+      │             ▼
+      │        Apply Job
+      │             │
+      │             ▼
+      │      Interview Process
+      │
+      ├────────► View Side Projects
+      │             │
+      │             ▼
+      │      Apply Project
+      │
+      ├────────► Write Technical Articles
+      │             │
+      │             ▼
+      │      Admin Approval
+      │
+      ├────────► Request Legal Help
+      │             │
+      │             ▼
+      │      Legal Expert Support
+      │
+      ├────────► Register Training
+      │             │
+      │             ▼
+      │      Certificate
+      │
+      ├────────► Report Workplace Issue
+      │             │
+      │             ▼
+      │      Investigation
+      │
+      └────────► Manage Profile & Resume

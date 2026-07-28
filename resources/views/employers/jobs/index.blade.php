@@ -19,10 +19,9 @@
     <form method="GET" class="listing-filters">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title...">
         <select name="status">
-            <option value="">All Statuses</option>
-            <option value="pending" @selected(request('status') == 'pending')>Pending</option>
-            <option value="approved" @selected(request('status') == 'approved')>Approved</option>
-            <option value="rejected" @selected(request('status') == 'rejected')>Rejected</option>
+            <option value="">All</option>
+            <option value="active" @selected(request('status') == 'active')>Active</option>
+            <option value="inactive" @selected(request('status') == 'inactive')>Inactive</option>
         </select>
         <button type="submit" class="btn btn-secondary">Filter</button>
     </form>
@@ -34,7 +33,6 @@
                     <th>Title</th>
                     <th>Type</th>
                     <th>Location</th>
-                    <th>Status</th>
                     <th>Visibility</th>
                     <th>Posted</th>
                     <th class="text-right">Actions</th>
@@ -46,11 +44,6 @@
                         <td class="cell-title">{{ $job->title }}</td>
                         <td>{{ ucfirst(str_replace('-', ' ', $job->employment_type)) }}</td>
                         <td>{{ $job->city }}, {{ $job->state }}</td>
-                        <td>
-                            <span class="badge badge-{{ $job->status == 'approved' ? 'green' : ($job->status == 'rejected' ? 'red' : 'gray') }}">
-                                {{ ucfirst($job->status) }}
-                            </span>
-                        </td>
                         <td>
                             <span class="badge badge-{{ $job->is_active ? 'green' : 'gray' }}">
                                 {{ $job->is_active ? 'Active' : 'Inactive' }}
@@ -79,7 +72,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7" class="empty-state">No jobs posted yet. Click "Post a Job" to get started.</td>
+                        <td colspan="6" class="empty-state">No jobs posted yet. Click "Post a Job" to get started.</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -110,7 +103,6 @@
     .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
     .badge-green { background: #dcfce7; color: #166534; }
     .badge-gray { background: #f3f4f6; color: #6b7280; }
-    .badge-red { background: #fef2f2; color: #dc2626; }
     .text-right { text-align: right; }
     .actions-cell { white-space: nowrap; }
     .action-link { color: #4f46e5; text-decoration: none; font-weight: 500; margin-left: 14px; font-size: 0.83rem; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }

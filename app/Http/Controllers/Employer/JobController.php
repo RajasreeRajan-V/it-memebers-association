@@ -15,9 +15,6 @@ class JobController extends Controller
             ->when($request->search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%");
             })
-            ->when($request->status, function ($query, $status) {
-                $query->where('status', $status);
-            })
             ->latest()
             ->paginate(4)
             ->withQueryString();
@@ -34,14 +31,12 @@ class JobController extends Controller
     {
         $data = $this->validateJob($request);
         $data['employer_id'] = Auth::id();
-        $data['status'] = 'pending';
         $data['is_active'] = true;
-        $data['rejection_reason'] = null;
 
         JobPost::create($data);
 
         return redirect()->route('employer.jobs.index')
-            ->with('success', 'Job submitted for review. You will be notified once it is approved.');
+            ->with('success', 'Job posted successfully.');
     }
 
     public function show(JobPost $job)
@@ -63,18 +58,15 @@ class JobController extends Controller
         $this->authorizeOwner($job);
 
         $data = $this->validateJob($request);
-        $data['status'] = 'pending';
-        $data['rejection_reason'] = null;
 
         $job->update($data);
 
         return redirect()->route('employer.jobs.index')
-            ->with('success', 'Job updated and resubmitted for review.');
+            ->with('success', 'Job updated successfully.');
     }
 
     /**
      * Toggle whether an employer's job listing is visible/active.
-     * Does not touch the admin approval "status" field.
      */
     public function toggleActive(JobPost $job)
     {
@@ -99,22 +91,79 @@ class JobController extends Controller
     }
 
     private function validateJob(Request $request): array
-    {
-        return $request->validate([
-            'title'            => ['required', 'string', 'max:255'],
-            'employment_type'  => ['required', 'in:full-time,part-time,contract,freelance'],
-            'work_mode'        => ['required', 'in:onsite,hybrid,remote'],
-            'experience'       => ['nullable', 'string', 'max:100'],
-            'salary'           => ['nullable', 'string', 'max:100'],
-            'qualification'    => ['nullable', 'string', 'max:255'],
-            'skills'           => ['nullable', 'string', 'max:500'],
-            'country'          => ['nullable', 'string', 'max:100'],
-            'state'            => ['required', 'string', 'max:100'],
-            'district'         => ['required', 'string', 'max:100'],
-            'city'             => ['required', 'string', 'max:100'],
-            'description'      => ['required', 'string'],
-        ]);
-    }
+{
+    return $request->validate([
+        // Alphabets + Numbers + Special characters
+        'title' => [
+            'required', 'string', 'max:255',
+            'regex:/^[A-Za-z0-9\s\-&().,]+$/',
+        ],
+
+        'employment_type' => ['required', 'in:full-time,part-time,contract,freelance'],
+        'work_mode'       => ['required', 'in:onsite,hybrid,remote'],
+
+        // Alphabets + Numbers + Hyphen
+        'experience' => [
+            'nullable', 'string', 'max:100',
+            'regex:/^[A-Za-z0-9\s-]+$/',
+        ],
+
+        // Numbers + salary symbols only (no letters)
+        'salary' => [
+            'nullable', 'string', 'max:100',
+            'regex:/^[0-9₹$,.\-\s\/]+$/',
+        ],
+
+        // Alphabets + Numbers + Special characters
+        'qualification' => [
+            'nullable', 'string', 'max:255',
+            'regex:/^[A-Za-z0-9\s,.\-()&]+$/',
+        ],
+
+        // Alphabets + Numbers + Special characters
+        'skills' => [
+            'nullable', 'string', 'max:500',
+            'regex:/^[A-Za-z0-9\s,.\-+#\/]+$/',
+        ],
+
+        // Alphabets only
+        'country' => [
+            'nullable', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+
+        // Alphabets only
+        'state' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+
+        // Alphabets only
+        'district' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+
+        // Alphabets only
+        'city' => [
+            'required', 'string', 'max:100',
+            'regex:/^[A-Za-z\s]+$/',
+        ],
+
+        // Any characters
+        'description' => ['required', 'string', 'max:5000'],
+    ], [
+        'title.regex'         => 'Title can only contain letters, numbers, and & ( ) . , -',
+        'experience.regex'    => 'Experience can only contain letters, numbers, and -',
+        'salary.regex'        => 'Salary can only contain numbers and ₹ $ , . - / (no letters).',
+        'qualification.regex' => 'Qualification can only contain letters, numbers, and , . - ( ) &',
+        'skills.regex'        => 'Skills can only contain letters, numbers, and , . - + # /',
+        'country.regex'       => 'Country can only contain letters.',
+        'state.regex'         => 'State can only contain letters.',
+        'district.regex'      => 'District can only contain letters.',
+        'city.regex'          => 'City can only contain letters.',
+    ]);
+}
 
     private function authorizeOwner(JobPost $job): void
     {

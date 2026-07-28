@@ -14,6 +14,17 @@
                 <div class="alert-custom alert-success-custom">{{ session('success') }}</div>
             @endif
 
+            @if ($errors->any())
+                <div class="alert-custom alert-danger-custom">
+                    <strong>Please fix the following errors:</strong>
+                    <ul style="margin-bottom: 0;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ route('employer.projects.store') }}" method="POST" id="projectForm">
                 @csrf
                 @include('employers.projects._form')
@@ -31,25 +42,6 @@
     </div>
 </div>
 
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const workMode = document.getElementById('work_mode');
-    const locationFields = document.getElementById('locationFields');
-
-    function toggleLocation() {
-        if (workMode.value === 'onsite' || workMode.value === 'hybrid') {
-            locationFields.style.display = 'block';
-        } else {
-            locationFields.style.display = 'none';
-        }
-    }
-
-    workMode.addEventListener('change', toggleLocation);
-
-    toggleLocation();
-});
-</script>
+@include('employers.projects._scripts')
 
 @endsection

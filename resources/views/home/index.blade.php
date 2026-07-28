@@ -25,243 +25,141 @@
 
             <div class="hero-actions">
                 <a href="#portals" class="btn btn-primary btn-lg">Get Started</a>
-                <a href="#how-it-works" class="btn btn-outline btn-lg">How It Works</a>
-            </div>
-
-            <div class="hero-stats">
+                <a href="{{ route('about') }}" class="btn btn-primary btn-lg">About Us</a>
 
             </div>
         </div>
 
-        <div class="hero-visual reveal reveal-delay-1">
+        <div class="hero-visual hero-visual-plain reveal reveal-delay-1">
             <!-- <div class="hero-blob"></div> -->
-            <div class="hero-dots"></div>
-            <div class="hero-card">
-                <img src="{{ asset('assets/img/hero-team.png') }}" alt="About SkillConnect">
+
+
+            <img class="hero-plain-img" src="{{ asset('assets/img/hero-team.png') }}" alt="About SkillConnect">
+
+            <div class="hero-float-chip hero-float-chip-brand">
+                <span class="hero-float-chip-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke-linejoin="round" />
+                    </svg>
+                </span>
+                <div class="hero-float-chip-text">
+                    <strong>SkillConnect</strong>
+                    <span>Connect &amp; Grow</span>
+                </div>
             </div>
 </section>
 
-
-
-<!-- Stats -->
-<!-- <section class="home-stats-section">
+<!-- Hero Stats Bar -->
+<section class="home-stats-bar-section">
     <div class="container">
-        <div class="home-stats-grid home-stats-grid-cards">
+        <div class="home-stats-bar reveal">
 
-            <div class="home-stat-card reveal">
-                <div class="home-stat-card-icon home-stat-icon-indigo">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
-                        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" />
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="9" cy="8" r="3.2" />
+                        <path d="M2.5 20c0-3.8 2.9-6.2 6.5-6.2s6.5 2.4 6.5 6.2" />
+                        <path d="M16 8.2a3.2 3.2 0 1 1 3.6 3.17" />
+                        <path d="M15.5 13.9c2.9.3 5 2.5 5 6.1" />
                     </svg>
                 </div>
-                <div class="home-stat-card-body">
-                    <span class="home-stat-number" data-count="50000">0</span><span class="home-stat-plus"></span>
-                    <p>Active Users</p>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="100000">0</span><span
+                        class="home-stats-bar-plus">+</span>
+                    <p>Members</p>
                 </div>
             </div>
 
-            <div class="home-stat-card reveal reveal-delay-1">
-                <div class="home-stat-card-icon home-stat-icon-blue">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 21V13h6v8" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" stroke-linecap="round"
                             stroke-linejoin="round" />
                     </svg>
                 </div>
-                <div class="home-stat-card-body">
-                    <span class="home-stat-number" data-count="12000">0</span><span class="home-stat-plus"></span>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="10000">0</span><span
+                        class="home-stats-bar-plus">+</span>
                     <p>Jobs Posted</p>
                 </div>
             </div>
 
-            <div class="home-stat-card reveal reveal-delay-2">
-                <div class="home-stat-card-icon home-stat-icon-cyan">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
-                        <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <div class="home-stat-card-body">
-                    <span class="home-stat-number" data-count="3200">0</span><span class="home-stat-plus"></span>
-                    <p>Courses Available</p>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="5000">0</span><span
+                        class="home-stats-bar-plus">+</span>
+                    <p>Freelance Projects</p>
                 </div>
             </div>
 
-            <div class="home-stat-card reveal reveal-delay-3">
-                <div class="home-stat-card-icon home-stat-icon-pink">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke-linejoin="round" />
+                        <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" stroke-linecap="round" />
+                        <path d="M22 8v6" stroke-linecap="round" />
                     </svg>
                 </div>
-                <div class="home-stat-card-body">
-                    <span class="home-stat-number" data-count="850">0</span><span class="home-stat-plus"></span>
-                    <p>Startups Funded</p>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="3000">0</span><span
+                        class="home-stats-bar-plus">+</span>
+                    <p>Mentors</p>
                 </div>
             </div>
 
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M9 21V13h6v8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="1500">0</span><span
+                        class="home-stats-bar-plus">+</span>
+                    <p>Startups</p>
+                </div>
+            </div>
+
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path
+                            d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"
+                            stroke-linecap="round" />
+                        <circle cx="12" cy="12" r="3.2" />
+                    </svg>
+                </div>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="500">0</span><span
+                        class="home-stats-bar-plus">+</span>
+                    <p>Investors</p>
+                </div>
+            </div>
+
+            <div class="home-stats-bar-item">
+                <div class="home-stats-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M12 2 3 6v6c0 5 4 8 9 10 5-2 9-5 9-10V6l-9-4Z" stroke-linejoin="round" />
+                        <path d="m8.5 12 2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <div class="home-stats-bar-body">
+                    <span class="home-stats-bar-number" data-count="95">0</span><span
+                        class="home-stats-bar-plus">%</span>
+                    <p>Hiring Success</p>
+                </div>
+            </div>
         </div>
-    </div>
-</section> -->
-
-
-
-<!-- How It Works -->
-<!-- <section class="hiw" id="how-it-works">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>How It Works</h2>
-        </div>
-
-        <div class="hiw-track">
-
-            <div class="hiw-step">
-                <div class="hiw-circle">
-                    <span>01</span>
-                </div>
-
-                <div class="hiw-content">
-                    <h3>Create Profile</h3>
-                    <p>Sign up and complete your profile.</p>
-                </div>
-            </div>
-
-            <div class="hiw-line"></div>
-
-            <div class="hiw-step">
-                <div class="hiw-circle">
-                    <span>02</span>
-                </div>
-
-                <div class="hiw-content">
-                    <h3>Explore Opportunities</h3>
-                    <p>Browse jobs, projects and mentors.</p>
-                </div>
-            </div>
-
-            <div class="hiw-line"></div>
-
-            <div class="hiw-step">
-                <div class="hiw-circle">
-                    <span>03</span>
-                </div>
-
-                <div class="hiw-content">
-                    <h3>Achieve Goals</h3>
-                    <p>Apply, learn and grow.</p>
-                </div>
-            </div>
-
-        </div>
-
-
-    </div>
-</section> -->
-
-
-
-
-
-<section class="future-section">
-    <div class="container future-wrapper">
-
-        <!-- Left Images -->
-
-        <div class="future-images">
-
-            <div class="shape-bg"></div>
-
-            <div class="image-box main-image">
-                <img src="{{ asset('assets/img/build.png') }}" alt="">
-            </div>
-
-            <!-- <div class="image-box small-image">
-                <img src="{{ asset('assets/img/team2.png') }}" alt="">
-            </div> -->
-
-            <div class="stats-card">
-
-                <div class="stats-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-
-                <div>
-                    <h3>200k +</h3>
-                    <p>Link Up Here More</p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Right Content -->
-
-        <div class="future-content">
-
-            <span class="section-tag">
-                Building The Future
-            </span>
-
-
-            <h2 class=".future-content h2">Building The Future With</h2>
-            <h2 class=".future-content h2">Cutting-Edge IT Solutions</h2>
-
-
-            <p>
-                At our company, we believe in technology that drives
-                innovation and transforms businesses for tomorrow.
-            </p>
-
-            <div class="feature-grid">
-
-                <div class="feature-item">
-                    ✔ Smart Team Solutions
-                </div>
-
-                <div class="feature-item">
-                    ✔ Digital Transformation
-                </div>
-
-                <div class="feature-item">
-                    ✔ Trusted IT Support
-                </div>
-
-                <div class="feature-item">
-                    ✔ Engine Services
-                </div>
-
-                <div class="feature-item">
-                    ✔ Security Protection
-                </div>
-
-                <div class="feature-item">
-                    ✔ Certified Experts
-                </div>
-
-            </div>
-
-            <div class="future-buttons">
-
-                <a href="{{ route('membership') }}" class="btn-primary">
-                    Discover More
-                </a>
-
-
-
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    </div>
 </section>
 
 
@@ -271,9 +169,6 @@
 
 
 
-
-
-<!-- Portals -->
 <!-- ===== Portal Slider ===== -->
 <section class="portals" id="portals">
     <div class="container">
@@ -309,7 +204,7 @@
                         <div class="portal-body">
                             <h3>Employer Portal</h3>
                             <p>Post jobs, screen applicants, and build your team.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -328,7 +223,7 @@
                         <div class="portal-body">
                             <h3>Employee Portal</h3>
                             <p>Find jobs, build skills, and grow your career.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -348,7 +243,7 @@
                         <div class="portal-body">
                             <h3>Student Portal</h3>
                             <p>Find internships, courses and scholarships.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -371,7 +266,7 @@
                         <div class="portal-body">
                             <h3>Freelancer Portal</h3>
                             <p>Bid on projects, showcase work, and get paid.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -391,7 +286,7 @@
                         <div class="portal-body">
                             <h3>Investor Portal</h3>
                             <p>Discover startups and back new ideas early.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -412,7 +307,7 @@
                         <div class="portal-body">
                             <h3>Mentor Portal</h3>
                             <p>Teach, guide and support the next generation.</p>
-                            <a href="#" class="portal-link">
+                            <a href="{{ route('membership') }}" class="portal-link">
                                 Register <span>→</span>
                             </a>
                         </div>
@@ -426,96 +321,89 @@
 
     </div>
 </section>
+<section class="future-section">
+    <div class="container future-wrapper">
 
+        <!-- LEFT SIDE -->
+        <div class="future-images">
 
+            <div class="shape-one"></div>
+            <div class="shape-two"></div>
 
-<section class="startup-section">
-    <div class="container startup-container">
-
-        <!-- Left Content -->
-        <div class="startup-content">
-
-            <h2>
-                Providing IT solutions & <br>
-                services for startups
-            </h2>
-
-            <div class="service-list">
-
-                <div class="service-item">
-                    <div class="icon-box">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M12 2L3 7l9 5 9-5-9-5Z" />
-                            <path d="M3 17l9 5 9-5" />
-                            <path d="M3 12l9 5 9-5" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <h4>Quality Solution for Business</h4>
-                        <p>
-                            Each demo built with Web will look different.
-                            Customize almost anything in the appearance.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="service-item">
-                    <div class="icon-box">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M12 6V12L16 14" />
-                            <circle cx="12" cy="12" r="9" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <h4>Amazing Expert Teams</h4>
-                        <p>
-                            Each demo built with Web will look different.
-                            Customize almost anything in the appearance.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="service-item">
-                    <div class="icon-box">
-                        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
-                            <path d="M18 8a6 6 0 0 0-12 0v4" />
-                            <path d="M6 12v5h12v-5" />
-                        </svg>
-                    </div>
-
-                    <div>
-                        <h4>Urgent Support For Clients</h4>
-                        <p>
-                            Each demo built with Web will look different.
-                            Customize almost anything in the appearance.
-                        </p>
-                    </div>
-                </div>
-
+            <div class="image-box main-image">
+                <img src="{{ asset('assets/img/build.png') }}" alt="">
             </div>
+
+
 
         </div>
 
-        <!-- Right Images -->
-        <div class="startup-images">
 
-            <div class="img-card img-top">
-                <img src="{{ asset('assets/img/team1.png') }}" alt="">
+        <!-- RIGHT SIDE -->
+
+        <div class="future-content">
+
+            <span class="section-tag">
+                BUILDING THE FUTURE
+            </span>
+
+            <h2>
+                Empowering Professionals with
+                <span>Modern Digital Solutions</span>
+            </h2>
+
+            <p>
+                We connect students, professionals, employers, freelancers,
+                mentors, and investors through one intelligent platform that
+                simplifies networking, hiring, learning, collaboration,
+                and business growth.
+            </p>
+
+            <div class="feature-grid">
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Professional Networking
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Job & Internship Portal
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Startup Investment
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Mentorship Programs
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Freelancing Opportunities
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    Verified Community
+                </div>
+
             </div>
 
-            <div class="img-card img-bottom">
-                <img src="{{ asset('assets/img/team2.png') }}" alt="">
+            <div class="future-buttons">
+
+                <a href="{{ route('membership') }}" class="btn-primary">
+                    Join Our Community
+                </a>
+
+                <a href="{{ route('about') }}" class="btn-primary">
+                    Learn More
+                </a>
+
             </div>
-
-
-
-            <span class="dots dots-top"></span>
-            <span class="dots dots-bottom"></span>
 
         </div>
 
@@ -524,14 +412,184 @@
 
 
 
+<section class="home-benefits-section">
+    <div class="container">
+        <div class="section-head reveal">
+            <h2>Built Around Every Role</h2>
+            <p>One platform, six ways in — here's what you unlock the moment you join.</p>
+        </div>
+
+        <div class="home-flip-grid">
+
+            <div class="home-flip-card reveal">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-blue">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linejoin="round" />
+                                <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>Student</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-blue">
+                        <h3>Student</h3>
+                        <ul>
+                            <li>Apply to jobs &amp; internships</li>
+                            <li>Enroll in courses &amp; trainings</li>
+                            <li>Get free resume reviews</li>
+                            <li>Request 1:1 mentorship</li>
+                            <li>Join hackathons &amp; events</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-flip-card reveal reveal-delay-1">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-green">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
+                                <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3>Employee</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-green">
+                        <h3>Employee</h3>
+                        <ul>
+                            <li>Explore new job switches</li>
+                            <li>Take on paid side projects</li>
+                            <li>Publish technical articles</li>
+                            <li>Access legal support</li>
+                            <li>Join workshops &amp; trainings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-flip-card reveal reveal-delay-2">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-purple">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>Employer</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-purple">
+                        <h3>Employer</h3>
+                        <ul>
+                            <li>Post jobs &amp; internships</li>
+                            <li>Outsource projects easily</li>
+                            <li>Showcase your startup pitch</li>
+                            <li>Hire verified freelancers</li>
+                            <li>Review applications in one place</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-flip-card reveal">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-yellow">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <h3>Freelancer</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-yellow">
+                        <h3>Freelancer</h3>
+                        <ul>
+                            <li>Bid on live projects</li>
+                            <li>Post &amp; sell your services</li>
+                            <li>Build a public portfolio</li>
+                            <li>Get secure, tracked payments</li>
+                            <li>Grow client relationships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-flip-card reveal reveal-delay-1">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-pink">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"
+                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                                <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8" />
+                            </svg>
+                        </div>
+                        <h3>Investor</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-pink">
+                        <h3>Investor</h3>
+                        <ul>
+                            <li>Browse curated startup profiles</li>
+                            <li>Request full pitch deck access</li>
+                            <li>Connect directly with founders</li>
+                            <li>Post your investment criteria</li>
+                            <li>Join exclusive pitch nights</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="home-flip-card reveal reveal-delay-2">
+                <div class="home-flip-inner">
+                    <div class="home-flip-face home-flip-front home-flip-cyan">
+                        <div class="home-flip-icon">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8"
+                                    stroke-linejoin="round" />
+                                <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" stroke="currentColor"
+                                    stroke-width="1.8" stroke-linecap="round" />
+                                <path d="M22 8v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <h3>Mentor</h3>
+                        <span class="home-flip-hint">Hover to see benefits</span>
+                    </div>
+                    <div class="home-flip-face home-flip-back home-flip-cyan">
+                        <h3>Mentor</h3>
+                        <ul>
+                            <li>Accept mentee requests</li>
+                            <li>Review student resumes</li>
+                            <li>Host webinars &amp; workshops</li>
+                            <li>Share training material</li>
+                            <li>Conduct mock interviews</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
 
 
-
-
-<!-- Interactive Role Showcase -->
 <!-- Interactive Role Showcase -->
 <section class="home-tabs-section">
     <div class="container">
@@ -805,177 +863,123 @@
     </div>
 </section>
 
-<!-- Testimonials -->
-<!-- Role Benefits -->
-<section class="home-benefits-section">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>Built Around Every Role</h2>
-            <p>One platform, six ways in — here's what you unlock the moment you join.</p>
+
+
+
+<section class="opportunities-section">
+    <div class="container opportunities-inner">
+
+        <!-- Top trust badge -->
+        <div class="trust-badge">
+            <div class="trust-avatars">
+                <img src="https://ui-avatars.com/api/?name=A+B&background=4F46E5&color=fff&size=32" alt="">
+                <img src="https://ui-avatars.com/api/?name=C+D&background=22C55E&color=fff&size=32" alt="">
+                <img src="https://ui-avatars.com/api/?name=E+F&background=F59E0B&color=fff&size=32" alt="">
+                <span class="trust-more">+10K</span>
+            </div>
+            <div class="trust-text">
+                <strong>Trusted by 100,000+</strong>
+                <span>Professionals Worldwide</span>
+            </div>
+            <div class="trust-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.9/5</span>
+            </div>
         </div>
 
-        <div class="home-flip-grid">
+        <!-- Heading -->
+        <div class="opportunities-header">
+            <span class="opportunities-eyebrow">MULTIPLE PATHS. ONE PLATFORM.</span>
+            <h2 class="opportunities-heading">
+                Opportunities for <span class="highlight">Every Professional</span>
+            </h2>
+            <p class="opportunities-subtext">
+                Whether you guide, invest, or create — SkillConnect provides the perfect ecosystem to grow your impact,
+                income, and network.
+            </p>
+        </div>
 
-            <div class="home-flip-card reveal">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-blue">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8"
-                                    stroke-linejoin="round" />
-                                <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
+        <!-- Cards -->
+        <div class="opportunity-cards">
+
+            <!-- Mentor Card -->
+            <div class="opportunity-card">
+                <span class="card-tag tag-mentor">CREATE &amp; INSPIRE</span>
+                <div class="card-photo">
+                    <img src="{{ asset('assets/img/mentor1.png') }}" alt="Mentor">
+
+                    <div class="floating-badge badge-bottom">
+                        <div class="mini-avatars">
+                            <img src="https://ui-avatars.com/api/?name=N+L&background=4F46E5&color=fff&size=20" alt="">
+                            <img src="https://ui-avatars.com/api/?name=R+J&background=22C55E&color=fff&size=20" alt="">
                         </div>
-                        <h3>Student</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
-                    </div>
-                    <div class="home-flip-face home-flip-back home-flip-blue">
-                        <h3>Student</h3>
-                        <ul>
-                            <li>Apply to jobs &amp; internships</li>
-                            <li>Enroll in courses &amp; trainings</li>
-                            <li>Get free resume reviews</li>
-                            <li>Request 1:1 mentorship</li>
-                            <li>Join hackathons &amp; events</li>
-                        </ul>
+                        <span>Nabeel, Lisa Nova, Rohan Jamil</span>
                     </div>
                 </div>
+                <h3>Mentor</h3>
+                <p class="card-desc">Share your knowledge. Shape the future.</p>
+                <p class="card-subdesc">Empower students, professionals, and entrepreneurs with your guidance career
+                    advice.</p>
+                <ul class="card-features">
+                    <li>1-on-1 Mentorship</li>
+                    <li>Webinars Workshops</li>
+                    <li>Resume Reviews</li>
+                    <li>Career Guidance</li>
+                </ul>
+                <a href="{{ route('membership') }}" class="card-cta cta-mentor">Explore Mentor Portal <span>&rarr;</span></a>
             </div>
 
-            <div class="home-flip-card reveal reveal-delay-1">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-green">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
-                                <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
-                                    stroke-linecap="round" />
-                            </svg>
-                        </div>
-                        <h3>Employee</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
+            <!-- Investor Card -->
+            <div class="opportunity-card">
+                <span class="card-tag tag-investor">INVEST &amp; GROW</span>
+                <div class="card-photo">
+                    <img src="{{ asset('assets/img/investor1.png') }}" alt="Investor">
+                    <div class="floating-badge badge-top">
+                        <span class="badge-label">Active Investments</span>
+                        <span class="badge-value">28</span>
                     </div>
-                    <div class="home-flip-face home-flip-back home-flip-green">
-                        <h3>Employee</h3>
-                        <ul>
-                            <li>Explore new job switches</li>
-                            <li>Take on paid side projects</li>
-                            <li>Publish technical articles</li>
-                            <li>Access legal support</li>
-                            <li>Join workshops &amp; trainings</li>
-                        </ul>
+                    <div class="floating-badge badge-bottom stat-badge">
+                        <span class="badge-label">Total Portfolio Value</span>
+                        <span class="badge-value">₹2.45 Cr</span>
                     </div>
                 </div>
+                <h3>Investor</h3>
+                <p class="card-desc">Discover startups. Invest in tomorrow.</p>
+                <p class="card-subdesc">Connect with innovative startups, review pitch decks, and invest in
+                    high-potential ideas.</p>
+                <ul class="card-features">
+                    <li>Startups Discovery</li>
+                    <li>Pitch Decks</li>
+                    <li>Founder Connect</li>
+                    <li>Portfolio Tracking</li>
+                </ul>
+                <a href="{{ route('membership') }}" class="card-cta cta-investor">Explore Investor Portal <span>&rarr;</span></a>
             </div>
 
-            <div class="home-flip-card reveal reveal-delay-2">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-purple">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor"
-                                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" stroke="currentColor"
-                                    stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <h3>Employer</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
+            <!-- Freelancer Card -->
+            <div class="opportunity-card">
+                <span class="card-tag tag-freelancer">WORK &amp; EARN</span>
+                <div class="card-photo">
+                    <img src="{{ asset('assets/img/freelancer4.png') }}" alt="Freelancer">
+                    <div class="floating-badge badge-top">
+                        New Project Available
                     </div>
-                    <div class="home-flip-face home-flip-back home-flip-purple">
-                        <h3>Employer</h3>
-                        <ul>
-                            <li>Post jobs &amp; internships</li>
-                            <li>Outsource projects easily</li>
-                            <li>Showcase your startup pitch</li>
-                            <li>Hire verified freelancers</li>
-                            <li>Review applications in one place</li>
-                        </ul>
+                    <div class="floating-badge badge-bottom stat-badge">
+                        <span class="badge-label">Payment Received</span>
+                        <span class="badge-value">₹25,000</span>
                     </div>
                 </div>
-            </div>
-
-            <div class="home-flip-card reveal">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-yellow">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <h3>Freelancer</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
-                    </div>
-                    <div class="home-flip-face home-flip-back home-flip-yellow">
-                        <h3>Freelancer</h3>
-                        <ul>
-                            <li>Bid on live projects</li>
-                            <li>Post &amp; sell your services</li>
-                            <li>Build a public portfolio</li>
-                            <li>Get secure, tracked payments</li>
-                            <li>Grow client relationships</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="home-flip-card reveal reveal-delay-1">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-pink">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path
-                                    d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"
-                                    stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                                <circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="1.8" />
-                            </svg>
-                        </div>
-                        <h3>Investor</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
-                    </div>
-                    <div class="home-flip-face home-flip-back home-flip-pink">
-                        <h3>Investor</h3>
-                        <ul>
-                            <li>Browse curated startup profiles</li>
-                            <li>Request full pitch deck access</li>
-                            <li>Connect directly with founders</li>
-                            <li>Post your investment criteria</li>
-                            <li>Join exclusive pitch nights</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="home-flip-card reveal reveal-delay-2">
-                <div class="home-flip-inner">
-                    <div class="home-flip-face home-flip-front home-flip-cyan">
-                        <div class="home-flip-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M12 3 2 8l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.8"
-                                    stroke-linejoin="round" />
-                                <path d="M6 10.5V16c0 1.9 2.7 3.5 6 3.5s6-1.6 6-3.5v-5.5" stroke="currentColor"
-                                    stroke-width="1.8" stroke-linecap="round" />
-                                <path d="M22 8v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                            </svg>
-                        </div>
-                        <h3>Mentor</h3>
-                        <span class="home-flip-hint">Hover to see benefits</span>
-                    </div>
-                    <div class="home-flip-face home-flip-back home-flip-cyan">
-                        <h3>Mentor</h3>
-                        <ul>
-                            <li>Accept mentee requests</li>
-                            <li>Review student resumes</li>
-                            <li>Host webinars &amp; workshops</li>
-                            <li>Share training material</li>
-                            <li>Conduct mock interviews</li>
-                        </ul>
-                    </div>
-                </div>
+                <h3>Freelancer</h3>
+                <p class="card-desc">Showcase your skills. Work on your terms.</p>
+                <p class="card-subdesc">Find projects, bid on opportunities, collaborate with clients, and get paid
+                    securely for your work.</p>
+                <ul class="card-features">
+                    <li>Project Marketplace</li>
+                    <li>Secure Payments</li>
+                    <li>Client Communication</li>
+                    <li>Portfolio Builder</li>
+                </ul>
+                <a href="{{ route('membership') }}" class="card-cta cta-freelancer">Explore Freelancer Portal <span>&rarr;</span></a>
             </div>
 
         </div>
@@ -983,21 +987,169 @@
 </section>
 
 
+
+
+
+<section class="membership-hero">
+    <div class="container membership-hero-inner">
+        <div class="membership-hero-content">
+            <span class="membership-eyebrow">MEMBERSHIP PLANS</span>
+            <h2 class="membership-heading">
+                Build. Connect. <span class="highlight">Raise. Grow.</span>
+            </h2>
+            <p class="membership-subtext">
+                Create your startup profile, showcase your ideas, recruit talent, upload pitch decks, connect with
+                investors, join startup events, and raise funding to grow your business.
+            </p>
+
+            <ul class="membership-features">
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="12" cy="12" r="10" fill="#2563EB" />
+                            <path d="M8 12.5l2.5 2.5L16 9" stroke="white" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    Startup Profiles &amp; Pitch Decks
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="12" cy="12" r="10" fill="#2563EB" />
+                            <path d="M8 12.5l2.5 2.5L16 9" stroke="white" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    Founder Networking
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="12" cy="12" r="10" fill="#2563EB" />
+                            <path d="M8 12.5l2.5 2.5L16 9" stroke="white" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    Startup Events &amp; Hackathons
+                </li>
+                <li>
+                    <span class="check-icon">
+                        <svg viewBox="0 0 24 24" width="16" height="16">
+                            <circle cx="12" cy="12" r="10" fill="#2563EB" />
+                            <path d="M8 12.5l2.5 2.5L16 9" stroke="white" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    Funding Opportunities
+                </li>
+            </ul>
+
+            <a href="{{ route('registration') }}" class="membership-cta">Explore Startups</a>
+        </div>
+
+        <div class="membership-hero-visual">
+            <img src="{{ asset('assets/img/rocket.png') }}" alt="Startup growth illustration" class="hero-illustration">
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="faq-wrap">
+    <div>
+           <p style="color: #3376F2;">Everything you need to know</p>
+        <h1>Frequently asked<br><span>questions</span></h1>
+        <p class="desc">Answers to the most common questions about using SkillConnect — whatever portal you're coming
+            from. Browse by topic below, or reach out to our support team if you can't find what you need.</p>
+    </div>
+
+    <div class="accordion" id="accordion">
+        <div class="item open" data-index="0">
+            <div class="item-header">
+                <span>How do I create an account on SkillConnect?</span>
+                <div class="icon-btn"><svg viewBox="0 0 24 24">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg></div>
+            </div>
+            <div class="item-body">
+                <p>Click "Membership" on the homepage, choose the portal that matches you (Employer, Employee, Student,
+                    Freelancer, Investor or Mentor), and fill in your details to get started in minutes</p>
+            </div>
+        </div>
+
+        <div class="item" data-index="1">
+            <div class="item-header">
+                <span>Is my personal data safe on SkillConnect?</span>
+                <div class="icon-btn"><svg viewBox="0 0 24 24">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg></div>
+            </div>
+            <div class="item-body">
+                <p>Yes. We use industry-standard encryption and never sell your personal data to third parties.</p>
+            </div>
+        </div>
+
+        <div class="item" data-index="2">
+            <div class="item-header">
+                <span>Can I switch between portals later?</span>
+                <div class="icon-btn"><svg viewBox="0 0 24 24">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg></div>
+            </div>
+            <div class="item-body">
+                <p>Yes. Your account isn't locked to a single portal — you can access multiple portals (for example,
+                    Freelancer and Investor) from the same login.</p>
+            </div>
+        </div>
+
+        <div class="item" data-index="3">
+            <div class="item-header">
+                <span>Who can I contact for support?</span>
+                <div class="icon-btn"><svg viewBox="0 0 24 24">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg></div>
+            </div>
+            <div class="item-body">
+                <p>You can reach our support team anytime through the contact form linked in the footer, or email us
+                    directly and we'll get back to you within 24 hours.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <section class="cta-banner-section">
     <div class="container">
         <div class="cta-banner reveal">
-            <div class="cta-banner-stars"></div>
-            <div class="cta-banner-rocket"></div>
 
-            <span class="cta-banner-eyebrow">Ready to Get Started</span>
-            <h2>Join thousands of professionals and<br>start your journey with SkillConnect today!</h2>
+            <!-- Left Content -->
+            <div class="cta-banner-content">
+                <span class="cta-banner-eyebrow">Ready to Get Started</span>
 
-            <div class="cta-banner-actions">
-                <a href="registration" class="btn btn-cta-primary">Create Your Account</a>
-                <a href="members" class="btn btn-cta-outline">Explore More</a>
+                <h2>
+                    Join thousands of professionals and
+                    start your journey with SkillConnect today!
+                </h2>
+
+                <div class="cta-banner-actions">
+                    <a href="registration" class="btn btn-cta-primary">
+                        Create Your Account
+                    </a>
+
+                    <a href="members" class="btn btn-cta-outline">
+                        Explore More
+                    </a>
+                </div>
             </div>
+
+            <!-- Right Image -->
+            <div class="cta-banner-image">
+                <img src="{{ asset('assets/img/cta-image.png') }}" alt="CTA Image">
+                
+            </div>
+
         </div>
     </div>
 </section>
@@ -1006,132 +1158,7 @@
 
 
 
-<!-- CTA -->
-<!-- <section class="home-cta-banner">
-    <div class="container home-cta-inner reveal">
-        <h2>Ready to find your next opportunity?</h2>
-        <p>Join thousands of employers, students, freelancers, and mentors already growing with SkillConnect.</p>
-        <a href="#portals" class="btn btn-primary btn-lg">Join SkillConnect Today</a>
-    </div>
-</section> -->
 
-<style>
-/* Removes the card-style highlight (background/border/shadow) around the
-       hero image on this page only, leaving just the plain image. */
-.hero .hero-card {
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    border-radius: 0;
-}
-
-.hero .hero-card img {
-    border-radius: 16px;
-}
-
-/* Overrides the shared .hero-blob color just for this page */
-.hero .hero-blob {
-    background: #9fd6ff;
-    top: 25px;
-}
-
-/* Card-style stats model */
-.home-stats-grid-cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-}
-
-.home-stat-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #ffffff;
-    border: 1px solid #e6e9f2;
-    border-radius: 14px;
-    padding: 20px 18px;
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.home-stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 28px rgba(30, 41, 79, 0.08);
-    border-color: #dfe2f5;
-}
-
-.home-stat-card-icon {
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.home-stat-card-icon svg {
-    width: 22px;
-    height: 22px;
-}
-
-.home-stat-icon-indigo {
-    background: #eef2ff;
-    color: #4338ca;
-}
-
-.home-stat-icon-blue {
-    background: #ecfeff;
-    color: #0e7490;
-}
-
-.home-stat-icon-cyan {
-    background: #fffbeb;
-    color: #b45309;
-}
-
-.home-stat-icon-pink {
-    background: #ecfdf5;
-    color: #047857;
-}
-
-.home-stat-card-body {
-    line-height: 1.1;
-}
-
-.home-stat-card-body .home-stat-number {
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: #111827;
-    letter-spacing: -0.01em;
-}
-
-.home-stat-card-body .home-stat-plus {
-    font-size: 1.7rem;
-    font-weight: 800;
-    color: #111827;
-}
-
-.home-stat-card-body p {
-    margin: 3px 0 0;
-    font-size: 0.85rem;
-    color: #6b7280;
-    font-weight: 500;
-}
-
-@media (max-width: 900px) {
-    .home-stats-grid-cards {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .home-stats-grid-cards {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -1160,7 +1187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach(el => observer.observe(el));
 
     // Animated stat counters
-    const statNumbers = document.querySelectorAll('.home-stat-number');
+    const statNumbers = document.querySelectorAll('.home-stats-bar-number');
     const statObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -1244,6 +1271,27 @@ if (hiwTrack) {
     });
     hiwObserver.observe(hiwTrack);
 }
+
+
+const items = document.querySelectorAll('.item');
+items.forEach(item => {
+    const header = item.querySelector('.item-header');
+    const body = item.querySelector('.item-body');
+    if (item.classList.contains('open')) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+    }
+    header.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        items.forEach(i => {
+            i.classList.remove('open');
+            i.querySelector('.item-body').style.maxHeight = 0;
+        });
+        if (!isOpen) {
+            item.classList.add('open');
+            body.style.maxHeight = body.scrollHeight + 'px';
+        }
+    });
+});
 </script>
 
 @endsection

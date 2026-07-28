@@ -1,42 +1,17 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('internshipForm');
+    const form = document.querySelector('.jobpost-form');
     const submitBtn = form.querySelector('button[type="submit"]');
 
     // Show spinner on submit
     form.addEventListener('submit', function () {
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
         submitBtn.disabled = true;
+        submitBtn.dataset.originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
     });
 
-    // Title case on blur
-    const titleInput = document.getElementById('title');
-    titleInput.addEventListener('blur', function () {
-        if (this.value) {
-            this.value = this.value.replace(/\w\S*/g, function (txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
-        }
-    });
-
-    // End date must be after start date
-    const startDate = document.getElementById('start_date');
-    const endDate = document.getElementById('end_date');
-
-    endDate.addEventListener('change', function () {
-        if (startDate.value && this.value) {
-            if (new Date(this.value) <= new Date(startDate.value)) {
-                this.classList.add('is-invalid');
-                alert('End date must be after start date');
-                this.value = '';
-            } else {
-                this.classList.remove('is-invalid');
-            }
-        }
-    });
-
-    // Clear invalid state (border + message) on focus
-    document.querySelectorAll('.form-control-custom').forEach(input => {
+    // Clear invalid state on focus
+    document.querySelectorAll('.form-control-custom, .jobpost-form input, .jobpost-form textarea, .jobpost-form select').forEach(input => {
         input.addEventListener('focus', function () {
             this.classList.remove('is-invalid');
             const feedback = this.parentNode.querySelector('.js-live-feedback');
@@ -74,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     attachFilter('title',         /[^A-Za-z0-9\s\-&().,]/g, 'Only letters, numbers, and & ( ) . , - are allowed.');
-    attachFilter('duration',      /[^A-Za-z0-9\s-]/g,       'Only letters, numbers, and - are allowed.');
-    attachFilter('stipend',       /[^0-9₹$,.\-\s/]/g,       'Only numbers and ₹ $ , . - / are allowed (no letters).');
+    attachFilter('experience',    /[^A-Za-z0-9\s-]/g,       'Only letters, numbers, and - are allowed.');
+    attachFilter('salary',        /[^0-9₹$,.\-\s/]/g,       'Only numbers and ₹ $ , . - / are allowed (no letters).');
     attachFilter('qualification', /[^A-Za-z0-9\s,.\-()&]/g, 'Only letters, numbers, and , . - ( ) & are allowed.');
     attachFilter('skills',        /[^A-Za-z0-9\s,.\-+#/]/g, 'Only letters, numbers, and , . - + # / are allowed.');
     attachFilter('country',       /[^A-Za-z\s]/g,           'Only letters are allowed.');

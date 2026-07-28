@@ -20,8 +20,11 @@
         </a>
 
         <nav class="main-nav" aria-label="Primary">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+           <a href="{{ route('employee.jobs.index') }}"
+   class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">
+    Jobs
+</a>
             <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
             <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
             <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
@@ -105,13 +108,13 @@
 <style>
     /* ===== Header Styles ===== */
     .site-header {
-        background: #0F172A;
+        background: #3364d7;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         position: sticky;
         top: 0;
         z-index: 1000;
         padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: #3364d7;
     }
 
     .header-inner {
@@ -149,7 +152,7 @@
     .main-nav a {
         text-decoration: none;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.75);
+        color: #ffffff;
         transition: color 0.3s;
         position: relative;
         padding: 6px 2px;

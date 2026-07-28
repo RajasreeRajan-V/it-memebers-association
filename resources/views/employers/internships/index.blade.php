@@ -21,7 +21,7 @@
         <select name="status">
             <option value="">All Statuses</option>
             <option value="active" @selected(request('status') == 'active')>Active</option>
-            <option value="closed" @selected(request('status') == 'closed')>Closed</option>
+            <option value="deactive" @selected(request('status') == 'deactive')>Deactive</option>
         </select>
         <button type="submit" class="btn btn-secondary">Filter</button>
     </form>
@@ -53,6 +53,13 @@
                         <td class="text-right actions-cell">
                             <a href="{{ route('employer.internships.show', $internship) }}" class="action-link">View</a>
                             <a href="{{ route('employer.internships.edit', $internship) }}" class="action-link">Edit</a>
+                            <form action="{{ route('employer.internships.toggle-status', $internship) }}" method="POST" class="inline-form">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="action-link">
+                                    {{ $internship->status === 'active' ? 'Deactivate' : 'Activate' }}
+                                </button>
+                            </form>
                             <form action="{{ route('employer.internships.destroy', $internship) }}" method="POST" class="inline-form"
                                   onsubmit="return confirm('Delete this internship? This cannot be undone.');">
                                 @csrf

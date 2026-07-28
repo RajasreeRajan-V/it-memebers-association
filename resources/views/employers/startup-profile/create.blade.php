@@ -25,6 +25,6 @@
         </div>
     </div>
 </section>
-@endsection
 
 @include('employers.startup-profile._scripts')
+@endsection

@@ -1,4 +1,7 @@
 <!-- Updated Site Header -->
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <header class="site-header">
   <div class="container header-inner">
     <a href="#" class="logo">
@@ -20,7 +23,7 @@
     <nav class="main-nav" aria-label="Primary">
   <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
   <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-  <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
+  <!-- <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a> -->
   <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
   <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a Member</a>
   <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
@@ -242,100 +245,174 @@
 </div>
 
 <style>
-  /* ===== Header Styles ===== */
-  .site-header {
-    background: #0F172A;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+/* ===== Header Styles ===== */
+* { box-sizing: border-box; }
+
+.site-header {
+    background: #3364d7;
+    border-bottom: 1px solid #eef0f3;
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 12px 0;
-  }
-  .header-inner {
+    font-family: 'Poppins', sans-serif;
+}
+
+.header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    max-width: 1200px;
+    gap: 24px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 0 20px;
-  }
-  .logo {
+    padding: 16px 24px;
+}
+
+/* ---- Logo ---- */
+.logo {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-size: 1rem;
+    font-weight: 600;
     color: #ffffff;
     text-decoration: none;
-  }
-  .logo-mark {
+    flex-shrink: 0;
+}
+
+.logo-mark {
     display: flex;
     align-items: center;
-  }
-  .main-nav {
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: #4F46E5;
+    flex-shrink: 0;
+}
+
+/* ---- Main Nav ---- */
+.main-nav {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.main-nav a,
+.nav-link {
     display: flex;
     align-items: center;
-    gap: 24px;
-  }
-.main-nav a {
-  text-decoration: none;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.75);
-  transition: color 0.3s;
-  position: relative;
-  padding: 6px 2px;
+    gap: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
 }
-.main-nav a:hover {
-  color: #ffffff;
+
+.main-nav a:hover,
+.nav-link:hover {
+    color: #111827;
+    background: #f5f6f8;
 }
-.main-nav a.active {
-  color: #ffffff;
+
+.caret {
+    color: #9ca3af;
+    transition: transform 0.2s ease;
 }
-.main-nav a.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 2px;
-  background: linear-gradient(135deg, #4F46E5, #2080D4);
-  border-radius: 2px;
+
+.dropdown:hover .caret {
+    transform: rotate(180deg);
 }
-  .header-actions {
+
+/* ---- Dropdown ---- */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    min-width: 170px;
+    background: #ffffff;
+    border: 1px solid #eef0f3;
+
+    border-radius: 10px;
+    padding: 6px;
+
+    list-style: none;
+    margin: 0;
+    box-shadow: 0 12px 28px rgba(17, 24, 39, 0.08);
+
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 9px 12px;
+
+    color: #374151;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dropdown-menu li a:hover {
+    background: #f5f3ff;
+    color: #4F46E5;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* ---- Header Actions ---- */
+.header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
-  }
-  .btn-ghost {
-    background: transparent;
-    border: none;
-    padding: 8px 16px;
-    font-weight: 600;
-    color: #2d3748;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  .btn-ghost:hover {
-    color: #4A90D9;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, #4A90D9, #357ABD);
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background: #4F46E5;
     color: #fff;
     border: none;
-    padding: 10px 24px;
-    border-radius: 8px;
+    padding: 9px 22px;
+    border-radius: 999px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(74,144,217,0.3);
-  }
-  .nav-toggle {
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #4338CA;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.28);
+}
+
+/* ---- Mobile Toggle ---- */
+.nav-toggle {
     display: none;
     flex-direction: column;
     gap: 5px;
@@ -343,68 +420,99 @@
     border: none;
     cursor: pointer;
     padding: 4px;
-  }
-  .nav-toggle span {
-    width: 25px;
-    height: 3px;
-    background: #2d3748;
+}
+
+.nav-toggle span {
+    width: 22px;
+    height: 2px;
+    background: #111827;
     border-radius: 2px;
     transition: 0.3s;
-  }
+}
 
-  /* Responsive header */
-  @media (max-width: 1024px) {
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+    .main-nav a,
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 768px) {
     .main-nav {
-      gap: 16px;
-      flex-wrap: wrap;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-bottom: 1px solid #eef0f3;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+        gap: 4px;
     }
-    .main-nav a {
-      font-size: 0.9rem;
-    }
-  }
-  @media (max-width: 768px) {
-    .main-nav {
-      display: none;
-      position: absolute;
-      top: 70px;
-      left: 0;
-      right: 0;
-      background: white;
-      flex-direction: column;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      border-radius: 0 0 12px 12px;
-      gap: 12px;
-    }
+
     .main-nav.open {
-      display: flex;
+        display: flex;
     }
-    .nav-toggle {
-      display: flex;
-    }
-    .header-actions .btn-ghost {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-    .header-actions .btn-primary {
-      padding: 6px 16px;
-      font-size: 0.9rem;
-    }
-  }
-  @media (max-width: 480px) {
-    .header-inner {
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .logo {
-      font-size: 1.2rem;
-    }
-    .header-actions {
-      gap: 8px;
-    }
-  }
 
-  /* ===== Login Modal Styles ===== */
+    .dropdown-menu {
+        position: static;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        background: #f9fafb;
+        margin-top: 4px;
+        display: none;
+    }
+
+    .dropdown.open .dropdown-menu {
+        display: block;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-inner {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+
+    .logo {
+        font-size: 0.95rem;
+    }
+}
+
+/* ---- Guest-only additions (not in the provided CSS, kept so Login button and active-page state still work) ---- */
+.btn-ghost {
+    background: transparent;
+    border: none;
+    padding: 8px 16px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.btn-ghost:hover {
+    color: #c7d2fe;
+}
+.main-nav a.active {
+    color: #111827;
+    background: #f5f6f8;
+}
+@media (max-width: 768px) {
+    .main-nav a {
+        color: #111827;
+    }
+}
+
+/* ===== Login Modal Styles (unchanged) ===== */
   .login-modal-overlay {
     position: fixed;
     inset: 0;

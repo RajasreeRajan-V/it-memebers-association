@@ -51,34 +51,55 @@
 
         <div class="contact-grid">
 
-            <form class="contact-form reveal" method="POST" action="">
-                @csrf
+            <!-- Left Column: Form + Support Hours -->
+            <div class="contact-left-column">
+                <form class="contact-form reveal" method="POST" action="">
+                    @csrf
 
-                <div class="form-grid">
-                    <div class="form-row">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        </div>
                     </div>
 
                     <div class="form-row">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+                    </div>
+
+                    <div class="form-row">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                </form>
+
+                <!-- Support Hours - Below Form on Left Side -->
+                <div class="support-hours-section reveal reveal-delay-3" style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 16px;">
+                    <h4 style="font-size: 20px; margin-bottom: 20px; color: #1a1a2e;">Support Hours</h4>
+                    <div class="hours-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
+                        <span style="font-weight: 500;">Monday – Friday</span>
+                        <span style="color: #555;">9:00 AM – 7:00 PM</span>
+                    </div>
+                    <div class="hours-row" style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e0e0e0;">
+                        <span style="font-weight: 500;">Saturday</span>
+                        <span style="color: #555;">10:00 AM – 4:00 PM</span>
+                    </div>
+                    <div class="hours-row" style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span style="font-weight: 500;">Sunday</span>
+                        <span style="color: #999;">Closed</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-row">
-                    <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
-                </div>
-
-                <div class="form-row">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" placeholder="Write your message..." required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
-            </form>
-
+            <!-- Right Column: Contact Info Cards -->
             <div class="contact-info">
 
                 <article class="portal-card portal-blue reveal reveal-delay-1">
@@ -124,22 +145,6 @@
                     </div>
                 </article>
 
-                <div class="contact-hours reveal reveal-delay-3">
-                    <h4>Support Hours</h4>
-                    <div class="hours-row">
-                        <span>Monday – Friday</span>
-                        <span>9:00 AM – 7:00 PM</span>
-                    </div>
-                    <div class="hours-row">
-                        <span>Saturday</span>
-                        <span>10:00 AM – 4:00 PM</span>
-                    </div>
-                    <div class="hours-row">
-                        <span>Sunday</span>
-                        <span>Closed</span>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -163,5 +168,26 @@ if (!window.__contactRevealInit) {
     });
 }
 </script>
+
+<style>
+/* Add this to your existing CSS or keep it inline */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.contact-left-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 
 @endsection
