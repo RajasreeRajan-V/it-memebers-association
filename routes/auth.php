@@ -14,7 +14,8 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\CommonLoginController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ProfileController;
-
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
@@ -71,4 +72,18 @@ Route::middleware('member.auth')->group(function () {
 
     Route::post('/profile/picture', [ProfileController::class, 'uploadAvatar'])
         ->name('profile.picture.upload');
+
+
 });
+
+    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
+
+    Route::post('reset-password', [NewPasswordController::class, 'store'])
+    ->name('password.update');
+    
+    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->name('password.email');
+
+    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->name('password.reset');
