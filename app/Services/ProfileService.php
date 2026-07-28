@@ -221,15 +221,15 @@ class ProfileService
 
         $registration = $this->registrationFor($user, $role);
 
-if ($registration) {
-    if ($registration->resume) {
-        Storage::disk('public')->delete($registration->resume);
-    }
-    $registration->update(['resume' => $path]);
-} else {
-    // Fallback: store on the user record if no registration exists yet
-    $user->update(['resume' => $path]);
-}
+        if ($registration) {
+            if ($registration->resume) {
+                Storage::disk('public')->delete($registration->resume);
+            }
+            $registration->update(['resume' => $path]);
+        } else {
+            // Fallback: store on the user record if no registration exists yet
+            $user->update(['resume' => $path]);
+        }
     }
 
     /**

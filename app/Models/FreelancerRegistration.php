@@ -21,6 +21,7 @@ class FreelancerRegistration extends Model
         'hourly_rate',
         'portfolio_link',
         'skills',
+        'resume',
         'github',
         'linkedin',
         'profile_photo',
