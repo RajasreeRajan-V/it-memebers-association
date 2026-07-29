@@ -34,7 +34,7 @@ class ProjectController extends Controller
     {
         $data = $this->validateProject($request);
         $data['employer_id'] = Auth::id();
-        $data['status'] = 'active';
+        // $data['status'] = 'active';
 
         Project::create($data);
 

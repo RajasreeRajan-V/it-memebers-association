@@ -21,13 +21,25 @@
 
         <nav class="main-nav" aria-label="Primary">
             <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-            <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
+            <a href="{{ route('freelancer.about') }}"
+                class="{{ request()->routeIs('freelancer.about') ? 'active' : '' }}">About</a> <a
+                href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
             <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
             <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
                 Member</a>
             <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
         </nav>
+
+        <form action="" method="GET" class="header-search" id="headerSearch">
+            <button type="submit" class="search-icon-btn" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input type="text" name="q" class="search-input" placeholder="Search..."
+                value="{{ request('q') }}" aria-label="Search">
+            <button type="button" class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </form>
 
         <div class="header-actions">
             <div class="account-menu">
@@ -198,6 +210,99 @@
         transition: 0.3s;
     }
 
+    /* ===== Header Search ===== */
+    .header-search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        padding: 8px 14px;
+        flex: 0 1 240px;
+        min-width: 140px;
+        transition: all 0.25s ease;
+    }
+
+    .header-search:hover {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.16);
+    }
+
+    .header-search:focus-within {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(79, 70, 229, 0.6);
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.18), 0 4px 15px rgba(79, 70, 229, 0.15);
+    }
+
+    .search-icon-btn {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.45);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        font-size: 14px;
+        flex-shrink: 0;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .header-search:focus-within .search-icon-btn {
+        color: #818cf8;
+    }
+
+    .search-icon-btn:hover {
+        color: #ffffff;
+        transform: scale(1.08);
+    }
+
+    .search-input {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        font-family: inherit;
+        padding: 4px 0;
+        letter-spacing: 0.1px;
+    }
+
+    .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.35);
+        font-weight: 400;
+    }
+
+    .search-clear-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        color: rgba(255, 255, 255, 0.45);
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        padding: 0;
+        font-size: 10px;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .search-clear-btn.show {
+        display: flex;
+    }
+
+    .search-clear-btn:hover {
+        color: #ffffff;
+        background: rgba(239, 68, 68, 0.5);
+    }
+
     /* Responsive header */
     @media (max-width: 1024px) {
         .main-nav {
@@ -207,6 +312,10 @@
 
         .main-nav a {
             font-size: 0.9rem;
+        }
+
+        .header-search {
+            flex: 0 1 160px;
         }
     }
 
@@ -249,6 +358,12 @@
 
         .account-btn {
             padding: 6px 10px;
+        }
+
+        .header-search {
+            order: 3;
+            flex: 1 1 100%;
+            margin-top: 8px;
         }
     }
 
@@ -548,3 +663,25 @@
         font-style: normal;
     }
 </style>
+
+<script>
+    // Show/hide clear button based on input content
+    (function() {
+        const input = document.querySelector('.search-input');
+        const clearBtn = document.getElementById('searchClearBtn');
+        if (!input || !clearBtn) return;
+
+        function toggleClear() {
+            clearBtn.classList.toggle('show', input.value.length > 0);
+        }
+
+        toggleClear();
+        input.addEventListener('input', toggleClear);
+
+        clearBtn.addEventListener('click', function() {
+            input.value = '';
+            toggleClear();
+            input.focus();
+        });
+    })();
+</script>

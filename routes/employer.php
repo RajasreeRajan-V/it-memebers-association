@@ -7,8 +7,6 @@ use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Employer\StartupProfileController;
 
-
-
 Route::middleware(['auth'])
     ->prefix('employer')
     ->name('employer.')
