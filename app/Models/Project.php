@@ -10,23 +10,24 @@ class Project extends Model
 {
     use HasFactory;
 
-  protected $fillable = [
-    'employer_id',
-    'title',
-    'description',
-    'project_type',
-    'budget',
-    'duration',
-    'skills',
-    'deadline',
-    'status',
-    'rejection_reason',
-    'work_mode',
-    'country',
-    'state',
-    'district',
-    'city',
-];
+    protected $fillable = [
+        'employer_id',
+        'title',
+        'description',
+        'project_type',
+        'budget',
+        'duration',
+        'skills',
+        'deadline',
+        'status',
+        'rejection_reason',
+        'work_mode',
+        'visibility',
+        'country',
+        'state',
+        'district',
+        'city',
+    ];
 
     protected $casts = [
         'skills'   => 'array',
