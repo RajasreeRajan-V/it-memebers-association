@@ -43,4 +43,10 @@ class Project extends Model
     {
         return $query->where('status', 'approved');
     }
+
+
+    public function applications()
+{
+    return $this->hasMany(ProjectApplication::class);
+}
 }
