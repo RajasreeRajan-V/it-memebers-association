@@ -7023,7 +7023,7 @@ button { font: inherit; cursor: pointer; }
 }
 
 .career-hero-text {
-    color: var(--text-muted);
+    color: black;
     font-size: 1rem;
     line-height: 1.6;
     max-width: 460px;
@@ -7041,24 +7041,28 @@ button { font: inherit; cursor: pointer; }
 .btn-dark {
     background: var(--blue);
     color: #fff;
+    border: 1px solid var(--blue);
 }
 
 .btn-dark:hover {
-    filter: brightness(1.15);
+    background: #1669b8; /* slightly darker blue */
+    color: #fff;
+    border-color: #1669b8;
     transform: translateY(-1px);
 }
 
 .btn-outline-dark {
-    background: #ffffff;
-    color: var(--text-dark);
-    border: 1px solid var(--border-color);
+    background: var(--blue);
+    color: #fff;
+    border: 1px solid var(--blue);
 }
 
 .btn-outline-dark:hover {
-    background: var(--bg-light);
-    border-color: #CBD5E1;
+    background: #1669b8; /* slightly darker blue */
+    color: #fff;
+    border-color: #1669b8;
+    transform: translateY(-1px);
 }
-
 .career-hero-stats {
     display: flex;
     flex-wrap: wrap;
