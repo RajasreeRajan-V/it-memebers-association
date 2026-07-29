@@ -92,20 +92,39 @@
     </div>
 </div>
 
-<div class="form-group-custom">
-    <label for="work_mode" class="form-label-icon">
-        <i class="fas fa-map-marker-alt"></i>
-        Work Mode <span class="required">*</span>
-    </label>
-    <select class="form-control-custom @error('work_mode') is-invalid @enderror"
-            id="work_mode" name="work_mode" required>
-        @foreach (['remote' => 'Remote', 'onsite' => 'On-site', 'hybrid' => 'Hybrid'] as $value => $label)
-            <option value="{{ $value }}" @selected(old('work_mode', $project->work_mode ?? 'remote') == $value)>
-                {{ $label }}
-            </option>
-        @endforeach
-    </select>
-    @error('work_mode') <div class="invalid-feedback">{{ $message }}</div> @enderror
+<div class="row-custom">
+    <div class="form-group-custom">
+        <label for="work_mode" class="form-label-icon">
+            <i class="fas fa-map-marker-alt"></i>
+            Work Mode <span class="required">*</span>
+        </label>
+        <select class="form-control-custom @error('work_mode') is-invalid @enderror"
+                id="work_mode" name="work_mode" required>
+            @foreach (['remote' => 'Remote', 'onsite' => 'On-site', 'hybrid' => 'Hybrid'] as $value => $label)
+                <option value="{{ $value }}" @selected(old('work_mode', $project->work_mode ?? 'remote') == $value)>
+                    {{ $label }}
+                </option>
+            @endforeach
+        </select>
+        @error('work_mode') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
+
+    <div class="form-group-custom">
+        <label for="visibility" class="form-label-icon">
+            <i class="fas fa-eye"></i>
+            Visibility <span class="required">*</span>
+        </label>
+        <select class="form-control-custom @error('visibility') is-invalid @enderror"
+                id="visibility" name="visibility" required>
+            <option value="">Select Visibility</option>
+            @foreach (['freelancer' => 'Freelancer', 'employee' => 'Employee'] as $value => $label)
+                <option value="{{ $value }}" @selected(old('visibility', $project->visibility ?? '') == $value)>
+                    {{ $label }}
+                </option>
+            @endforeach
+        </select>
+        @error('visibility') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    </div>
 </div>
 
 <div id="locationFields">

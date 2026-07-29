@@ -5,6 +5,9 @@
 @include('employees.jobs._styles')
 @include('employees.jobs._scripts')
 
+{{-- Holds the CSRF token for the AJAX apply/save calls below --}}
+<div id="csrf-holder" data-token="{{ csrf_token() }}" class="hidden"></div>
+
 {{-- ================= PAGE STYLES ================= --}}
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
@@ -245,6 +248,8 @@ h3,
             </form>
 
             {{-- ---------- SAVED / APPLIED / INTERVIEWS / IN PROGRESS / HIRED / ARCHIVED NAV ---------- --}}
+            {{-- These are plain links to their own dedicated pages. They do NOT touch the hero
+                 section on this page - navigating here is normal browser navigation. --}}
             <div class="pt-5 border-t border-line space-y-2">
                 <a href="{{ route('employee.jobs.saved') }}"
                     class="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink hover:bg-surface transition-colors">
@@ -350,7 +355,7 @@ h3,
         <div id="jobs-list" class="scroll-mt-24">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                 <div class="flex items-baseline gap-2">
-                    <h2 class="font-display font-bold text-xl text-ink">Jobs for you</h2>
+                    <h2 class="font-display font-bold text-xl text-ink">JOBS FOR YOU</h2>
                     <span class="text-xs text-slate2">{{ number_format($jobsCount) }}
                         {{ Str::plural('job', $jobsCount) }} found</span>
                 </div>
@@ -369,19 +374,33 @@ h3,
             </div>
 
             <div class="space-y-3">
-                @forelse ($jobs as $job)
+              @forelse ($jobs as $job)
                 @php
+                $isProject = ($job->listing_type ?? 'job') === 'project';
+
                 $companyName = $job->employer->company_name
                 ?? $job->employer->name
                 ?? 'Company';
+
+                $companyLogo = $job->employer->employerRegistration->company_logo ?? null;
 
                 $location = collect([$job->city, $job->state, $job->country])
                 ->filter()
                 ->implode(', ') ?: 'Location not specified';
 
-                $employmentType = $job->employment_type
-                ? ucfirst(str_replace('-', ' ', $job->employment_type))
-                : null;
+                if ($isProject) {
+                    $employmentType    = $job->project_type === 'hourly' ? 'Hourly Contract' : 'Fixed-Price Contract';
+                    $payDisplay        = $job->budget ?: 'Budget not disclosed';
+                    $experienceDisplay = $job->experience_level ? ucfirst($job->experience_level) : null;
+                    $extraMeta         = $job->duration ?: null; // e.g. "2-4 weeks"
+                } else {
+                    $employmentType    = $job->employment_type
+                        ? ucfirst(str_replace('-', ' ', $job->employment_type))
+                        : null;
+                    $payDisplay        = $job->salary ?: 'Not disclosed';
+                    $experienceDisplay = $job->experience;
+                    $extraMeta         = null;
+                }
 
                 $skills = is_array($job->skills) ? $job->skills : [];
 
@@ -389,44 +408,64 @@ h3,
                 'bg-emerald-50 text-emerald-600', 'bg-rose-50 text-rose-600'];
                 $avatarClass = $palette[crc32($companyName) % count($palette)];
 
-                $isSaved = in_array($job->id, $savedJobIds ?? []);
-                $hasApplied = in_array($job->id, $appliedJobIds ?? []);
+                // Save/Apply only apply to real JobPost rows for now -
+                // Projects don't share the SavedJob / JobApplication tables.
+                $isSaved    = !$isProject && in_array($job->id, $savedJobIds ?? []);
+                $hasApplied = !$isProject && in_array($job->id, $appliedJobIds ?? []);
                 @endphp
 
-                <article data-job-open="{{ $job->id }}"
-                    class="job-card group relative bg-white rounded-2xl shadow-card hover:shadow-cardHover transition-all duration-200 p-4 sm:p-5 flex gap-4 items-start overflow-hidden ring-1 ring-transparent hover:ring-brand/10 cursor-pointer">
+                <article data-job-open="{{ $job->listing_type }}-{{ $job->id }}"
+                    class="job-card group relative bg-white rounded-2xl shadow-card hover:shadow-cardHover transition-all duration-200 p-4 sm:p-5 flex gap-4 items-start overflow-hidden ring-1 {{ $isProject ? 'ring-amber-300 bg-amber-50/30' : 'ring-transparent' }} hover:ring-brand/10 cursor-pointer">
                     <span
-                        class="absolute left-0 top-0 h-full w-1 bg-brand scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-200"></span>
+                        class="absolute left-0 top-0 h-full w-1 {{ $isProject ? 'bg-amber-400' : 'bg-brand' }} scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-200"></span>
 
+                    @if ($companyLogo)
+                    <img src="{{ asset('storage/' . $companyLogo) }}" alt="{{ $companyName }}"
+                        class="w-11 h-11 rounded-xl object-cover shrink-0 border border-line">
+                    @else
                     <div class="w-11 h-11 rounded-xl {{ $avatarClass }} flex items-center justify-center shrink-0">
                         <span class="font-display font-bold text-lg">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
                     </div>
+                    @endif
 
                     <div class="flex-1 min-w-0">
                         <div class="flex items-start justify-between gap-3">
                             <div class="min-w-0">
-                                <span
-                                    class="font-display font-bold text-sm sm:text-base text-ink group-hover:text-brand transition-colors">
-                                    {{ $job->title }}
-                                </span>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span
+                                        class="font-display font-bold text-sm sm:text-base text-ink group-hover:text-brand transition-colors">
+                                        {{ $job->title }}
+                                    </span>
+                                    @if ($isProject)
+                                    <span
+                                        title="This is a contract project posted specifically for employees, not a regular job listing."
+                                        class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m-6 4h6m-6 4h6" />
+                                        </svg>
+                                        Contract Project 
+                                    </span>
+                                    @endif
+                                </div>
                                 <p class="text-xs text-slate2 mt-1 flex flex-wrap items-center gap-x-1.5">
                                     <span class="font-medium text-ink/70">{{ $companyName }}</span>
                                     <span>&middot;</span>
                                     <span>{{ $location }}</span>
                                     @if ($employmentType) <span>&middot;</span><span>{{ $employmentType }}</span> @endif
-                                    @if ($job->experience) <span>&middot;</span><span>{{ $job->experience }}</span>
+                                    @if ($experienceDisplay) <span>&middot;</span><span>{{ $experienceDisplay }}</span>
                                     @endif
+                                    @if ($extraMeta) <span>&middot;</span><span>{{ $extraMeta }}</span> @endif
                                 </p>
                             </div>
                             <div class="text-right shrink-0">
                                 <p class="font-display font-bold text-mint text-sm">
-                                    {{ $job->salary ?: 'Not disclosed' }}</p>
+                                    {{ $payDisplay }}</p>
                                 <p class="text-[11px] text-slate2 mt-1">{{ $job->created_at?->diffForHumans() }}</p>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between mt-3.5">
-                            <div class="flex flex-wrap gap-1.5">
+                            <div id="job-tags-{{ $job->listing_type }}-{{ $job->id }}" class="flex flex-wrap gap-1.5 items-center">
                                 @if ($job->work_mode)
                                 <span
                                     class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-brand/5 text-brand border border-brand/10 capitalize">{{ $job->work_mode }}</span>
@@ -438,7 +477,7 @@ h3,
 
                                 @if ($hasApplied)
                                 <span
-                                    class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1">
+                                    class="applied-chip-{{ $job->id }} text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -448,74 +487,136 @@ h3,
                                 @endif
                             </div>
 
-                            <form action="{{ route('employee.jobs.save', $job->id) }}" method="POST"
-                                class="shrink-0 ml-2" onclick="event.stopPropagation()">
-                                @csrf
-                                <button type="submit" aria-label="{{ $isSaved ? 'Unsave job' : 'Save job' }}" class="w-8 h-8 flex items-center justify-center rounded-lg transition-colors
-                                                       {{ $isSaved ? 'text-brand bg-brand/10' : 'text-slate2 hover:text-brand hover:bg-brand/5' }}
-                                                       focus-visible:ring-2 focus-visible:ring-brand">
-                                    <svg class="w-4 h-4" fill="{{ $isSaved ? 'currentColor' : 'none' }}"
-                                        stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z" />
-                                    </svg>
-                                </button>
-                            </form>
+                            @if (!$isProject)
+                            <button type="button"
+                                class="job-save-btn shrink-0 ml-2 w-8 h-8 flex items-center justify-center rounded-lg transition-colors
+                                       {{ $isSaved ? 'text-brand bg-brand/10' : 'text-slate2 hover:text-brand hover:bg-brand/5' }}
+                                       focus-visible:ring-2 focus-visible:ring-brand"
+                                data-context="card"
+                                data-job-id="{{ $job->id }}"
+                                data-save-url="{{ route('employee.jobs.save', $job->id) }}"
+                                data-saved="{{ $isSaved ? '1' : '0' }}"
+                                aria-label="{{ $isSaved ? 'Unsave job' : 'Save job' }}">
+                                <svg class="w-4 h-4" fill="{{ $isSaved ? 'currentColor' : 'none' }}"
+                                    stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z" />
+                                </svg>
+                            </button>
+                            @endif
                         </div>
                     </div>
                 </article>
 
-                <template id="job-template-{{ $job->id }}">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <h2 class="font-display font-bold text-2xl text-ink">{{ $job->title }}</h2>
-                            <p class="text-sm text-slate2 mt-2">
-                                {{ $companyName }} &middot; {{ $location }}
-                                @if ($employmentType) &middot; {{ $employmentType }} @endif
-                                @if ($job->experience) &middot; {{ $job->experience }} @endif
-                            </p>
+                {{-- Hidden template with FULL details for this listing.
+                             JS copies this into the modal when the card is clicked. --}}
+                <template id="job-template-{{ $job->listing_type }}-{{ $job->id }}">
+                    <div class="flex items-center gap-4">
+                        @if ($companyLogo)
+                        <img src="{{ asset('storage/' . $companyLogo) }}" alt="{{ $companyName }}"
+                            class="w-14 h-14 rounded-xl object-cover shrink-0 border border-line">
+                        @else
+                        <div class="w-14 h-14 rounded-xl {{ $avatarClass }} flex items-center justify-center shrink-0">
+                            <span class="font-display font-bold text-lg">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
                         </div>
-                        <p class="font-display font-bold text-mint text-lg shrink-0">
-                            {{ $job->salary ?: 'Not disclosed' }}</p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-1.5 mt-4">
-                        @if ($job->work_mode)
-                        <span
-                            class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-brand/5 text-brand border border-brand/10 capitalize">{{ $job->work_mode }}</span>
                         @endif
-                        @foreach ($skills as $tag)
-                        <span
-                            class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-surface text-slate2 border border-line">{{ $tag }}</span>
-                        @endforeach
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h3 class="font-display font-bold text-lg text-ink">{{ $job->title }}</h3>
+                                @if ($isProject)
+                                <span class="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                                    Contract Project &middot; For You
+                                </span>
+                                @endif
+                            </div>
+                            <p class="text-sm text-slate2">{{ $companyName }} &middot; {{ $location }}</p>
+                        </div>
                     </div>
 
-                    @if ($job->qualification)
-                    <p class="text-sm text-ink/80 mt-5"><span class="font-semibold">Qualification:</span>
-                        {{ $job->qualification }}</p>
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <div class="bg-surface rounded-xl px-4 py-3">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">{{ $isProject ? 'Budget' : 'Salary' }}</p>
+                            <p class="text-ink font-semibold mt-1">{{ $payDisplay }}</p>
+                        </div>
+
+                        @if ($employmentType)
+                        <div class="bg-surface rounded-xl px-4 py-3">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">{{ $isProject ? 'Contract Type' : 'Employment Type' }}</p>
+                            <p class="text-ink font-semibold mt-1">{{ $employmentType }}</p>
+                        </div>
+                        @endif
+
+                        @if ($job->work_mode)
+                        <div class="bg-surface rounded-xl px-4 py-3">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">Work Mode</p>
+                            <p class="text-ink font-semibold mt-1 capitalize">{{ $job->work_mode }}</p>
+                        </div>
+                        @endif
+
+                        @if ($experienceDisplay)
+                        <div class="bg-surface rounded-xl px-4 py-3">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">Experience</p>
+                            <p class="text-ink font-semibold mt-1">{{ $experienceDisplay }}</p>
+                        </div>
+                        @endif
+
+                        @if ($isProject && $extraMeta)
+                        <div class="bg-surface rounded-xl px-4 py-3">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">Duration</p>
+                            <p class="text-ink font-semibold mt-1">{{ $extraMeta }}</p>
+                        </div>
+                        @endif
+
+                        @if (!$isProject && $job->qualification)
+                        <div class="bg-surface rounded-xl px-4 py-3 col-span-2">
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">Qualification</p>
+                            <p class="text-ink font-semibold mt-1">{{ $job->qualification }}</p>
+                        </div>
+                        @endif
+                    </div>
+
+                    @if (count($skills))
+                    <div class="mt-5 bg-surface rounded-xl px-4 py-3">
+                        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-2">Skills</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            @foreach ($skills as $tag)
+                            <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white text-slate2 border border-line">{{ $tag }}</span>
+                            @endforeach
+                        </div>
+                    </div>
                     @endif
 
-                    <div class="mt-6">
-                        <h3 class="font-display font-bold text-sm text-ink mb-2">Job Description</h3>
+                    <div class="mt-5">
+                        <h3 class="font-display font-bold text-sm text-ink mb-2">Description</h3>
                         <p class="text-sm text-ink/80 leading-relaxed whitespace-pre-line">{{ $job->description }}</p>
                     </div>
 
-                    <div class="flex items-center gap-3 mt-8 pt-6 border-t border-line">
-                        <form action="{{ route('employee.jobs.apply', $job->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" @disabled($hasApplied)
-                                class="{{ $hasApplied ? 'bg-mint/10 text-mint cursor-default' : 'bg-brand hover:bg-brand/90 text-white' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
-                                {{ $hasApplied ? 'Applied' : 'Apply Now' }}
-                            </button>
-                        </form>
+                    <div class="flex items-center gap-3 mt-6 pt-6 border-t border-line">
+                        @if ($isProject)
+                        <div class="w-full flex items-center gap-2 text-xs text-slate2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                            <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            This is a contract project posted for employees. Applying to projects isn't wired up yet — hook this button up to your proposal/apply flow once it exists.
+                        </div>
+                        @else
+                        <button type="button"
+                            class="job-apply-btn {{ $hasApplied ? 'bg-mint/10 text-mint cursor-default' : 'bg-brand hover:bg-brand/90 text-white' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
+                            data-job-id="{{ $job->id }}"
+                            data-apply-url="{{ route('employee.jobs.apply', $job->id) }}"
+                            {{ $hasApplied ? 'disabled' : '' }}>
+                            {{ $hasApplied ? 'Applied' : 'Apply Now' }}
+                        </button>
 
-                        <form action="{{ route('employee.jobs.save', $job->id) }}" method="POST">
-                            @csrf
-                            <button type="submit"
-                                class="{{ $isSaved ? 'bg-brand/10 text-brand' : 'bg-surface text-slate2 hover:text-brand' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
-                                {{ $isSaved ? 'Saved' : 'Save Job' }}
-                            </button>
-                        </form>
+                        <button type="button"
+                            class="job-save-btn {{ $isSaved ? 'bg-brand/10 text-brand' : 'bg-surface text-slate2 hover:text-brand' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
+                            data-context="modal"
+                            data-job-id="{{ $job->id }}"
+                            data-save-url="{{ route('employee.jobs.save', $job->id) }}"
+                            data-saved="{{ $isSaved ? '1' : '0' }}">
+                            {{ $isSaved ? 'Saved' : 'Save Job' }}
+                        </button>
+                        @endif
                     </div>
                 </template>
                 @empty
@@ -534,7 +635,7 @@ h3,
             </div>
 
             <div class="mt-8">
-                {{ $jobs->onEachSide(1)->links() }}
+                {{ $jobs->onEachSide(1)->fragment('jobs-list')->links() }}
             </div>
         </div>
 
@@ -623,20 +724,24 @@ h3,
 </section>
 
 {{-- ================= JOB DETAILS MODAL ================= --}}
-<div id="job-modal" class="hidden fixed inset-0 z-50">
+<div id="job-modal" class="hidden fixed inset-0 z-[1100]">
     <div id="job-modal-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-    <div class="relative min-h-full flex items-start sm:items-center justify-center p-4">
-        <div
-            class="bg-white rounded-2xl shadow-card ring-1 ring-black/[0.03] w-full max-w-2xl mt-10 sm:mt-0 max-h-[90vh] overflow-y-auto p-6">
-            <div class="flex justify-end">
+    <div class="relative min-h-full flex items-start justify-center p-4 sm:p-6 pt-24 sm:pt-28">
+        <div class="bg-white rounded-2xl shadow-lg ring-1 ring-black/[0.03] w-full max-w-2xl max-h-[75vh] flex flex-col overflow-hidden">
+
+            {{-- Header row: title left, bordered square close button right --}}
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
+                <h2 class="font-display font-bold text-lg text-ink">Job Details</h2>
                 <button type="button" id="job-modal-close" aria-label="Close"
-                    class="w-8 h-8 flex items-center justify-center rounded-lg text-slate2 hover:text-ink hover:bg-surface transition-colors">
+                    class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
-            <div id="job-modal-content"></div>
+
+            {{-- Scrollable content area --}}
+            <div id="job-modal-content" class="overflow-y-auto p-6"></div>
         </div>
     </div>
 </div>
@@ -645,6 +750,8 @@ h3,
 (function() {
     var modal = document.getElementById('job-modal');
     var content = document.getElementById('job-modal-content');
+    var csrfHolder = document.getElementById('csrf-holder');
+    var csrfToken = csrfHolder ? csrfHolder.dataset.token : '';
 
     function openModal(jobId) {
         var tpl = document.getElementById('job-template-' + jobId);
@@ -661,7 +768,85 @@ h3,
         document.body.style.overflow = '';
     }
 
+    // Fire-and-forget POST. Because this is fetch (not a form submit),
+    // the browser never navigates away - no reload, no jump to the hero section.
+    function postAction(url) {
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+    }
+
+    function setApplied(jobId) {
+        document.querySelectorAll('.job-apply-btn[data-job-id="' + jobId + '"]').forEach(function(btn) {
+            btn.disabled = true;
+            btn.textContent = 'Applied';
+            btn.classList.remove('bg-brand', 'hover:bg-brand/90', 'text-white');
+            btn.classList.add('bg-mint/10', 'text-mint', 'cursor-default');
+        });
+
+        var tagWrap = document.getElementById('job-tags-' + jobId);
+        if (tagWrap && !tagWrap.querySelector('.applied-chip-' + jobId)) {
+            var chip = document.createElement('span');
+            chip.className = 'applied-chip-' + jobId +
+                ' text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1';
+            chip.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Applied';
+            tagWrap.appendChild(chip);
+        }
+    }
+
+    function setSaved(jobId, saved) {
+        document.querySelectorAll('.job-save-btn[data-job-id="' + jobId + '"]').forEach(function(btn) {
+            btn.dataset.saved = saved ? '1' : '0';
+
+            if (btn.dataset.context === 'modal') {
+                btn.textContent = saved ? 'Saved' : 'Save Job';
+                btn.classList.toggle('bg-brand/10', saved);
+                btn.classList.toggle('text-brand', saved);
+                btn.classList.toggle('bg-surface', !saved);
+                btn.classList.toggle('text-slate2', !saved);
+            } else {
+                btn.setAttribute('aria-label', saved ? 'Unsave job' : 'Save job');
+                btn.classList.toggle('text-brand', saved);
+                btn.classList.toggle('bg-brand/10', saved);
+                btn.classList.toggle('text-slate2', !saved);
+                var svg = btn.querySelector('svg');
+                if (svg) svg.setAttribute('fill', saved ? 'currentColor' : 'none');
+            }
+        });
+    }
+
     document.addEventListener('click', function(e) {
+        var applyBtn = e.target.closest('.job-apply-btn');
+        if (applyBtn) {
+            e.stopPropagation();
+            if (applyBtn.disabled) return;
+            var jobId = applyBtn.dataset.jobId;
+            setApplied(jobId);
+            postAction(applyBtn.dataset.applyUrl).catch(function() {
+                // network/server error - the optimistic UI stays as "Applied";
+                // refresh the page to re-sync if this happens repeatedly.
+            });
+            return;
+        }
+
+        var saveBtn = e.target.closest('.job-save-btn');
+        if (saveBtn) {
+            e.stopPropagation();
+            var jobId2 = saveBtn.dataset.jobId;
+            var nowSaved = saveBtn.dataset.saved !== '1';
+            setSaved(jobId2, nowSaved);
+            postAction(saveBtn.dataset.saveUrl).catch(function() {
+                setSaved(jobId2, !nowSaved); // revert on failure
+            });
+            return;
+        }
+
         var trigger = e.target.closest('[data-job-open]');
         if (trigger) {
             openModal(trigger.getAttribute('data-job-open'));

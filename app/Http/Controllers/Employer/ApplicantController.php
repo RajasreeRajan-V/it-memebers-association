@@ -3,27 +3,24 @@
 namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ApplicationStatusMail;
 use App\Models\Interview;
 use App\Models\JobApplication;
 use App\Models\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicantController extends Controller
 {
-    protected int $perPage = 10;
+    protected int $perPage = 5;
 
-    /**
-     * All candidates across every job this employer has posted.
-     * Optional ?job=ID to filter to a single job, ?status=X to filter by bucket.
-     * Route: GET /employer/applicants  ->  employer.applicants.index
-     */
     public function index(Request $request)
     {
         $employerId = Auth::id();
 
         $query = JobApplication::query()
-            ->with(['user', 'jobPost', 'interview'])
+            ->with(['user.employeeRegistration', 'jobPost', 'interview'])
             ->whereHas('jobPost', fn ($q) => $q->where('employer_id', $employerId));
 
         if ($request->filled('job')) {
@@ -36,12 +33,10 @@ class ApplicantController extends Controller
 
         $applications = $query->latest()->paginate($this->perPage)->withQueryString();
 
-        // for the job filter dropdown
         $jobs = JobPost::where('employer_id', $employerId)
             ->orderBy('title')
             ->get(['id', 'title']);
 
-        // counts per bucket, for tab badges
         $counts = JobApplication::whereHas('jobPost', fn ($q) => $q->where('employer_id', $employerId))
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')
@@ -52,7 +47,6 @@ class ApplicantController extends Controller
 
     /**
      * Move an application to a new top-level status (shortlist, hire, reject, archive, etc).
-     * Route: POST /employer/applicants/{application}/status  ->  employer.applicants.updateStatus
      */
     public function updateStatus(Request $request, JobApplication $application)
     {
@@ -65,12 +59,24 @@ class ApplicantController extends Controller
 
         $application->moveTo($validated['status'], $validated['sub_status'] ?? null);
 
+        // send an email only for the actions that matter to the candidate
+        $emailEvent = match (true) {
+            $validated['status'] === 'in_progress' && ($validated['sub_status'] ?? null) === 'shortlisted' => 'shortlisted',
+            $validated['status'] === 'hired'    => 'hired',
+            $validated['status'] === 'rejected' => 'rejected',
+            default => null, // archived, applied, plain in_progress without shortlist sub_status: no email
+        };
+
+        if ($emailEvent && $application->user?->email) {
+            Mail::to($application->user->email)
+                ->send(new ApplicationStatusMail($application->fresh(['user', 'jobPost.employer']), $emailEvent));
+        }
+
         return back()->with('success', 'Candidate status updated.');
     }
 
     /**
      * Schedule (or reschedule) an interview for this application.
-     * Route: POST /employer/applicants/{application}/interview  ->  employer.applicants.scheduleInterview
      */
     public function scheduleInterview(Request $request, JobApplication $application)
     {
@@ -82,6 +88,8 @@ class ApplicantController extends Controller
             'location'     => 'nullable|string|max:255',
         ]);
 
+        $isReschedule = $application->interview()->exists();
+
         Interview::updateOrCreate(
             ['application_id' => $application->id],
             [
@@ -89,13 +97,47 @@ class ApplicantController extends Controller
                 'scheduled_at' => $validated['scheduled_at'],
                 'mode'         => $validated['mode'],
                 'location'     => $validated['location'] ?? null,
-                'status'       => Interview::STATUS_SCHEDULED,
+                'status'       => $isReschedule
+                    ? Interview::STATUS_RESCHEDULED
+                    : Interview::STATUS_SCHEDULED,
             ]
         );
 
         $application->moveTo(JobApplication::STATUS_INTERVIEW);
 
-        return back()->with('success', 'Interview scheduled.');
+        if ($application->user?->email) {
+            Mail::to($application->user->email)->send(new ApplicationStatusMail(
+                $application->fresh(['user', 'jobPost.employer', 'interview']),
+                $isReschedule ? 'interview_rescheduled' : 'interview_scheduled'
+            ));
+        }
+
+        return back()->with('success', $isReschedule ? 'Interview rescheduled.' : 'Interview scheduled.');
+    }
+
+    /**
+     * Cancel a scheduled interview for this application.
+     */
+    public function cancelInterview(JobApplication $application)
+    {
+        $this->authorizeOwner($application);
+
+        $interview = $application->interview;
+
+        if ($interview) {
+            $interview->update(['status' => Interview::STATUS_CANCELLED]);
+        }
+
+        $application->moveTo(JobApplication::STATUS_IN_PROGRESS, JobApplication::SUB_SHORTLISTED);
+
+        if ($application->user?->email) {
+            Mail::to($application->user->email)->send(new ApplicationStatusMail(
+                $application->fresh(['user', 'jobPost.employer', 'interview']),
+                'interview_cancelled'
+            ));
+        }
+
+        return back()->with('success', 'Interview cancelled.');
     }
 
     private function authorizeOwner(JobApplication $application): void

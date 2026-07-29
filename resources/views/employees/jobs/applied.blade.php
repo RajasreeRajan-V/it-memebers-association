@@ -2,13 +2,14 @@
 
 @section('content')
 
-   
+@include('employees.jobs._styles')
+@include('employees.jobs._scripts')
 
     <section class="max-w-5xl mx-auto px-6 pt-10 pb-24">
 
         <div class="flex items-center justify-between mb-6">
             <div>
-                <a href="{{ route('employee.jobs.index') }}" class="text-xs font-semibold text-brand hover:underline inline-flex items-center gap-1 mb-2">
+                <a href="{{ route('employee.jobs.index') }}#jobs-list" class="text-xs font-semibold text-brand hover:underline inline-flex items-center gap-1 mb-2">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
                     Back to all jobs
                 </a>
@@ -85,7 +86,7 @@
                     </div>
                     <p class="font-display font-bold text-sm text-ink">No applications yet</p>
                     <p class="text-xs text-slate2 mt-1">Jobs you apply to will show up here.</p>
-                    <a href="{{ route('employee.jobs.index') }}" class="inline-block mt-4 bg-brand text-white text-xs font-semibold px-5 py-2.5 rounded-lg hover:bg-brand/90 transition-colors">Browse jobs</a>
+                    <a href="{{ route('employee.jobs.index') }}#jobs-list" class="inline-block mt-4 bg-brand text-white text-xs font-semibold px-5 py-2.5 rounded-lg hover:bg-brand/90 transition-colors">Browse jobs</a>
                 </div>
             @endforelse
         </div>
@@ -95,8 +96,4 @@
         </div>
     </section>
 
-
-
-     @include('employees.jobs._styles')
-    @include('employees.jobs._scripts')
 @endsection
