@@ -16,10 +16,10 @@
             </p>
 
             <div class="career-hero-actions">
-                <a href="{{ url('/jobs') }}" class="btn btn-dark">
+                <a href="{{ route('employee.jobs.index') }}" class="btn btn-dark">
                     Explore Opportunities <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <a href="{{ route('profile.edit') }}" class="btn btn-outline-dark">
+                <a href="{{ route('profile') }}" class="btn btn-outline-dark">
                     Complete Your Profile
                 </a>
             </div>

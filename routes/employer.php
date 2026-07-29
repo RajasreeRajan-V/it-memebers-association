@@ -6,7 +6,7 @@ use App\Http\Controllers\Employer\InternshipController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Employer\StartupProfileController;
-
+use App\Http\Controllers\Employer\ApplicantController;
 
 
 Route::middleware(['auth'])
@@ -22,11 +22,10 @@ Route::middleware(['auth'])
         Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
         Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
         Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
-      Route::patch('/jobs/{job}/toggle-active', [JobController::class, 'toggleActive'])
-    ->name('jobs.toggle-active');
+        Route::patch('/jobs/{job}/toggle-active', [JobController::class, 'toggleActive'])
+            ->name('jobs.toggle-active');
 
         // ---- Internship Routes ----
-     // ---- Internship Routes ----
         Route::get('/internships', [InternshipController::class, 'index'])->name('internships.index');
         Route::get('/internships/create', [InternshipController::class, 'create'])->name('internships.create');
         Route::post('/internships', [InternshipController::class, 'store'])->name('internships.store');
@@ -38,33 +37,37 @@ Route::middleware(['auth'])
             ->name('internships.toggle-status');
 
         // ---- Project Routes ----
-        // ---- Project Routes ----
-Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
-Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
-Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
-Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
-Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
-Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
-Route::patch('/projects/{project}/toggle-status', [ProjectController::class, 'toggleStatus'])
-    ->name('projects.toggle-status');
+        Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+        Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+        Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+        Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+        Route::get('/projects/{project}/edit', [ProjectController::class, 'edit'])->name('projects.edit');
+        Route::put('/projects/{project}', [ProjectController::class, 'update'])->name('projects.update');
+        Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->name('projects.destroy');
+        Route::patch('/projects/{project}/toggle-status', [ProjectController::class, 'toggleStatus'])
+            ->name('projects.toggle-status');
 
+        // ---- Startup Profile Routes ----
+        Route::get('/startup-profile', [StartupProfileController::class, 'index'])->name('startup-profile.index');
+        Route::get('/startup-profile/create', [StartupProfileController::class, 'create'])->name('startup-profile.create');
+        Route::post('/startup-profile', [StartupProfileController::class, 'store'])->name('startup-profile.store');
+        Route::get('/startup-profile/show', [StartupProfileController::class, 'show'])->name('startup-profile.show');
+        Route::get('/startup-profile/edit', [StartupProfileController::class, 'edit'])->name('startup-profile.edit');
+        Route::put('/startup-profile', [StartupProfileController::class, 'update'])->name('startup-profile.update');
+        Route::delete('/startup-profile', [StartupProfileController::class, 'destroy'])->name('startup-profile.destroy');
 
+        // ---- Applicant Routes ----
+        Route::get('/applicants', [ApplicantController::class, 'index'])
+            ->name('applicants.index');
 
-       Route::get('/startup-profile', [StartupProfileController::class, 'index'])->name('startup-profile.index');
-       Route::get('/startup-profile/create', [StartupProfileController::class, 'create'])->name('startup-profile.create');
-       Route::post('/startup-profile', [StartupProfileController::class, 'store'])->name('startup-profile.store');
-       Route::get('/startup-profile/show', [StartupProfileController::class, 'show'])->name('startup-profile.show');
-       Route::get('/startup-profile/edit', [StartupProfileController::class, 'edit'])->name('startup-profile.edit');
-       Route::put('/startup-profile', [StartupProfileController::class, 'update'])->name('startup-profile.update');
-       Route::delete('/startup-profile', [StartupProfileController::class, 'destroy'])->name('startup-profile.destroy');
-    
+        Route::post('/applicants/{application}/status', [ApplicantController::class, 'updateStatus'])
+            ->name('applicants.updateStatus');
+
+        Route::post('/applicants/{application}/interview', [ApplicantController::class, 'scheduleInterview'])
+            ->name('applicants.scheduleInterview');
+
     });
 
-
-
-
-    
 
 // ---- Admin Job Approval Routes (sibling group, NOT nested in employer) ----
 Route::prefix('admin')

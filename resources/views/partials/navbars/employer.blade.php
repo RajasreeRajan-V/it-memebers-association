@@ -69,7 +69,7 @@
                 </ul>
                 
             </div>
-            <a href="" class="nav-link">Applicants</a>
+            <a href="{{ route('employer.applicants.index') }}" class="nav-link">Applicants</a>
         </nav>
 
         <div class="header-actions">
