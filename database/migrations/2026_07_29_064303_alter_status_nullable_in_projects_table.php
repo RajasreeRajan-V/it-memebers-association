@@ -18,7 +18,7 @@ return new class extends Migration
                 'rejected',
                 'in_progress',
                 'completed',
-            ])->nullable()->default(null)->change();
+            ])->nullable()->change();
         });
     }
 
@@ -27,14 +27,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-       Schema::table('projects', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table) {
             $table->enum('status', [
                 'pending',
                 'approved',
                 'rejected',
                 'in_progress',
                 'completed',
-            ])->default('pending')->nullable(false)->change();
+            ])->default('pending')->change();
         });
     }
 };
