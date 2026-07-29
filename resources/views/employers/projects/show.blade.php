@@ -73,6 +73,11 @@
             Posted on {{ $project->created_at->format('M d, Y') }}
         </div>
     </div>
+
+    {{-- ================= PROPOSALS FROM EMPLOYEES ================= --}}
+    {{-- Requires the controller to eager-load: $project->load(['applications.applicant']) --}}
+    @include('employers.projects._proposals', ['project' => $project])
+
 </div>
 
 <style>

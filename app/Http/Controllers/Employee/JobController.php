@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JobApplication;
 use App\Models\JobPost;
 use App\Models\Project;
+use App\Models\ProjectApplication;
 use App\Models\SavedJob;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -176,6 +177,14 @@ class JobController extends Controller
             ? JobApplication::where('user_id', $userId)->pluck('job_post_id')->all()
             : [];
 
+        // project ids the logged-in user has already submitted a proposal for,
+        // so the UI can swap the "Submit Proposal" form for a confirmation state.
+        $appliedProjectIds = $userId
+            ? ProjectApplication::where('user_id', $userId)->pluck('project_id')->all()
+            : [];
+
+        $proposalsCount = count($appliedProjectIds);
+
         // counts shown on the sidebar nav buttons
         $savedJobsCount   = count($savedJobIds);
         $appliedJobsCount = count($appliedJobIds);
@@ -198,7 +207,8 @@ class JobController extends Controller
 
         return view('employees.jobs.index', compact(
             'jobs', 'jobsCount', 'topCompanies', 'filters',
-            'savedJobIds', 'appliedJobIds', 'savedJobsCount', 'appliedJobsCount',
+            'savedJobIds', 'appliedJobIds', 'appliedProjectIds', 'proposalsCount',
+            'savedJobsCount', 'appliedJobsCount',
             'interviewsCount', 'inprogress', 'hiredJobsCount', 'archivedCount'
         ));
     }

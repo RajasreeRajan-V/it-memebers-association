@@ -46,6 +46,10 @@ class ProjectController extends Controller
     {
         $this->authorizeOwner($project);
 
+        // Load proposals + the employee who submitted each one,
+        // so the "Proposals" section on the show page has what it needs.
+        $project->load(['applications.applicant']);
+
         return view('employers.projects.show', compact('project'));
     }
 

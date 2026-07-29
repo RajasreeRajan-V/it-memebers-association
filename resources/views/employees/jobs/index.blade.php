@@ -282,6 +282,22 @@ h3,
                     @endif
                 </a>
 
+                <a href="{{ route('employee.projects.proposals') }}"
+                    class="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink hover:bg-surface transition-colors">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="1.8"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m-6 4h6m-6 4h6" />
+                        </svg>
+                        My Proposals
+                    </span>
+                    @if (($proposalsCount ?? 0) > 0)
+                    <span
+                        class="text-[11px] font-bold bg-amber-100 text-amber-600 rounded-full px-2 py-0.5">{{ $proposalsCount }}</span>
+                    @endif
+                </a>
+
                 <a href="{{ route('employee.jobs.interviews') }}"
                     class="flex items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-ink hover:bg-surface transition-colors">
                     <span class="flex items-center gap-2">
@@ -412,6 +428,9 @@ h3,
                 // Projects don't share the SavedJob / JobApplication tables.
                 $isSaved    = !$isProject && in_array($job->id, $savedJobIds ?? []);
                 $hasApplied = !$isProject && in_array($job->id, $appliedJobIds ?? []);
+
+                // Whether the logged-in employee has already sent a proposal for this project.
+                $hasProposed = $isProject && in_array($job->id, $appliedProjectIds ?? []);
                 @endphp
 
                 <article data-job-open="{{ $job->listing_type }}-{{ $job->id }}"
@@ -443,7 +462,7 @@ h3,
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m-6 4h6m-6 4h6" />
                                         </svg>
-                                        Contract Project 
+                                        Contract Project
                                     </span>
                                     @endif
                                 </div>
@@ -593,12 +612,46 @@ h3,
 
                     <div class="flex items-center gap-3 mt-6 pt-6 border-t border-line">
                         @if ($isProject)
-                        <div class="w-full flex items-center gap-2 text-xs text-slate2 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-                            <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            This is a contract project posted for employees. Applying to projects isn't wired up yet — hook this button up to your proposal/apply flow once it exists.
-                        </div>
+                            @if ($hasProposed)
+                            <div class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Proposal submitted — the employer will be in touch if you're shortlisted.
+                            </div>
+                            @else
+                            <form class="project-proposal-form w-full"
+                                data-project-id="{{ $job->id }}"
+                                data-apply-url="{{ route('employee.projects.apply', $job->id) }}">
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="text-xs font-semibold text-ink block mb-1">Cover Note</label>
+                                        <textarea name="cover_note" rows="3" required maxlength="2000"
+                                            class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                            placeholder="Briefly explain why you're a good fit for this project..."></textarea>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="text-xs font-semibold text-ink block mb-1">Proposed Rate</label>
+                                            <input type="text" name="proposed_rate" required maxlength="100"
+                                                class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                                placeholder="e.g. ₹800/hr or ₹40,000 fixed">
+                                        </div>
+                                        <div>
+                                            <label class="text-xs font-semibold text-ink block mb-1">Estimated Timeline</label>
+                                            <input type="text" name="estimated_timeline" required maxlength="100"
+                                                class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                                placeholder="e.g. 3 weeks">
+                                        </div>
+                                    </div>
+                                    <p class="proposal-error text-xs text-rose-600 hidden"></p>
+                                    <button type="submit"
+                                        class="proposal-submit-btn bg-brand hover:bg-brand/90 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto">
+                                        Submit Proposal
+                                    </button>
+                                </div>
+                            </form>
+                            @endif
                         @else
                         <button type="button"
                             class="job-apply-btn {{ $hasApplied ? 'bg-mint/10 text-mint cursor-default' : 'bg-brand hover:bg-brand/90 text-white' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
@@ -859,6 +912,74 @@ h3,
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeModal();
+    });
+
+    // ---- Project proposal form (full-form apply for contract projects) ----
+    document.addEventListener('submit', function(e) {
+        var form = e.target.closest('.project-proposal-form');
+        if (!form) return;
+        e.preventDefault();
+
+        var btn = form.querySelector('.proposal-submit-btn');
+        var errorEl = form.querySelector('.proposal-error');
+        var projectId = form.dataset.projectId;
+        var url = form.dataset.applyUrl;
+        var originalText = btn.textContent;
+
+        errorEl.classList.add('hidden');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                cover_note: form.cover_note.value,
+                proposed_rate: form.proposed_rate.value,
+                estimated_timeline: form.estimated_timeline.value
+            })
+        })
+        .then(function(res) {
+            return res.json().then(function(data) { return { ok: res.ok, data: data }; });
+        })
+        .then(function(result) {
+            if (!result.ok) {
+                var msg = result.data.message || 'Something went wrong. Please try again.';
+                if (result.data.errors) {
+                    msg = Object.values(result.data.errors).flat().join(' ');
+                }
+                errorEl.textContent = msg;
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.textContent = originalText;
+                return;
+            }
+
+            form.outerHTML = '<div class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">' +
+                '<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
+                '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' +
+                'Proposal submitted — the employer will be in touch if you\'re shortlisted.</div>';
+
+            var tagWrap = document.getElementById('job-tags-project-' + projectId);
+            if (tagWrap && !tagWrap.querySelector('.proposal-chip-' + projectId)) {
+                var chip = document.createElement('span');
+                chip.className = 'proposal-chip-' + projectId +
+                    ' text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1';
+                chip.textContent = 'Proposal Sent';
+                tagWrap.appendChild(chip);
+            }
+        })
+        .catch(function() {
+            errorEl.textContent = 'Network error. Please try again.';
+            errorEl.classList.remove('hidden');
+            btn.disabled = false;
+            btn.textContent = originalText;
+        });
     });
 })();
 </script>

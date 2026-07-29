@@ -45,4 +45,11 @@ Route::middleware(['auth'])
 
         Route::post('/jobs/{job}/apply', [JobController::class, 'apply'])
             ->name('jobs.apply');
+
+        Route::post('/projects/{project}/apply', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'store'])
+    ->name('projects.apply');
+
+    Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
+    ->name('projects.proposals');
+
     });

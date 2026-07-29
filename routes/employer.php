@@ -70,6 +70,10 @@ Route::middleware(['auth'])
         Route::post('/applicants/{application}/interview/cancel', [ApplicantController::class, 'cancelInterview'])
             ->name('applicants.cancelInterview');
 
+
+       Route::patch('/proposals/{proposal}/status', [\App\Http\Controllers\Employer\ProjectApplicationController::class, 'updateStatus'])
+    ->name('proposals.updateStatus');
+
     });
 
 
