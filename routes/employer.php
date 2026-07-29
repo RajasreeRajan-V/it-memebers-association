@@ -66,7 +66,14 @@ Route::middleware(['auth'])
         Route::post('/applicants/{application}/interview', [ApplicantController::class, 'scheduleInterview'])
             ->name('applicants.scheduleInterview');
 
+
+        Route::post('/applicants/{application}/interview/cancel', [ApplicantController::class, 'cancelInterview'])
+            ->name('applicants.cancelInterview');
+
     });
+
+
+    
 
 
 // ---- Admin Job Approval Routes (sibling group, NOT nested in employer) ----

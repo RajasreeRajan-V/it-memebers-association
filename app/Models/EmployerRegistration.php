@@ -11,8 +11,8 @@ class EmployerRegistration extends Model
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * Note: DB column is `profile_photo`, not `company_logo` — kept as-is here
+     * so existing insert/update code using this column name still works.
      */
     protected $fillable = [
         'user_id',
@@ -23,9 +23,18 @@ class EmployerRegistration extends Model
         'company_size',
         'industry',
         'website',
-        'company_logo',
+        'profile_photo',
         'company_documents',
     ];
+
+    /**
+     * Alias so code can refer to `company_logo` (clearer name) while it
+     * actually reads the `profile_photo` column underneath.
+     */
+    public function getCompanyLogoAttribute()
+    {
+        return $this->attributes['profile_photo'] ?? null;
+    }
 
     /**
      * Get the user that owns the employer registration.

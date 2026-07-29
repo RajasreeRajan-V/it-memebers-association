@@ -2,13 +2,16 @@
 
 @section('content')
 
+@include('employees.jobs._styles')
+@include('employees.jobs._scripts')
+
 <section class="max-w-5xl mx-auto px-6 py-10">
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="font-display font-bold text-2xl text-ink">Archived</h1>
             <p class="text-sm text-slate2 mt-1">Applications that have been closed out.</p>
         </div>
-        <a href="{{ route('employee.jobs.index') }}" class="text-xs font-semibold text-brand hover:underline">
+        <a href="{{ route('employee.jobs.index') }}#jobs-list" class="text-xs font-semibold text-brand hover:underline">
             &larr; Back to all jobs
         </a>
     </div>
@@ -55,6 +58,5 @@
         {{ $jobs->onEachSide(1)->links() }}
     </div>
 </section>
-@include('employees.jobs._styles')
-    @include('employees.jobs._scripts')
+
 @endsection
