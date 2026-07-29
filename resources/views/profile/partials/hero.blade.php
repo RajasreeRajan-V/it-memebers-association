@@ -1,11 +1,21 @@
 {{-- resources/views/profile/partials/hero.blade.php --}}
-<section class="profile-hero"
-    @if ($coverImage) style="background-image:url('{{ asset($coverImage) }}');" @endif>
+<section class="profile-hero">
+    <div class="profile-cover"
+     style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), url('{{ $coverImage ? asset('storage/' . $coverImage) : asset('img/cover-img/coverimg.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;">
+</div>
+
     <div class="container profile-hero-inner">
         <div class="profile-identity">
             <div class="profile-avatar-wrapper">
+                       {{-- {{ dd([
+    'avatarImage' => $avatarImage,
+    'asset' => asset('storage/' . $avatarImage),
+]) }} --}}
                 @if ($avatarImage)
-                    <img src="{{ asset($avatarImage) }}" alt="{{ $user->name ?? 'Profile' }}" class="profile-avatar">
+                    <img src="{{ asset('storage/' . $avatarImage) }}" alt="{{ $user->name ?? 'Profile' }}" class="profile-avatar">
                 @else
                     <div class="profile-avatar profile-avatar-placeholder">
                         <i class="fa-solid fa-user"></i>

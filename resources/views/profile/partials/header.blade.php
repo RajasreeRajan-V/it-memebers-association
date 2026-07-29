@@ -1,10 +1,14 @@
 {{-- resources/views/profile/partials/header.blade.php --}}
 <div class="profile-header">
-    <div>
-        <p class="eyebrow">Let's get started</p>
-        <h2>Complete your profile</h2>
-        <p class="subheading">Add these mandatory sections to complete your profile</p>
-    </div>
+        <div>
+    <p class="eyebrow">Let's get started</p>
+    <h2>Complete your profile</h2>
+    <p class="subheading">Add these mandatory sections to complete your profile</p>
+    <p class="disclaimer">
+        <i class="fa-solid fa-circle-info"></i>
+        For updating your existing details, please click <strong>Edit Profile</strong>.
+    </p>
+</div>
     <div class="profile-toggles">
         <div class="toggle-item">
             <span class="toggle-label">

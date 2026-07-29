@@ -10,9 +10,6 @@
 
     @php
         $user = Auth::user();
-        $profileStrength = $profileStrength ?? 3;
-        $coverImage = $user->cover_image ?? null;
-        $avatarImage = $user->avatar ?? null;
 
         // Get role-specific registration
         $role = strtolower($user->role ?? '');
@@ -26,6 +23,9 @@
             'mentor' => $user->mentorRegistration ?? null,
             default => null,
         };
+
+        // Roles allowed to upload/view a resume
+        $resumeRoles = ['student', 'employee', 'freelancer'];
 
         // Helper for form values with old() fallback
         $val = fn($key, $default = null) => old($key, data_get($registration, $key, $default));
@@ -44,11 +44,13 @@
     <main class="profile-main">
         <div class="container">
 
-            @include('profile.partials.header', ['user' => $user])
+            @include('profile.partials.header', ['user' => $user, 'registration' => $registration])
 
             <hr class="divider">
 
-            @include('profile.partials.resume')
+            @if(in_array($role, $resumeRoles))
+                @include('profile.partials.resume', ['user' => $user, 'registration' => $registration])
+            @endif
 
             <div id="editProfileSection" class="edit-section" hidden>
                 <div class="details-card">
