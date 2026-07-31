@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContactusController;
@@ -8,11 +9,13 @@ use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\RegistrationApprovalController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Admin\StartupApprovalController;
+use App\Http\Controllers\Admin\ArticleApprovalController;
 
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')->group(function () {
-    Route::post("/do-login", [LoginController::class,'doLogin'])->name('do.login');
+    Route::post("/do-login", [LoginController::class, 'doLogin'])->name('do.login');
+
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin-dashboard');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -39,4 +42,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('startups', [StartupApprovalController::class, 'index'])->name('admin.startups.index');
     Route::post('startups/{startup}/approve', [StartupApprovalController::class, 'approve'])->name('admin.startups.approve');
     Route::post('startups/{startup}/reject', [StartupApprovalController::class, 'reject'])->name('admin.startups.reject');
+
+    // Articles
+    Route::get('articles', [ArticleApprovalController::class, 'index'])->name('admin.articles.index');
+    Route::post('articles/{article}/approve', [ArticleApprovalController::class, 'approve'])->name('admin.articles.approve');
+    Route::post('articles/{article}/reject', [ArticleApprovalController::class, 'reject'])->name('admin.articles.reject');
 });

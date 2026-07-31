@@ -7,7 +7,8 @@ use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Employer\StartupProfileController;
 use App\Http\Controllers\Employer\ApplicantController;
-
+use App\Http\Controllers\Employer\ArticleController as EmployerArticleController;
+use App\Http\Controllers\ArticleController;
 
 Route::middleware(['auth'])
     ->prefix('employer')
@@ -73,6 +74,12 @@ Route::middleware(['auth'])
 
        Route::patch('/proposals/{proposal}/status', [\App\Http\Controllers\Employer\ProjectApplicationController::class, 'updateStatus'])
     ->name('proposals.updateStatus');
+
+       Route::get('/articles', [EmployerArticleController::class, 'index'])->name('articles.index');
+        Route::get('/articles/{article}', [EmployerArticleController::class, 'show'])->name('articles.show');
+        Route::post('/articles/{article}/like', [EmployerArticleController::class, 'toggleLike'])->name('articles.like');
+        Route::post('/articles/{article}/comments', [EmployerArticleController::class, 'storeComment'])->name('articles.comments.store');
+        Route::delete('/articles/comments/{comment}', [EmployerArticleController::class, 'destroyComment'])->name('articles.comments.destroy');
 
     });
 
