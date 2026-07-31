@@ -139,6 +139,84 @@
     </div>
 </section>
 
+
+
+{{-- ============ LATEST TECHNICAL ARTICLES ============ --}}
+<section class="ed-articles-section">
+    <div class="container">
+        <div class="ed-feed-head reveal">
+            <h2>Latest Technical Articles</h2>
+            <a href="{{ route('employer.articles.index') }}" class="ed-feed-viewall">View All Articles <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="ed-articles-sub reveal">Insights, tutorials and industry trends published by employees.</p>
+
+        <div class="ed-articles-grid reveal">
+            @forelse (($latestArticles ?? collect()) as $article)
+            <div class="ed-article-card">
+                <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-thumb-link">
+                    <div class="ed-article-thumb">
+                        <img src="{{ $article->image ?: asset('assets/img/article-placeholder.png') }}"
+                            alt="{{ $article->title }}"
+                            onerror="this.onerror=null;this.src='{{ asset('assets/img/article-placeholder.png') }}'">
+                        <span class="ed-article-cat">{{ $article->category }}</span>
+                    </div>
+                </a>
+
+                <div class="ed-article-body">
+                    <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-title-link">
+                        <h3>{{ $article->title }}</h3>
+                    </a>
+                    <p>{{ Str::limit($article->excerpt, 90) }}</p>
+                </div>
+
+                <div class="ed-article-author-row">
+                    <span class="ed-article-avatar">{{ strtoupper(substr($article->author->name ?? 'A', 0, 1)) }}</span>
+                    <span class="ed-article-author-meta">
+                        <span class="ed-article-author-name">{{ $article->author->name ?? 'Unknown' }}</span>
+                        <span class="ed-article-date">
+                            {{ optional($article->published_at)->format('M d, Y') }}
+                            &middot; {{ $article->read_minutes }} min read
+                        </span>
+                    </span>
+                </div>
+
+                <div class="ed-article-footer">
+                    <button
+                        type="button"
+                        class="ed-article-like-btn {{ in_array($article->id, $likedArticleIds ?? []) ? 'is-liked' : '' }}"
+                        data-article-id="{{ $article->id }}"
+                    >
+                        <svg class="ed-like-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                             fill="{{ in_array($article->id, $likedArticleIds ?? []) ? 'currentColor' : 'none' }}">
+                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+                        </svg>
+                        <span class="ed-like-count">{{ $article->likes_count }}</span>
+                    </button>
+
+                    <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-stat ed-article-comment-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/>
+                            <path d="M8 10h8M8 14h5" stroke-linecap="round"/>
+                        </svg>
+                        {{ $article->comments_count }}
+                    </a>
+
+                    <span class="ed-article-stat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        {{ $article->views_count }}
+                    </span>
+                </div>
+            </div>
+            @empty
+            <p class="empty-state">No articles published yet.</p>
+            @endforelse
+        </div>
+    </div>
+</section>
+
 {{-- ============ ABOUT US ============ --}}
 <section class="ed-about-section">
     <div class="container">
@@ -2154,6 +2232,184 @@
 .reveal-delay-1.is-visible { transition-delay: 0.08s; }
 .reveal-delay-2.is-visible { transition-delay: 0.16s; }
 
+
+
+/* ---------- Latest Technical Articles ---------- */
+.ed-articles-section { padding: 12px 0 54px; }
+.ed-articles-section .ed-feed-head { margin-bottom: 4px; }
+.ed-articles-sub { color: var(--ed-muted); font-size: 0.88rem; margin-bottom: 24px; }
+
+.ed-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.ed-article-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--ed-surface);
+    border: 1px solid var(--ed-line);
+    border-radius: var(--ed-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--ed-shadow-sm);
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.ed-article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ed-shadow-md);
+    border-color: #DAD8F7;
+    text-decoration: none;
+}
+
+.ed-article-thumb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: var(--ed-surface-soft);
+    overflow: hidden;
+}
+
+.ed-article-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ed-article-cat {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(21, 23, 46, 0.72);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    padding: 5px 11px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+}
+
+.ed-article-body {
+    padding: 16px 16px 4px;
+    flex: 1;
+}
+
+.ed-article-body h3 {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ed-ink);
+    line-height: 1.35;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ed-article-body p {
+    font-size: 0.8rem;
+    color: var(--ed-muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ed-article-author-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px 16px 0;
+}
+
+.ed-article-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ed-primary-soft);
+    color: var(--ed-primary-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ed-article-author-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.ed-article-author-name {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ed-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ed-article-date {
+    font-size: 0.7rem;
+    color: var(--ed-muted);
+    white-space: nowrap;
+}
+
+.ed-article-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px 16px;
+    margin-top: auto;
+}
+
+.ed-article-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.74rem;
+    color: var(--ed-muted);
+    font-weight: 600;
+}
+
+.ed-article-like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--ed-muted);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.ed-article-like-btn:hover { color: #ef4444; }
+.ed-article-like-btn.is-liked { color: #ef4444; }
+.ed-like-icon { width: 14px; height: 14px; }
+
+.ed-article-comment-link {
+    text-decoration: none;
+}
+
+.ed-article-comment-link:hover { color: var(--ed-primary); }
+.ed-article-stat i { font-size: 0.72rem; color: var(--ed-primary); }
+
+@media (max-width: 1100px) { .ed-articles-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .ed-articles-grid { grid-template-columns: 1fr; } }
+
 @keyframes edPulse {
     0% { box-shadow: 0 0 0 0 rgba(251, 122, 60, 0.55); }
     70% { box-shadow: 0 0 0 8px rgba(251, 122, 60, 0); }
@@ -2196,6 +2452,55 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn('Dropdown elements not found', toggle, menu);
     }
+});
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : null;
+
+    document.querySelectorAll('.ed-article-like-btn').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+            const articleId = btn.dataset.articleId;
+            if (!articleId) return;
+
+            if (!csrfToken) {
+                alert('Missing <meta name="csrf-token"> tag in your layout <head> — likes can\'t be saved without it.');
+                return;
+            }
+
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`/employer/articles/${articleId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                });
+
+                if (!response.ok) throw new Error('Request failed');
+
+                const data = await response.json();
+                const icon = btn.querySelector('.ed-like-icon');
+                const count = btn.querySelector('.ed-like-count');
+
+                count.textContent = data.likes_count;
+                btn.classList.toggle('is-liked', data.liked);
+                icon.setAttribute('fill', data.liked ? 'currentColor' : 'none');
+            } catch (err) {
+                console.error('Failed to toggle like:', err);
+            } finally {
+                btn.disabled = false;
+            }
+        });
+    });
 });
 </script>
 

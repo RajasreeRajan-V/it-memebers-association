@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\JobController;
+use App\Http\Controllers\Employee\ArticleController;
 
 Route::middleware(['auth'])
     ->name('employee.')
@@ -12,9 +13,7 @@ Route::middleware(['auth'])
         Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])
             ->name('dashboard');
 
-        // Jobs — IMPORTANT: all fixed-segment routes (/jobs/saved, /jobs/applied,
-        // /jobs/interviews, /jobs/in-progress, /jobs/hired, /jobs/archived) must
-        // come BEFORE /jobs/{job}, otherwise {job} swallows them as a wildcard match.
+        // Jobs — fixed-segment routes must come BEFORE /jobs/{job}
         Route::get('/jobs', [JobController::class, 'index'])
             ->name('jobs.index');
 
@@ -47,9 +46,48 @@ Route::middleware(['auth'])
             ->name('jobs.apply');
 
         Route::post('/projects/{project}/apply', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'store'])
-    ->name('projects.apply');
+            ->name('projects.apply');
 
-    Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
-    ->name('projects.proposals');
+        Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
+            ->name('projects.proposals');
+
+    // Articles — same rule applies: any fixed segment (e.g. /articles/saved,
+        // /articles/create) must be declared BEFORE /articles/{article}.
+        Route::get('/articles', [ArticleController::class, 'index'])
+            ->name('articles.index');
+
+        Route::get('/articles/create', [ArticleController::class, 'create'])
+            ->name('articles.create');
+
+        Route::post('/articles', [ArticleController::class, 'store'])
+            ->name('articles.store');
+
+        Route::get('/articles/{article}', [ArticleController::class, 'show'])
+            ->name('articles.show');
+
+        Route::post('/articles/{article}/like', [ArticleController::class, 'toggleLike'])
+            ->name('articles.like');
+
+        Route::post('/articles/{article}/comments', [ArticleController::class, 'storeComment'])
+            ->name('articles.comments.store');
+
+        Route::delete('/articles/comments/{comment}', [ArticleController::class, 'destroyComment'])
+            ->name('articles.comments.destroy');
+
+
+              Route::post('/jobs/subscribe', [JobController::class, 'subscribe'])
+    ->name('employee.jobs.subscribe');
+
+
+      
+
+        Route::post('/articles/{article}/like', [ArticleController::class, 'toggleLike'])
+            ->name('articles.like');
+
+        Route::post('/articles/{article}/comments', [ArticleController::class, 'storeComment'])
+            ->name('articles.comments.store');
+
+        Route::delete('/articles/comments/{comment}', [ArticleController::class, 'destroyComment'])
+            ->name('articles.comments.destroy');
 
     });

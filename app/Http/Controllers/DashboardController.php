@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\JobPost;
 use App\Models\Internship;
 use App\Models\Project;
+use App\Models\Article;
+use App\Models\ArticleLike;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -76,10 +78,27 @@ class DashboardController extends Controller
             );
         }
 
+        // Latest approved articles — shown on the employer dashboard's
+        // "Latest Technical Articles" section.
+        $latestArticles = Article::with(['author', 'comments.user'])
+            ->approved()
+            ->latest('published_at')
+            ->take(4)
+            ->get();
+
+        $likedArticleIds = $user
+            ? ArticleLike::where('user_id', $user->id)
+                ->whereIn('article_id', $latestArticles->pluck('id'))
+                ->pluck('article_id')
+                ->all()
+            : [];
+
         return view('dashboard-layouts.index', [
             'role' => $user->role,
             'stats' => $stats,
             'recentPostings' => $recentPostings,
+            'latestArticles' => $latestArticles,
+            'likedArticleIds' => $likedArticleIds,
         ]);
     }
 

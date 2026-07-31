@@ -32,6 +32,16 @@
             <span class="badge">12</span>
         </a>
 
+
+        <a href="{{ Route::has('admin.articles.index') ? route('admin.articles.index') : '#' }}"
+    class="nav-item {{ request()->routeIs('admin.articles.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-newspaper"></i>
+    <span>Article Approvals</span>
+    @if(($pendingArticleApprovals ?? 0) > 0)
+        <span class="badge">{{ $pendingArticleApprovals }}</span>
+    @endif
+</a>
+
         <a href="{{ Route::has('admin.registrations.index') ? route('admin.registrations.index') : '#' }}"
             class="nav-item {{ request()->routeIs('admin.registrations.*') ? 'active' : '' }}">
             <i class="fa-solid fa-user-clock"></i>
