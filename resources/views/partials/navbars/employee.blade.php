@@ -21,10 +21,10 @@
 
         <nav class="main-nav" aria-label="Primary">
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-           <a href="{{ route('employee.jobs.index') }}"
-   class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">
-    Jobs
-</a>
+            <a href="{{ route('employee.jobs.index') }}"
+                class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">
+                Jobs
+            </a>
             <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
             <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
             <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
@@ -383,9 +383,9 @@
         right: 0;
         top: calc(100% + 10px);
         width: 280px;
-        background: #1a2332;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
         display: none;
         overflow: hidden;
         z-index: 999;
@@ -415,7 +415,7 @@
         align-items: center;
         gap: 14px;
         padding: 18px 20px 14px 20px;
-        background: rgba(255, 255, 255, 0.03);
+        background: #f8fafc;
     }
 
     .dropdown-avatar {
@@ -441,7 +441,7 @@
 
     .dropdown-name {
         font-weight: 600;
-        color: #ffffff;
+        color: #1f2937;
         font-size: 0.95rem;
         white-space: nowrap;
         overflow: hidden;
@@ -450,7 +450,7 @@
 
     .dropdown-email {
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.4);
+        color: #6b7280;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -458,7 +458,7 @@
 
     .dropdown-divider {
         height: 1px;
-        background: rgba(255, 255, 255, 0.06);
+        background: #e5e7eb;
         margin: 0 16px;
     }
 
@@ -469,7 +469,7 @@
         width: 100%;
         padding: 12px 20px;
         text-decoration: none;
-        color: rgba(255, 255, 255, 0.7);
+        color: #374151;
         background: none;
         border: none;
         text-align: left;
@@ -482,14 +482,14 @@
     .dropdown-item i {
         width: 18px;
         text-align: center;
-        color: rgba(255, 255, 255, 0.3);
+        color: #6b7280;
         font-size: 15px;
         transition: color 0.25s ease;
     }
 
     .dropdown-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
+        background: #f3f4f6;
+        color: #2563eb;
     }
 
     .dropdown-item:hover i {
@@ -518,24 +518,24 @@
     .dropdown-item:hover .dropdown-arrow {
         opacity: 1;
         transform: translateX(0);
-        color: rgba(255, 255, 255, 0.3) !important;
+        color: #2563eb !important;
     }
 
     .logout-item {
-        color: rgba(239, 68, 68, 0.7);
+        color: #dc2626;
     }
 
     .logout-item i {
-        color: rgba(239, 68, 68, 0.3);
+        color: #dc2626;
     }
 
     .logout-item:hover {
-        background: rgba(239, 68, 68, 0.08);
+        background: #fef2f2;
         color: #ef4444;
     }
 
     .logout-item:hover i {
-        color: #ef4444 !important;
+        color: #dc2626 !important;
     }
 
     /* Font Awesome fallback - using Unicode as fallback */
@@ -551,3 +551,4 @@
         font-style: normal;
     }
 </style>
+

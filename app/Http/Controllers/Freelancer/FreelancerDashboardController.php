@@ -25,4 +25,13 @@ class FreelancerDashboardController extends Controller
 
         return view('freelancer.about');
     }
+
+    function job()
+    {
+        if (Auth::user()->role !== 'freelancer') {
+            abort(403, 'Unauthorized');
+        }
+
+        return view('freelancer.job.index');
+    }
 }

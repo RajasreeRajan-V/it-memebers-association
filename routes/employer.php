@@ -9,7 +9,7 @@ use App\Http\Controllers\Employer\StartupProfileController;
 use App\Http\Controllers\Employer\ApplicantController;
 
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->prefix('employer')
     ->name('employer.')
     ->group(function () {

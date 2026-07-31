@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student\StudentDashboardController;
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->name('student.')
     ->group(function () {
 

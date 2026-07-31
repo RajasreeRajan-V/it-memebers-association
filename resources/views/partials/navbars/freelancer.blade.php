@@ -21,7 +21,7 @@
 
         <nav class="main-nav" aria-label="Primary">
             <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('employee.jobs.index') }}" class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">Jobs</a>
+            <a href="{{ route('freelancer.job') }}" class="{{ request()->routeIs('freelancer.job.*') ? 'active' : '' }}">Jobs</a>
             <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">Events</a>
             <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
             <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a Member</a>
