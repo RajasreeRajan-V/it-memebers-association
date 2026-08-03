@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\JobController;
 use App\Http\Controllers\Employee\ArticleController;
+use App\Http\Controllers\Employee\LegalHelpController;
 
 Route::middleware(['auth'])
     ->name('employee.')
@@ -45,13 +46,16 @@ Route::middleware(['auth'])
         Route::post('/jobs/{job}/apply', [JobController::class, 'apply'])
             ->name('jobs.apply');
 
+        Route::post('/jobs/subscribe', [JobController::class, 'subscribe'])
+            ->name('jobs.subscribe');
+
         Route::post('/projects/{project}/apply', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'store'])
             ->name('projects.apply');
 
         Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
             ->name('projects.proposals');
 
-    // Articles — same rule applies: any fixed segment (e.g. /articles/saved,
+        // Articles — same rule applies: any fixed segment (e.g. /articles/saved,
         // /articles/create) must be declared BEFORE /articles/{article}.
         Route::get('/articles', [ArticleController::class, 'index'])
             ->name('articles.index');
@@ -74,20 +78,28 @@ Route::middleware(['auth'])
         Route::delete('/articles/comments/{comment}', [ArticleController::class, 'destroyComment'])
             ->name('articles.comments.destroy');
 
+        // Legal Help — fixed segments (create) BEFORE /{legalRequest} wildcard
+        Route::prefix('legal-help')
+            ->name('legal-help.')
+            ->group(function () {
 
-              Route::post('/jobs/subscribe', [JobController::class, 'subscribe'])
-    ->name('employee.jobs.subscribe');
+                Route::get('/', [LegalHelpController::class, 'index'])
+                    ->name('index');
 
+                Route::get('/create', [LegalHelpController::class, 'create'])
+                    ->name('create');
 
-      
+                Route::post('/', [LegalHelpController::class, 'store'])
+                    ->name('store');
 
-        Route::post('/articles/{article}/like', [ArticleController::class, 'toggleLike'])
-            ->name('articles.like');
+                Route::get('/{legalRequest}', [LegalHelpController::class, 'show'])
+                    ->name('show');
 
-        Route::post('/articles/{article}/comments', [ArticleController::class, 'storeComment'])
-            ->name('articles.comments.store');
+                Route::post('/{legalRequest}/messages', [LegalHelpController::class, 'sendMessage'])
+                    ->name('messages.store');
 
-        Route::delete('/articles/comments/{comment}', [ArticleController::class, 'destroyComment'])
-            ->name('articles.comments.destroy');
+                Route::post('/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])
+                    ->name('documents.store');
+            });
 
     });

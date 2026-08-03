@@ -112,8 +112,8 @@
                 </h1>
 
                 <p class="text-slate-500 text-base mb-7 max-w-md">
-                    Explore expert insights, tutorials, career advice and industry trends
-                    published by employers and professionals like you.
+                    Explore expert insights, tutorials, career advice & industry trends
+                    published by employers & professionals like you.
                 </p>
 
                 <form action="{{ route('employee.articles.index') }}" method="GET"

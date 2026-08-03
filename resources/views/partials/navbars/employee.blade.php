@@ -26,7 +26,7 @@
     Jobs
 </a>
             <a href="{{ route('employee.articles.index') }}" class="{{ request()->routeIs('employee.articles.*') ? 'active' : '' }}">Articles</a>
-            <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
+            <a href="{{ route('employee.legal-help.index') }}" class="{{ request()->routeIs('employee.legal-help.*') ? 'active' : '' }}">Legal help</a>
             <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
                 Member</a>
             <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>

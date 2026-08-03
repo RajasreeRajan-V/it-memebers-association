@@ -3,8 +3,7 @@
 @section('content')
 
 @push('styles')
-{{-- Remove this <script> tag if Tailwind is already compiled into your app's build.
-     Kept here only so this page renders standalone for preview. --}}
+
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
     .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -14,9 +13,7 @@
 
 
 @php
-    // Fallback demo data so this view also renders when the controller
-    // variables aren't wired up yet. Delete this block once $articles,
-    // $categories and $trendingArticles are always passed from the controller.
+    
     $categories = $categories ?? [
         ['slug' => null, 'label' => 'All Articles', 'count' => 0],
         ['slug' => 'software-development', 'label' => 'Software Development', 'count' => 0],
@@ -112,8 +109,8 @@
                 </h1>
 
                 <p class="text-slate-500 text-base mb-7 max-w-md">
-                    Explore expert insights, tutorials, career advice and industry trends
-                    published by employers and professionals like you.
+                    Explore expert insights, tutorials, career advice & industry trends
+                    published by employers & professionals like you.
                 </p>
 
                 <form action="{{ route('employee.articles.index') }}" method="GET"
@@ -251,7 +248,8 @@
             <div class="flex items-center justify-between gap-4 mb-5">
                 <h2 class="text-[13px] font-bold text-slate-500 uppercase tracking-[0.12em]">Browse Articles</h2>
 
-               
+                {{-- Employees can submit articles for admin review — links to ArticleController@create --}}
+                
             </div>
 
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-2 mb-5">
@@ -325,7 +323,7 @@
                                 </div>
 
                                 <div class="flex items-center gap-2 mt-2.5">
-                                    
+                                
 
                                     <span class="ml-auto flex items-center gap-3">
                                         <button
@@ -356,11 +354,21 @@
                             <div id="comments-panel-{{ $article->id }}" class="hidden mt-4 pt-4 border-t border-slate-100">
                                 <form class="comment-form flex items-start gap-2 mb-4" data-article-id="{{ $article->id }}">
                                     @csrf
-                                    <textarea
-                                        name="body" rows="2" required maxlength="1000"
-                                        placeholder="Write a comment..."
-                                        class="flex-1 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
-                                    ></textarea>
+                                    <div class="relative flex-1">
+                                        <textarea
+                                            name="body" rows="2" required maxlength="1000"
+                                            placeholder="Write a comment..."
+                                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                                        ></textarea>
+                                        <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
+                                        </button>
+                                        <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
+                                            @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
+                                                <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                     <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-semibold px-4 py-2 hover:bg-blue-700 transition shrink-0">
                                         Post
                                     </button>
@@ -405,7 +413,7 @@
             <div>
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase">Trending Articles</h3>
-                    <a href="{{ route('employee.articles.index', ['tab' => 'trending']) }}#browse-articles" class="text-sm font-medium text-blue-600 hover:underline">View All</a>
+                    <a href="{{ route('employee.articles.index', ['tab' => 'trending']) }}#browse-articles" class="text-sm font-medium text-blue-600 hover:underline"></a>
                 </div>
                 <ul class="space-y-4">
                     @foreach ($trendingArticles->take(4) as $t)
@@ -514,11 +522,21 @@
 
                 <form class="comment-form flex items-start gap-2 mb-4" id="modal-comment-form" data-article-id="">
                     @csrf
-                    <textarea
-                        name="body" rows="2" required maxlength="1000"
-                        placeholder="Write a comment..."
-                        class="flex-1 rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
-                    ></textarea>
+                    <div class="relative flex-1">
+                        <textarea
+                            name="body" rows="2" required maxlength="1000"
+                            placeholder="Write a comment..."
+                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                        ></textarea>
+                        <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
+                        </button>
+                        <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
+                            @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
+                                <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
+                            @endforeach
+                        </div>
+                    </div>
                     <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-medium px-4 py-2 hover:bg-blue-700 transition shrink-0">
                         Post
                     </button>
@@ -808,6 +826,44 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Something went wrong posting your comment — check the browser console for details.');
         } finally {
             submitBtn.disabled = false;
+        }
+    });
+
+    /* ---------- EMOJI PICKER (event delegation — works for cards AND modal) ---------- */
+    document.addEventListener('click', function (e) {
+        const toggleBtn = e.target.closest('.emoji-toggle-btn');
+        if (toggleBtn) {
+            const picker = toggleBtn.parentElement.querySelector('.emoji-picker');
+            // close any other open pickers first
+            document.querySelectorAll('.emoji-picker').forEach(function (p) {
+                if (p !== picker) p.classList.add('hidden');
+            });
+            if (picker) picker.classList.toggle('hidden');
+            return;
+        }
+
+        const emojiOption = e.target.closest('.emoji-option');
+        if (emojiOption) {
+            const picker = emojiOption.closest('.emoji-picker');
+            const textarea = picker.parentElement.querySelector('.comment-textarea');
+            if (textarea) {
+                const start = textarea.selectionStart ?? textarea.value.length;
+                const end = textarea.selectionEnd ?? textarea.value.length;
+                const emoji = emojiOption.textContent;
+                textarea.value = textarea.value.slice(0, start) + emoji + textarea.value.slice(end);
+                const newPos = start + emoji.length;
+                textarea.focus();
+                textarea.setSelectionRange(newPos, newPos);
+            }
+            picker.classList.add('hidden');
+            return;
+        }
+
+        // clicking anywhere else closes any open picker
+        if (!e.target.closest('.emoji-picker')) {
+            document.querySelectorAll('.emoji-picker').forEach(function (p) {
+                p.classList.add('hidden');
+            });
         }
     });
 

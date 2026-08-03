@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\RegistrationApprovalController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Admin\StartupApprovalController;
 use App\Http\Controllers\Admin\ArticleApprovalController;
-
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')->group(function () {
@@ -47,4 +46,14 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('articles', [ArticleApprovalController::class, 'index'])->name('admin.articles.index');
     Route::post('articles/{article}/approve', [ArticleApprovalController::class, 'approve'])->name('admin.articles.approve');
     Route::post('articles/{article}/reject', [ArticleApprovalController::class, 'reject'])->name('admin.articles.reject');
+
+
+
+    Route::get('legal-help', [LegalHelpController::class, 'index'])->name('admin.legal-help.index');
+    Route::get('legal-help/{legalRequest}', [LegalHelpController::class, 'show'])->name('admin.legal-help.show');
+    Route::post('legal-help/{legalRequest}/assign', [LegalHelpController::class, 'assign'])->name('admin.legal-help.assign');
+    Route::post('legal-help/{legalRequest}/status', [LegalHelpController::class, 'updateStatus'])->name('admin.legal-help.status');
+    Route::post('legal-help/{legalRequest}/notes', [LegalHelpController::class, 'addNote'])->name('admin.legal-help.notes.store');
+    Route::post('legal-help/{legalRequest}/messages', [LegalHelpController::class, 'sendMessage'])->name('admin.legal-help.messages.store');
+    Route::post('legal-help/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])->name('admin.legal-help.documents.store');
 });
