@@ -167,7 +167,7 @@
                         <th class="py-3 pr-4">Priority</th>
                         <th class="py-3 pr-4">Status</th>
                         <th class="py-3 pr-4">Last Updated</th>
-                        <th class="py-3 pr-4 text-right">Actions</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -214,10 +214,7 @@
                             </td>
                             <td class="py-4 pr-4 text-slate-500">{{ $legalRequest->updated_at->format('d M Y') }}</td>
                             <td class="py-4 pr-4 text-right">
-                                <a href="{{ route('employee.legal-help.show', $legalRequest) }}"
-                                   class="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 hover:gap-1.5 hover:underline transition-all">
-                                    View Details <span aria-hidden="true">→</span>
-                                </a>
+                                
                             </td>
                         </tr>
                     @empty
