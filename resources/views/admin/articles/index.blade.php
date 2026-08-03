@@ -1,4 +1,7 @@
+@extends('admin.layout.app')
+@section('title', 'article approvals')
 
+@section('content')
 <style>
     .aa-wrap { max-width: 72rem; margin: 0 auto; padding: 2rem 1.5rem; }
 
@@ -167,3 +170,5 @@
 
     <div class="aa-pagination">{{ $articles->links() }}</div>
 </div>
+
+@endsection
