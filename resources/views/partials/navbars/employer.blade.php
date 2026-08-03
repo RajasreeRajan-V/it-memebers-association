@@ -161,11 +161,11 @@
 
     .site-header {
         background: #3364d7;
-        border-bottom: 1px solid #eef0f3;
         position: sticky;
         top: 0;
         z-index: 1000;
         font-family: 'Poppins', sans-serif;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
     }
 
     .header-inner {
@@ -173,9 +173,10 @@
         align-items: center;
         justify-content: space-between;
         gap: 24px;
-        max-width: 1280px;
+        max-width: 1440px;
+        width: 100%;
         margin: 0 auto;
-        padding: 16px 24px;
+        padding: 14px 32px;
     }
 
     /* ---- Logo ---- */
@@ -183,10 +184,11 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 1rem;
-        font-weight: 600;
+        font-size: 1.25rem;
+        font-weight: 700;
         color: #ffffff;
         text-decoration: none;
+        letter-spacing: -0.3px;
         flex-shrink: 0;
     }
 
@@ -194,8 +196,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 26px;
-        height: 26px;
+        width: 28px;
+        height: 28px;
         border-radius: 7px;
         background: #4F46E5;
         flex-shrink: 0;
@@ -204,7 +206,7 @@
     /* ---- Main Nav ---- */
     .main-nav {
         display: flex;
-        gap: 4px;
+        gap: 6px;
         align-items: center;
         flex: 1;
         justify-content: center;
@@ -218,7 +220,7 @@
         font-family: 'Poppins', sans-serif;
         font-size: 0.9rem;
         font-weight: 500;
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.9);
         text-decoration: none;
         padding: 8px 14px;
         border-radius: 6px;
@@ -229,11 +231,12 @@
     .main-nav a:hover,
     .nav-link:hover {
         color: #111827;
-        background: #f5f6f8;
+        background: #ffffff;
     }
 
     .caret {
-        color: #9ca3af;
+        color: currentColor;
+        opacity: 0.6;
         transition: transform 0.2s ease;
     }
 
@@ -254,7 +257,7 @@
         left: 50%;
         transform: translateX(-50%);
 
-        min-width: 170px;
+        min-width: 180px;
         background: #ffffff;
         border: 1px solid #eef0f3;
 
@@ -263,7 +266,7 @@
 
         list-style: none;
         margin: 0;
-        box-shadow: 0 12px 28px rgba(17, 24, 39, 0.08);
+        box-shadow: 0 12px 28px rgba(17, 24, 39, 0.15);
 
         overflow: hidden;
         z-index: 1000;
@@ -279,7 +282,7 @@
 
         color: #374151;
         text-decoration: none;
-        font-size: 14px;
+        font-size: 0.87rem;
         font-weight: 500;
         border-radius: 6px;
 
@@ -337,16 +340,13 @@
         padding: 6px 16px 6px 8px;
         border-radius: 50px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
+        transition: all 0.25s ease;
         border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .account-btn:hover {
         background: rgba(255, 255, 255, 0.2);
         border-color: rgba(255, 255, 255, 0.3);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
 
     .avatar-wrapper {
@@ -355,8 +355,8 @@
     }
 
     .avatar {
-        width: 36px;
-        height: 36px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         background: #ffffff;
         display: flex;
@@ -364,45 +364,32 @@
         justify-content: center;
         color: #3364d7;
         font-weight: 700;
-        font-size: 14px;
-        letter-spacing: 0.5px;
+        font-size: 13px;
+        letter-spacing: 0.3px;
         text-transform: uppercase;
-        transition: all 0.3s ease;
     }
 
     .status-indicator {
         position: absolute;
         bottom: 0;
         right: 0;
-        width: 10px;
-        height: 10px;
+        width: 9px;
+        height: 9px;
         background: #22c55e;
         border-radius: 50%;
         border: 2px solid #3364d7;
-        animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% {
-            opacity: 1;
-            transform: scale(1);
-        }
-        50% {
-            opacity: 0.7;
-            transform: scale(0.9);
-        }
     }
 
     .account-info {
         display: flex;
         flex-direction: column;
-        line-height: 1.2;
+        line-height: 1.25;
         min-width: 0;
     }
 
     .account-name {
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: #ffffff;
         white-space: nowrap;
     }
@@ -411,7 +398,7 @@
         font-size: 0.7rem;
         color: rgba(255, 255, 255, 0.75);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.4px;
         font-weight: 500;
     }
 
@@ -419,7 +406,7 @@
         font-size: 10px;
         color: rgba(255, 255, 255, 0.7);
         margin-left: 4px;
-        transition: transform 0.3s ease;
+        transition: transform 0.25s ease;
     }
 
     .account-btn:hover .arrow {
@@ -433,23 +420,24 @@
         top: calc(100% + 10px);
         width: 280px;
         background: #ffffff;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(17, 24, 39, 0.18);
+        border-radius: 14px;
+        box-shadow: 0 20px 50px rgba(17, 24, 39, 0.18);
         display: none;
         overflow: hidden;
         z-index: 999;
         border: 1px solid #eef0f3;
-        animation: slideDown 0.3s ease;
+        animation: slideDown 0.25s ease;
     }
 
     @keyframes slideDown {
         from {
             opacity: 0;
-            transform: translateY(-10px) scale(0.98);
+            transform: translateY(-8px);
         }
+
         to {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
     }
 
@@ -462,20 +450,20 @@
         align-items: center;
         gap: 14px;
         padding: 18px 20px 14px 20px;
-        background: #f9fafb;
+        background: #ffffff;
     }
 
     .dropdown-avatar {
-        width: 44px;
-        height: 44px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         background: #3364d7;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-weight: 700;
-        font-size: 16px;
+        font-weight: 600;
+        font-size: 15px;
         text-transform: uppercase;
         flex-shrink: 0;
     }
@@ -489,14 +477,14 @@
     .dropdown-name {
         font-weight: 600;
         color: #111827;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .dropdown-email {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: #6b7280;
         white-space: nowrap;
         overflow: hidden;
@@ -505,7 +493,7 @@
 
     .dropdown-divider {
         height: 1px;
-        background: #eef0f3;
+        background: rgba(0, 0, 0, 0.08);
         margin: 0 16px;
     }
 
@@ -516,39 +504,40 @@
         width: 100%;
         padding: 12px 20px;
         text-decoration: none;
-        color: #374151;
+        color: #111827;
         background: none;
         border: none;
         text-align: left;
         cursor: pointer;
-        font-size: 0.9rem;
+        font-size: 0.87rem;
+        font-weight: 500;
         font-family: 'Poppins', sans-serif;
-        transition: all 0.25s ease;
+        transition: all 0.2s ease;
         position: relative;
     }
 
     .dropdown-item i {
         width: 18px;
         text-align: center;
-        color: #9ca3af;
-        font-size: 15px;
-        transition: color 0.25s ease;
+        color: #6b7280;
+        font-size: 14px;
+        transition: color 0.2s ease;
     }
 
     .dropdown-item:hover {
-        background: #f5f3ff;
-        color: #4F46E5;
+        background: rgba(0, 0, 0, 0.04);
+        color: #000000;
     }
 
     .dropdown-item:hover i {
-        color: #4F46E5;
+        color: #3364d7;
     }
 
     .dropdown-item .badge {
         margin-left: auto;
-        background: #4F46E5;
+        background: #3364d7;
         color: white;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         font-weight: 600;
         padding: 2px 10px;
         border-radius: 50px;
@@ -560,7 +549,7 @@
         font-size: 12px !important;
         opacity: 0;
         transform: translateX(-5px);
-        transition: all 0.25s ease;
+        transition: all 0.2s ease;
     }
 
     .dropdown-item:hover .dropdown-arrow {
@@ -570,20 +559,22 @@
     }
 
     .logout-item {
-        color: #ef4444cc;
+        color: #dc2626;
     }
 
     .logout-item i {
-        color: rgba(239, 68, 68, 0.5);
+        color: #dc2626;
+        opacity: 0.7;
     }
 
     .logout-item:hover {
-        background: rgba(239, 68, 68, 0.08);
-        color: #ef4444;
+        background: rgba(220, 38, 38, 0.06);
+        color: #dc2626;
     }
 
     .logout-item:hover i {
-        color: #ef4444 !important;
+        color: #dc2626 !important;
+        opacity: 1;
     }
 
     /* ---- Mobile Toggle ---- */
@@ -600,13 +591,13 @@
     .nav-toggle span {
         width: 22px;
         height: 2px;
-        background: #111827;
+        background: #ffffff;
         border-radius: 2px;
         transition: 0.3s;
     }
 
     /* ---- Responsive ---- */
-    @media (max-width: 1024px) {
+    @media (max-width: 1100px) {
 
         .main-nav a,
         .nav-link {
@@ -622,12 +613,11 @@
             top: 100%;
             left: 0;
             right: 0;
-            background: #ffffff;
-            border-bottom: 1px solid #eef0f3;
+            background: #274ea3;
             flex-direction: column;
             align-items: stretch;
             padding: 12px;
-            box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             gap: 4px;
         }
 
@@ -673,7 +663,7 @@
         }
 
         .logo {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
         }
 
         .header-actions {
