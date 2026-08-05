@@ -7218,7 +7218,139 @@ button { font: inherit; cursor: pointer; }
     .career-hero-visual { flex-direction: column; }
 }
 
+/* Choose Your Path section */
+.path-section {
+    padding: 64px 0;
+}
 
+.path-header {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 40px;
+}
+
+.path-kicker {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #2563eb;
+    margin-bottom: 8px;
+}
+
+.path-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.path-subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.path-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 992px) {
+    .path-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 576px) {
+    .path-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.path-card {
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.path-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+/* Light card background themes */
+.path-card-green {
+    background: #e6f7ee;
+}
+
+.path-card-blue {
+    background: #e8f0fe;
+}
+
+.path-card-red {
+    background: #fdeaea;
+}
+
+.path-card-yellow {
+    background: #fff8e1;
+}
+
+.path-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.path-icon-green {
+    color: #16a34a;
+}
+
+.path-icon-blue {
+    color: #2563eb;
+}
+
+.path-icon-red {
+    color: #dc2626;
+}
+
+.path-icon-yellow {
+    color: #d97706;
+}
+
+.path-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1f2937;
+}
+
+.path-card-text {
+    font-size: 0.85rem;
+    color: #4b5563;
+    margin-bottom: 14px;
+    line-height: 1.4;
+}
+
+.path-card-link {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1f2937;
+    text-decoration: none;
+}
+
+.path-card-link i {
+    margin-left: 4px;
+    font-size: 0.75rem;
+}
 
 
 

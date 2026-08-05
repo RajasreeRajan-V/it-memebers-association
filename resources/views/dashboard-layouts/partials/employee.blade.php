@@ -98,6 +98,58 @@
     </div>
 </section>
 
+
+
+<!-- Choose Your Path -->
+<section class="path-section">
+    <div class="container">
+        <div class="path-header">
+            <span class="path-kicker">Choose Your Path</span>
+            <h2 class="path-title">Explore. Connect. Grow.</h2>
+            <p class="path-subtitle">Find the right opportunities and resources tailored for you.</p>
+        </div>
+
+        <div class="path-grid">
+
+            <div class="path-card path-card-green">
+                <div class="path-icon path-icon-green"><i class="fa-solid fa-briefcase"></i></div>
+                <h3 class="path-card-title">Jobs</h3>
+                <p class="path-card-text">Find full-time, part-time and remote jobs.</p>
+                <a href="{{ route('employee.jobs.index') }}" class="path-card-link">
+                    Explore Jobs <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="path-card path-card-blue">
+                <div class="path-icon path-icon-blue"><i class="fa-solid fa-file-lines"></i></div>
+                <h3 class="path-card-title">Articles</h3>
+                <p class="path-card-text">Read, write and share knowledge with the community.</p>
+                <a href="{{ route('employee.articles.index') }}" class="path-card-link">
+                    Explore Articles <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="path-card path-card-red">
+                <div class="path-icon path-icon-red"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <h3 class="path-card-title">Training &amp; Workshops</h3>
+                <p class="path-card-text">Learn from experts and upgrade your skills.</p>
+                <a href="" class="path-card-link">
+                    Explore Training <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="path-card path-card-yellow">
+                <div class="path-icon path-icon-yellow"><i class="fa-solid fa-people-group"></i></div>
+                <h3 class="path-card-title">Support &amp; Legal Help</h3>
+                <p class="path-card-text">Get expert guidance for workplace concerns, rights.</p>
+                <a href="{{ route('employee.legal-help.index') }}" class="path-card-link">
+                    Explore Support <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const navToggle = document.getElementById('navToggle');
@@ -118,7 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    }, {
+        threshold: 0.15
+    });
     revealEls.forEach(el => observer.observe(el));
 });
 </script>

@@ -126,7 +126,7 @@
 
         <div class="px-8 pt-7 pb-6 border-b border-[var(--border)] flex items-start justify-between gap-4">
             <div>
-                <h1 class="font-serif text-[26px] leading-tight text-[var(--ink)]">New Legal Request</h1>
+                <h1 class="font-serif text-[26px] leading-tight text-[var(--ink)]">Workspace Support</h1>
                 <p class="mt-1.5 text-[13.5px] text-[var(--muted)] max-w-md">
                     Describe your issue below. A member of the legal team will review it and assign the right specialist.
                 </p>

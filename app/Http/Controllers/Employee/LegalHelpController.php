@@ -15,10 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class LegalHelpController extends Controller
 {
-    /**
-     * Main "My Legal Requests" dashboard — table + stats cards
-     * matching the reference design.
-     */
+    
     public function index(Request $request)
     {
         $employeeId = Auth::id();
@@ -73,16 +70,25 @@ class LegalHelpController extends Controller
      */
     public function create()
     {
-        $categories = [
-            'Salary Not Paid',
-            'PF & Benefits',
-            'Employment Issue',
-            'Contract Review',
-            'Workplace Harassment',
-            'Termination Dispute',
-            'Agreements & Contracts',
-            'Other',
-        ];
+       $categories = [
+    'Salary Not Paid',
+    'Salary Delay',
+    'Employment Contract',
+    'Contract Review',
+    'Workplace Harassment',
+    'Wrongful Termination',
+    'Notice Period Dispute',
+    'Resignation & Relieving Letter',
+    'PF, ESI & Benefits',
+    'Overtime & Working Hours',
+    'Leave & Holiday Disputes',
+    'Workplace Discrimination',
+    'Promotion & Appraisal Issues',
+    'Employer Policy Violation',
+    'Labour Law Guidance',
+    'Legal Notice Assistance',
+    'Other',
+];
 
         return view('employees.legal-help.create', compact('categories'));
     }
@@ -114,7 +120,7 @@ class LegalHelpController extends Controller
             LegalRequestTimeline::create([
                 'legal_request_id' => $legalRequest->id,
                 'title'            => 'Request Submitted',
-                'description'      => 'Your request has been logged and legal team notified.',
+                'description'      => 'Your request has been logged and Support team notified.',
                 'status'           => 'completed',
                 'created_by'       => Auth::id(),
                 'sort_order'       => 1,

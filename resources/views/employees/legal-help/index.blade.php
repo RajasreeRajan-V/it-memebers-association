@@ -58,20 +58,21 @@
                 </span>
 
                 <h1 class="mt-4 text-3xl font-extrabold leading-tight text-slate-900 sm:text-4xl">
-                    Get Expert Legal Help,<br>
+                    Legal Help & Workplace Support<br>
                     <span class="text-blue-600">When You Need It</span>
                 </h1>
                 <p class="mt-4 max-w-sm text-base text-slate-500">
-                    Explore confidential legal assistance for professionals, freelancers and
-                    entrepreneurs. Ask a question and protect your rights.
+                    Facing challenges at work? Connect with experienced professionals for legal advice, 
+                    workplace guidance, and confidential support to resolve employment-related issues.
                 </p>
 
-                <div class="mt-6 flex items-center justify-center gap-3">
-                    <a href="{{ route('employee.legal-help.create') }}"
-                       class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-base font-semibold text-white hover:bg-blue-700 transition">
-                        Get Legal Help
-                    </a>
-                </div>
+             <div class="mt-6 flex items-center justify-center gap-3">
+    <a href="#messages-section"
+       class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-base font-semibold text-white hover:bg-blue-700 transition"
+       onclick="event.preventDefault(); document.getElementById('messages-section').scrollIntoView({behavior: 'smooth', block: 'start'});">
+        Get Legal Help
+    </a>
+</div>
             </div>
 
             {{-- Right: illustration with floating cards --}}
@@ -106,13 +107,13 @@
             <div class="flex items-center gap-3">
                 <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600/10 text-lg text-blue-600">📋</span>
                 <div>
-                    <h2 class="text-base font-semibold text-slate-800">My Legal Requests</h2>
-                    <p class="text-xs text-slate-400">Track and manage all the legal help you've requested</p>
+                    <h2 class="text-base font-semibold text-slate-800">My Workplace Support Requests</h2>
+                    <p class="text-xs text-slate-400">Track and manage all the Workplace Support  you've requested</p>
                 </div>
             </div>
             <a href="{{ route('employee.legal-help.create') }}"
                class="inline-flex items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm shadow-blue-600/20 hover:bg-blue-700 hover:shadow-md transition">
-                <span class="text-sm leading-none">+</span> New Legal Request
+                <span class="text-sm leading-none">+</span> Workplace Support
             </a>
         </div>
 
@@ -248,7 +249,7 @@
                 <div class="flex items-center gap-2.5">
                     <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 shadow-sm">🗂️</span>
                     <div>
-                        <h3 class="text-sm font-semibold text-slate-800">Request Details</h3>
+                        <h3 class="text-sm font-semibold text-slate-800">Workplace Tracking Details</h3>
                         @if($selectedRequest)
                             <p class="text-xs text-slate-400">{{ $selectedRequest->request_number }}</p>
                         @endif
@@ -282,15 +283,12 @@
         </div>
 
 {{-- Messages: exact square box, internal scroll only, light blue background --}}
-<div class="lg:col-span-1 flex flex-col self-start rounded-2xl border border-blue-100 bg-blue-50 shadow-sm p-6">
+<div id="messages-section" class="lg:col-span-1 flex flex-col self-start rounded-2xl border border-blue-100 bg-blue-50 shadow-sm p-6">
     <div class="mb-4 flex items-center gap-2">
         <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-green-600 shadow-sm">💬</span>
-        <h3 class="text-sm font-semibold text-slate-800">Messages</h3>
+        <h3 class="text-sm font-semibold text-slate-800">Legal Requests</h3>
     </div>
 
-    {{-- exact square box; NO scroll here — the single scrollbar lives inside the
-         messages partial's own message-list element, with the type/send bar
-         pinned outside that scroll area. This wrapper only clips overflow. --}}
     <div class="aspect-square w-full min-h-0 rounded-xl bg-white/60 p-3 overflow-hidden flex flex-col">
         @if($selectedRequest)
             @include('employees.legal-help.partials.messages', ['legalRequest' => $selectedRequest])
@@ -316,49 +314,56 @@
                 </a>
             </div>
 
-            <div class="card-hover rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
-                <div class="mb-2 flex items-center gap-2">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">🧭</span>
-                    <h3 class="text-sm font-semibold text-slate-800">How It Works</h3>
-                </div>
-                <ol class="mt-4 space-y-5">
-                    <li class="hiw-step flex gap-3">
-                        <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-semibold text-white shadow-sm shadow-blue-600/30">1</span>
-                        <div>
-                            <p class="text-sm font-medium text-slate-700">Submit Request</p>
-                            <p class="text-xs text-slate-500">Share details about your legal issue.</p>
-                        </div>
-                    </li>
-                    <li class="hiw-step flex gap-3">
-                        <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">2</span>
-                        <div>
-                            <p class="text-sm font-medium text-slate-700">Review & Assign</p>
-                            <p class="text-xs text-slate-500">We assign the right expert to your case.</p>
-                        </div>
-                    </li>
-                    <li class="hiw-step flex gap-3">
-                        <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">3</span>
-                        <div>
-                            <p class="text-sm font-medium text-slate-700">Investigation</p>
-                            <p class="text-xs text-slate-500">Your case is reviewed in detail.</p>
-                        </div>
-                    </li>
-                    <li class="hiw-step flex gap-3">
-                        <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">4</span>
-                        <div>
-                            <p class="text-sm font-medium text-slate-700">Legal Advice</p>
-                            <p class="text-xs text-slate-500">You receive clear, actionable guidance.</p>
-                        </div>
-                    </li>
-                    <li class="hiw-step flex gap-3">
-                        <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-600">✓</span>
-                        <div>
-                            <p class="text-sm font-medium text-slate-700">Resolution</p>
-                            <p class="text-xs text-slate-500">We help you resolve your issue.</p>
-                        </div>
-                    </li>
-                </ol>
+           <div class="card-hover rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+    <div class="mb-2 flex items-center gap-2">
+        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">🧭</span>
+        <h3 class="text-sm font-semibold text-slate-800">How It Works</h3>
+    </div>
+
+    <ol class="mt-4 space-y-5">
+
+        <li class="hiw-step flex gap-3">
+            <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600 text-xs font-semibold text-white shadow-sm shadow-blue-600/30">1</span>
+            <div>
+                <p class="text-sm font-medium text-slate-700">Submit Support Request</p>
+                <p class="text-xs text-slate-500">Describe your workplace issue and provide the necessary details.</p>
             </div>
+        </li>
+
+        <li class="hiw-step flex gap-3">
+            <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">2</span>
+            <div>
+                <p class="text-sm font-medium text-slate-700">Review & Assign</p>
+                <p class="text-xs text-slate-500">Our team reviews your request and assigns the appropriate expert.</p>
+            </div>
+        </li>
+
+        <li class="hiw-step flex gap-3">
+            <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">3</span>
+            <div>
+                <p class="text-sm font-medium text-slate-700">Expert Assistance</p>
+                <p class="text-xs text-slate-500">A workplace support specialist communicates with you and reviews your case.</p>
+            </div>
+        </li>
+
+        <li class="hiw-step flex gap-3">
+            <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xs font-semibold text-blue-600">4</span>
+            <div>
+                <p class="text-sm font-medium text-slate-700">Guidance & Updates</p>
+                <p class="text-xs text-slate-500">Receive recommendations, updates, and support through the conversation panel.</p>
+            </div>
+        </li>
+
+        <li class="hiw-step flex gap-3">
+            <span class="hiw-num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100 text-xs font-semibold text-green-600">✓</span>
+            <div>
+                <p class="text-sm font-medium text-slate-700">Issue Resolved</p>
+                <p class="text-xs text-slate-500">Your request is completed and marked as resolved once assistance is provided.</p>
+            </div>
+        </li>
+
+    </ol>
+</div>
         </div>
     </div>
 </div>

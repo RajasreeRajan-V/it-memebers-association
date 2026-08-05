@@ -1,99 +1,63 @@
-<!-- Updated Site Header -->
+<!-- SkillConnect Site Header (v2 - two-row nav) -->
 
-<header class="site-header">
-    <div class="container header-inner">
-        <a href="#" class="logo">
+<header class="site-header pt-1">
+    <!-- ROW 1: Logo / Search / Actions -->
+    <div class="container header-top pb-2 pt-1">
+        <a href="{{ route('dashboard') }}" class="logo">
             <span class="logo-mark" aria-hidden="true">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 2L27 8.5V21.5L15 28L3 21.5V8.5L15 2Z" fill="url(#lg)" />
                     <path d="M15 9L20 12V18L15 21L10 18V12L15 9Z" fill="white" fill-opacity="0.9" />
                     <defs>
-                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28"
-                            gradientUnits="userSpaceOnUse">
+                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#4F46E5" />
                             <stop offset="1" stop-color="#2080D4" />
                         </linearGradient>
                     </defs>
                 </svg>
             </span>
-            SkillConnect
+            <span class="logo-text">
+                SkillConnect
+                <small>Employee Portal</small>
+            </span>
         </a>
 
-        <nav class="main-nav" aria-label="Primary">
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-           <a href="{{ route('employee.jobs.index') }}"
-   class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">
-    Jobs
-</a>
-            <a href="{{ route('employee.articles.index') }}" class="{{ request()->routeIs('employee.articles.*') ? 'active' : '' }}">Articles</a>
-
-            <a href="">Training & Webinars</a>
-            <a href="{{ route('employee.legal-help.index') }}" class="{{ request()->routeIs('employee.legal-help.*') ? 'active' : '' }}">Legal help</a>
-          
-           <a href="">Workspace Support</a>
-        </nav>
+     
 
         <div class="header-actions">
-            <div class="account-menu">
-                <button class="account-btn" id="accountBtn">
-                    <div class="avatar-wrapper">
-                        <span class="avatar">
-                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                        </span>
-                        <span class="status-indicator"></span>
-                    </div>
-                    <div class="account-info">
-                        <span class="account-name">
-                            {{ Auth::user()->name ?? 'Account' }}
-                        </span>
-                        <span class="account-role">
-                            {{ Auth::user()->role ?? 'Member' }}
-                        </span>
-                    </div>
-                    <span class="arrow">
-                        <i class="fa-solid fa-chevron-down"></i>
+            <a href="{{ route('employee.legal-help.index') }}#messages-section" class="action-item">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span>Legal help</span>
+                
+            </a>
+
+            <a href="#" class="action-item">
+                <i class="fa-regular fa-bell"></i>
+                <span>Notifications</span>
+                <span class="pill-badge">12</span>
+            </a>
+
+            <!-- Settings replaces avatar/account block -->
+            <div class="settings-menu-wrap">
+                <button class="settings-top-btn" id="settingsTopBtn" type="button">
+                    <span class="settings-icon-circle">
+                        <i class="fa-solid fa-gear"></i>
                     </span>
+                    <span class="settings-top-label">Settings</span>
+                    <i class="fa-solid fa-chevron-down arrow" id="settingsTopArrow"></i>
                 </button>
 
-                <div class="account-dropdown" id="accountDropdown">
-                    <div class="dropdown-header">
-                        <div class="dropdown-avatar">
-                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                        </div>
-                        <div class="dropdown-user-info">
-                            <span class="dropdown-name">{{ Auth::user()->name ?? 'User' }}</span>
-                            <span class="dropdown-email">{{ Auth::user()->email ?? 'user@example.com' }}</span>
-                        </div>
-                    </div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <a href="{{ route('profile') }}" class="dropdown-item">
+                <div class="settings-top-dropdown" id="settingsTopDropdown">
+                    <a href="{{ route('profile') }}" class="settings-menu-item profile">
                         <i class="fa-solid fa-user"></i>
                         <span>My Profile</span>
-                        <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
                     </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>Account Settings</span>
-                        <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa-solid fa-bell"></i>
-                        <span>Notifications</span>
-                        <span class="badge">3</span>
-                    </a>
-
-                    <div class="dropdown-divider"></div>
 
                     <form method="POST" action="{{ route('membership-logout') }}">
                         @csrf
-                        <button type="submit" class="dropdown-item logout-item">
+                        <button type="submit" class="settings-menu-item logout">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>
-                            <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
                         </button>
                     </form>
                 </div>
@@ -104,275 +68,209 @@
             <span></span><span></span><span></span>
         </button>
     </div>
+
+    <!-- ROW 2: Icon nav -->
+    <div class="container header-bottom">
+        <nav class="main-nav" id="mainNav" aria-label="Primary">
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-gauge"></i> Dashboard
+            </a>
+
+            <a href="{{ route('employee.jobs.index') }}" class="{{ request()->routeIs('employee.jobs.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-briefcase"></i> Jobs
+            </a>
+
+            <a href="{{ route('employee.articles.index') }}" class="{{ request()->routeIs('employee.articles.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-file-lines"></i> Articles
+            </a>
+
+            <a href="" class="">
+                <i class="fa-regular fa-life-ring"></i> Training & Workshops
+            </a>
+
+            <a href="{{ route('employee.legal-help.create') }}" class="{{ request()->routeIs('employee.legal-help.*') ? 'active' : '' }}">
+                <i class="fa-regular fa-comment-dots"></i> Workplace Support
+            </a>
+        </nav>
+    </div>
 </header>
 
 <style>
-    /* ===== Header Styles ===== */
+    /* ===== Base ===== */
     .site-header {
-        background: #3364d7;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        background: #F7F9FF;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         position: sticky;
         top: 0;
         z-index: 1000;
-        padding: 10px 0;
         font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding-bottom: 0;
     }
 
-    .header-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
+    .site-header .container {
         max-width: 1440px;
         width: 100%;
         margin: 0 auto;
         padding: 0 32px;
     }
 
+    /* ===== Row 1 — bigger/taller ===== */
+    .header-top {
+        max-width: 1650px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 36px;
+        padding: 26px 40px;
+        box-sizing: border-box;
+    }
+
     .logo {
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #ffffff;
+        gap: 12px;
         text-decoration: none;
-        letter-spacing: -0.3px;
         flex-shrink: 0;
     }
 
-    .logo-mark {
+    .logo-text {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        line-height: 1.15;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1f2937;
+        letter-spacing: -0.3px;
     }
 
-    .main-nav {
-        display: flex;
-        align-items: center;
-        gap: 32px;
-        flex: 1;
-        justify-content: center;
-    }
-
-    .main-nav a {
-        text-decoration: none;
+    .logo-text small {
+        font-size: 0.72rem;
         font-weight: 500;
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.85);
-        transition: color 0.25s ease;
-        position: relative;
-        padding: 6px 2px;
-        letter-spacing: 0.1px;
+        color: #3b404b;
+        letter-spacing: 0.2px;
     }
 
-    .main-nav a:hover {
-        color: #ffffff;
+    /* ===== Search bar — compact ===== */
+    .header-search {
+        flex: 0 1 320px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 8px 14px;
+        transition: border-color 0.2s ease;
     }
 
-    .main-nav a.active {
-        color: #ffffff;
-        font-weight: 600;
-    }
-
-    .main-nav a.active::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -4px;
-        height: 2px;
+    .header-search:focus-within {
+        border-color: #3364d7;
         background: #ffffff;
-        border-radius: 2px;
     }
+
+    .header-search i { color: #9ca3af; font-size: 13px; }
+
+    .header-search input {
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        font-size: 0.8rem;
+        color: #111827;
+    }
+
+    .header-search input::placeholder { color: #9ca3af; }
 
     .header-actions {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 34px;
         flex-shrink: 0;
+        margin-left: auto;
     }
 
-    .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 4px;
-    }
-
-    .nav-toggle span {
-        width: 25px;
-        height: 2px;
-        background: #ffffff;
-        border-radius: 2px;
-        transition: 0.3s;
-    }
-
-    /* Responsive header */
-    @media (max-width: 1100px) {
-        .main-nav {
-            gap: 18px;
-        }
-
-        .main-nav a {
-            font-size: 0.85rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .main-nav {
-            display: none;
-            position: absolute;
-            top: 66px;
-            left: 0;
-            right: 0;
-            background: #274ea3;
-            flex-direction: column;
-            padding: 20px 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            gap: 16px;
-        }
-
-        .main-nav.open {
-            display: flex;
-        }
-
-        .main-nav a {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 0.95rem;
-            padding: 8px 0;
-        }
-
-        .nav-toggle {
-            display: flex;
-        }
-
-        .account-name {
-            display: none;
-        }
-
-        .account-role {
-            display: none;
-        }
-
-        .account-btn {
-            padding: 6px 10px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .header-inner {
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 0 16px;
-        }
-
-        .logo {
-            font-size: 1.05rem;
-        }
-
-        .header-actions {
-            gap: 8px;
-        }
-    }
-
-    /* ===== Account Menu ===== */
-    .account-menu {
+    .action-item {
         position: relative;
-    }
-
-    .account-btn {
         display: flex;
         align-items: center;
-        gap: 12px;
-        border: none;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        padding: 6px 16px 6px 8px;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .account-btn:hover {
-        background: rgba(255, 255, 255, 0.18);
-        border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .avatar-wrapper {
-        position: relative;
-        flex-shrink: 0;
-    }
-
-    .avatar {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: #274ea3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 13px;
-        letter-spacing: 0.3px;
-        text-transform: uppercase;
-    }
-
-    .status-indicator {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 9px;
-        height: 9px;
-        background: #22c55e;
-        border-radius: 50%;
-        border: 2px solid #3364d7;
-    }
-
-    .account-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.25;
-        min-width: 0;
-    }
-
-    .account-name {
-        font-weight: 600;
-        font-size: 0.85rem;
-        color: #ffffff;
-        white-space: nowrap;
-    }
-
-    .account-role {
-        font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.65);
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
+        gap: 9px;
+        text-decoration: none;
+        color: #374151;
+        font-size: 0.87rem;
         font-weight: 500;
     }
 
-    .arrow {
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.6);
-        margin-left: 4px;
+    .action-item i { font-size: 17px; color: #4b5563; }
+    .action-item:hover { color: #3364d7; }
+    .action-item:hover i { color: #3364d7; }
+
+    .pill-badge {
+        position: absolute;
+        top: -8px;
+        right: -14px;
+        background: #3364d7;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+    }
+
+    /* ===== Settings (row 1) ===== */
+    .settings-menu-wrap { position: relative; }
+
+    .settings-top-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 4px;
+        font-family: inherit;
+    }
+
+    .settings-icon-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #3364d7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .settings-top-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #111827;
+        white-space: nowrap;
+    }
+
+    .settings-top-btn .arrow {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-left: 2px;
         transition: transform 0.25s ease;
     }
 
-    .account-btn:hover .arrow {
-        transform: rotate(180deg);
-    }
+    .settings-top-btn.open .arrow { transform: rotate(180deg); }
 
-    /* ===== Account Dropdown ===== */
-    .account-dropdown {
+    .settings-top-dropdown {
         position: absolute;
         right: 0;
-        top: calc(100% + 10px);
-        width: 280px;
+        top: calc(100% + 12px);
+        width: 200px;
         background: #ffffff;
         border-radius: 14px;
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
@@ -384,79 +282,18 @@
     }
 
     @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-8px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
-    .account-dropdown.show {
-        display: block;
-    }
+    .settings-top-dropdown.show { display: block; }
 
-    .dropdown-header {
+    .settings-menu-item {
         display: flex;
         align-items: center;
-        gap: 14px;
-        padding: 18px 20px 14px 20px;
-        background: #ffffff;
-    }
-
-    .dropdown-avatar {
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        background: #274ea3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 15px;
-        text-transform: uppercase;
-        flex-shrink: 0;
-    }
-
-    .dropdown-user-info {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-    }
-
-    .dropdown-name {
-        font-weight: 600;
-        color: #111827;
-        font-size: 0.9rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .dropdown-email {
-        font-size: 0.78rem;
-        color: #6b7280;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .dropdown-divider {
-        height: 1px;
-        background: rgba(0, 0, 0, 0.08);
-        margin: 0 16px;
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
-        padding: 12px 20px;
+        padding: 12px 18px;
         text-decoration: none;
         color: #111827;
         background: none;
@@ -465,68 +302,142 @@
         cursor: pointer;
         font-size: 0.87rem;
         font-weight: 500;
-        transition: all 0.2s ease;
+        font-family: inherit;
+        transition: background 0.2s ease;
+    }
+
+    .settings-menu-item i { width: 16px; text-align: center; color: #6b7280; font-size: 14px; }
+    .settings-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+
+    .settings-menu-item.profile { color: #1e3a8a; }
+    .settings-menu-item.profile i { color: #1e3a8a; opacity: 0.85; }
+    .settings-menu-item.profile:hover { color: #1e3a8a; background: rgba(0, 0, 0, 0.04); }
+    .settings-menu-item.profile:hover i { color: #1e3a8a; opacity: 1; }
+
+    .settings-menu-item.logout { color: #dc2626; border-top: 1px solid rgba(0, 0, 0, 0.06); }
+    .settings-menu-item.logout i { color: #dc2626; opacity: 0.75; }
+    .settings-menu-item.logout:hover { background: rgba(220, 38, 38, 0.06); }
+    .settings-menu-item.logout:hover i { opacity: 1; }
+
+    /* ===== Row 2: icon nav — BLUE bar, CENTERED ===== */
+    .header-bottom {
+        background: linear-gradient(90deg, #2f57c9, #3364d7);
+        padding: 0 32px;
+        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
         position: relative;
+        margin-bottom: 0;
     }
 
-    .dropdown-item i {
-        width: 18px;
-        text-align: center;
-        color: #6b7280;
-        font-size: 14px;
-        transition: color 0.2s ease;
+    .header-bottom .container {
+        display: flex;
+        justify-content: center;
     }
 
-    .dropdown-item:hover {
-        background: rgba(0, 0, 0, 0.04);
-        color: #000000;
+    .main-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
-    .dropdown-item:hover i {
-        color: #3364d7;
+    .main-nav > a {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.82);
+        padding: 12px 16px;
+        margin: 8px 0;
+        white-space: nowrap;
+        position: relative;
+        border-radius: 8px;
+        transition: background 0.2s ease, color 0.2s ease;
     }
 
-    .dropdown-item .badge {
-        margin-left: auto;
-        background: #3364d7;
-        color: white;
-        font-size: 0.68rem;
+    .main-nav > a i { font-size: 13px; color: rgba(255, 255, 255, 0.65); }
+
+    .main-nav > a:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+    .main-nav > a:hover i { color: #ffffff; }
+
+    .main-nav > a.active {
+        color: #ffffff;
         font-weight: 600;
-        padding: 2px 10px;
-        border-radius: 50px;
-        letter-spacing: 0.3px;
+        background: rgba(255, 255, 255, 0.18);
     }
 
-    .dropdown-arrow {
-        margin-left: auto;
-        font-size: 12px !important;
-        opacity: 0;
-        transform: translateX(-5px);
-        transition: all 0.2s ease;
+    .main-nav > a.active i { color: #ffffff; }
+
+    .nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
     }
 
-    .dropdown-item:hover .dropdown-arrow {
-        opacity: 1;
-        transform: translateX(0);
-        color: #9ca3af !important;
+    .nav-toggle span { width: 22px; height: 2px; background: #374151; border-radius: 2px; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px) {
+        .header-search { flex-basis: 260px; }
+        .header-actions { gap: 20px; }
     }
 
-    .logout-item {
-        color: #dc2626;
+    @media (max-width: 900px) {
+        .action-item span:not(.pill-badge) { display: none; }
+        .settings-top-label { display: none; }
+        .header-actions { gap: 16px; }
     }
 
-    .logout-item i {
-        color: #dc2626;
-        opacity: 0.7;
+    @media (max-width: 768px) {
+        .header-search { display: none; }
+        .header-top { flex-wrap: wrap; gap: 16px; padding: 18px 32px; }
+        .nav-toggle { display: flex; }
+        .header-bottom { display: none; }
+        .header-bottom.open { display: block; }
+        .header-bottom .container { display: block; }
+        .main-nav { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; padding: 10px 0; }
+        .main-nav > a { width: 100%; }
     }
 
-    .logout-item:hover {
-        background: rgba(220, 38, 38, 0.06);
-        color: #dc2626;
-    }
-
-    .logout-item:hover i {
-        color: #dc2626 !important;
-        opacity: 1;
+    @media (max-width: 480px) {
+        .header-top { padding: 14px 16px; gap: 12px; }
+        .logo-text { font-size: 1.1rem; }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const settingsTopBtn = document.getElementById('settingsTopBtn');
+        const settingsTopDropdown = document.getElementById('settingsTopDropdown');
+        const navToggle = document.getElementById('navToggle');
+        const headerBottom = document.querySelector('.header-bottom');
+
+        settingsTopBtn?.addEventListener('click', function (e) {
+            e.stopPropagation();
+            settingsTopDropdown.classList.toggle('show');
+            settingsTopBtn.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!settingsTopDropdown?.contains(e.target) && !settingsTopBtn?.contains(e.target)) {
+                settingsTopDropdown?.classList.remove('show');
+                settingsTopBtn?.classList.remove('open');
+            }
+        });
+
+        navToggle?.addEventListener('click', function () {
+            const isOpen = headerBottom.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+    });
+</script>
