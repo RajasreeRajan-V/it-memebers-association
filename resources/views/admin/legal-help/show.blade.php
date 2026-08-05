@@ -297,7 +297,7 @@
     <div class="lh-col">
 
         <div class="lh-card">
-            <h3>Conversation</h3>
+            <h3>Legal Help Centre</h3>
 
             <div class="lh-chat">
                 @forelse($legalRequest->messages as $message)
