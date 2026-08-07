@@ -169,6 +169,97 @@
             font-weight: 600;
         }
 
+        /* ===== NAV DROPDOWN GROUP (Mentorship) ===== */
+        .sidebar .nav-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .nav-group-toggle {
+            width: 100%;
+            background: none;
+            border: none;
+            font: inherit;
+            text-align: left;
+        }
+
+        .sidebar .nav-caret {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            transition: transform 0.25s ease;
+        }
+
+        .sidebar .nav-group.is-open .nav-caret {
+            transform: rotate(180deg);
+        }
+
+        .sidebar .nav-submenu {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            max-height: 0;
+            overflow: hidden;
+            padding-left: 0.5rem;
+            margin-left: 1.1rem;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar .nav-group.is-open .nav-submenu {
+            max-height: 500px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        .sidebar .nav-subitem {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.55rem 0.7rem;
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.55);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar .nav-subitem i {
+            width: 18px;
+            font-size: 0.85rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar .nav-subitem span {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar .nav-subitem:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .sidebar .nav-subitem.active {
+            background: rgba(74, 108, 247, 0.25);
+            color: #fff;
+        }
+
+        .sidebar .nav-subitem .badge {
+            margin-left: auto;
+            background: #4a6cf7;
+            color: #fff;
+            font-size: 0.62rem;
+            padding: 0.12rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            flex: none;
+        }
+
         .sidebar-footer {
             border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding-top: 1rem;
@@ -567,6 +658,14 @@
             if (item.href && window.location.href.includes(item.href)) {
                 item.classList.add('active');
             }
+        });
+
+        // Toggle Mentorship (and any future) nav-group dropdowns
+        document.querySelectorAll('.nav-group-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const group = btn.closest('.nav-group');
+                group.classList.toggle('is-open');
+            });
         });
     </script>
 

@@ -56,4 +56,45 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('legal-help/{legalRequest}/notes', [LegalHelpController::class, 'addNote'])->name('admin.legal-help.notes.store');
     Route::post('legal-help/{legalRequest}/messages', [LegalHelpController::class, 'sendMessage'])->name('admin.legal-help.messages.store');
     Route::post('legal-help/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])->name('admin.legal-help.documents.store');
+
+
+
+
+
+
+
+     /*
+    |--------------------------------------------------------------------------
+    | Mentor Program Management
+    |--------------------------------------------------------------------------
+    */
+
+    // 1. Mentorship Management -> Assign mentors, schedule sessions, monitor progress
+    Route::get('mentorship', [MentorshipManagementController::class, 'index'])->name('admin.mentorship.index');
+    Route::post('mentorship/assign', [MentorshipManagementController::class, 'assign'])->name('admin.mentorship.assign');
+    Route::patch('mentorship/{assignment}/status', [MentorshipManagementController::class, 'updateStatus'])->name('admin.mentorship.status');
+    Route::get('mentorship/{assignment}/sessions', [MentorshipManagementController::class, 'sessions'])->name('admin.mentorship.sessions');
+    Route::delete('mentorship/{assignment}', [MentorshipManagementController::class, 'destroy'])->name('admin.mentorship.destroy');
+
+    // 2. Resume Review Management -> Assign resumes to mentors, track completion
+    Route::get('resume-reviews', [ResumeReviewManagementController::class, 'index'])->name('admin.resume-reviews.index');
+    Route::post('resume-reviews/{review}/assign', [ResumeReviewManagementController::class, 'assign'])->name('admin.resume-reviews.assign');
+
+    // 3. Webinar Management -> Approve, reject, publish webinars
+    Route::get('webinars', [WebinarManagementController::class, 'index'])->name('admin.webinars.index');
+    Route::post('webinars/{webinar}/approve', [WebinarManagementController::class, 'approve'])->name('admin.webinars.approve');
+    Route::post('webinars/{webinar}/reject', [WebinarManagementController::class, 'reject'])->name('admin.webinars.reject');
+    Route::post('webinars/{webinar}/publish', [WebinarManagementController::class, 'publish'])->name('admin.webinars.publish');
+
+    // 4. Training Material Management -> Review and publish uploaded materials
+    Route::get('training-materials', [TrainingMaterialManagementController::class, 'index'])->name('admin.training-materials.index');
+    Route::post('training-materials/{material}/approve', [TrainingMaterialManagementController::class, 'approve'])->name('admin.training-materials.approve');
+    Route::post('training-materials/{material}/reject', [TrainingMaterialManagementController::class, 'reject'])->name('admin.training-materials.reject');
+    Route::post('training-materials/{material}/publish', [TrainingMaterialManagementController::class, 'publish'])->name('admin.training-materials.publish');
+
+    // 5. Mock Interview Management -> Assign interviews, monitor schedules, store feedback
+    Route::get('mock-interviews', [MockInterviewManagementController::class, 'index'])->name('admin.mock-interviews.index');
+    Route::post('mock-interviews/assign', [MockInterviewManagementController::class, 'assign'])->name('admin.mock-interviews.assign');
+    Route::get('mock-interviews/{interview}', [MockInterviewManagementController::class, 'show'])->name('admin.mock-interviews.show');
+
 });
