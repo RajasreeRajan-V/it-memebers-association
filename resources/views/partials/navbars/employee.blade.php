@@ -21,7 +21,6 @@
                 <small>Employee Portal</small>
             </span>
         </a>
-
      
 
         <div class="header-actions">

@@ -16,7 +16,7 @@ use App\Http\Controllers\Student\SearchController;
 
 
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->name('student.')
     ->group(function () {
 

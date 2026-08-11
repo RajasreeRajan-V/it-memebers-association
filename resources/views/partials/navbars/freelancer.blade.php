@@ -1,5 +1,5 @@
+<!-- resources/views/components/navbar.blade.php -->
 <!-- Updated Site Header -->
-
 <header class="site-header">
     <div class="container header-inner">
         <a href="#" class="logo">
@@ -20,12 +20,11 @@
         </a>
 
         <nav class="main-nav" aria-label="Primary">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-            <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('freelancer.job') }}" class="{{ request()->routeIs('freelancer.job.*') ? 'active' : '' }}">Jobs</a>
+            <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">Events</a>
             <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
-            <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
-                Member</a>
+            <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a Member</a>
             <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
         </nav>
 
@@ -105,13 +104,13 @@
 <style>
     /* ===== Header Styles ===== */
     .site-header {
-        background: #0F172A;
+        background: #3364d7;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
         position: sticky;
         top: 0;
         z-index: 1000;
         padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: #3364d7;
     }
 
     .header-inner {
@@ -149,7 +148,7 @@
     .main-nav a {
         text-decoration: none;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.75);
+        color: #ffffff;
         transition: color 0.3s;
         position: relative;
         padding: 6px 2px;
@@ -374,20 +373,19 @@
         transform: rotate(180deg);
     }
 
-    /* ===== Account Dropdown ===== */
+    /* ===== Account Dropdown - White Theme ===== */
     .account-dropdown {
         position: absolute;
         right: 0;
         top: calc(100% + 10px);
         width: 280px;
-        background: #1a2332;
+        background: #ffffff;
         border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
         display: none;
         overflow: hidden;
         z-index: 999;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
         animation: slideDown 0.3s ease;
     }
 
@@ -412,7 +410,7 @@
         align-items: center;
         gap: 14px;
         padding: 18px 20px 14px 20px;
-        background: rgba(255, 255, 255, 0.03);
+        background: #f8f9fa;
     }
 
     .dropdown-avatar {
@@ -438,7 +436,7 @@
 
     .dropdown-name {
         font-weight: 600;
-        color: #ffffff;
+        color: #1a2332;
         font-size: 0.95rem;
         white-space: nowrap;
         overflow: hidden;
@@ -447,7 +445,7 @@
 
     .dropdown-email {
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.4);
+        color: #6b7280;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -455,7 +453,7 @@
 
     .dropdown-divider {
         height: 1px;
-        background: rgba(255, 255, 255, 0.06);
+        background: #e5e7eb;
         margin: 0 16px;
     }
 
@@ -466,7 +464,7 @@
         width: 100%;
         padding: 12px 20px;
         text-decoration: none;
-        color: rgba(255, 255, 255, 0.7);
+        color: #374151;
         background: none;
         border: none;
         text-align: left;
@@ -479,14 +477,14 @@
     .dropdown-item i {
         width: 18px;
         text-align: center;
-        color: rgba(255, 255, 255, 0.3);
+        color: #6b7280;
         font-size: 15px;
         transition: color 0.25s ease;
     }
 
     .dropdown-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
+        background: #f3f4f6;
+        color: #1a2332;
     }
 
     .dropdown-item:hover i {
@@ -510,29 +508,30 @@
         opacity: 0;
         transform: translateX(-5px);
         transition: all 0.25s ease;
+        color: #9ca3af !important;
     }
 
     .dropdown-item:hover .dropdown-arrow {
         opacity: 1;
         transform: translateX(0);
-        color: rgba(255, 255, 255, 0.3) !important;
+        color: #6b7280 !important;
     }
 
     .logout-item {
-        color: rgba(239, 68, 68, 0.7);
+        color: #dc2626;
     }
 
     .logout-item i {
-        color: rgba(239, 68, 68, 0.3);
+        color: #dc2626;
     }
 
     .logout-item:hover {
-        background: rgba(239, 68, 68, 0.08);
-        color: #ef4444;
+        background: #fef2f2;
+        color: #b91c1c;
     }
 
     .logout-item:hover i {
-        color: #ef4444 !important;
+        color: #b91c1c !important;
     }
 
     /* Font Awesome fallback - using Unicode as fallback */
@@ -548,3 +547,21 @@
         font-style: normal;
     }
 </style>
+
+<script>
+    // Account dropdown toggle
+
+
+    // Mobile nav toggle
+    (function() {
+        const navToggle = document.getElementById('navToggle');
+        const mainNav = document.querySelector('.main-nav');
+
+        if (navToggle && mainNav) {
+            navToggle.addEventListener('click', function() {
+                const isOpen = mainNav.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', isOpen);
+            });
+        }
+    })();
+</script>

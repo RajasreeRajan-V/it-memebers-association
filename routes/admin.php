@@ -50,11 +50,6 @@ Route::name('admin.')->group(function () {
 
     Route::middleware(['auth:admin'])->group(function () {
 
-        /*
-        |--------------------------------------------------------------------------
-        | Dashboard
-        |--------------------------------------------------------------------------
-        */
 
         Route::get(
             '/admin-dashboard',

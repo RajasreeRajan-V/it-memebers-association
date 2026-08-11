@@ -11,9 +11,9 @@ use App\Http\Controllers\Mentor\MockInterviewController;
 use App\Http\Controllers\Mentor\MentorRequestController;
 
 
-Route::middleware(['auth'])
-    ->prefix('mentor')
-    ->name('mentor.')
+Route::middleware(['member.auth'])
+    ->prefix('mentor')   
+    ->name('mentor.')    
     ->group(function () {
 
         /*
