@@ -96,7 +96,7 @@ class ProjectController extends Controller
             ->with('success', $message);
     }
 
-    private function validateProject(Request $request): array
+   private function validateProject(Request $request): array
 {
     return $request->validate([
         // Alphabets + Numbers + Special characters
@@ -127,9 +127,10 @@ class ProjectController extends Controller
             'regex:/^[A-Za-z0-9\s,.\-+#\/]+$/',
         ],
 
-        'deadline'   => ['nullable', 'date'],
-        'work_mode'  => ['required', 'in:remote,onsite,hybrid'],
-        'visibility' => ['required', 'in:freelancer,employee'],
+        'deadline'     => ['nullable', 'date'],
+        'work_mode'    => ['required', 'in:remote,onsite,hybrid'],
+        'visibility'   => ['required', 'in:freelancer,employee'],
+        'maximum_bids' => ['required', 'integer', 'min:1', 'max:1000'],
 
         // Alphabets only
         'country' => [
@@ -158,15 +159,19 @@ class ProjectController extends Controller
         // Any characters
         'description' => ['required', 'string', 'max:5000'],
     ], [
-        'title.regex'       => 'Title can only contain letters, numbers, and & ( ) . , -',
-        'budget.regex'      => 'Budget can only contain numbers and ₹ $ , . - / (no letters).',
-        'duration.regex'    => 'Duration can only contain letters, numbers, and -',
-        'skills.regex'      => 'Skills can only contain letters, numbers, and , . - + # /',
-        'visibility.in'     => 'Please select who can view/apply to this project.',
-        'country.regex'     => 'Country can only contain letters.',
-        'state.regex'       => 'State can only contain letters.',
-        'district.regex'    => 'District can only contain letters.',
-        'city.regex'        => 'City can only contain letters.',
+        'title.regex'          => 'Title can only contain letters, numbers, and & ( ) . , -',
+        'budget.regex'         => 'Budget can only contain numbers and ₹ $ , . - / (no letters).',
+        'duration.regex'       => 'Duration can only contain letters, numbers, and -',
+        'skills.regex'         => 'Skills can only contain letters, numbers, and , . - + # /',
+        'visibility.in'        => 'Please select who can view/apply to this project.',
+        'maximum_bids.required'=> 'Please specify the maximum number of bids allowed.',
+        'maximum_bids.integer' => 'Maximum bids must be a whole number.',
+        'maximum_bids.min'     => 'Maximum bids must be at least 1.',
+        'maximum_bids.max'     => 'Maximum bids cannot exceed 1000.',
+        'country.regex'        => 'Country can only contain letters.',
+        'state.regex'          => 'State can only contain letters.',
+        'district.regex'       => 'District can only contain letters.',
+        'city.regex'           => 'City can only contain letters.',
     ]);
 }
     private function authorizeOwner(Project $project): void

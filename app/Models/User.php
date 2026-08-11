@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use App\Models\FreelancerRegistration;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -76,6 +76,10 @@ public function investorRegistration()
 public function mentorRegistration()
 {
     return $this->hasOne(MentorRegistration::class);
+}
+public function freelancerProfile()
+{
+    return $this->hasOne(FreelancerRegistration::class);
 }
 }
 
