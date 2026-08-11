@@ -1,95 +1,63 @@
-<!-- Updated Site Header -->
+<!-- SkillConnect Site Header (v2 - two-row nav) -->
 
-<header class="site-header">
-    <div class="container header-inner">
-        <a href="#" class="logo">
+<header class="site-header pt-1">
+    <!-- ROW 1: Logo / Search / Actions -->
+    <div class="container header-top pb-2 pt-1">
+        <a href="{{ route('dashboard') }}" class="logo">
             <span class="logo-mark" aria-hidden="true">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 2L27 8.5V21.5L15 28L3 21.5V8.5L15 2Z" fill="url(#lg)" />
                     <path d="M15 9L20 12V18L15 21L10 18V12L15 9Z" fill="white" fill-opacity="0.9" />
                     <defs>
-                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28"
-                            gradientUnits="userSpaceOnUse">
+                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#4F46E5" />
                             <stop offset="1" stop-color="#2080D4" />
                         </linearGradient>
                     </defs>
                 </svg>
             </span>
-            SkillConnect
+            <span class="logo-text">
+                SkillConnect
+                <small>Mentor Portal</small>
+            </span>
         </a>
 
-        <nav class="main-nav" aria-label="Primary">
-            <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-            <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
-            <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">events</a>
-            <a href="{{ route('FAQs') }}" class="{{ request()->routeIs('FAQs') ? 'active' : '' }}">FAQs</a>
-            <a href="{{ route('members') }}" class="{{ request()->routeIs('members') ? 'active' : '' }}">How to be a
-                Member</a>
-            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
-        </nav>
+     
 
         <div class="header-actions">
-            <div class="account-menu">
-                <button class="account-btn" id="accountBtn">
-                    <div class="avatar-wrapper">
-                        <span class="avatar">
-                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                        </span>
-                        <span class="status-indicator"></span>
-                    </div>
-                    <div class="account-info">
-                        <span class="account-name">
-                            {{ Auth::user()->name ?? 'Account' }}
-                        </span>
-                        <span class="account-role">
-                            {{ Auth::user()->role ?? 'Member' }}
-                        </span>
-                    </div>
-                    <span class="arrow">
-                        <i class="fa-solid fa-chevron-down"></i>
+            <a href="{{ route('employee.legal-help.index') }}#messages-section" class="action-item">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span>Legal help</span>
+                
+            </a>
+
+            <a href="#" class="action-item">
+                <i class="fa-regular fa-bell"></i>
+                <span>Notifications</span>
+                <span class="pill-badge">12</span>
+            </a>
+
+            <!-- Settings replaces avatar/account block -->
+            <div class="settings-menu-wrap">
+                <button class="settings-top-btn" id="settingsTopBtn" type="button">
+                    <span class="settings-icon-circle">
+                        <i class="fa-solid fa-gear"></i>
                     </span>
+                    <span class="settings-top-label">Settings</span>
+                    <i class="fa-solid fa-chevron-down arrow" id="settingsTopArrow"></i>
                 </button>
 
-                <div class="account-dropdown" id="accountDropdown">
-                    <div class="dropdown-header">
-                        <div class="dropdown-avatar">
-                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                        </div>
-                        <div class="dropdown-user-info">
-                            <span class="dropdown-name">{{ Auth::user()->name ?? 'User' }}</span>
-                            <span class="dropdown-email">{{ Auth::user()->email ?? 'user@example.com' }}</span>
-                        </div>
-                    </div>
-
-                    <div class="dropdown-divider"></div>
-
-                    <a href="{{ route('profile') }}" class="dropdown-item">
+                <div class="settings-top-dropdown" id="settingsTopDropdown">
+                    <a href="{{ route('profile') }}" class="settings-menu-item profile">
                         <i class="fa-solid fa-user"></i>
                         <span>My Profile</span>
-                        <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
                     </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa-solid fa-gear"></i>
-                        <span>Account Settings</span>
-                        <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
-                    </a>
-
-                    <a href="#" class="dropdown-item">
-                        <i class="fa-solid fa-bell"></i>
-                        <span>Notifications</span>
-                        <span class="badge">3</span>
-                    </a>
-
-                    <div class="dropdown-divider"></div>
 
                     <form method="POST" action="{{ route('membership-logout') }}">
                         @csrf
-                        <button type="submit" class="dropdown-item logout-item">
+                        <button type="submit" class="settings-menu-item logout">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             <span>Logout</span>
-                            <i class="fa-solid fa-chevron-right dropdown-arrow"></i>
                         </button>
                     </form>
                 </div>
@@ -100,85 +68,317 @@
             <span></span><span></span><span></span>
         </button>
     </div>
+
+
+
+
+ <!-- ROW 2: Icon nav -->
+    <div class="container header-bottom">
+        <nav class="main-nav" id="mainNav" aria-label="Primary">
+            <a href="{{ route('mentor.dashboard') }}" class="{{ request()->routeIs('mentor.dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-house"></i><span>Home</span>
+                </a>
+
+           <a href="{{ route('mentor.mentees.index') }}" class="{{ request()->routeIs('mentor.mentees.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-graduate"></i><span>My Mentees</span>
+                </a>
+
+                 <a href="{{ route('mentor.resume-reviews.index') }}" class="{{ request()->routeIs('mentor.resume-reviews.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-graduate"></i><span>Resume Reviews</span>
+                </a>
+
+               <a href="{{ route('mentor.webinars.index') }}" class="{{ request()->routeIs('mentor.webinars.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-video"></i><span>Webinars</span>
+                </a>
+                <a href="{{ route('mentor.training-materials.index') }}" class="{{ request()->routeIs('mentor.training-materials.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-book"></i><span>Training Materials</span>
+                </a>
+                <a href="{{ route('mentor.mock-interviews.index') }}" class="{{ request()->routeIs('mentor.mock-interviews.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-comments"></i><span>Mock Interviews</span>
+                </a>
+        </nav>
+    </div>
 </header>
 
+
 <style>
-    /* ===== Header Styles ===== */
+    /* ===== Base ===== */
     .site-header {
-        background: #0F172A;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        background: #F7F9FF;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         position: sticky;
         top: 0;
         z-index: 1000;
-        padding: 8px 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        padding-bottom: 0;
     }
 
-    .header-inner {
+    .site-header .container {
+        max-width: 1440px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 32px;
+    }
+
+    /* ===== Row 1 — bigger/taller ===== */
+    .header-top {
+        max-width: 1650px;
+        width: 100%;
+        margin: 0 auto;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
+        gap: 36px;
+        padding: 26px 40px;
+        box-sizing: border-box;
     }
 
     .logo {
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #ffffff;
+        gap: 12px;
         text-decoration: none;
-        letter-spacing: -0.5px;
+        flex-shrink: 0;
     }
 
-    .logo-mark {
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.15;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #1f2937;
+        letter-spacing: -0.3px;
+    }
+
+    .logo-text small {
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: #3b404b;
+        letter-spacing: 0.2px;
+    }
+
+    /* ===== Search bar — compact ===== */
+    .header-search {
+        flex: 0 1 320px;
         display: flex;
         align-items: center;
+        gap: 10px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 8px 14px;
+        transition: border-color 0.2s ease;
+    }
+
+    .header-search:focus-within {
+        border-color: #3364d7;
+        background: #ffffff;
+    }
+
+    .header-search i { color: #9ca3af; font-size: 13px; }
+
+    .header-search input {
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        font-size: 0.8rem;
+        color: #111827;
+    }
+
+    .header-search input::placeholder { color: #9ca3af; }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+        flex-shrink: 0;
+        margin-left: auto;
+    }
+
+    .action-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+        color: #374151;
+        font-size: 0.87rem;
+        font-weight: 500;
+    }
+
+    .action-item i { font-size: 17px; color: #4b5563; }
+    .action-item:hover { color: #3364d7; }
+    .action-item:hover i { color: #3364d7; }
+
+    .pill-badge {
+        position: absolute;
+        top: -8px;
+        right: -14px;
+        background: #3364d7;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+    }
+
+    /* ===== Settings (row 1) ===== */
+    .settings-menu-wrap { position: relative; }
+
+    .settings-top-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 4px;
+        font-family: inherit;
+    }
+
+    .settings-icon-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #3364d7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .settings-top-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #111827;
+        white-space: nowrap;
+    }
+
+    .settings-top-btn .arrow {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-left: 2px;
+        transition: transform 0.25s ease;
+    }
+
+    .settings-top-btn.open .arrow { transform: rotate(180deg); }
+
+    .settings-top-dropdown {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 12px);
+        width: 200px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+        display: none;
+        overflow: hidden;
+        z-index: 999;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        animation: slideDown 0.25s ease;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .settings-top-dropdown.show { display: block; }
+
+    .settings-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 12px 18px;
+        text-decoration: none;
+        color: #111827;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        font-size: 0.87rem;
+        font-weight: 500;
+        font-family: inherit;
+        transition: background 0.2s ease;
+    }
+
+    .settings-menu-item i { width: 16px; text-align: center; color: #6b7280; font-size: 14px; }
+    .settings-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+
+    .settings-menu-item.profile { color: #1e3a8a; }
+    .settings-menu-item.profile i { color: #1e3a8a; opacity: 0.85; }
+    .settings-menu-item.profile:hover { color: #1e3a8a; background: rgba(0, 0, 0, 0.04); }
+    .settings-menu-item.profile:hover i { color: #1e3a8a; opacity: 1; }
+
+    .settings-menu-item.logout { color: #dc2626; border-top: 1px solid rgba(0, 0, 0, 0.06); }
+    .settings-menu-item.logout i { color: #dc2626; opacity: 0.75; }
+    .settings-menu-item.logout:hover { background: rgba(220, 38, 38, 0.06); }
+    .settings-menu-item.logout:hover i { opacity: 1; }
+
+    /* ===== Row 2: icon nav — BLUE bar, CENTERED ===== */
+    .header-bottom {
+        background: linear-gradient(90deg, #2f57c9, #3364d7);
+        padding: 0 32px;
+        box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+        position: relative;
+        margin-bottom: 0;
+    }
+
+    .header-bottom .container {
+        display: flex;
+        justify-content: center;
     }
 
     .main-nav {
         display: flex;
         align-items: center;
-        gap: 28px;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
     }
 
-    .main-nav a {
-        text-decoration: none;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.75);
-        transition: color 0.3s;
-        position: relative;
-        padding: 6px 2px;
-    }
-
-    .main-nav a:hover {
-        color: #ffffff;
-    }
-
-    .main-nav a.active {
-        color: #ffffff;
-    }
-
-    .main-nav a.active::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -4px;
-        height: 2px;
-        background: linear-gradient(135deg, #4F46E5, #2080D4);
-        border-radius: 2px;
-    }
-
-    .header-actions {
+    .main-nav > a {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 7px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.82);
+        padding: 12px 16px;
+        margin: 8px 0;
+        white-space: nowrap;
+        position: relative;
+        border-radius: 8px;
+        transition: background 0.2s ease, color 0.2s ease;
     }
+
+    .main-nav > a i { font-size: 13px; color: rgba(255, 255, 255, 0.65); }
+
+    .main-nav > a:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+    .main-nav > a:hover i { color: #ffffff; }
+
+    .main-nav > a.active {
+        color: #ffffff;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.18);
+    }
+
+    .main-nav > a.active i { color: #ffffff; }
 
     .nav-toggle {
         display: none;
@@ -190,361 +390,60 @@
         padding: 4px;
     }
 
-    .nav-toggle span {
-        width: 25px;
-        height: 2px;
-        background: #ffffff;
-        border-radius: 2px;
-        transition: 0.3s;
+    .nav-toggle span { width: 22px; height: 2px; background: #374151; border-radius: 2px; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1100px) {
+        .header-search { flex-basis: 260px; }
+        .header-actions { gap: 20px; }
     }
 
-    /* Responsive header */
-    @media (max-width: 1024px) {
-        .main-nav {
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .main-nav a {
-            font-size: 0.9rem;
-        }
+    @media (max-width: 900px) {
+        .action-item span:not(.pill-badge) { display: none; }
+        .settings-top-label { display: none; }
+        .header-actions { gap: 16px; }
     }
 
     @media (max-width: 768px) {
-        .main-nav {
-            display: none;
-            position: absolute;
-            top: 66px;
-            left: 0;
-            right: 0;
-            background: #0F172A;
-            flex-direction: column;
-            padding: 20px 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            gap: 16px;
-        }
-
-        .main-nav.open {
-            display: flex;
-        }
-
-        .main-nav a {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            padding: 8px 0;
-        }
-
-        .nav-toggle {
-            display: flex;
-        }
-
-        .account-name {
-            display: none;
-        }
-
-        .account-role {
-            display: none;
-        }
-
-        .account-btn {
-            padding: 6px 10px;
-        }
+        .header-search { display: none; }
+        .header-top { flex-wrap: wrap; gap: 16px; padding: 18px 32px; }
+        .nav-toggle { display: flex; }
+        .header-bottom { display: none; }
+        .header-bottom.open { display: block; }
+        .header-bottom .container { display: block; }
+        .main-nav { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; padding: 10px 0; }
+        .main-nav > a { width: 100%; }
     }
 
     @media (max-width: 480px) {
-        .header-inner {
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .logo {
-            font-size: 1.1rem;
-        }
-
-        .header-actions {
-            gap: 8px;
-        }
-    }
-
-    /* ===== Account Menu ===== */
-    .account-menu {
-        position: relative;
-    }
-
-    .account-btn {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border: none;
-        background: rgba(255, 255, 255, 0.06);
-        color: #fff;
-        padding: 6px 16px 6px 8px;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .account-btn:hover {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.15);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.2);
-    }
-
-    .avatar-wrapper {
-        position: relative;
-        flex-shrink: 0;
-    }
-
-    .avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #4F46E5, #2080D4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 700;
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        transition: all 0.3s ease;
-    }
-
-    .status-indicator {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 10px;
-        height: 10px;
-        background: #22c55e;
-        border-radius: 50%;
-        border: 2px solid #0F172A;
-        animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-
-        0%,
-        100% {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        50% {
-            opacity: 0.7;
-            transform: scale(0.9);
-        }
-    }
-
-    .account-info {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.2;
-        min-width: 0;
-    }
-
-    .account-name {
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: #ffffff;
-        white-space: nowrap;
-    }
-
-    .account-role {
-        font-size: 0.7rem;
-        color: rgba(255, 255, 255, 0.5);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 500;
-    }
-
-    .arrow {
-        font-size: 10px;
-        color: rgba(255, 255, 255, 0.4);
-        margin-left: 4px;
-        transition: transform 0.3s ease;
-    }
-
-    .account-btn:hover .arrow {
-        transform: rotate(180deg);
-    }
-
-    /* ===== Account Dropdown ===== */
-    .account-dropdown {
-        position: absolute;
-        right: 0;
-        top: calc(100% + 10px);
-        width: 280px;
-        background: #1a2332;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        display: none;
-        overflow: hidden;
-        z-index: 999;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        backdrop-filter: blur(20px);
-        animation: slideDown 0.3s ease;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px) scale(0.98);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-    }
-
-    .account-dropdown.show {
-        display: block;
-    }
-
-    .dropdown-header {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 18px 20px 14px 20px;
-        background: rgba(255, 255, 255, 0.03);
-    }
-
-    .dropdown-avatar {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #4F46E5, #2080D4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 700;
-        font-size: 16px;
-        text-transform: uppercase;
-        flex-shrink: 0;
-    }
-
-    .dropdown-user-info {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-    }
-
-    .dropdown-name {
-        font-weight: 600;
-        color: #ffffff;
-        font-size: 0.95rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .dropdown-email {
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.4);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .dropdown-divider {
-        height: 1px;
-        background: rgba(255, 255, 255, 0.06);
-        margin: 0 16px;
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        padding: 12px 20px;
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.7);
-        background: none;
-        border: none;
-        text-align: left;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.25s ease;
-        position: relative;
-    }
-
-    .dropdown-item i {
-        width: 18px;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.3);
-        font-size: 15px;
-        transition: color 0.25s ease;
-    }
-
-    .dropdown-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: #ffffff;
-    }
-
-    .dropdown-item:hover i {
-        color: #4F46E5;
-    }
-
-    .dropdown-item .badge {
-        margin-left: auto;
-        background: #4F46E5;
-        color: white;
-        font-size: 0.7rem;
-        font-weight: 600;
-        padding: 2px 10px;
-        border-radius: 50px;
-        letter-spacing: 0.3px;
-    }
-
-    .dropdown-arrow {
-        margin-left: auto;
-        font-size: 12px !important;
-        opacity: 0;
-        transform: translateX(-5px);
-        transition: all 0.25s ease;
-    }
-
-    .dropdown-item:hover .dropdown-arrow {
-        opacity: 1;
-        transform: translateX(0);
-        color: rgba(255, 255, 255, 0.3) !important;
-    }
-
-    .logout-item {
-        color: rgba(239, 68, 68, 0.7);
-    }
-
-    .logout-item i {
-        color: rgba(239, 68, 68, 0.3);
-    }
-
-    .logout-item:hover {
-        background: rgba(239, 68, 68, 0.08);
-        color: #ef4444;
-    }
-
-    .logout-item:hover i {
-        color: #ef4444 !important;
-    }
-
-    /* Font Awesome fallback - using Unicode as fallback */
-    .fa-regular {
-        font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-
-    /* Adding simple icon fallbacks */
-    .dropdown-item i {
-        display: inline-block;
-        width: 18px;
-        text-align: center;
-        font-style: normal;
+        .header-top { padding: 14px 16px; gap: 12px; }
+        .logo-text { font-size: 1.1rem; }
     }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const settingsTopBtn = document.getElementById('settingsTopBtn');
+        const settingsTopDropdown = document.getElementById('settingsTopDropdown');
+        const navToggle = document.getElementById('navToggle');
+        const headerBottom = document.querySelector('.header-bottom');
+
+        settingsTopBtn?.addEventListener('click', function (e) {
+            e.stopPropagation();
+            settingsTopDropdown.classList.toggle('show');
+            settingsTopBtn.classList.toggle('open');
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!settingsTopDropdown?.contains(e.target) && !settingsTopBtn?.contains(e.target)) {
+                settingsTopDropdown?.classList.remove('show');
+                settingsTopBtn?.classList.remove('open');
+            }
+        });
+
+        navToggle?.addEventListener('click', function () {
+            const isOpen = headerBottom.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen);
+        });
+    });
+</script>

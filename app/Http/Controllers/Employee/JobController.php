@@ -10,12 +10,11 @@ use App\Models\ProjectApplication;
 use App\Models\SavedJob;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\JobAlertSubscription;
 
 class JobController extends Controller
 {
-    /**
-     * How many jobs to show per page across all listing views.
-     */
+   
     protected int $perPage = 6;
 
     public function index(Request $request)
@@ -74,12 +73,7 @@ class JobController extends Controller
             $job->listing_type = 'job';
         });
 
-        // ============================================================
-        // 2. Employee-visible contract Projects
-        //    (posted by employers with visibility = 'employee')
-        // ============================================================
-        // Skip pulling in projects if the user picked a full-time/part-time
-        // filter - projects are inherently contract/freelance-style work.
+    
         $includeProjects = empty($filters['employment_type'])
             || in_array($filters['employment_type'], ['contract', 'freelance']);
 
@@ -166,9 +160,7 @@ class JobController extends Controller
 
         $userId = $request->user()?->id;
 
-        // job ids the logged-in user has already saved / applied to,
-        // so the UI can show filled bookmark icons / "Applied" state
-        // (this only applies to real JobPost rows, not Projects)
+      
         $savedJobIds = $userId
             ? SavedJob::where('user_id', $userId)->pluck('job_post_id')->all()
             : [];
@@ -223,5 +215,150 @@ class JobController extends Controller
         ));
     }
 
+  public function inProgressJobs(Request $request)
+{
+    $userId = $request->user()->id;
 
+    // in-progress applications for this user, keyed by job_post_id for quick lookup in the view
+    $applications = JobApplication::where('user_id', $userId)
+        ->inProgress()
+        ->get();
+
+    $applicationsByJob = $applications->keyBy('job_post_id');
+
+    $jobIds = $applications->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    return view('employees.jobs.in-progress', compact('jobs', 'applicationsByJob'));
+}
+
+
+
+public function appliedJobs(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $jobIds = JobApplication::where('user_id', $userId)->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    $savedJobIds = SavedJob::where('user_id', $userId)->pluck('job_post_id')->all();
+
+    return view('employees.jobs.applied', compact('jobs', 'savedJobIds'));
+}
+
+
+public function savedJobs(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $jobIds = SavedJob::where('user_id', $userId)->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    $appliedJobIds = JobApplication::where('user_id', $userId)->pluck('job_post_id')->all();
+
+    return view('employees.jobs.saved', compact('jobs', 'appliedJobIds'));
+}
+
+public function save(Request $request, $jobId)
+{
+    $userId = $request->user()->id;
+
+    $existing = SavedJob::where('user_id', $userId)->where('job_post_id', $jobId)->first();
+
+    if ($existing) {
+        $existing->delete();
+    } else {
+        SavedJob::create([
+            'user_id' => $userId,
+            'job_post_id' => $jobId,
+        ]);
+    }
+
+    return back();
+}
+
+
+public function interviewJobs(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $applications = JobApplication::with('interview')
+        ->where('user_id', $userId)
+        ->interview()
+        ->get();
+
+    $applicationsByJob = $applications->keyBy('job_post_id');
+
+    $jobIds = $applications->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    return view('employees.jobs.interviews', compact('jobs', 'applicationsByJob'));
+}
+
+
+public function hiredJobs(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $jobIds = JobApplication::where('user_id', $userId)
+        ->hired()
+        ->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    return view('employees.jobs.hired', compact('jobs'));
+}
+
+
+
+public function archivedJobs(Request $request)
+{
+    $userId = $request->user()->id;
+
+    $jobIds = JobApplication::where('user_id', $userId)
+        ->archived()
+        ->pluck('job_post_id');
+
+    $jobs = JobPost::with('employer.employerRegistration')
+        ->whereIn('id', $jobIds)
+        ->latest()
+        ->paginate($this->perPage);
+
+    return view('employees.jobs.archived', compact('jobs'));
+}
+
+
+
+public function subscribe(Request $request)
+{
+    $request->validate([
+        'email' => ['required', 'email'],
+    ]);
+
+    JobAlertSubscription::updateOrCreate(
+        ['email' => $request->email],
+        ['user_id' => $request->user()?->id]
+    );
+
+    return back()->with('success', 'You are subscribed to job alerts!');
+}
 }

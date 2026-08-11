@@ -390,7 +390,7 @@ h3,
             </div>
 
             <div class="space-y-3">
-              @forelse ($jobs as $job)
+                @forelse ($jobs as $job)
                 @php
                 $isProject = ($job->listing_type ?? 'job') === 'project';
 
@@ -405,17 +405,17 @@ h3,
                 ->implode(', ') ?: 'Location not specified';
 
                 if ($isProject) {
-                    $employmentType    = $job->project_type === 'hourly' ? 'Hourly Contract' : 'Fixed-Price Contract';
-                    $payDisplay        = $job->budget ?: 'Budget not disclosed';
-                    $experienceDisplay = $job->experience_level ? ucfirst($job->experience_level) : null;
-                    $extraMeta         = $job->duration ?: null; // e.g. "2-4 weeks"
+                $employmentType = $job->project_type === 'hourly' ? 'Hourly Contract' : 'Fixed-Price Contract';
+                $payDisplay = $job->budget ?: 'Budget not disclosed';
+                $experienceDisplay = $job->experience_level ? ucfirst($job->experience_level) : null;
+                $extraMeta = $job->duration ?: null; // e.g. "2-4 weeks"
                 } else {
-                    $employmentType    = $job->employment_type
-                        ? ucfirst(str_replace('-', ' ', $job->employment_type))
-                        : null;
-                    $payDisplay        = $job->salary ?: 'Not disclosed';
-                    $experienceDisplay = $job->experience;
-                    $extraMeta         = null;
+                $employmentType = $job->employment_type
+                ? ucfirst(str_replace('-', ' ', $job->employment_type))
+                : null;
+                $payDisplay = $job->salary ?: 'Not disclosed';
+                $experienceDisplay = $job->experience;
+                $extraMeta = null;
                 }
 
                 $skills = is_array($job->skills) ? $job->skills : [];
@@ -426,7 +426,7 @@ h3,
 
                 // Save/Apply only apply to real JobPost rows for now -
                 // Projects don't share the SavedJob / JobApplication tables.
-                $isSaved    = !$isProject && in_array($job->id, $savedJobIds ?? []);
+                $isSaved = !$isProject && in_array($job->id, $savedJobIds ?? []);
                 $hasApplied = !$isProject && in_array($job->id, $appliedJobIds ?? []);
 
                 // Whether the logged-in employee has already sent a proposal for this project.
@@ -459,8 +459,10 @@ h3,
                                     <span
                                         title="This is a contract project posted specifically for employees, not a regular job listing."
                                         class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m-6 4h6m-6 4h6" />
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m-6 4h6m-6 4h6" />
                                         </svg>
                                         Contract Project
                                     </span>
@@ -484,7 +486,8 @@ h3,
                         </div>
 
                         <div class="flex items-center justify-between mt-3.5">
-                            <div id="job-tags-{{ $job->listing_type }}-{{ $job->id }}" class="flex flex-wrap gap-1.5 items-center">
+                            <div id="job-tags-{{ $job->listing_type }}-{{ $job->id }}"
+                                class="flex flex-wrap gap-1.5 items-center">
                                 @if ($job->work_mode)
                                 <span
                                     class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-brand/5 text-brand border border-brand/10 capitalize">{{ $job->work_mode }}</span>
@@ -507,13 +510,10 @@ h3,
                             </div>
 
                             @if (!$isProject)
-                            <button type="button"
-                                class="job-save-btn shrink-0 ml-2 w-8 h-8 flex items-center justify-center rounded-lg transition-colors
+                            <button type="button" class="job-save-btn shrink-0 ml-2 w-8 h-8 flex items-center justify-center rounded-lg transition-colors
                                        {{ $isSaved ? 'text-brand bg-brand/10' : 'text-slate2 hover:text-brand hover:bg-brand/5' }}
-                                       focus-visible:ring-2 focus-visible:ring-brand"
-                                data-context="card"
-                                data-job-id="{{ $job->id }}"
-                                data-save-url="{{ route('employee.jobs.save', $job->id) }}"
+                                       focus-visible:ring-2 focus-visible:ring-brand" data-context="card"
+                                data-job-id="{{ $job->id }}" data-save-url="{{ route('employee.jobs.save', $job->id) }}"
                                 data-saved="{{ $isSaved ? '1' : '0' }}"
                                 aria-label="{{ $isSaved ? 'Unsave job' : 'Save job' }}">
                                 <svg class="w-4 h-4" fill="{{ $isSaved ? 'currentColor' : 'none' }}"
@@ -536,15 +536,17 @@ h3,
                             class="w-14 h-14 rounded-xl object-cover shrink-0 border border-line">
                         @else
                         <div class="w-14 h-14 rounded-xl {{ $avatarClass }} flex items-center justify-center shrink-0">
-                            <span class="font-display font-bold text-lg">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
+                            <span
+                                class="font-display font-bold text-lg">{{ strtoupper(substr($companyName, 0, 1)) }}</span>
                         </div>
                         @endif
                         <div class="min-w-0">
                             <div class="flex items-center gap-2 flex-wrap">
                                 <h3 class="font-display font-bold text-lg text-ink">{{ $job->title }}</h3>
                                 @if ($isProject)
-                                <span class="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
-                                    Contract Project &middot; For You
+                                <span
+                                    class="inline-flex items-center text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-200">
+                                    Contract Project
                                 </span>
                                 @endif
                             </div>
@@ -554,13 +556,15 @@ h3,
 
                     <div class="mt-6 grid grid-cols-2 gap-3">
                         <div class="bg-surface rounded-xl px-4 py-3">
-                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">{{ $isProject ? 'Budget' : 'Salary' }}</p>
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">
+                                {{ $isProject ? 'Budget' : 'Salary' }}</p>
                             <p class="text-ink font-semibold mt-1">{{ $payDisplay }}</p>
                         </div>
 
                         @if ($employmentType)
                         <div class="bg-surface rounded-xl px-4 py-3">
-                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">{{ $isProject ? 'Contract Type' : 'Employment Type' }}</p>
+                            <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide">
+                                {{ $isProject ? 'Contract Type' : 'Employment Type' }}</p>
                             <p class="text-ink font-semibold mt-1">{{ $employmentType }}</p>
                         </div>
                         @endif
@@ -599,7 +603,8 @@ h3,
                         <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-2">Skills</p>
                         <div class="flex flex-wrap gap-1.5">
                             @foreach ($skills as $tag)
-                            <span class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white text-slate2 border border-line">{{ $tag }}</span>
+                            <span
+                                class="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white text-slate2 border border-line">{{ $tag }}</span>
                             @endforeach
                         </div>
                     </div>
@@ -612,59 +617,59 @@ h3,
 
                     <div class="flex items-center gap-3 mt-6 pt-6 border-t border-line">
                         @if ($isProject)
-                            @if ($hasProposed)
-                            <div class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">
-                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                                Proposal submitted — the employer will be in touch if you're shortlisted.
-                            </div>
-                            @else
-                            <form class="project-proposal-form w-full"
-                                data-project-id="{{ $job->id }}"
-                                data-apply-url="{{ route('employee.projects.apply', $job->id) }}">
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="text-xs font-semibold text-ink block mb-1">Cover Note</label>
-                                        <textarea name="cover_note" rows="3" required maxlength="2000"
-                                            class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
-                                            placeholder="Briefly explain why you're a good fit for this project..."></textarea>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label class="text-xs font-semibold text-ink block mb-1">Proposed Rate</label>
-                                            <input type="text" name="proposed_rate" required maxlength="100"
-                                                class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
-                                                placeholder="e.g. ₹800/hr or ₹40,000 fixed">
-                                        </div>
-                                        <div>
-                                            <label class="text-xs font-semibold text-ink block mb-1">Estimated Timeline</label>
-                                            <input type="text" name="estimated_timeline" required maxlength="100"
-                                                class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
-                                                placeholder="e.g. 3 weeks">
-                                        </div>
-                                    </div>
-                                    <p class="proposal-error text-xs text-rose-600 hidden"></p>
-                                    <button type="submit"
-                                        class="proposal-submit-btn bg-brand hover:bg-brand/90 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto">
-                                        Submit Proposal
-                                    </button>
+                        @if ($hasProposed)
+                        <div
+                            class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Proposal submitted — the employer will be in touch if you're shortlisted.
+                        </div>
+                        @else
+                        <form class="project-proposal-form w-full" data-project-id="{{ $job->id }}"
+                            data-apply-url="{{ route('employee.projects.apply', $job->id) }}">
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-ink block mb-1">Cover Note</label>
+                                    <textarea name="cover_note" rows="3" required maxlength="2000"
+                                        class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                        placeholder="Briefly explain why you're a good fit for this project..."></textarea>
                                 </div>
-                            </form>
-                            @endif
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs font-semibold text-ink block mb-1">Proposed Rate</label>
+                                        <input type="text" name="proposed_rate" required maxlength="100"
+                                            class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                            placeholder="e.g. ₹800/hr or ₹40,000 fixed">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-semibold text-ink block mb-1">Estimated
+                                            Timeline</label>
+                                        <input type="text" name="estimated_timeline" required maxlength="100"
+                                            class="w-full text-sm border border-line rounded-lg px-3 py-2 outline-none focus:border-brand focus:ring-1 focus:ring-brand/30"
+                                            placeholder="e.g. 3 weeks">
+                                    </div>
+                                </div>
+                                <p class="proposal-error text-xs text-rose-600 hidden"></p>
+                                <button type="submit"
+                                    class="proposal-submit-btn bg-brand hover:bg-brand/90 text-white text-sm font-semibold px-6 py-3 rounded-xl transition-colors w-full sm:w-auto">
+                                    Submit Proposal
+                                </button>
+                            </div>
+                        </form>
+                        @endif
                         @else
                         <button type="button"
                             class="job-apply-btn {{ $hasApplied ? 'bg-mint/10 text-mint cursor-default' : 'bg-brand hover:bg-brand/90 text-white' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
-                            data-job-id="{{ $job->id }}"
-                            data-apply-url="{{ route('employee.jobs.apply', $job->id) }}"
+                            data-job-id="{{ $job->id }}" data-apply-url="{{ route('employee.jobs.apply', $job->id) }}"
                             {{ $hasApplied ? 'disabled' : '' }}>
                             {{ $hasApplied ? 'Applied' : 'Apply Now' }}
                         </button>
 
                         <button type="button"
                             class="job-save-btn {{ $isSaved ? 'bg-brand/10 text-brand' : 'bg-surface text-slate2 hover:text-brand' }} text-sm font-semibold px-6 py-3 rounded-xl transition-colors"
-                            data-context="modal"
-                            data-job-id="{{ $job->id }}"
+                            data-context="modal" data-job-id="{{ $job->id }}"
                             data-save-url="{{ route('employee.jobs.save', $job->id) }}"
                             data-saved="{{ $isSaved ? '1' : '0' }}">
                             {{ $isSaved ? 'Saved' : 'Save Job' }}
@@ -703,7 +708,7 @@ h3,
                 <h4 class="font-display font-bold text-sm relative z-10">Boost Your Profile</h4>
                 <p class="text-xs text-white/85 mt-1.5 relative z-10 leading-relaxed">Add your skills and get
                     personalized job recommendations.</p>
-                <a href=""
+                <a href="{{ route('profile') }}"
                     class="inline-block mt-4 bg-white text-brand text-xs font-semibold px-4 py-2.5 rounded-lg relative z-10 hover:bg-white/90 transition-colors">
                     Create Profile
                 </a>
@@ -780,7 +785,8 @@ h3,
 <div id="job-modal" class="hidden fixed inset-0 z-[1100]">
     <div id="job-modal-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
     <div class="relative min-h-full flex items-start justify-center p-4 sm:p-6 pt-24 sm:pt-28">
-        <div class="bg-white rounded-2xl shadow-lg ring-1 ring-black/[0.03] w-full max-w-2xl max-h-[75vh] flex flex-col overflow-hidden">
+        <div
+            class="bg-white rounded-2xl shadow-lg ring-1 ring-black/[0.03] w-full max-w-2xl max-h-[75vh] flex flex-col overflow-hidden">
 
             {{-- Header row: title left, bordered square close button right --}}
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
@@ -847,7 +853,8 @@ h3,
             var chip = document.createElement('span');
             chip.className = 'applied-chip-' + jobId +
                 ' text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1';
-            chip.innerHTML = '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
+            chip.innerHTML =
+                '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
                 '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Applied';
             tagWrap.appendChild(chip);
         }
@@ -931,55 +938,61 @@ h3,
         btn.textContent = 'Submitting...';
 
         fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                cover_note: form.cover_note.value,
-                proposed_rate: form.proposed_rate.value,
-                estimated_timeline: form.estimated_timeline.value
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    cover_note: form.cover_note.value,
+                    proposed_rate: form.proposed_rate.value,
+                    estimated_timeline: form.estimated_timeline.value
+                })
             })
-        })
-        .then(function(res) {
-            return res.json().then(function(data) { return { ok: res.ok, data: data }; });
-        })
-        .then(function(result) {
-            if (!result.ok) {
-                var msg = result.data.message || 'Something went wrong. Please try again.';
-                if (result.data.errors) {
-                    msg = Object.values(result.data.errors).flat().join(' ');
+            .then(function(res) {
+                return res.json().then(function(data) {
+                    return {
+                        ok: res.ok,
+                        data: data
+                    };
+                });
+            })
+            .then(function(result) {
+                if (!result.ok) {
+                    var msg = result.data.message || 'Something went wrong. Please try again.';
+                    if (result.data.errors) {
+                        msg = Object.values(result.data.errors).flat().join(' ');
+                    }
+                    errorEl.textContent = msg;
+                    errorEl.classList.remove('hidden');
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    return;
                 }
-                errorEl.textContent = msg;
+
+                form.outerHTML =
+                    '<div class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">' +
+                    '<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
+                    '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' +
+                    'Proposal submitted — the employer will be in touch if you\'re shortlisted.</div>';
+
+                var tagWrap = document.getElementById('job-tags-project-' + projectId);
+                if (tagWrap && !tagWrap.querySelector('.proposal-chip-' + projectId)) {
+                    var chip = document.createElement('span');
+                    chip.className = 'proposal-chip-' + projectId +
+                        ' text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1';
+                    chip.textContent = 'Proposal Sent';
+                    tagWrap.appendChild(chip);
+                }
+            })
+            .catch(function() {
+                errorEl.textContent = 'Network error. Please try again.';
                 errorEl.classList.remove('hidden');
                 btn.disabled = false;
                 btn.textContent = originalText;
-                return;
-            }
-
-            form.outerHTML = '<div class="w-full flex items-center gap-2 text-xs text-mint bg-mint/10 border border-mint/20 rounded-xl px-4 py-3">' +
-                '<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
-                '<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' +
-                'Proposal submitted — the employer will be in touch if you\'re shortlisted.</div>';
-
-            var tagWrap = document.getElementById('job-tags-project-' + projectId);
-            if (tagWrap && !tagWrap.querySelector('.proposal-chip-' + projectId)) {
-                var chip = document.createElement('span');
-                chip.className = 'proposal-chip-' + projectId +
-                    ' text-[11px] font-semibold px-2.5 py-1 rounded-full bg-mint/10 text-mint border border-mint/20 inline-flex items-center gap-1';
-                chip.textContent = 'Proposal Sent';
-                tagWrap.appendChild(chip);
-            }
-        })
-        .catch(function() {
-            errorEl.textContent = 'Network error. Please try again.';
-            errorEl.classList.remove('hidden');
-            btn.disabled = false;
-            btn.textContent = originalText;
-        });
+            });
     });
 })();
 </script>
