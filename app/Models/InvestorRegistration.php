@@ -23,6 +23,7 @@ class InvestorRegistration extends Model
         'linkedin',
         'website',
         'bio',
+        'profile_photo',
         'verification_document',
     ];
 

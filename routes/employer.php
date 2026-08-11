@@ -10,7 +10,7 @@ use App\Http\Controllers\Employer\ApplicantController;
 use App\Http\Controllers\Employer\ArticleController as EmployerArticleController;
 use App\Http\Controllers\ArticleController;
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->prefix('employer')
     ->name('employer.')
     ->group(function () {

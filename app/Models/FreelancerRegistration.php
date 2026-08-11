@@ -45,4 +45,8 @@ class FreelancerRegistration extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function bids()
+    {
+        return $this->hasMany(FreelancerBid::class, 'freelancer_id');
+    }
 }

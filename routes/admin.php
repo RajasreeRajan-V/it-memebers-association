@@ -19,8 +19,6 @@ Route::name('admin.')->group(function () {
         Route::get('/admin-dashboard', [DashboardController::class, 'index'])->name('admin-dashboard');
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-        Route::get('registrations', [RegistrationApprovalController::class, 'index'])
-            ->name('registrations.index');
 
         Route::patch('registrations/{id}/approve', [RegistrationApprovalController::class, 'approve'])
             ->name('registrations.approve');

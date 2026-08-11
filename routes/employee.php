@@ -6,7 +6,7 @@ use App\Http\Controllers\Employee\JobController;
 use App\Http\Controllers\Employee\ArticleController;
 use App\Http\Controllers\Employee\LegalHelpController;
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->name('employee.')
     ->group(function () {
 

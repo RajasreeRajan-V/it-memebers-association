@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Investor\InvestorDashboardController;
 
-Route::middleware(['auth'])
+Route::middleware(['member.auth'])
     ->prefix('investor')   
     ->name('investor.')    
     ->group(function () {

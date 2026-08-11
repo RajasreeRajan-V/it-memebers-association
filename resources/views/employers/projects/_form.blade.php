@@ -5,10 +5,11 @@
         <i class="fas fa-briefcase"></i>
         Project Title <span class="required">*</span>
     </label>
-    <input type="text" class="form-control-custom @error('title') is-invalid @enderror"
-           id="title" name="title" value="{{ old('title', $project->title ?? '') }}"
-           placeholder="e.g., Build a Shopify Storefront" required>
-    @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <input type="text" class="form-control-custom @error('title') is-invalid @enderror" id="title" name="title"
+        value="{{ old('title', $project->title ?? '') }}" placeholder="e.g., Build a Shopify Storefront" required>
+    @error('title')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
 </div>
 
 <div class="row-custom">
@@ -17,14 +18,16 @@
             <i class="fas fa-tag"></i>
             Budget Type <span class="required">*</span>
         </label>
-        <select class="form-control-custom @error('project_type') is-invalid @enderror"
-                id="project_type" name="project_type" required>
+        <select class="form-control-custom @error('project_type') is-invalid @enderror" id="project_type"
+            name="project_type" required>
             <option value="">Select Type</option>
             @foreach (['fixed' => 'Fixed Price', 'hourly' => 'Hourly Rate'] as $value => $label)
                 <option value="{{ $value }}" @selected(old('project_type', $project->project_type ?? '') == $value)>{{ $label }}</option>
             @endforeach
         </select>
-        @error('project_type') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @error('project_type')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="form-group-custom">
@@ -32,10 +35,12 @@
             <i class="fas fa-money-bill-wave"></i>
             Budget <span class="required">*</span>
         </label>
-        <input type="text" class="form-control-custom @error('budget') is-invalid @enderror"
-               id="budget" name="budget" value="{{ old('budget', $project->budget ?? '') }}"
-               placeholder="e.g., $500 - $1,000" required>
-        @error('budget') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <input type="text" class="form-control-custom @error('budget') is-invalid @enderror" id="budget"
+            name="budget" value="{{ old('budget', $project->budget ?? '') }}" placeholder="e.g., $500 - $1,000"
+            required>
+        @error('budget')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 </div>
 
@@ -45,10 +50,12 @@
             <i class="fas fa-clock"></i>
             Duration <span class="required">*</span>
         </label>
-        <input type="text" class="form-control-custom @error('duration') is-invalid @enderror"
-               id="duration" name="duration" value="{{ old('duration', $project->duration ?? '') }}"
-               placeholder="e.g., 2-4 weeks" required>
-        @error('duration') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <input type="text" class="form-control-custom @error('duration') is-invalid @enderror" id="duration"
+            name="duration" value="{{ old('duration', $project->duration ?? '') }}" placeholder="e.g., 2-4 weeks"
+            required>
+        @error('duration')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="form-group-custom">
@@ -56,14 +63,16 @@
             <i class="fas fa-chart-line"></i>
             Experience Level
         </label>
-        <select class="form-control-custom @error('experience_level') is-invalid @enderror"
-                id="experience_level" name="experience_level">
+        <select class="form-control-custom @error('experience_level') is-invalid @enderror" id="experience_level"
+            name="experience_level">
             <option value="">Select Level</option>
             @foreach (['entry' => 'Entry Level', 'intermediate' => 'Intermediate', 'expert' => 'Expert'] as $value => $label)
                 <option value="{{ $value }}" @selected(old('experience_level', $project->experience_level ?? '') == $value)>{{ $label }}</option>
             @endforeach
         </select>
-        @error('experience_level') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @error('experience_level')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 </div>
 
@@ -73,10 +82,11 @@
             <i class="fas fa-code"></i>
             Required Skills
         </label>
-        <input type="text" class="form-control-custom @error('skills') is-invalid @enderror"
-               id="skills" name="skills" value="{{ old('skills', $project->skills ?? '') }}"
-               placeholder="React, Node.js, Figma">
-        @error('skills') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <input type="text" class="form-control-custom @error('skills') is-invalid @enderror" id="skills"
+            name="skills" value="{{ old('skills', $project->skills ?? '') }}" placeholder="React, Node.js, Figma">
+        @error('skills')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
         <div class="helper-text"><i class="fas fa-info-circle"></i> Separate with commas</div>
     </div>
 
@@ -85,10 +95,11 @@
             <i class="fas fa-calendar-alt"></i>
             Submission Deadline
         </label>
-        <input type="date" class="form-control-custom @error('deadline') is-invalid @enderror"
-               id="deadline" name="deadline"
-               value="{{ old('deadline', optional($project->deadline ?? null)->format('Y-m-d')) }}">
-        @error('deadline') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        <input type="date" class="form-control-custom @error('deadline') is-invalid @enderror" id="deadline"
+            name="deadline" value="{{ old('deadline', optional($project->deadline ?? null)->format('Y-m-d')) }}">
+        @error('deadline')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 </div>
 
@@ -98,15 +109,17 @@
             <i class="fas fa-map-marker-alt"></i>
             Work Mode <span class="required">*</span>
         </label>
-        <select class="form-control-custom @error('work_mode') is-invalid @enderror"
-                id="work_mode" name="work_mode" required>
+        <select class="form-control-custom @error('work_mode') is-invalid @enderror" id="work_mode" name="work_mode"
+            required>
             @foreach (['remote' => 'Remote', 'onsite' => 'On-site', 'hybrid' => 'Hybrid'] as $value => $label)
                 <option value="{{ $value }}" @selected(old('work_mode', $project->work_mode ?? 'remote') == $value)>
                     {{ $label }}
                 </option>
             @endforeach
         </select>
-        @error('work_mode') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @error('work_mode')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="form-group-custom">
@@ -114,8 +127,8 @@
             <i class="fas fa-eye"></i>
             Visibility <span class="required">*</span>
         </label>
-        <select class="form-control-custom @error('visibility') is-invalid @enderror"
-                id="visibility" name="visibility" required>
+        <select class="form-control-custom @error('visibility') is-invalid @enderror" id="visibility"
+            name="visibility" required>
             <option value="">Select Visibility</option>
             @foreach (['freelancer' => 'Freelancer', 'employee' => 'Employee'] as $value => $label)
                 <option value="{{ $value }}" @selected(old('visibility', $project->visibility ?? '') == $value)>
@@ -123,8 +136,25 @@
                 </option>
             @endforeach
         </select>
-        @error('visibility') <div class="invalid-feedback">{{ $message }}</div> @enderror
+        @error('visibility')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
     </div>
+</div>
+
+<div class="form-group-custom">
+    <label for="maximum_bids" class="form-label-icon">
+        <i class="fas fa-gavel"></i>
+        Maximum Bids <span class="required">*</span>
+    </label>
+    <input type="number" min="1" step="1"
+        class="form-control-custom @error('maximum_bids') is-invalid @enderror" id="maximum_bids"
+        name="maximum_bids" value="{{ old('maximum_bids', $project->maximum_bids ?? '') }}"
+        placeholder="e.g., 20" required>
+    @error('maximum_bids')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+    <div class="helper-text"><i class="fas fa-info-circle"></i> Maximum number of bids allowed for this project</div>
 </div>
 
 <div id="locationFields">
@@ -135,12 +165,8 @@
                 <i class="fas fa-globe"></i> Country
             </label>
 
-            <input type="text"
-                   class="form-control-custom @error('country') is-invalid @enderror"
-                   id="country"
-                   name="country"
-                   value="{{ old('country', $project->country ?? '') }}"
-                   placeholder="Country">
+            <input type="text" class="form-control-custom @error('country') is-invalid @enderror" id="country"
+                name="country" value="{{ old('country', $project->country ?? '') }}" placeholder="Country">
 
             @error('country')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -152,12 +178,8 @@
                 <i class="fas fa-map-pin"></i> State
             </label>
 
-            <input type="text"
-                   class="form-control-custom @error('state') is-invalid @enderror"
-                   id="state"
-                   name="state"
-                   value="{{ old('state', $project->state ?? '') }}"
-                   placeholder="State">
+            <input type="text" class="form-control-custom @error('state') is-invalid @enderror" id="state"
+                name="state" value="{{ old('state', $project->state ?? '') }}" placeholder="State">
 
             @error('state')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -169,12 +191,8 @@
                 <i class="fas fa-map-marked-alt"></i> District
             </label>
 
-            <input type="text"
-                   class="form-control-custom @error('district') is-invalid @enderror"
-                   id="district"
-                   name="district"
-                   value="{{ old('district', $project->district ?? '') }}"
-                   placeholder="District">
+            <input type="text" class="form-control-custom @error('district') is-invalid @enderror" id="district"
+                name="district" value="{{ old('district', $project->district ?? '') }}" placeholder="District">
 
             @error('district')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -186,12 +204,8 @@
                 <i class="fas fa-city"></i> City
             </label>
 
-            <input type="text"
-                   class="form-control-custom @error('city') is-invalid @enderror"
-                   id="city"
-                   name="city"
-                   value="{{ old('city', $project->city ?? '') }}"
-                   placeholder="City">
+            <input type="text" class="form-control-custom @error('city') is-invalid @enderror" id="city"
+                name="city" value="{{ old('city', $project->city ?? '') }}" placeholder="City">
 
             @error('city')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -206,8 +220,9 @@
         <i class="fas fa-align-left"></i>
         Description <span class="required">*</span>
     </label>
-    <textarea class="form-control-custom @error('description') is-invalid @enderror"
-              id="description" name="description" rows="5"
-              placeholder="Describe the scope of work, deliverables, and expectations..." required>{{ old('description', $project->description ?? '') }}</textarea>
-    @error('description') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    <textarea class="form-control-custom @error('description') is-invalid @enderror" id="description" name="description"
+        rows="5" placeholder="Describe the scope of work, deliverables, and expectations..." required>{{ old('description', $project->description ?? '') }}</textarea>
+    @error('description')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
 </div>

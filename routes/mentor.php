@@ -8,9 +8,9 @@ use App\Http\Controllers\Mentor\WebinarController;
 use App\Http\Controllers\Mentor\TrainingMaterialController;
 use App\Http\Controllers\Mentor\MockInterviewController;
 
-Route::middleware(['auth'])
-    ->prefix('mentor')
-    ->name('mentor.')
+Route::middleware(['member.auth'])
+    ->prefix('mentor')   
+    ->name('mentor.')    
     ->group(function () {
 
         // Home

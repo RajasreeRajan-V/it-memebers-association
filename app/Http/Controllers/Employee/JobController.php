@@ -32,7 +32,7 @@ class JobController extends Controller
             $keyword = $filters['q'];
             $jobQuery->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('description', 'like', "%{$keyword}%");
+                    ->orWhere('description', 'like', "%{$keyword}%");
             });
         }
 
@@ -40,9 +40,9 @@ class JobController extends Controller
             $location = $filters['location'];
             $jobQuery->where(function ($q) use ($location) {
                 $q->where('city', 'like', "%{$location}%")
-                  ->orWhere('state', 'like', "%{$location}%")
-                  ->orWhere('district', 'like', "%{$location}%")
-                  ->orWhere('country', 'like', "%{$location}%");
+                    ->orWhere('state', 'like', "%{$location}%")
+                    ->orWhere('district', 'like', "%{$location}%")
+                    ->orWhere('country', 'like', "%{$location}%");
             });
         }
 
@@ -55,7 +55,7 @@ class JobController extends Controller
                 $jobQuery->where(function ($q) use ($keywords) {
                     foreach ($keywords as $keyword) {
                         $q->orWhere('title', 'like', "%{$keyword}%")
-                          ->orWhereJsonContains('skills', $keyword);
+                            ->orWhereJsonContains('skills', $keyword);
                     }
                 });
             }
@@ -89,7 +89,7 @@ class JobController extends Controller
                 $keyword = $filters['q'];
                 $projectQuery->where(function ($q) use ($keyword) {
                     $q->where('title', 'like', "%{$keyword}%")
-                      ->orWhere('description', 'like', "%{$keyword}%");
+                        ->orWhere('description', 'like', "%{$keyword}%");
                 });
             }
 
@@ -97,9 +97,9 @@ class JobController extends Controller
                 $location = $filters['location'];
                 $projectQuery->where(function ($q) use ($location) {
                     $q->where('city', 'like', "%{$location}%")
-                      ->orWhere('state', 'like', "%{$location}%")
-                      ->orWhere('district', 'like', "%{$location}%")
-                      ->orWhere('country', 'like', "%{$location}%");
+                        ->orWhere('state', 'like', "%{$location}%")
+                        ->orWhere('district', 'like', "%{$location}%")
+                        ->orWhere('country', 'like', "%{$location}%");
                 });
             }
 
@@ -112,7 +112,7 @@ class JobController extends Controller
                     $projectQuery->where(function ($q) use ($keywords) {
                         foreach ($keywords as $keyword) {
                             $q->orWhere('title', 'like', "%{$keyword}%")
-                              ->orWhere('skills', 'like', "%{$keyword}%");
+                                ->orWhere('skills', 'like', "%{$keyword}%");
                         }
                     });
                 }
@@ -144,7 +144,7 @@ class JobController extends Controller
         $topCompanies = JobPost::active()
             ->with('employer')
             ->get()
-            ->filter(fn ($job) => $job->employer !== null)
+            ->filter(fn($job) => $job->employer !== null)
             ->groupBy('employer_id')
             ->map(function ($group) {
                 $employer = $group->first()->employer;
@@ -198,10 +198,20 @@ class JobController extends Controller
             : 0;
 
         return view('employees.jobs.index', compact(
-            'jobs', 'jobsCount', 'topCompanies', 'filters',
-            'savedJobIds', 'appliedJobIds', 'appliedProjectIds', 'proposalsCount',
-            'savedJobsCount', 'appliedJobsCount',
-            'interviewsCount', 'inprogress', 'hiredJobsCount', 'archivedCount'
+            'jobs',
+            'jobsCount',
+            'topCompanies',
+            'filters',
+            'savedJobIds',
+            'appliedJobIds',
+            'appliedProjectIds',
+            'proposalsCount',
+            'savedJobsCount',
+            'appliedJobsCount',
+            'interviewsCount',
+            'inprogress',
+            'hiredJobsCount',
+            'archivedCount'
         ));
     }
 

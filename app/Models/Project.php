@@ -23,6 +23,7 @@ class Project extends Model
         'rejection_reason',
         'work_mode',
         'visibility',
+        'maximum_bids',
         'country',
         'state',
         'district',
@@ -30,7 +31,7 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'skills'   => 'array',
+        'skills' => 'array',
         'deadline' => 'date',
     ];
 
@@ -44,9 +45,12 @@ class Project extends Model
         return $query->where('status', 'approved');
     }
 
-
     public function applications()
-{
-    return $this->hasMany(ProjectApplication::class);
-}
+    {
+        return $this->hasMany(FreelancerBid::class, 'project_id');
+    }
+    public function savedJobs()
+    {
+        return $this->hasMany(SavedJob::class);
+    }
 }
