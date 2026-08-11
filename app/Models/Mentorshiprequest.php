@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MentorshipSession extends Model
+class MentorshipRequest extends Model
 {
     use HasFactory;
 
@@ -15,15 +15,15 @@ class MentorshipSession extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'mentor_mentee_id',
+        'mentee_id',
         'mentor_id',
-        'student_id',
-        'scheduled_at',
-        'mode',
-        'meeting_link',
+        'type',
+        'resume_file_path',
+        'mentee_message',
         'status',
-        'session_notes',
-        'conducted_at',
+        'scheduled_at',
+        'admin_notes',
+        'resume_feedback',
     ];
 
     /**
@@ -33,19 +33,18 @@ class MentorshipSession extends Model
      */
     protected $casts = [
         'scheduled_at' => 'datetime',
-        'conducted_at' => 'datetime',
     ];
 
     /**
-     * The student this session was booked for.
+     * The student/user who made this request.
      */
-    public function student()
+    public function mentee()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(User::class, 'mentee_id');
     }
 
     /**
-     * The mentor conducting this session.
+     * The mentor this request was sent to.
      * NOTE: confirm whether mentor_id points to users.id or
      * mentor_registrations.id in your schema — adjust the
      * related model below if it's the latter.
@@ -53,13 +52,5 @@ class MentorshipSession extends Model
     public function mentor()
     {
         return $this->belongsTo(User::class, 'mentor_id');
-    }
-
-    /**
-     * The mentor-mentee pairing this session belongs to.
-     */
-    public function mentorMentee()
-    {
-        return $this->belongsTo(\App\Models\MentorMentee::class, 'mentor_mentee_id');
     }
 }
