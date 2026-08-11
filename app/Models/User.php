@@ -77,11 +77,27 @@ public function mentorRegistration()
 {
     return $this->hasOne(MentorRegistration::class);
 }
+
+/**
+ * Mentorship requests this user made as a mentee.
+ * (mentorship_requests.mentee_id -> users.id)
+ */
+public function mentorshipRequests()
+{
+    return $this->hasMany(\App\Models\MentorshipRequest::class, 'mentee_id');
+}
 public function freelancerProfile()
 {
     return $this->hasOne(FreelancerRegistration::class);
 }
+
+
+/**
+ * Mentorship sessions booked for this user as a student.
+ * (mentorship_sessions.student_id -> users.id)
+ */
+public function sessions()
+{
+    return $this->hasMany(\App\Models\MentorshipSession::class, 'student_id');
 }
-
-
-
+}
