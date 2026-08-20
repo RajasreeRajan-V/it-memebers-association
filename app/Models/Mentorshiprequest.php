@@ -4,53 +4,98 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Admin;
 
 class MentorshipRequest extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'mentee_id',
+        'student_id',
         'mentor_id',
-        'type',
-        'resume_file_path',
-        'mentee_message',
+        'goal',
+        'current_skills',
+        'career_goal',
+        'frequency',
+        'preferred_days',
+        'preferred_time',
+        'message',
         'status',
-        'scheduled_at',
-        'admin_notes',
-        'resume_feedback',
+        'accepted_at',
+        'admin_verified_at',
+        'admin_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'scheduled_at' => 'datetime',
+        'preferred_days' => 'array',
+        'accepted_at' => 'datetime',
+        'admin_verified_at' => 'datetime',
     ];
 
     /**
-     * The student/user who made this request.
+     * Student who requested the mentorship.
+     * mentorship_requests.student_id -> users.id
      */
-    public function mentee()
+    public function student()
     {
-        return $this->belongsTo(User::class, 'mentee_id');
+        return $this->belongsTo(
+            User::class,
+            'student_id'
+        );
     }
 
     /**
-     * The mentor this request was sent to.
-     * NOTE: confirm whether mentor_id points to users.id or
-     * mentor_registrations.id in your schema — adjust the
-     * related model below if it's the latter.
+     * Mentor who receives the request.
+     * mentorship_requests.mentor_id -> users.id
      */
     public function mentor()
     {
-        return $this->belongsTo(User::class, 'mentor_id');
+        return $this->belongsTo(
+            User::class,
+            'mentor_id'
+        );
+    }
+
+    /**
+     * Admin who verified/rejected the request.
+     * mentorship_requests.admin_id -> admins.id
+     */
+    public function admin()
+    {
+        return $this->belongsTo(
+            Admin::class,
+            'admin_id'
+        );
+    }
+
+    /**
+     * Mentorship created from this request.
+     */
+    public function mentorship()
+    {
+        return $this->hasOne(
+            Mentorship::class,
+            'mentorship_request_id'
+        );
+    }
+
+    /**
+     * Pending requests.
+     */
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    /**
+     * Requests waiting for admin verification.
+     */
+    public function scopeAwaitingAdmin($query)
+    {
+        return $query->where(
+            'status',
+            'admin_verification'
+        );
     }
 }

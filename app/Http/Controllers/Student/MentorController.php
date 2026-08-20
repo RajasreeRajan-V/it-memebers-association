@@ -3,121 +3,134 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\MentorRegistration;
+use App\Models\User;
+use App\Models\MentorshipRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\MentorshipRequest;
+
 class MentorController extends Controller
 {
-    /**
-     * Show the "Find Mentors" page with search/filter support.
-     */
+    // GET /student/mentors
     public function index(Request $request)
     {
-        $query = MentorRegistration::query()->with('user');
+        $mentors = User::query()
+            ->where('role', 'mentor')
+            ->where('verification_status', 'approved')
+            ->whereHas('mentorRegistration')
+            ->with('mentorRegistration')
+            ->withCount([
+                'mentorshipsAsMentor as active_mentees_count' => function ($q) {
+                    $q->where('status', 'active');
+                },
+            ])
+            ->when($request->filled('skill'), function ($q) use ($request) {
+                $q->whereHas('mentorRegistration', function ($query) use ($request) {
+                    $query->where('expertise', 'like', '%' . $request->skill . '%');
+                });
+            })
+            ->latest('id')
+            ->paginate(12)
+            ->withQueryString();
 
-        if ($request->filled('q')) {
-            $search = $request->input('q');
-            $query->where(function ($q) use ($search) {
-                $q->where('expertise', 'like', "%{$search}%")
-                  ->orWhere('designation', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($uq) use ($search) {
-                      $uq->where('name', 'like', "%{$search}%");
-                  });
-            });
-        }
+        return view('students.mentors.index', compact('mentors'));
+    }
 
-        if ($request->filled('expertise')) {
-            $query->where('expertise', 'like', '%' . $request->input('expertise') . '%');
-        }
+    // GET /student/mentors/{mentor}
+    public function show(User $mentor)
+    {
+        abort_unless(
+            $mentor->role === 'mentor' &&
+            $mentor->verification_status === 'approved',
+            404
+        );
 
-        if ($request->filled('experience')) {
-            [$min, $max] = $this->parseExperienceRange($request->input('experience'));
-            $query->when($min !== null, fn ($q) => $q->where('years_of_experience', '>=', $min));
-            $query->when($max !== null, fn ($q) => $q->where('years_of_experience', '<=', $max));
-        }
+        $mentor->load('mentorRegistration');
 
-        $registrations = $query->latest()->paginate(12)->withQueryString();
-
-        $mentors = $registrations->getCollection()->map(function (MentorRegistration $registration) {
-            return [
-                'id' => $registration->id,
-                'name' => $registration->user->name ?? 'Mentor',
-                'designation' => $registration->designation,
-                'company' => $registration->company,
-                'company_icon' => 'building',
-                'skills' => is_array($registration->expertise)
-                    ? $registration->expertise
-                    : array_filter(explode(',', (string) $registration->expertise)),
-                'years_experience' => $registration->years_of_experience,
-                'mentees_count' => $registration->mentees_count ?? 0,
-                'availability' => $registration->availability,
-                'status' => $registration->status ?? 'online',
-                'rating' => $registration->rating ?? '4.8',
-                'photo' => $registration->profile_photo
-                    ? asset('storage/' . $registration->profile_photo)
-                    : null,
-            ];
-        });
-
-        return view('students.find-mentors', [
-            'mentors' => $mentors,
-            'pagination' => $registrations,
-            'pendingCount' => Auth::user()?->mentorshipRequests()->where('status', 'pending')->count() ?? 0,
-            'acceptedCount' => Auth::user()?->mentorshipRequests()->where('status', 'accepted')->count() ?? 0,
-            'upcomingSessionsCount' => Auth::user()?->sessions()->where('status', 'upcoming')->count() ?? 0,
-            'completedSessionsCount' => Auth::user()?->sessions()->where('status', 'completed')->count() ?? 0,
+        $mentor->loadCount([
+            'mentorshipsAsMentor as active_mentees_count' => function ($q) {
+                $q->where('status', 'active');
+            },
         ]);
+
+        $existingRequest = MentorshipRequest::where('student_id', Auth::id())
+            ->where('mentor_id', $mentor->id)
+            ->whereIn('status', [
+                'pending',
+                'accepted',
+                'admin_verification',
+                'active',
+            ])
+            ->latest()
+            ->first();
+
+        return view(
+            'students.mentors.show',
+            compact('mentor', 'existingRequest')
+        );
     }
 
-    /**
-     * View a single mentor's public profile.
-     */
-    public function show(MentorRegistration $mentor)
+    // GET /student/mentors/{mentor}/request
+    public function requestForm(User $mentor)
     {
-        return view('students.mentor-profile', compact('mentor'));
+        abort_unless(
+            $mentor->role === 'mentor' &&
+            $mentor->verification_status === 'approved',
+            404
+        );
+
+        $mentor->load('mentorRegistration');
+
+        return view('students.mentors.request', compact('mentor'));
     }
 
-    /**
-     * Show the mentorship request form for a mentor.
-     */
-    public function requestForm(MentorRegistration $mentor)
+    // POST /student/mentors/{mentor}/request
+    public function storeRequest(Request $request, User $mentor)
     {
-        return view('students.mentor-request', compact('mentor'));
-    }
+        abort_unless(
+            $mentor->role === 'mentor' &&
+            $mentor->verification_status === 'approved',
+            404
+        );
 
-    /**
-     * Store a new mentorship request.
-     */
-public function storeRequest(Request $request, MentorRegistration $mentor)
-{
-    $data = $request->validate([
-        'preferred_date' => ['required', 'date', 'after_or_equal:today'],
-        'preferred_time' => ['required'],
-        'goal' => ['required', 'string', 'max:1000'],
-    ]);
+        $duplicate = MentorshipRequest::where('student_id', Auth::id())
+            ->where('mentor_id', $mentor->id)
+            ->whereIn('status', [
+                'pending',
+                'accepted',
+                'admin_verification',
+                'active',
+            ])
+            ->exists();
 
-  MentorshipRequest::create([
-    'mentor_id'      => $mentor->user_id,
-    'mentee_id'      => auth()->id(),
-    'preferred_date' => $data['preferred_date'],
-    'preferred_time' => $data['preferred_time'],
-    'goal'           => $data['goal'],
-    'status'         => 'pending',
-]);
+        if ($duplicate) {
+            return back()->withErrors([
+                'mentor' => 'You already have an active or pending request with this mentor.',
+            ]);
+        }
 
-    return redirect()
-        ->route('student.mentors.index')
-        ->with('success', 'Mentorship request sent successfully.');
-}
+        $data = $request->validate([
+            'goal'             => ['required', 'string', 'max:1000'],
+            'current_skills'   => ['nullable', 'string', 'max:255'],
+            'career_goal'      => ['required', 'string', 'max:255'],
+            'frequency'        => ['required', 'in:weekly,biweekly,monthly'],
+            'preferred_days'   => ['nullable', 'array'],
+            'preferred_days.*' => ['string'],
+            'preferred_time'   => ['nullable', 'string', 'max:100'],
+            'message'          => ['nullable', 'string', 'max:2000'],
+        ]);
 
-    private function parseExperienceRange(string $range): array
-    {
-        return match ($range) {
-            '1-3' => [1, 3],
-            '4-7' => [4, 7],
-            '8+' => [8, null],
-            default => [null, null],
-        };
+        MentorshipRequest::create([
+            'student_id' => Auth::id(),
+            'mentor_id'  => $mentor->id,
+            'status'     => 'pending',
+            ...$data,
+        ]);
+
+        return redirect()
+            ->route('student.requests.index')
+            ->with(
+                'success',
+                'Mentorship request sent to ' . $mentor->name . '.'
+            );
     }
 }

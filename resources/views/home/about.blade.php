@@ -10,7 +10,7 @@
      <div class="hero-image reveal">
     <img
         src="{{ asset('assets/img/about-team.png') }}"
-        alt="About SkillConnect"
+        alt="About Tech Leaders Network"
         style="width: 549px; max-width: 100%; height: auto;">
 </div>
 
@@ -24,7 +24,7 @@
             </h1>
 
             <p class="hero-sub">
-                SkillConnect brings employers, job seekers, students, freelancers,
+                Tech Leaders Network brings employers, job seekers, students, freelancers,
                 investors and mentors together on one platform — because opportunity
                 shouldn't be scattered across a dozen different apps.
             </p>
@@ -44,7 +44,7 @@
         <div class="story-grid">
             <div class="story-text reveal">
                 <p>
-                    SkillConnect started with a simple observation: opportunity is
+                    Tech Leaders Network started with a simple observation: opportunity is
                     everywhere, but it's scattered. Employers post jobs on one site,
                     freelancers pitch on another, students search for internships
                     somewhere else entirely, and investors discover startups through
@@ -57,7 +57,7 @@
                     switching platforms or losing context.
                 </p>
                 <p>
-                    Today, SkillConnect connects thousands of people across six
+                    Today, Tech Leaders Network connects thousands of people across six
                     distinct portals, each tailored to exactly what that person
                     needs — nothing more, nothing less.
                 </p>
@@ -92,7 +92,7 @@
             <h2>Our Mission</h2>
             <p>
                 We believe growth happens fastest when the right people, skills and
-                capital can find each other without friction. SkillConnect was built
+                capital can find each other without friction. Tech Leaders Network was built
                 to be that meeting point.
             </p>
         </div>
@@ -193,7 +193,7 @@
 <section class="portals">
     <div class="container">
         <div class="section-head reveal">
-            <h2>Why Choose SkillConnect</h2>
+            <h2>Why Choose Tech Leaders Network</h2>
             <p>What sets us apart from scattered, single-purpose platforms.</p>
         </div>
 
@@ -300,7 +300,7 @@
     <div class="container">
         <div class="section-head reveal">
             <h2>How It Works</h2>
-            <p>Getting started on SkillConnect takes three simple steps.</p>
+            <p>Getting started on Tech Leaders Network takes three simple steps.</p>
         </div>
 
         <div class="process-track">
@@ -337,7 +337,7 @@
 <section class="portals">
     <div class="container about-cta reveal">
         <h2>Ready to find your portal?</h2>
-        <p>Join thousands already hiring, learning, freelancing and investing on SkillConnect.</p>
+        <p>Join thousands already hiring, learning, freelancing and investing on Tech Leaders Network.</p>
         <div class="hero-actions" style="justify-content: center;">
             <a href="{{ route('membership') }}" class="btn btn-primary btn-lg">Get Started</a>
             <a href="{{ route('contact') }}" class="btn btn-outline btn-lg">Contact Us</a>

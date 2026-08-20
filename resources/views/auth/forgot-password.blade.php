@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password · SkillConnect</title>
+    <title>Forgot Password · Tech Leaders Network</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* ----- global reset & variables ----- */
@@ -289,7 +289,7 @@
     <div class="auth-wrapper">
         <div class="auth-logo">
             <a href="#">
-                <i class="fa-solid fa-people-arrows"></i> SkillConnect
+                <i class="fa-solid fa-people-arrows"></i> Tech Leaders Network
             </a>
         </div>
 

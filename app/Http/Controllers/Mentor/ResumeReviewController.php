@@ -116,7 +116,6 @@ class ResumeReviewController extends Controller
             default => (clone $base)->pending(),
         };
 
-        // CHANGED: pagination from 10 to 3 items per page
         $reviews = $reviews->latest()->paginate(3)->withQueryString();
 
         $counts = [
@@ -128,6 +127,10 @@ class ResumeReviewController extends Controller
 
         // Past reviews this mentor completed for the same student (for the "Review History" panel)
         $reviewHistory = collect();
+
+        // Latest admin confirmation for the selected review (approved/rejected/pending + notes)
+        $latestConfirmation = null;
+
         if ($selected) {
             $reviewHistory = ResumeReview::where('student_id', $selected->student_id)
                 ->where('mentor_id', $mentorId)
@@ -136,6 +139,11 @@ class ResumeReviewController extends Controller
                 ->latest('reviewed_at')
                 ->take(5)
                 ->get();
+
+            $latestConfirmation = AdminConfirmation::where('confirmable_type', ResumeReview::class)
+                ->where('confirmable_id', $selected->id)
+                ->latest()
+                ->first();
         }
 
         return view('mentor.resume-reviews.index', [
@@ -145,6 +153,7 @@ class ResumeReviewController extends Controller
             'search' => $search,
             'selected' => $selected,
             'reviewHistory' => $reviewHistory,
+            'latestConfirmation' => $latestConfirmation,
         ]);
     }
 

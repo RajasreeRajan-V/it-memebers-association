@@ -1,4 +1,4 @@
-<!-- SkillConnect Site Header (v2 - two-row nav, fixed) -->
+<!-- Tech Leaders Network Site Header (v2 - two-row nav, fixed) -->
 
 <header class="site-header pt-1">
     <!-- ROW 1: Logo / Actions -->
@@ -17,7 +17,7 @@
                 </svg>
             </span>
             <span class="logo-text">
-                SkillConnect
+                Tech Leaders Network
                 <small>Student Portal</small>
             </span>
         </a>
@@ -72,25 +72,36 @@
     <!-- ROW 2: Icon nav -->
     <div class="container header-bottom">
         <nav class="main-nav" id="mainNav" aria-label="Primary">
-            <a href="{{ route('student.dashboard') }}" class="{{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-house"></i> Home
-            </a>
+        <a href="{{ route('student.dashboard') }}"
+   class="{{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+    <i class="fa-solid fa-house"></i> Home
+</a>
 
-            <a href="{{ route('student.mentors.index') }}" class="{{ request()->routeIs('student.mentors.*') ? 'active' : '' }}">
-                <i class="fa-solid fa-user-group"></i> My Mentees
-            </a>
+<a href="{{ route('student.mentors.index') }}"
+   class="{{ request()->routeIs('student.mentors.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-user-group"></i> My Mentorship
+</a>
 
-            <a href="{{ route('student.resume-review') }}" class="{{ request()->routeIs('student.resume-review') ? 'active' : '' }}">
-                <i class="fa-solid fa-file-lines"></i> Resume Reviews
-            </a>
+<a href="{{ route('student.sessions.upcoming') }}"
+   class="{{ request()->routeIs('student.sessions.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-calendar-days"></i> My Sessions
+</a>
 
-            <a href="{{ route('student.webinars') }}" class="{{ request()->routeIs('student.webinars') ? 'active' : '' }}">
-                <i class="fa-solid fa-video"></i> Webinars
-            </a>
+<a href="{{ route('student.resume-review') }}"
+   class="{{ request()->routeIs('student.resume-review') ? 'active' : '' }}">
+    <i class="fa-solid fa-file-lines"></i> Resume Reviews
+</a>
 
-            <a href="{{ route('student.training-materials') }}" class="{{ request()->routeIs('student.training-materials') ? 'active' : '' }}">
-                <i class="fa-solid fa-book-open"></i> Training Materials
-            </a>
+<a href="{{ route('student.webinars') }}"
+   class="{{ request()->routeIs('student.webinars') ? 'active' : '' }}">
+    <i class="fa-solid fa-video"></i> Webinars
+</a>
+
+  <a href="{{ route('student.courses-training') }}"
+   class="{{ request()->routeIs('student.courses-training') ? 'active' : '' }}">
+    <i class="fa-solid fa-graduation-cap"></i>
+    Training
+</a>
 
             <a href="{{ route('student.mock-interviews') }}" class="{{ request()->routeIs('student.mock-interviews') ? 'active' : '' }}">
                 <i class="fa-solid fa-comments"></i> Mock Interviews

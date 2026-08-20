@@ -1,4 +1,4 @@
-<!-- SkillConnect Site Header (v2 - two-row nav) -->
+<!-- Tech Leaders Network Site Header (v2 - two-row nav) -->
 
 <header class="site-header pt-1">
     <!-- ROW 1: Logo / Search / Actions -->
@@ -17,7 +17,7 @@
                 </svg>
             </span>
             <span class="logo-text">
-                SkillConnect
+                Tech Leaders Network
                 <small>Employee Portal</small>
             </span>
         </a>
@@ -84,8 +84,12 @@
             </a>
 
             <a href="" class="">
-                <i class="fa-regular fa-life-ring"></i> Training & Workshops
+                <i class="fa-regular fa-life-ring"></i> Training
             </a>
+
+            <a href="{{ route('employee.webinars') }}" class="{{ request()->routeIs('employee.webinars*') ? 'active' : '' }}">
+    <i class="fa-solid fa-chalkboard-user"></i> Webinar
+</a>
 
             <a href="{{ route('employee.legal-help.create') }}" class="{{ request()->routeIs('employee.legal-help.*') ? 'active' : '' }}">
                 <i class="fa-regular fa-comment-dots"></i> Workplace Support

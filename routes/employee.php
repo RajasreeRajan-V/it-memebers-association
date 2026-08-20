@@ -5,6 +5,9 @@ use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\JobController;
 use App\Http\Controllers\Employee\ArticleController;
 use App\Http\Controllers\Employee\LegalHelpController;
+use App\Http\Controllers\Employee\WebinarController;
+use App\Http\Controllers\Employee\WebinarFeedbackController;
+use App\Http\Controllers\Employee\CertificateController;
 
 Route::middleware(['member.auth'])
     ->name('employee.')
@@ -77,6 +80,28 @@ Route::middleware(['member.auth'])
 
         Route::delete('/articles/comments/{comment}', [ArticleController::class, 'destroyComment'])
             ->name('articles.comments.destroy');
+
+
+
+
+                    // Webinars
+        Route::get('/webinars', [WebinarController::class, 'index'])
+            ->name('webinars');
+
+        Route::get('/my-webinars', [WebinarController::class, 'myWebinars'])
+            ->name('webinars.my');
+
+        Route::post('/webinars/{webinar}/register', [WebinarController::class, 'register'])
+            ->name('webinars.register');
+
+        Route::get('/webinars/{webinar}', [WebinarController::class, 'show'])
+            ->name('webinars.show');
+
+        Route::post('/webinars/{webinar}/feedback', [WebinarFeedbackController::class, 'store'])
+            ->name('webinars.feedback');
+
+        Route::get('/webinars/{webinar}/certificate', [CertificateController::class, 'download'])
+            ->name('webinars.certificate');
 
         // Legal Help — fixed segments (create) BEFORE /{legalRequest} wildcard
         Route::prefix('legal-help')

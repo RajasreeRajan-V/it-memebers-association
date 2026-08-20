@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\FreelancerRegistration;
+use App\Models\MentorRegistration;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -68,6 +69,12 @@ public function freelancerRegistration()
     return $this->hasOne(FreelancerRegistration::class);
 }
 
+
+public function mentorshipsAsStudent()
+{
+    return $this->hasMany(\App\Models\Mentorship::class, 'student_id');
+}
+
 public function investorRegistration()
 {
     return $this->hasOne(InvestorRegistration::class);
@@ -84,7 +91,10 @@ public function mentorRegistration()
  */
 public function mentorshipRequests()
 {
-    return $this->hasMany(\App\Models\MentorshipRequest::class, 'mentee_id');
+    return $this->hasMany(
+        \App\Models\MentorshipRequest::class,
+        'student_id'
+    );
 }
 public function freelancerProfile()
 {
@@ -99,5 +109,15 @@ public function freelancerProfile()
 public function sessions()
 {
     return $this->hasMany(\App\Models\MentorshipSession::class, 'student_id');
+}
+
+
+
+
+
+
+public function mentorshipsAsMentor()
+{
+    return $this->hasMany(\App\Models\Mentorship::class, 'mentor_id');
 }
 }

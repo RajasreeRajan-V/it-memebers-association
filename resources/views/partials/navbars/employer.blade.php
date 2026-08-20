@@ -1,4 +1,4 @@
-<!-- SkillConnect Employer Header — two-row style, employer routes/content kept -->
+<!-- Tech Leaders Network Employer Header — two-row style, employer routes/content kept -->
 
 <header class="site-header pt-1">
     <!-- ROW 1: Logo / Search / Actions -->
@@ -17,7 +17,7 @@
                 </svg>
             </span>
             <span class="logo-text">
-                SkillConnect
+                Tech Leaders Network
                 <small>Employer Portal</small>
             </span>
         </a>

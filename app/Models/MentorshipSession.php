@@ -4,62 +4,109 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class MentorshipSession extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'mentor_mentee_id',
+        'mentorship_id',
         'mentor_id',
         'student_id',
-        'scheduled_at',
-        'mode',
+        'topic',
+        'session_date',
+        'start_time',
+        'duration_minutes',
+        'starts_at',
+        'ends_at',
+        'meeting_type',
         'meeting_link',
+        'agenda',
         'status',
-        'session_notes',
-        'conducted_at',
+        'mentor_notes',
+        'student_notes',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'scheduled_at' => 'datetime',
-        'conducted_at' => 'datetime',
+        'session_date' => 'date',
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
-    /**
-     * The student this session was booked for.
-     */
-    public function student()
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
+    public function mentorship()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(
+            Mentorship::class,
+            'mentorship_id'
+        );
     }
 
-    /**
-     * The mentor conducting this session.
-     * NOTE: confirm whether mentor_id points to users.id or
-     * mentor_registrations.id in your schema — adjust the
-     * related model below if it's the latter.
-     */
     public function mentor()
     {
-        return $this->belongsTo(User::class, 'mentor_id');
+        return $this->belongsTo(
+            User::class,
+            'mentor_id'
+        );
     }
 
-    /**
-     * The mentor-mentee pairing this session belongs to.
-     */
-    public function mentorMentee()
+    public function student()
     {
-        return $this->belongsTo(\App\Models\MentorMentee::class, 'mentor_mentee_id');
+        return $this->belongsTo(
+            User::class,
+            'student_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mentor double-booking check
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeOverlappingForMentor(
+        Builder $query,
+        int $mentorId,
+        Carbon $startsAt,
+        Carbon $endsAt,
+        ?int $ignoreSessionId = null
+    ) {
+        return $query
+            ->where('mentor_id', $mentorId)
+            ->whereIn('status', [
+                'scheduled',
+                'confirmed',
+            ])
+            ->when(
+                $ignoreSessionId,
+                fn ($q) => $q->where('id', '!=', $ignoreSessionId)
+            )
+            ->where(function ($q) use ($startsAt, $endsAt) {
+
+                $q->where('starts_at', '<', $endsAt)
+                  ->where('ends_at', '>', $startsAt);
+
+            });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upcoming
+    |--------------------------------------------------------------------------
+    */
+
+    public function isUpcoming(): bool
+    {
+        return in_array($this->status, [
+            'scheduled',
+            'confirmed',
+        ]) && $this->starts_at?->isFuture();
     }
 }

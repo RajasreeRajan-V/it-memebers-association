@@ -17,7 +17,7 @@
           </defs>
         </svg>
       </span>
-      SkillConnect
+      Tech Leaders Network
     </a>
 
     <nav class="main-nav" aria-label="Primary">

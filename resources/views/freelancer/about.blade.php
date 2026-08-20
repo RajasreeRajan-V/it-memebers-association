@@ -535,7 +535,7 @@
                 <p class="eyebrow">🚀 About Freelancer Portal</p>
                 <h1>Your Gateway to <span class="accent-text">Freelance Success</span></h1>
                 <p class="hero-description">
-                    SkillConnect's Freelancer Portal is purpose-built to help independent professionals 
+                    Tech Leaders Network's Freelancer Portal is purpose-built to help independent professionals 
                     find meaningful work, build lasting client relationships, and grow their freelance 
                     career — all in one place.
                 </p>
@@ -575,7 +575,7 @@
     <section class="why-section" id="features">
         <div class="container">
             <div class="section-head reveal">
-                <h2>Why Freelance with SkillConnect?</h2>
+                <h2>Why Freelance with Tech Leaders Network?</h2>
                 <p>Everything you need to succeed as a freelancer, built into one powerful platform.</p>
             </div>
 
@@ -654,7 +654,7 @@
         <div class="container">
             <div class="section-head reveal">
                 <h2>How to Get Started</h2>
-                <p>Three simple steps to launch your freelance career on SkillConnect</p>
+                <p>Three simple steps to launch your freelance career on Tech Leaders Network</p>
             </div>
 
             <div class="steps-container">
@@ -693,14 +693,14 @@
         <div class="container">
             <div class="section-head reveal">
                 <h2>What Freelancers Say</h2>
-                <p>Real stories from freelancers who found success on SkillConnect</p>
+                <p>Real stories from freelancers who found success on Tech Leaders Network</p>
             </div>
 
             <div class="testimonials-grid">
                 <div class="testimonial-card reveal">
                     <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
                     <p class="testimonial-text">
-                        "SkillConnect has completely transformed my freelance career. I've found consistent work, built amazing client relationships, and doubled my income in just 6 months."
+                        "Tech Leaders Network has completely transformed my freelance career. I've found consistent work, built amazing client relationships, and doubled my income in just 6 months."
                     </p>
                     <div class="testimonial-author">
                         <div class="author-avatar">JD</div>

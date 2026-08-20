@@ -98,12 +98,29 @@
 
             <div class="nav-submenu" id="mentorship-group">
                 <a href="{{ Route::has('admin.mentorship.index') ? route('admin.mentorship.index') : '#' }}"
-                    class="nav-subitem {{ request()->routeIs('admin.mentorship.*') ? 'active' : '' }}">
+                    class="nav-subitem {{ request()->routeIs('admin.mentorship.index') ? 'active' : '' }}">
                     <i class="fa-solid fa-people-arrows"></i>
                     <span>Mentorship Management</span>
                     @if(($pendingMentorshipCount ?? 0) > 0)
                         <span class="badge">{{ $pendingMentorshipCount }}</span>
                     @endif
+                </a>
+
+                {{-- New mentorship module: requests awaiting admin verification --}}
+                <a href="{{ Route::has('admin.mentorship.pending') ? route('admin.mentorship.pending') : '#' }}"
+                    class="nav-subitem {{ request()->routeIs('admin.mentorship.pending') || request()->routeIs('admin.mentorship.show') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Mentorship Verification</span>
+                    @if(($pendingMentorshipVerificationCount ?? 0) > 0)
+                        <span class="badge">{{ $pendingMentorshipVerificationCount }}</span>
+                    @endif
+                </a>
+
+                {{-- New mentorship module: monitor currently active mentor-mentee pairs --}}
+                <a href="{{ Route::has('admin.mentorship.active') ? route('admin.mentorship.active') : '#' }}"
+                    class="nav-subitem {{ request()->routeIs('admin.mentorship.active') || request()->routeIs('admin.mentorship.active.show') ? 'active' : '' }}">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>Active Mentorships</span>
                 </a>
 
                 <a href="{{ Route::has('admin.resume-reviews.index') ? route('admin.resume-reviews.index') : '#' }}"
@@ -124,14 +141,14 @@
                     @endif
                 </a>
 
-                <a href="{{ Route::has('admin.training-materials.index') ? route('admin.training-materials.index') : '#' }}"
-                    class="nav-subitem {{ request()->routeIs('admin.training-materials.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-book"></i>
-                    <span>Training Material Management</span>
-                    @if(($pendingTrainingMaterials ?? 0) > 0)
-                        <span class="badge">{{ $pendingTrainingMaterials }}</span>
-                    @endif
-                </a>
+             <a href="{{ Route::has('admin.trainings.index') ? route('admin.trainings.index') : '#' }}"
+    class="nav-subitem {{ request()->routeIs('admin.trainings.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-book"></i>
+    <span>Training Management</span>
+    @if(($pendingTrainings ?? 0) > 0)
+        <span class="badge">{{ $pendingTrainings }}</span>
+    @endif
+</a>
 
                 <a href="{{ Route::has('admin.mock-interviews.index') ? route('admin.mock-interviews.index') : '#' }}"
                     class="nav-subitem {{ request()->routeIs('admin.mock-interviews.*') ? 'active' : '' }}">

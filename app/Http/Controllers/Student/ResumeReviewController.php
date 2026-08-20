@@ -14,10 +14,8 @@ class ResumeReviewController extends Controller
     // Landing screen: mentor picker, "How It Works", and "My Requests" — links out to the create form
     public function index()
     {
-        // Featured mentors shown on the landing screen (adjust the role check to match your User model)
-        $mentors = User::where('role', 'mentor')
-            ->take(4)
-            ->get();
+        // Get all mentors for the form
+        $mentors = User::where('role', 'mentor')->get();
 
         $requestsBase = ResumeReview::with('mentor')->where('student_id', Auth::id());
 
@@ -45,33 +43,36 @@ class ResumeReviewController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'mentor_id' => ['required', 'exists:users,id'],
             'resume' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'], // 5MB
             'review_type' => ['required', 'string', 'max:255'],
-            'goal' => ['nullable', 'string'],
-            'feedback_focus' => ['nullable', 'array'],
+            'goal' => ['required', 'string'],
+            'feedback_focus' => ['required', 'array', 'min:1'],
             'feedback_focus.*' => ['string'],
             'preferred_completion_time' => ['nullable', 'string', 'max:255'],
             'additional_instructions' => ['nullable', 'string'],
-            'mentor_id' => ['nullable', 'exists:users,id'],
         ]);
 
+        // Store the resume file
         $path = $request->file('resume')->store('resumes/' . Auth::id(), 'public');
 
-        ResumeReview::create([
+        // Create the resume review request
+        $resumeReview = ResumeReview::create([
             'student_id' => Auth::id(),
-            'mentor_id' => $data['mentor_id'] ?? null,
+            'mentor_id' => $data['mentor_id'],
             'resume_path' => $path,
             'resume_original_name' => $request->file('resume')->getClientOriginalName(),
             'review_type' => $data['review_type'],
-            'goal' => $data['goal'] ?? null,
-            'feedback_focus' => $data['feedback_focus'] ?? [],
+            'goal' => $data['goal'],
+            'feedback_focus' => $data['feedback_focus'],
             'preferred_completion_time' => $data['preferred_completion_time'] ?? null,
             'additional_instructions' => $data['additional_instructions'] ?? null,
-            'status' => !empty($data['mentor_id']) ? 'assigned' : 'pending',
+            'status' => 'assigned',
         ]);
 
+        // Redirect back with success message
         return redirect()->route('student.resume-review')
-            ->with('success', 'Your resume review request has been submitted.');
+            ->with('success', 'Your resume review request has been submitted to ' . $resumeReview->mentor->name . '!');
     }
 
     // Direct links to a single request now just land on the index page,
