@@ -6,14 +6,15 @@ use App\Http\Controllers\Mentor\MentorDashboardController;
 use App\Http\Controllers\Mentor\MenteeController;
 use App\Http\Controllers\Mentor\ResumeReviewController;
 use App\Http\Controllers\Mentor\WebinarController;
-use App\Http\Controllers\Mentor\TrainingMaterialController;
 use App\Http\Controllers\Mentor\MockInterviewController;
-use App\Http\Controllers\Mentor\MentorRequestController;
-
+use App\Http\Controllers\Mentor\WebinarAttendanceController;
+use App\Http\Controllers\Mentor\SessionSchedulingController;
+use App\Http\Controllers\Mentor\SessionLifecycleController;
+use App\Http\Controllers\Mentor\CompleteMentorshipController;
 
 Route::middleware(['member.auth'])
-    ->prefix('mentor')   
-    ->name('mentor.')    
+    ->prefix('mentor')
+    ->name('mentor.')
     ->group(function () {
 
         /*
@@ -44,11 +45,34 @@ Route::middleware(['member.auth'])
             [MenteeController::class, 'show']
         )->name('mentees.show');
 
+        // Schedule a session — this is where the double-booking check runs
         Route::post(
             '/mentees/{mentee}/sessions',
-            [MenteeController::class, 'storeSession']
+            [SessionSchedulingController::class, 'store']
         )->name('mentees.sessions.store');
 
+        // End Mentorship
+        Route::post(
+            '/mentees/{mentee}/complete',
+            [CompleteMentorshipController::class, 'complete']
+        )->name('mentees.complete');
+
+
+
+        Route::post(
+    '/sessions/{session}/conduct',
+    [SessionLifecycleController::class, 'conduct']
+)->name('sessions.conduct');
+
+Route::post(
+    '/sessions/{session}/notes',
+    [SessionLifecycleController::class, 'storeNotes']
+)->name('sessions.notes.store');
+
+Route::post(
+    '/sessions/{session}/complete',
+    [SessionLifecycleController::class, 'markCompleted']
+)->name('sessions.complete');
 
         /*
         |--------------------------------------------------------------------------
@@ -69,23 +93,33 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | Sessions
+        | Sessions — reschedule, cancel, conduct, notes, complete
         |--------------------------------------------------------------------------
         */
 
         Route::post(
+            '/sessions/{session}/reschedule',
+            [SessionSchedulingController::class, 'reschedule']
+        )->name('sessions.reschedule');
+
+        Route::post(
+            '/sessions/{session}/cancel',
+            [SessionSchedulingController::class, 'cancel']
+        )->name('sessions.cancel');
+
+        Route::post(
             '/sessions/{session}/conduct',
-            [MenteeController::class, 'conductSession']
+            [SessionLifecycleController::class, 'conduct']
         )->name('sessions.conduct');
 
         Route::post(
             '/sessions/{session}/notes',
-            [MenteeController::class, 'storeNotes']
+            [SessionLifecycleController::class, 'storeNotes']
         )->name('sessions.notes.store');
 
         Route::post(
             '/sessions/{session}/complete',
-            [MenteeController::class, 'markCompleted']
+            [SessionLifecycleController::class, 'markCompleted']
         )->name('sessions.complete');
 
 
@@ -147,47 +181,25 @@ Route::middleware(['member.auth'])
             [WebinarController::class, 'destroy']
         )->name('webinars.destroy');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | 4. Training Materials
-        |--------------------------------------------------------------------------
-        */
-
         Route::get(
-            '/training-materials',
-            [TrainingMaterialController::class, 'index']
-        )->name('training-materials.index');
+            '/webinars/{webinar}/registrations',
+            [WebinarController::class, 'registrations']
+        )->name('webinars.registrations.index');
 
-        Route::get(
-            '/training-materials/create',
-            [TrainingMaterialController::class, 'create']
-        )->name('training-materials.create');
+        Route::get('/webinars/{webinar}/attendance', [WebinarAttendanceController::class, 'edit'])
+            ->name('webinars.attendance');
 
-        Route::post(
-            '/training-materials',
-            [TrainingMaterialController::class, 'store']
-        )->name('training-materials.store');
+        Route::put('/webinars/{webinar}/attendance', [WebinarAttendanceController::class, 'updateAttendance'])
+            ->name('webinars.attendance.update');
 
-        Route::delete(
-            '/training-materials/{trainingMaterial}',
-            [TrainingMaterialController::class, 'destroy']
-        )->name('training-materials.destroy');
+        Route::post('/webinars/{webinar}/resources', [WebinarAttendanceController::class, 'storeResource'])
+            ->name('webinars.resources.store');
 
-        Route::get(
-            '/training-materials/{trainingMaterial}/download',
-            [TrainingMaterialController::class, 'download']
-        )->name('training-materials.download');
+        Route::delete('/webinar-resources/{resource}', [WebinarAttendanceController::class, 'destroyResource'])
+            ->name('webinar-resources.destroy');
 
-        Route::post(
-            '/training-materials/{trainingMaterial}/view',
-            [TrainingMaterialController::class, 'incrementView']
-        )->name('training-materials.view');
+     
 
-        Route::post(
-            '/training-materials/{trainingMaterial}/rate',
-            [TrainingMaterialController::class, 'rate']
-        )->name('training-materials.rate');
 
 
         /*

@@ -23,7 +23,7 @@
                     <p class="ed-hero-tagline">Post. Match. Hire. Grow.</p>
 
                     <p class="hero-sub">
-                        SkillConnect helps employers discover skilled professionals, interns,
+                        Tech Leaders Network helps employers discover skilled professionals, interns,
                         freelancers, and startups to drive your business forward.
                     </p>
 
@@ -351,12 +351,12 @@
 @endif
 
 
-{{-- ============ WHY SKILLCONNECT ============ --}}
+{{-- ============ WHY Tech Leaders Network ============ --}}
 <section class="ed-why-section">
     <div class="container">
         <div class="ed-why-card reveal">
             <div class="ed-why-copy">
-                <p class="ed-why-eyebrow">Why SkillConnect</p>
+                <p class="ed-why-eyebrow">Why Tech Leaders Network</p>
                 <h2>Building a Stronger<br>Hiring Community Together</h2>
                 <p class="ed-why-sub">Our employer tools and matching technology help you connect with the right talent
                     quickly and efficiently.</p>
@@ -592,7 +592,7 @@
             <div class="ed-startup-copy">
                 <!-- <span class="ed-startup-badge">🚀 For Startups</span> -->
                 <h2>Fundraising too? Get in front of investors.</h2>
-                <p>List your startup on SkillConnect's Investor Portal alongside your job postings, and reach backers
+                <p>List your startup on Tech Leaders Network's Investor Portal alongside your job postings, and reach backers
                     actively looking for companies like yours.</p>
             </div>
             <div class="ed-startup-actions">
@@ -870,7 +870,7 @@
 
 <style>
 /* ============================================================
-   SkillConnect · Employer Hub
+   Tech Leaders Network · Employer Hub
    Palette: deep indigo + warm coral signature accent
    Type: Sora (display) / Inter (body & data)
    ============================================================ */

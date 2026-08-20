@@ -986,7 +986,7 @@
                 <div>
                     <span class="badge">◆ #1 Platform for Freelancers</span>
                     <h1>Work Freely.<br><span class="accent">Earn Globally.</span></h1>
-                    <p>SkillConnect helps freelancers find amazing projects, build their professional profile, and grow
+                    <p>Tech Leaders Network helps freelancers find amazing projects, build their professional profile, and grow
                         their career worldwide.</p>
                     <div class="hero-ctas">
                         <a class="btn btn-primary" href="#projects">Find Projects →</a>
@@ -1259,7 +1259,7 @@
                     <div class="profile-promo">
                         <span class="promo-badge">Grow Your Career</span>
                         <h3>Create Your Profile &amp; Get Hired Fast</h3>
-                        <p>Join thousands of freelancers who are building successful careers on SkillConnect.</p>
+                        <p>Join thousands of freelancers who are building successful careers on Tech Leaders Network.</p>
                         <ul class="checklist">
                             <li><span class="check">✓</span> Create a professional profile</li>
                             <li><span class="check">✓</span> Showcase your skills &amp; experience</li>
@@ -1310,7 +1310,7 @@
         <section class="how-section">
             <div class="wrap">
                 <div class="section-head">
-                    <h2>How SkillConnect Works?</h2>
+                    <h2>How Tech Leaders Network Works?</h2>
                 </div>
                 <div class="how-grid">
                     <div class="how-step">
@@ -1365,7 +1365,7 @@
                 <div class="testi-grid">
                     <div class="testi-card">
                         <div class="quote-mark">“</div>
-                        <p>SkillConnect helped me find amazing clients and scale my freelance career. Highly recommended!
+                        <p>Tech Leaders Network helped me find amazing clients and scale my freelance career. Highly recommended!
                         </p>
                         <div class="stars">★★★★★</div>
                         <div class="testi-person">

@@ -1,440 +1,2954 @@
 {{-- resources/views/students/resume/index.blade.php --}}
 @extends('layouts.app')
-@section('title', 'Resume Reviews')
+
+@section('title', 'Resume Feedback')
 
 @section('content')
-<div class="container py-4 resume-page">
 
-    {{-- ===== Header ===== --}}
-    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
-        <div class="d-flex align-items-start gap-3">
-            <span class="header-icon">
-                <i class="fa-solid fa-file-lines"></i>
+<div class="resume-feedback-page">
+
+    {{-- =========================================================
+        HERO - WEBINAR STYLE WITH WHITE BG (FULL WIDTH)
+    ========================================================== --}}
+    <div class="resume-hero mb-4">
+        <div class="hero-content">
+            <span class="hero-eyebrow">
+                <i class="fa-solid fa-graduation-cap"></i>
+                {{ $counts['pending'] ?? 0 }}+ Awaiting Review
             </span>
-            <div>
-                <h1 class="h3 fw-bold mb-1">Resume Reviews</h1>
-                <p class="text-muted mb-0">Get expert feedback from mentors and build a resume that stands out.</p>
+
+            <h1>
+                Resume Reviews
+                <span>Built By Mentors, For Mentees</span>
+            </h1>
+
+            <p>
+                Review students' resumes and provide constructive feedback to help them
+                improve, stand out, and land the roles they're aiming for.
+            </p>
+
+            <div class="mentor-header-actions">
+                <a href="{{ route('mentor.resume-reviews.index', ['tab' => 'pending']) }}" class="hero-btn">
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    Start Reviewing
+                </a>
             </div>
         </div>
 
-        <a href="{{ route('student.resume-review.create') }}" class="btn btn-primary btn-lg d-inline-flex align-items-center gap-2 shadow-sm">
-            <i class="fa-solid fa-plus"></i> New Review Request
-        </a>
-    </div>
-
-    @if (session('success'))
-        <div class="alert alert-success d-flex align-items-center gap-2">
-            <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- ===== Stat Cards ===== --}}
-    <div class="row g-3 mb-4">
-        @foreach ([
-            ['Total Requests', $requestCounts['total'], 'fa-solid fa-file-lines', 'primary'],
-            ['Awaiting Mentor', $requestCounts['pending'], 'fa-regular fa-clock', 'warning'],
-            ['In Progress', $requestCounts['in_review'], 'fa-solid fa-magnifying-glass', 'info'],
-            ['Reviewed', $requestCounts['completed'], 'fa-solid fa-circle-check', 'success'],
-        ] as [$label, $value, $icon, $color])
-            <div class="col-6 col-lg-3">
-                <div class="stat-card stat-card-{{ $color }}">
-                    <div class="stat-icon"><i class="{{ $icon }}"></i></div>
-                    <div>
-                        <p class="stat-value">{{ $value }}</p>
-                        <p class="stat-label">{{ $label }}</p>
+        <div class="hero-visual">
+            <div class="resume-paper">
+                <div class="paper-top">
+                    <div class="paper-avatar"></div>
+                    <div class="paper-lines">
+                        <span></span>
+                        <span style="width: 70%;"></span>
                     </div>
                 </div>
+                <div class="paper-section"></div>
+                <div class="paper-line long"></div>
+                <div class="paper-line medium"></div>
+                <div class="paper-line long"></div>
+                <div class="paper-line medium"></div>
+                <div class="paper-line long" style="width: 55%;"></div>
             </div>
-        @endforeach
+            <div class="hero-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="hero-check">
+                <i class="fa-solid fa-check"></i>
+            </div>
+        </div>
+
+        <div class="hero-benefits">
+            <div class="hero-benefit">
+                <div class="benefit-icon blue">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <div>
+                    <strong>Expert Mentors</strong>
+                    <small>Verified professionals</small>
+                </div>
+            </div>
+            <div class="hero-benefit">
+                <div class="benefit-icon purple">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                    <strong>Quick Turnaround</strong>
+                    <small>Feedback within days</small>
+                </div>
+            </div>
+            <div class="hero-benefit">
+                <div class="benefit-icon orange">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div>
+                    <strong>Quality Feedback</strong>
+                    <small>Actionable insights</small>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-4">
+    {{-- =========================================================
+        MAIN GRID
+    ========================================================== --}}
+    <div class="resume-main-grid">
 
-        {{-- ===== My Requests ===== --}}
-        <div class="col-lg-8">
-            <div class="card shadow-sm border-0 section-card">
-                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                    <h2 class="h6 fw-bold mb-0"><i class="fa-solid fa-inbox text-primary me-2"></i>My Requests</h2>
-                    <span class="small text-muted">{{ $requestCounts['total'] }} total</span>
+        {{-- =====================================================
+            LEFT - SUBMIT RESUME REQUEST
+        ====================================================== --}}
+        <section class="resume-panel submit-panel" id="submit-resume-request">
+
+            <div class="panel-header">
+                <div>
+                    <h2>
+                        <span class="step-number">1</span>
+                        Submit Resume Request
+                    </h2>
+                    <p>Fill in the details below to request a resume review.</p>
+                </div>
+            </div>
+
+            @if(session('success'))
+                <div class="alert alert-success" style="margin: 10px 14px; padding: 12px; border-radius: 8px; background: #e8f8f0; color: #0f7b4e; font-size: 12px; border: 1px solid #b8e6d0;">
+                    <i class="fa-solid fa-check-circle"></i> {{ session('success') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger" style="margin: 10px 14px; padding: 12px; border-radius: 8px; background: #fde8e8; color: #c0392b; font-size: 12px; border: 1px solid #f5c6c6;">
+                    <i class="fa-solid fa-exclamation-circle"></i> Please fix the errors below.
+                </div>
+            @endif
+
+            <form
+                action="{{ route('student.resume-review.store') }}"
+                method="POST"
+                enctype="multipart/form-data"
+                id="resumeReviewForm"
+                class="resume-request-form"
+                novalidate
+            >
+                @csrf
+
+                {{-- MENTOR SELECTION --}}
+                <div class="form-group">
+                    <label for="mentor_id">
+                        Select Mentor <span class="required">*</span>
+                    </label>
+
+                    <select name="mentor_id" id="mentor_id" required>
+                        <option value="">Choose a mentor</option>
+                        @foreach($mentors as $mentor)
+                            <option value="{{ $mentor->id }}" {{ old('mentor_id') == $mentor->id ? 'selected' : '' }}>
+                                {{ $mentor->name }} - {{ $mentor->title ?? 'Resume Mentor' }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('mentor_id')
+                        <small class="form-error">{{ $message }}</small>
+                    @enderror
                 </div>
 
-                <div class="card-body">
-                    @forelse ($myRequests as $request)
+                {{-- RESUME UPLOAD --}}
+                <div class="form-group">
+                    <label for="resume">
+                        Upload Your Resume <span class="required">*</span>
+                    </label>
+
+                    <div class="resume-upload-box" id="resumeUploadBox">
+                        <input
+                            type="file"
+                            name="resume"
+                            id="resume"
+                            accept=".pdf,.doc,.docx"
+                            hidden
+                        >
+
+                        <label for="resume" class="upload-label" id="uploadLabel">
+                            <div class="upload-icon">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+
+                            <div class="upload-content">
+                                <strong>Click to upload or drag and drop</strong>
+                                <span>PDF, DOC, DOCX (Max. 5MB)</span>
+                            </div>
+                        </label>
+
+                        <div class="selected-file" id="selectedFile" style="display:none;">
+                            <div class="selected-file-icon">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+
+                            <div class="selected-file-info">
+                                <strong id="fileName">Resume.pdf</strong>
+                                <span id="fileSize">0 KB</span>
+                            </div>
+
+                            <button type="button" class="remove-file" id="removeFile" aria-label="Remove resume">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    @error('resume')
+                        <small class="form-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                {{-- REVIEW TYPE --}}
+                <div class="form-group">
+                    <label for="review_type">
+                        What type of review do you need? <span class="required">*</span>
+                    </label>
+
+                    <select name="review_type" id="review_type" required>
+                        <option value="">Select review type</option>
+                        <option value="General Resume Review" {{ old('review_type') === 'General Resume Review' ? 'selected' : '' }}>General Resume Review</option>
+                        <option value="ATS Optimization" {{ old('review_type') === 'ATS Optimization' ? 'selected' : '' }}>ATS Optimization</option>
+                        <option value="Job Specific Review" {{ old('review_type') === 'Job Specific Review' ? 'selected' : '' }}>Job Specific Review</option>
+                        <option value="Career Change" {{ old('review_type') === 'Career Change' ? 'selected' : '' }}>Career Change</option>
+                        <option value="Experienced Professional" {{ old('review_type') === 'Experienced Professional' ? 'selected' : '' }}>Experienced Professional</option>
+                        <option value="Fresher Resume" {{ old('review_type') === 'Fresher Resume' ? 'selected' : '' }}>Fresher Resume</option>
+                    </select>
+
+                    @error('review_type')
+                        <small class="form-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                {{-- GOAL --}}
+                <div class="form-group">
+                    <label for="goal">
+                        What is your goal? <span class="required">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="goal"
+                        id="goal"
+                        value="{{ old('goal') }}"
+                        placeholder="I want to improve my resume for job applications in software development."
+                        required
+                    >
+
+                    @error('goal')
+                        <small class="form-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                {{-- FEEDBACK FOCUS --}}
+                <div class="form-group">
+                    <label>
+                        What specific areas would you like feedback on? <span class="required">*</span>
+                    </label>
+
+                    <div class="feedback-select">
+                        @foreach (['Overall Structure', 'Skills Section', 'Experience', 'Projects'] as $focus)
+                            <label class="checkbox-option">
+                                <input
+                                    type="checkbox"
+                                    name="feedback_focus[]"
+                                    value="{{ $focus }}"
+                                    {{ in_array($focus, old('feedback_focus', [])) ? 'checked' : '' }}
+                                >
+                                <span>{{ $focus }}</span>
+                            </label>
+                        @endforeach
+                    </div>
+
+                    @error('feedback_focus')
+                        <small class="form-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                {{-- PREFERRED TIME + NOTES --}}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="preferred_completion_time">Preferred Completion Time</label>
+
+                        <select name="preferred_completion_time" id="preferred_completion_time">
+                            <option value="">Select time</option>
+                            <option value="Within 1 day" {{ old('preferred_completion_time') === 'Within 1 day' ? 'selected' : '' }}>Within 1 day</option>
+                            <option value="Within 3 days" {{ old('preferred_completion_time') === 'Within 3 days' ? 'selected' : '' }}>Within 3 days</option>
+                            <option value="Within 5 days" {{ old('preferred_completion_time') === 'Within 5 days' ? 'selected' : '' }}>Within 5 days</option>
+                            <option value="Within 7 days" {{ old('preferred_completion_time') === 'Within 7 days' ? 'selected' : '' }}>Within 7 days</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="additional_instructions">Additional Notes</label>
+
+                        <input
+                            type="text"
+                            name="additional_instructions"
+                            id="additional_instructions"
+                            value="{{ old('additional_instructions') }}"
+                            placeholder="Any specific instructions for the mentor..."
+                        >
+                    </div>
+                </div>
+
+                {{-- SUBMIT --}}
+                <button type="submit" class="submit-request-btn" id="submitRequestBtn">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Submit Request</span>
+                </button>
+
+                <div class="secure-note">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Your resume will be sent to the mentor after submission.
+                </div>
+            </form>
+        </section>
+
+        {{-- =====================================================
+            CENTER - SELECT MENTOR + HOW IT WORKS
+        ====================================================== --}}
+        <div class="mentor-column">
+
+        <section class="resume-panel mentor-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        <i class="fa-solid fa-user-tie"></i>
+                        Select a Mentor
+                    </h2>
+
+                    <p>
+                        Choose the right mentor for your resume
+                    </p>
+
+                </div>
+
+                <a
+                    href="{{ route('student.mentors.index') }}"
+                    class="view-link"
+                >
+                    View All Mentors
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+            <div class="mentor-list">
+
+                @forelse ($mentors as $mentor)
+
+                    <div class="mentor-item">
+
+                        <img
+                            src="{{ $mentor->avatar_url
+                                ?? 'https://ui-avatars.com/api/?name='
+                                . urlencode($mentor->name)
+                                . '&background=random'
+                            }}"
+                            alt="{{ $mentor->name }}"
+                            class="mentor-avatar"
+                        >
+
+                        <div class="mentor-info">
+
+                            <strong>
+                                {{ $mentor->name }}
+                            </strong>
+
+                            <span>
+                                {{ $mentor->title ?? 'Resume Mentor' }}
+                            </span>
+
+                            <small>
+                                <i class="fa-solid fa-circle-check"></i>
+                                Verified Mentor
+                            </small>
+
+                        </div>
+
+                        <button 
+                            type="button"
+                            class="select-mentor-btn"
+                            data-mentor-id="{{ $mentor->id }}"
+                            data-mentor-name="{{ $mentor->name }}"
+                        >
+                            Select
+                        </button>
+
+                    </div>
+
+                @empty
+
+                    <div class="empty-mentor">
+
+                        <i class="fa-solid fa-user-slash"></i>
+
+                        <p>
+                            No mentors available right now.
+                        </p>
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+            @if(method_exists($mentors, 'hasPages') && $mentors->hasPages())
+                <div class="request-pagination">
+                    {{ $mentors->links() }}
+                </div>
+            @endif
+
+            <div class="mentor-note">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <span>
+                    All mentors are verified professionals with
+                    experience in resume development and career guidance.
+                </span>
+
+            </div>
+
+        </section>
+
+        {{-- =====================================================
+            HOW IT WORKS - placed under Select a Mentor
+        ====================================================== --}}
+        <section class="resume-panel how-it-works-section">
+
+            <div class="panel-header">
+                <div>
+                    <h2>
+                        <i class="fa-regular fa-lightbulb"></i>
+                        How It Works
+                    </h2>
+                    <p>Get better feedback in four simple steps</p>
+                </div>
+            </div>
+
+            <div class="steps-grid">
+
+                <div class="step-row-item">
+                    <span class="step-icon step-blue">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </span>
+                    <strong>Submit Request</strong>
+                    <p>Upload your resume and tell us what you want to improve.</p>
+                </div>
+
+                <div class="step-row-item">
+                    <span class="step-icon step-purple">
+                        <i class="fa-solid fa-user-check"></i>
+                    </span>
+                    <strong>Choose a Mentor</strong>
+                    <p>Select a mentor based on their expertise and experience.</p>
+                </div>
+
+                <div class="step-row-item">
+                    <span class="step-icon step-green">
+                        <i class="fa-solid fa-comments"></i>
+                    </span>
+                    <strong>Get Feedback</strong>
+                    <p>Your mentor reviews your resume and provides useful suggestions.</p>
+                </div>
+
+                <div class="step-row-item">
+                    <span class="step-icon step-orange">
+                        <i class="fa-solid fa-arrow-up-right-dots"></i>
+                    </span>
+                    <strong>Improve & Apply</strong>
+                    <p>Update your resume and apply confidently for opportunities.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+        </div>
+
+        {{-- =====================================================
+            RIGHT - YOUR RECENT REQUESTS + JOURNEY STATS
+        ====================================================== --}}
+        <div class="requests-column">
+
+        <aside class="resume-panel requests-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        <i class="fa-solid fa-file-lines"></i>
+                        Your Recent Requests
+                    </h2>
+
+                    <p>
+                        Track the status of your submissions
+                    </p>
+
+                </div>
+
+            </div>
+
+            @if($myRequests->count() > 0)
+
+                <div class="request-list">
+                    @foreach($myRequests as $request)
                         @php
                             $badge = match ($request->status) {
-                                'completed' => ['Reviewed', 'success', 'fa-solid fa-circle-check'],
-                                'in_review' => ['In Progress', 'info', 'fa-solid fa-magnifying-glass'],
-                                default => ['Pending', 'warning', 'fa-regular fa-clock'],
+                                'completed' => ['label' => 'Reviewed', 'class' => 'status-completed'],
+                                'in_review' => ['label' => 'In Progress', 'class' => 'status-progress'],
+                                default => ['label' => 'Pending', 'class' => 'status-pending'],
                             };
                         @endphp
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#request-modal-{{ $request->id }}"
-                                class="request-row w-100 border-0 bg-transparent text-start">
-                            <div class="request-icon">
+                        <div class="request-item" data-bs-toggle="modal" data-bs-target="#requestModal{{ $request->id }}" style="cursor: pointer;">
+                            <div class="request-item-icon">
                                 <i class="fa-solid fa-file-lines"></i>
                             </div>
-
-                            <div class="flex-grow-1 min-w-0">
-                                <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <p class="fw-semibold mb-0">{{ $request->review_type }}</p>
-                                    <span class="badge rounded-pill text-bg-{{ $badge[1] }}">
-                                        <i class="{{ $badge[2] }} me-1"></i>{{ $badge[0] }}
-                                    </span>
+                            <div class="request-item-content">
+                                <div class="request-title-row">
+                                    <strong>{{ $request->review_type }}</strong>
+                                    <span class="status-pill {{ $badge['class'] }}">{{ $badge['label'] }}</span>
                                 </div>
-                                <p class="small text-muted mb-0 mt-1">
-                                    <i class="fa-regular fa-calendar me-1"></i>{{ $request->created_at->diffForHumans() }}
-                                </p>
+                                <div class="request-meta">
+                                    <span>{{ $request->created_at ? $request->created_at->format('d M Y') : '—' }}</span>
+                                    <span>•</span>
+                                    <span>{{ $request->mentor->name ?? 'Unassigned' }}</span>
+                                </div>
                             </div>
-
-                            <div class="text-end flex-shrink-0">
-                                @if ($request->mentor)
-                                    <div class="d-flex align-items-center gap-2 justify-content-end">
-                                        <div class="text-end d-none d-sm-block">
-                                            <p class="small fw-medium mb-0">{{ $request->mentor->name }}</p>
-                                            <p class="text-muted mb-0" style="font-size:.7rem;">Mentor</p>
-                                        </div>
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($request->mentor->name) }}&background=random"
-                                             class="rounded-circle" width="34" height="34" alt="">
-                                    </div>
-                                @else
-                                    <span class="small text-muted fst-italic">Unassigned</span>
-                                @endif
-
-                                @if ($request->status === 'completed' && $request->overall_rating)
-                                    <div class="mt-1">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <i class="fa-solid fa-star {{ $i <= $request->overall_rating ? 'text-warning' : 'text-secondary opacity-25' }}" style="font-size:.7rem;"></i>
-                                        @endfor
-                                    </div>
-                                @endif
+                            <div class="request-arrow">
+                                <i class="fa-solid fa-chevron-right"></i>
                             </div>
-
-                            <i class="fa-solid fa-chevron-right text-muted flex-shrink-0 ms-2"></i>
-                        </button>
-                    @empty
-                        <div class="text-center py-5">
-                            <i class="fa-regular fa-file-lines fa-3x text-muted mb-3"></i>
-                            <p class="text-muted mb-2">You haven't submitted a resume for review yet.</p>
-                            <a href="{{ route('student.resume-review.create') }}" class="fw-semibold text-decoration-none">
-                                Submit your first request &rarr;
-                            </a>
                         </div>
-                    @endforelse
+                    @endforeach
                 </div>
 
-                @if ($myRequests->hasPages())
-                    <div class="card-footer bg-white text-center">
+                @if($myRequests->hasPages())
+                    <div class="request-pagination">
                         {{ $myRequests->links() }}
                     </div>
                 @endif
-            </div>
-        </div>
 
-        {{-- ===== How It Works ===== --}}
-        <div class="col-lg-4">
-            <div class="card shadow-sm border-0 section-card h-100">
-                <div class="card-body">
-                    <h2 class="h6 fw-bold mb-4"><i class="fa-solid fa-lightbulb text-primary me-2"></i>How It Works</h2>
-                    <ol class="list-unstyled mb-0">
-                        @foreach ([
-                            ['Submit Request', 'Upload your resume and share details about your goals.'],
-                            ['Mentor Reviews', 'A mentor reviews your resume and provides detailed feedback.'],
-                            ['Get Feedback', "You'll receive feedback and suggestions within the promised time."],
-                            ['Improve & Apply', 'Update your resume and increase your chances of success.'],
-                        ] as $index => $step)
-                            <li class="d-flex gap-3 {{ !$loop->last ? 'mb-4' : '' }}">
-                                <span class="step-number">{{ $index + 1 }}</span>
-                                <div>
-                                    <p class="fw-medium mb-0">{{ $step[0] }}</p>
-                                    <p class="small text-muted mb-0">{{ $step[1] }}</p>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+            @else
 
-    {{-- ===== Select a Mentor ===== --}}
-    <div class="card shadow-sm border-0 section-card mt-4">
-        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-            <div>
-                <h2 class="h6 fw-bold mb-0"><i class="fa-solid fa-user-tie text-primary me-2"></i>Select a Mentor</h2>
-                <p class="small text-muted mb-0">Choose a mentor for your resume review</p>
-            </div>
-            <a href="{{ route('student.mentors.index') }}" class="small fw-medium text-decoration-none">View All Mentors</a>
-        </div>
+                <div class="empty-request">
 
-        <div class="card-body">
-            <div class="row g-3">
-                @forelse ($mentors as $mentor)
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="mentor-card">
-                            <div class="d-flex align-items-center gap-2 mb-3">
-                                <img src="{{ $mentor->avatar_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($mentor->name) . '&background=random' }}"
-                                     alt="{{ $mentor->name }}" class="rounded-circle" width="44" height="44">
-                                <div class="text-truncate">
-                                    <p class="fw-medium mb-0 text-truncate">{{ $mentor->name }}</p>
-                                    <p class="small text-muted mb-0 text-truncate">{{ $mentor->title ?? 'Mentor' }}</p>
-                                </div>
-                            </div>
-                            <a href="{{ route('student.resume-review.create', ['mentor' => $mentor->id]) }}"
-                               class="btn btn-sm btn-outline-primary mt-auto w-100">Select</a>
-                        </div>
+                    <div class="empty-icon">
+                        <i class="fa-solid fa-file-circle-plus"></i>
                     </div>
-                @empty
-                    <p class="text-muted text-center py-4 mb-0">No mentors available right now.</p>
-                @endforelse
+
+                    <h3>No Requests Yet</h3>
+
+                    <p>
+                        Submit your resume to get feedback from a mentor.
+                    </p>
+
+                    <a href="#submit-resume-request" class="small-primary-btn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        Submit Request
+                    </a>
+
+                </div>
+
+            @endif
+
+        </aside>
+
+        {{-- =====================================================
+            YOUR RESUME REVIEW JOURNEY - placed under Your Recent Requests
+        ====================================================== --}}
+        <section class="resume-panel status-section">
+
+            <div class="status-section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        REQUEST OVERVIEW
+                    </span>
+
+                    <h2>
+                        Your Resume Review Journey
+                    </h2>
+
+                </div>
+
             </div>
+
+            <div class="status-grid">
+
+                <div class="status-card">
+
+                    <div class="status-card-icon blue">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ $requestCounts['total'] ?? 0 }}
+                        </strong>
+
+                        <span>
+                            Total Requests
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="status-card">
+
+                    <div class="status-card-icon orange">
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ $requestCounts['pending'] ?? 0 }}
+                        </strong>
+
+                        <span>
+                            Awaiting Mentor
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="status-card">
+
+                    <div class="status-card-icon purple">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ $requestCounts['in_review'] ?? 0 }}
+                        </strong>
+
+                        <span>
+                            In Progress
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="status-card">
+
+                    <div class="status-card-icon green">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ $requestCounts['completed'] ?? 0 }}
+                        </strong>
+
+                        <span>
+                            Reviewed
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
         </div>
+
     </div>
 
-    {{-- ===== Request Detail Modals ===== --}}
+    {{-- =========================================================
+        REQUEST DETAIL MODALS
+    ========================================================== --}}
+
     @foreach ($myRequests as $request)
+
         @php
+
             $badge = match ($request->status) {
-                'completed' => ['Reviewed', 'success'],
-                'in_review' => ['In Progress', 'info'],
-                default => ['Pending', 'warning'],
+
+                'completed' => [
+                    'label' => 'Reviewed',
+                    'class' => 'status-completed'
+                ],
+
+                'in_review' => [
+                    'label' => 'In Progress',
+                    'class' => 'status-progress'
+                ],
+
+                default => [
+                    'label' => 'Pending',
+                    'class' => 'status-pending'
+                ],
+
             };
+
             $ratings = [
                 'Overall Rating' => $request->overall_rating,
                 'Resume Quality' => $request->resume_quality,
                 'Relevance' => $request->relevance,
                 'Presentation' => $request->presentation,
             ];
+
         @endphp
-        <div class="modal fade" id="request-modal-{{ $request->id }}" tabindex="-1" aria-hidden="true">
+
+        <div
+            class="modal fade"
+            id="requestModal{{ $request->id }}"
+            tabindex="-1"
+            aria-labelledby="requestModalLabel{{ $request->id }}"
+            aria-hidden="true"
+        >
+
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
+
+                <div class="modal-content modern-modal">
+
+                    {{-- MODAL HEADER --}}
                     <div class="modal-header">
+
                         <div>
-                            <h5 class="modal-title mb-1">Resume Review — {{ $request->review_type }}</h5>
-                            <span class="badge text-bg-{{ $badge[1] }} rounded-pill">{{ $badge[0] }}</span>
+
+                            <span class="modal-label">
+                                RESUME REVIEW
+                            </span>
+
+                            <h5
+                                class="modal-title"
+                                id="requestModalLabel{{ $request->id }}"
+                            >
+                                {{ $request->review_type }}
+                            </h5>
+
+                            <span class="status-pill {{ $badge['class'] }}">
+                                {{ $badge['label'] }}
+                            </span>
+
                         </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+
                     </div>
+
+                    {{-- MODAL BODY --}}
                     <div class="modal-body">
 
-                        {{-- Request info --}}
-                        <div class="row g-3 mb-4">
-                            <div class="col-sm-6">
-                                <p class="small text-muted mb-1">Mentor</p>
-                                <p class="fw-medium mb-0">
+                        <div class="modal-info-grid">
+
+                            <div>
+
+                                <span>
+                                    Mentor
+                                </span>
+
+                                <strong>
+
                                     @if ($request->mentor)
-                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($request->mentor->name) }}&background=random"
-                                             class="rounded-circle me-1" width="20" height="20" alt="">
+
+                                        <img
+                                            src="https://ui-avatars.com/api/?name={{ urlencode($request->mentor->name) }}&background=random"
+                                            width="28"
+                                            height="28"
+                                            class="rounded-circle me-1"
+                                            alt=""
+                                        >
+
                                         {{ $request->mentor->name }}
+
                                     @else
+
                                         Unassigned
+
                                     @endif
-                                </p>
+
+                                </strong>
+
                             </div>
-                            <div class="col-sm-6">
-                                <p class="small text-muted mb-1">Requested</p>
-                                <p class="fw-medium mb-0">{{ $request->created_at->format('d M Y, h:i A') }}</p>
+
+                            <div>
+
+                                <span>
+                                    Requested
+                                </span>
+
+                                <strong>
+                                    {{ $request->created_at
+                                        ? $request->created_at->format('d M Y, h:i A')
+                                        : '—'
+                                    }}
+                                </strong>
+
                             </div>
-                            <div class="col-sm-6">
-                                <p class="small text-muted mb-1">Preferred Completion</p>
-                                <p class="fw-medium mb-0">{{ $request->preferred_completion_time ?? '—' }}</p>
+
+                            <div>
+
+                                <span>
+                                    Preferred Completion
+                                </span>
+
+                                <strong>
+                                    {{ $request->preferred_completion_time ?? '—' }}
+                                </strong>
+
                             </div>
-                            <div class="col-sm-6">
-                                <p class="small text-muted mb-1">Resume File</p>
-                                <a href="{{ $request->resume_url }}" target="_blank" class="fw-medium text-decoration-none">
-                                    <i class="fa-solid fa-file-arrow-down me-1"></i> {{ $request->resume_original_name ?? 'View resume' }}
-                                </a>
+
+                            <div>
+
+                                <span>
+                                    Resume
+                                </span>
+
+                                @if ($request->resume_path)
+
+                                    <a
+                                        href="{{ Storage::url($request->resume_path) }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <i class="fa-solid fa-file-arrow-down"></i>
+                                        {{ $request->resume_original_name ?? 'View Resume' }}
+                                    </a>
+
+                                @else
+
+                                    <strong>
+                                        Resume unavailable
+                                    </strong>
+
+                                @endif
+
                             </div>
+
                         </div>
 
+                        {{-- GOAL --}}
                         @if ($request->goal)
-                            <div class="mb-3">
-                                <p class="small text-muted mb-1">Goal</p>
-                                <p class="mb-0">{{ $request->goal }}</p>
+
+                            <div class="modal-content-block">
+
+                                <span>
+                                    Goal
+                                </span>
+
+                                <p>
+                                    {{ $request->goal }}
+                                </p>
+
                             </div>
+
                         @endif
 
+                        {{-- FEEDBACK FOCUS --}}
                         @if (!empty($request->feedback_focus))
-                            <div class="mb-4">
-                                <p class="small text-muted mb-2">Feedback Focus</p>
-                                <div class="d-flex flex-wrap gap-2">
+
+                            <div class="modal-content-block">
+
+                                <span>
+                                    Feedback Focus
+                                </span>
+
+                                <div class="focus-tags">
+
                                     @foreach ($request->feedback_focus as $focus)
-                                        <span class="badge text-bg-light border">{{ $focus }}</span>
+
+                                        <span>
+                                            {{ $focus }}
+                                        </span>
+
                                     @endforeach
+
                                 </div>
+
                             </div>
+
                         @endif
 
                         <hr>
 
-                        {{-- Mentor feedback --}}
+                        {{-- COMPLETED --}}
                         @if ($request->status === 'completed')
-                            <h6 class="fw-semibold mb-3">Mentor's Feedback</h6>
-                            <div class="row g-3 mb-4">
+
+                            <div class="feedback-heading">
+
+                                <div>
+
+                                    <span class="modal-label">
+                                        MENTOR FEEDBACK
+                                    </span>
+
+                                    <h5>
+                                        Your Resume Evaluation
+                                    </h5>
+
+                                </div>
+
+                            </div>
+
+                            <div class="rating-grid">
+
                                 @foreach ($ratings as $label => $value)
-                                    <div class="col-6 col-sm-3">
-                                        <p class="small text-muted mb-1">{{ $label }}</p>
-                                        <p class="fw-semibold mb-0">
-                                            @if ($value)
-                                                {{ $value }}/5 <i class="fa-solid fa-star text-warning small"></i>
+
+                                    <div class="rating-box">
+
+                                        <span>
+                                            {{ $label }}
+                                        </span>
+
+                                        <strong>
+
+                                            @if ($value !== null)
+
+                                                {{ $value }}/5
+
+                                                <i class="fa-solid fa-star"></i>
+
                                             @else
+
                                                 —
+
                                             @endif
-                                        </p>
+
+                                        </strong>
+
                                     </div>
+
                                 @endforeach
+
                             </div>
 
                             @if ($request->strengths)
-                                <div class="mb-3">
-                                    <p class="small text-muted mb-1"><i class="fa-solid fa-circle-check text-success me-1"></i> Strengths</p>
-                                    <p class="mb-0">{{ $request->strengths }}</p>
+
+                                <div class="feedback-block success">
+
+                                    <div class="feedback-icon">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Strengths
+                                        </strong>
+
+                                        <p>
+                                            {{ $request->strengths }}
+                                        </p>
+
+                                    </div>
+
                                 </div>
+
                             @endif
 
                             @if ($request->areas_to_improve)
-                                <div class="mb-3">
-                                    <p class="small text-muted mb-1"><i class="fa-solid fa-triangle-exclamation text-warning me-1"></i> Areas to Improve</p>
-                                    <p class="mb-0">{{ $request->areas_to_improve }}</p>
+
+                                <div class="feedback-block warning">
+
+                                    <div class="feedback-icon">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Areas to Improve
+                                        </strong>
+
+                                        <p>
+                                            {{ $request->areas_to_improve }}
+                                        </p>
+
+                                    </div>
+
                                 </div>
+
                             @endif
 
                             @if ($request->additional_comments)
-                                <div class="mb-0">
-                                    <p class="small text-muted mb-1">Additional Comments</p>
-                                    <p class="mb-0">{{ $request->additional_comments }}</p>
+
+                                <div class="feedback-block">
+
+                                    <div class="feedback-icon">
+                                        <i class="fa-solid fa-message"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Additional Comments
+                                        </strong>
+
+                                        <p>
+                                            {{ $request->additional_comments }}
+                                        </p>
+
+                                    </div>
+
                                 </div>
+
                             @endif
+
+                        {{-- PENDING / IN REVIEW --}}
                         @else
-                            <div class="text-center py-4">
-                                <i class="fa-regular fa-clock fa-2x text-muted mb-2"></i>
-                                <p class="text-muted mb-0">Your mentor hasn't submitted feedback yet.</p>
+
+                            <div class="waiting-feedback">
+
+                                <div class="waiting-icon">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+
+                                <h4>
+                                    Feedback Is On The Way
+                                </h4>
+
+                                <p>
+                                    Your mentor hasn't submitted feedback yet.
+                                    We'll update this request once the review is complete.
+                                </p>
+
                             </div>
+
                         @endif
+
                     </div>
+
+                    {{-- MODAL FOOTER --}}
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+
+                        <button
+                            type="button"
+                            class="modal-close-btn"
+                            data-bs-dismiss="modal"
+                        >
+                            Close
+                        </button>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     @endforeach
+
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('SCRIPT RAN. fileInput:', document.getElementById('resume'));
+    console.log('mentor buttons found:', document.querySelectorAll('.select-mentor-btn').length);
+    console.log('form found:', document.getElementById('resumeReviewForm'));
+    // ============================================
+    // 1. FILE UPLOAD HANDLING
+    // ============================================
+    const fileInput = document.getElementById('resume');
+    const uploadBox = document.getElementById('resumeUploadBox');
+    const uploadLabel = document.getElementById('uploadLabel');
+    const selectedFile = document.getElementById('selectedFile');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const removeFileBtn = document.getElementById('removeFile');
+
+    if (fileInput) {
+        // Handle file selection
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                const file = this.files[0];
+                const validExtensions = ['pdf', 'doc', 'docx'];
+                const ext = file.name.split('.').pop().toLowerCase();
+                const maxSize = 5 * 1024 * 1024;
+
+                if (!validExtensions.includes(ext)) {
+                    alert('Please upload a PDF, DOC, or DOCX file.');
+                    this.value = '';
+                    return;
+                }
+
+                if (file.size > maxSize) {
+                    alert('File size must be less than 5MB.');
+                    this.value = '';
+                    return;
+                }
+
+                // Show file info
+                fileName.textContent = file.name;
+                const sizeInKB = (file.size / 1024).toFixed(1);
+                fileSize.textContent = sizeInKB >= 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : sizeInKB + ' KB';
+                uploadLabel.style.display = 'none';
+                selectedFile.style.display = 'flex';
+            }
+        });
+
+        // Handle remove file
+        if (removeFileBtn) {
+            removeFileBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                fileInput.value = '';
+                uploadLabel.style.display = 'flex';
+                selectedFile.style.display = 'none';
+            });
+        }
+
+        // Drag and drop
+        if (uploadBox) {
+            uploadBox.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('drag-over');
+            });
+
+            uploadBox.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+            });
+
+            uploadBox.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    fileInput.dispatchEvent(new Event('change'));
+                }
+            });
+        }
+    }
+
+    // ============================================
+    // 2. MENTOR SELECT BUTTONS
+    // ============================================
+    document.querySelectorAll('.select-mentor-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const mentorId = this.getAttribute('data-mentor-id');
+            const mentorName = this.getAttribute('data-mentor-name');
+            
+            const selectElement = document.getElementById('mentor_id');
+            if (selectElement) {
+                selectElement.value = mentorId;
+                // Trigger change event
+                const event = new Event('change');
+                selectElement.dispatchEvent(event);
+                
+                // Show feedback
+                const mentorInfo = document.querySelector('.mentor-item [data-mentor-id="' + mentorId + '"]');
+                const submitPanel = document.getElementById('submit-resume-request');
+                if (submitPanel) {
+                    submitPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
+                // Highlight the selection
+                const mentorItems = document.querySelectorAll('.mentor-item');
+                mentorItems.forEach(item => {
+                    item.style.border = 'none';
+                });
+                const parentItem = this.closest('.mentor-item');
+                if (parentItem) {
+                    parentItem.style.border = '2px solid #3378e5';
+                    parentItem.style.borderRadius = '8px';
+                    parentItem.style.padding = '7px 5px';
+                }
+            }
+        });
+    });
+
+    // ============================================
+    // 3. FORM SUBMISSION
+    // ============================================
+    const form = document.getElementById('resumeReviewForm');
+    const submitBtn = document.getElementById('submitRequestBtn');
+
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Check if file is selected
+            const fileInput = document.getElementById('resume');
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                e.preventDefault();
+                alert('Please upload your resume.');
+                return false;
+            }
+
+            // Check if mentor is selected
+            const mentorSelect = document.getElementById('mentor_id');
+            if (!mentorSelect || !mentorSelect.value) {
+                e.preventDefault();
+                alert('Please select a mentor.');
+                mentorSelect.focus();
+                return false;
+            }
+
+            // Check if review type is selected
+            const reviewType = document.getElementById('review_type');
+            if (!reviewType || !reviewType.value) {
+                e.preventDefault();
+                alert('Please select a review type.');
+                reviewType.focus();
+                return false;
+            }
+
+            // Check if goal is filled
+            const goal = document.getElementById('goal');
+            if (!goal || !goal.value.trim()) {
+                e.preventDefault();
+                alert('Please describe your goal.');
+                goal.focus();
+                return false;
+            }
+
+            // Check if at least one feedback focus is selected
+            const focusCheckboxes = form.querySelectorAll('input[name="feedback_focus[]"]:checked');
+            if (focusCheckboxes.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one feedback area.');
+                return false;
+            }
+
+            // Disable submit button
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Submitting...</span>';
+            }
+
+            return true;
+        });
+    }
+
+    // ============================================
+    // 4. MODAL HANDLING (Fallback if Bootstrap JS is missing)
+    // ============================================
+    document.querySelectorAll('.request-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            const target = this.getAttribute('data-bs-target');
+            if (target) {
+                const modal = document.querySelector(target);
+                if (modal) {
+                    // Check if Bootstrap is available
+                    if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                        const modalInstance = bootstrap.Modal.getOrCreateInstance(modal);
+                        modalInstance.show();
+                    } else {
+                        // Fallback: simple show/hide
+                        modal.style.display = 'block';
+                        modal.classList.add('show');
+                        document.body.classList.add('modal-open');
+                        
+                        // Add backdrop
+                        let backdrop = document.querySelector('.modal-backdrop');
+                        if (!backdrop) {
+                            backdrop = document.createElement('div');
+                            backdrop.className = 'modal-backdrop fade show';
+                            document.body.appendChild(backdrop);
+                        }
+                        
+                        // Close button
+                        const closeBtn = modal.querySelector('.btn-close, .modal-close-btn');
+                        if (closeBtn) {
+                            closeBtn.addEventListener('click', function() {
+                                modal.style.display = 'none';
+                                modal.classList.remove('show');
+                                document.body.classList.remove('modal-open');
+                                const backdrop = document.querySelector('.modal-backdrop');
+                                if (backdrop) backdrop.remove();
+                            });
+                        }
+                    }
+                }
+            }
+        });
+    });
+});
+</script>
+
 <style>
-    .resume-page .header-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
-        flex-shrink: 0;
-        font-size: 1.35rem;
-        color: #fff;
-        background: linear-gradient(135deg, #6366f1, #4f46e5);
-        box-shadow: 0 6px 16px rgba(79, 70, 229, .25);
+/* ============================================================
+   GLOBAL - FULL WIDTH HERO
+============================================================ */
+
+.resume-feedback-page {
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 26px 22px 45px;
+    background: #f8faff;
+    color: #182230;
+    font-size: 14px;
+}
+
+.resume-feedback-page * {
+    box-sizing: border-box;
+}
+
+.resume-feedback-page a {
+    text-decoration: none;
+}
+
+
+/* ============================================================
+   HERO - FULL WIDTH WITH WHITE BACKGROUND
+============================================================ */
+
+.resume-hero {
+    position: relative;
+    min-height: 205px;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding: 28px 40px;
+    margin-bottom: 18px;
+    margin-left: -22px;
+    margin-right: -22px;
+    border: 1px solid #e5edfa;
+    border-radius: 12px;
+    background: #ffffff;
+    width: calc(100% + 44px);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    width: 44%;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    padding: 4px 12px 4px 10px;
+    border-radius: 20px;
+    background: rgba(51, 120, 229, 0.08);
+    color: #3378e5;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.hero-eyebrow i {
+    font-size: 13px;
+}
+
+.hero-content h1 {
+    margin: 0;
+    color: #17243a;
+    font-size: 38px;
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+}
+
+.hero-content h1 span {
+    color: #286ed8;
+}
+
+.hero-content p {
+    max-width: 520px;
+    margin: 10px 0 18px;
+    color: #5a687c;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 7px;
+    background: #3378e5;
+    color: white !important;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 5px 13px rgba(51, 120, 229, .2);
+    transition: .2s;
+}
+
+.hero-btn:hover {
+    transform: translateY(-1px);
+    background: #2468d3;
+    color: white !important;
+}
+
+
+/* ============================================================
+   HERO VISUAL
+============================================================ */
+
+.hero-visual {
+    position: absolute;
+    left: 47%;
+    top: 24px;
+    width: 230px;
+    height: 160px;
+}
+
+.resume-paper {
+    position: absolute;
+    left: 25px;
+    top: 5px;
+    width: 108px;
+    height: 145px;
+    padding: 12px;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #dfe8f7;
+    box-shadow: 0 10px 25px rgba(42, 76, 130, .08);
+    transform: rotate(-3deg);
+}
+
+.paper-top {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.paper-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #d9e8ff;
+}
+
+.paper-lines {
+    flex: 1;
+}
+
+.paper-lines span {
+    display: block;
+    height: 4px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+    background: #dce6f4;
+}
+
+.paper-section {
+    width: 40%;
+    height: 5px;
+    margin: 10px 0 7px;
+    border-radius: 4px;
+    background: #6a9ce9;
+}
+
+.paper-line {
+    width: 80%;
+    height: 4px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    background: #e3e9f1;
+}
+
+.paper-line.long {
+    width: 100%;
+}
+
+.paper-line.medium {
+    width: 62%;
+}
+
+.hero-search {
+    position: absolute;
+    left: 108px;
+    top: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 57px;
+    height: 57px;
+    border: 6px solid #3378e5;
+    border-radius: 50%;
+    background: rgba(255,255,255,.95);
+    color: #3378e5;
+    font-size: 22px;
+    transform: rotate(-10deg);
+    box-shadow: 0 8px 20px rgba(51,120,229,.12);
+}
+
+.hero-search::after {
+    content: "";
+    position: absolute;
+    width: 28px;
+    height: 7px;
+    right: -22px;
+    bottom: -10px;
+    border-radius: 8px;
+    background: #3378e5;
+    transform: rotate(45deg);
+}
+
+.hero-check {
+    position: absolute;
+    top: 8px;
+    right: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e5f8ef;
+    color: #15a467;
+    font-size: 11px;
+}
+
+.hero-benefits {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    width: 250px;
+}
+
+.hero-benefit {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 14px;
+}
+
+.benefit-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex: 0 0 28px;
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.benefit-icon.blue {
+    color: #3276df;
+    background: #e6f0ff;
+}
+
+.benefit-icon.purple {
+    color: #8a64df;
+    background: #f0eaff;
+}
+
+.benefit-icon.orange {
+    color: #ec9a31;
+    background: #fff2df;
+}
+
+.hero-benefit strong {
+    display: block;
+    color: #27364d;
+    font-size: 13px;
+}
+
+.hero-benefit small {
+    display: block;
+    margin-top: 2px;
+    color: #7b8798;
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   IMPORTANT BUTTON FIXES
+============================================================ */
+
+.resume-feedback-page button,
+.resume-feedback-page a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.resume-feedback-page button {
+    font-family: inherit;
+}
+
+.request-item {
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+
+/* ============================================================
+   SUBMIT RESUME FORM
+============================================================ */
+.submit-panel {
+    overflow: hidden;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 2px;
+    border-radius: 50%;
+    background: #3378e5;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.resume-request-form {
+    padding: 12px 13px 13px;
+}
+
+.resume-request-form .form-group {
+    margin-bottom: 12px;
+}
+
+.resume-request-form .form-group > label {
+    display: block;
+    margin-bottom: 6px;
+    color: #344258;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.resume-request-form .required {
+    color: #ef5350;
+    font-size: 13px;
+}
+
+.resume-upload-box {
+    position: relative;
+    overflow: hidden;
+    border: 1px dashed #cbd9ee;
+    border-radius: 7px;
+    background: #f8fbff;
+    transition: .2s;
+}
+
+.resume-upload-box:hover,
+.resume-upload-box.drag-over {
+    border-color: #3378e5;
+    background: #f2f7ff;
+}
+
+.upload-label {
+    display: flex !important;
+    align-items: center;
+    gap: 9px;
+    margin: 0 !important;
+    padding: 15px 14px;
+    cursor: pointer;
+}
+
+.upload-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 7px;
+    background: #e8f2ff;
+    color: #3378e5;
+    font-size: 14px;
+}
+
+.upload-content strong,
+.upload-content span {
+    display: block;
+}
+
+.upload-content strong {
+    color: #405069;
+    font-size: 12px;
+}
+
+.upload-content span {
+    margin-top: 2px;
+    color: #9aa4b3;
+    font-size: 10px;
+}
+
+.selected-file {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-top: 1px solid #e7edf6;
+    background: #fff;
+}
+
+.selected-file-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background: #fff0f0;
+    color: #e74c3c;
+    font-size: 14px;
+}
+
+.selected-file-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.selected-file-info strong,
+.selected-file-info span {
+    display: block;
+}
+
+.selected-file-info strong {
+    overflow: hidden;
+    color: #39475c;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.selected-file-info span {
+    margin-top: 2px;
+    color: #929baa;
+    font-size: 10px;
+}
+
+.remove-file {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 5px;
+    background: #fff2f2;
+    color: #e25454;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.resume-request-form input[type="text"],
+.resume-request-form select {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #dce4ef;
+    border-radius: 5px;
+    outline: none;
+    background: #fff;
+    color: #4a586d;
+    font-family: inherit;
+    font-size: 13px;
+    transition: .15s;
+}
+
+.resume-request-form input[type="text"]:focus,
+.resume-request-form select:focus {
+    border-color: #79a7e8;
+    box-shadow: 0 0 0 2px rgba(51,120,229,.08);
+}
+
+.feedback-select {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.checkbox-option {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    margin: 0 !important;
+    border: 1px solid #e0e6ef;
+    border-radius: 5px;
+    background: #fafbfd;
+    color: #667386 !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    cursor: pointer;
+}
+
+.checkbox-option input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: #3378e5;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+}
+
+.submit-request-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 42px;
+    margin-top: 2px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 5px;
+    background: #3378e5;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(51,120,229,.15);
+    transition: .2s;
+}
+
+.submit-request-btn:hover {
+    background: #246bd7;
+    transform: translateY(-1px);
+}
+
+.submit-request-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.secure-note {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    color: #8994a3;
+    font-size: 11px;
+}
+
+.secure-note i {
+    color: #35a66f;
+    font-size: 13px;
+}
+
+.form-error {
+    display: block;
+    margin-top: 4px;
+    color: #e05252;
+    font-size: 11px;
+}
+
+/* ============================================================
+   MAIN GRID
+============================================================ */
+
+.resume-main-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1.45fr .85fr;
+    gap: 14px;
+    align-items: start;
+}
+
+.resume-panel {
+    min-width: 0;
+    border: 1px solid #e4eaf2;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(32, 52, 80, .035);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    min-height: 54px;
+    padding: 11px 14px;
+    border-bottom: 1px solid #edf0f5;
+}
+
+.panel-header h2 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    color: #25344a;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.panel-header h2 i {
+    color: #3478df;
+    font-size: 16px;
+}
+
+.panel-header p {
+    margin: 3px 0 0;
+    color: #8a95a5;
+    font-size: 12px;
+}
+
+.request-count {
+    padding: 4px 7px;
+    border-radius: 20px;
+    background: #eef5ff;
+    color: #3776d7;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   REQUESTS
+============================================================ */
+
+.request-list {
+    padding: 7px;
+}
+
+.request-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border: 0;
+    border-bottom: 1px solid #f1f3f7;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.request-item:last-child {
+    border-bottom: 0;
+}
+
+.request-item:hover {
+    border-radius: 7px;
+    background: #f7faff;
+}
+
+.request-item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 7px;
+    color: #3979dc;
+    background: #edf4ff;
+    font-size: 14px;
+}
+
+.request-item-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.request-title-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.request-title-row strong {
+    color: #314057;
+    font-size: 13px;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.status-completed {
+    color: #15945f;
+    background: #e9f8f0;
+}
+
+.status-progress {
+    color: #357bdc;
+    background: #eaf3ff;
+}
+
+.status-pending {
+    color: #d88a19;
+    background: #fff4df;
+}
+
+.request-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 3px;
+    color: #98a1af;
+    font-size: 11px;
+}
+
+.request-meta span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.request-arrow {
+    color: #bbc3ce;
+    font-size: 11px;
+}
+
+.empty-request {
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 9px;
+    border-radius: 12px;
+    color: #6e94d0;
+    background: #edf4ff;
+    font-size: 20px;
+}
+
+.empty-request h3 {
+    margin: 0 0 4px;
+    color: #36445a;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.empty-request p {
+    max-width: 220px;
+    margin: 0 auto 12px;
+    color: #8b96a6;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.small-primary-btn {
+    display: inline-flex;
+    padding: 9px 12px;
+    border-radius: 6px;
+    background: #3378e5;
+    color: white !important;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.request-pagination {
+    padding: 12px 10px;
+    border-top: 1px solid #edf0f5;
+}
+
+
+/* ============================================================
+   MENTORS
+============================================================ */
+
+.mentor-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.requests-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+.mentor-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.mentor-list {
+    max-height: 230px;
+    padding: 6px 9px;
+    overflow-y: auto;
+}
+
+.mentor-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.mentor-list::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #d7e1f0;
+}
+
+.mentor-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 6px;
+    border-bottom: 1px solid #f0f2f6;
+    transition: all 0.3s ease;
+}
+
+.mentor-item:last-child {
+    border-bottom: 0;
+}
+
+.mentor-avatar {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #edf4ff;
+}
+
+.mentor-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.mentor-info strong,
+.mentor-info span,
+.mentor-info small {
+    display: block;
+}
+
+.mentor-info strong {
+    color: #2e3d53;
+    font-size: 13px;
+}
+
+.mentor-info span {
+    margin-top: 2px;
+    color: #7e8999;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mentor-info small {
+    margin-top: 3px;
+    color: #1b9a67;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.mentor-info small i {
+    font-size: 9px;
+}
+
+.select-mentor-btn {
+    padding: 7px 14px;
+    border: 1px solid #cbdcf6;
+    border-radius: 5px;
+    color: #3478dc !important;
+    background: #f8fbff;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.select-mentor-btn:hover {
+    color: white !important;
+    background: #3478dc;
+    border-color: #3478dc;
+}
+
+.view-link {
+    color: #3378df !important;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.view-link i {
+    margin-left: 2px;
+    font-size: 9px;
+}
+
+.mentor-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin: 6px 12px 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #f6f9fd;
+    color: #7d8999;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.mentor-note i {
+    color: #4d83d8;
+    margin-top: 1px;
+    font-size: 13px;
+}
+
+.empty-mentor {
+    padding: 30px;
+    text-align: center;
+    color: #9aa4b2;
+    font-size: 13px;
+}
+
+.empty-mentor i {
+    margin-bottom: 6px;
+    font-size: 24px;
+}
+
+
+/* ============================================================
+   HOW IT WORKS
+============================================================ */
+
+.step-icon {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 50%;
+    font-size: 13px;
+}
+
+.step-blue {
+    color: #3679dd;
+    background: #e9f2ff;
+}
+
+.step-purple {
+    color: #8762dc;
+    background: #f0eaff;
+}
+
+.step-green {
+    color: #18a36a;
+    background: #e8f8f0;
+}
+
+.step-orange {
+    color: #e4942b;
+    background: #fff2df;
+}
+
+.steps-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.step-row-item {
+    flex: 1 1 190px;
+    min-width: 160px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid #edf0f5;
+    border-radius: 10px;
+    background: #fbfcfe;
+    transition: .15s;
+}
+
+.step-row-item:hover {
+    border-color: #cfe0f7;
+    background: #f7faff;
+}
+
+.step-row-item .step-icon {
+    margin: 0 auto 10px;
+}
+
+.step-row-item strong {
+    display: block;
+    color: #344258;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.step-row-item p {
+    margin: 5px 0 0;
+    color: #8a95a4;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.step-row-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding-top: 34px;
+    color: #c3cbd6;
+    font-size: 13px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 12px 10px;
+}
+
+
+/* ============================================================
+   STATUS SECTION
+============================================================ */
+
+.status-section {
+    padding: 16px 14px 18px;
+}
+
+.status-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.section-label {
+    display: block;
+    margin-bottom: 2px;
+    color: #4381dc;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+
+.status-section-header h2 {
+    margin: 0;
+    color: #27364b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.new-request-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 14px;
+    border-radius: 6px;
+    background: #3378e5;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 10px;
+    border: 1px solid #edf0f5;
+    border-radius: 8px;
+    background: #fbfcfe;
+}
+
+.status-card-icon,
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.status-card-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    font-size: 14px;
+}
+
+.status-card-icon.blue,
+.feature-icon.blue {
+    color: #3378df;
+    background: #eaf2ff;
+}
+
+.status-card-icon.orange,
+.feature-icon.orange {
+    color: #e39a31;
+    background: #fff3e1;
+}
+
+.status-card-icon.purple,
+.feature-icon.purple {
+    color: #8863dc;
+    background: #f0eaff;
+}
+
+.status-card-icon.green,
+.feature-icon.green {
+    color: #16a267;
+    background: #e8f8f0;
+}
+
+.status-card strong {
+    display: block;
+    color: #2d3b51;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.status-card span {
+    display: block;
+    margin-top: 3px;
+    color: #8792a1;
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   FEATURE STRIP
+============================================================ */
+
+.feature-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.feature-box {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 10px;
+    border: 1px solid #e7ecf3;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.feature-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    font-size: 14px;
+}
+
+.feature-box strong,
+.feature-box span {
+    display: block;
+}
+
+.feature-box strong {
+    color: #344157;
+    font-size: 12px;
+}
+
+.feature-box span {
+    margin-top: 2px;
+    color: #8993a2;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modern-modal {
+    overflow: hidden;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(25, 49, 83, .15);
+}
+
+.modern-modal .modal-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid #edf0f5;
+    background: #f8fbff;
+}
+
+.modal-label {
+    display: block;
+    margin-bottom: 3px;
+    color: #3679dc;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .8px;
+}
+
+.modern-modal .modal-title {
+    margin-bottom: 6px;
+    color: #26364d;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.modern-modal .modal-body {
+    padding: 20px;
+}
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.modal-info-grid span,
+.modal-content-block > span {
+    display: block;
+    margin-bottom: 4px;
+    color: #8b96a6;
+    font-size: 12px;
+}
+
+.modal-info-grid strong,
+.modal-info-grid a {
+    color: #344258;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.modal-info-grid a {
+    color: #3378df;
+}
+
+.modal-content-block {
+    margin-bottom: 15px;
+}
+
+.modal-content-block p {
+    margin: 0;
+    color: #59677b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.focus-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.focus-tags span {
+    display: inline-flex;
+    padding: 6px 12px;
+    border: 1px solid #e1e7ef;
+    border-radius: 20px;
+    background: #f8fafc;
+    color: #647184;
+    font-size: 11px;
+}
+
+.feedback-heading h5 {
+    margin: 0 0 12px;
+    color: #334258;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.rating-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.rating-box {
+    padding: 10px 8px;
+    border: 1px solid #edf0f5;
+    border-radius: 8px;
+    background: #fafbfd;
+}
+
+.rating-box span {
+    display: block;
+    color: #8b96a5;
+    font-size: 11px;
+}
+
+.rating-box strong {
+    display: block;
+    margin-top: 4px;
+    color: #334258;
+    font-size: 16px;
+}
+
+.rating-box i {
+    color: #f5b52e;
+    font-size: 13px;
+}
+
+.feedback-block {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: #f7f9fc;
+}
+
+.feedback-block.success {
+    background: #effaf5;
+}
+
+.feedback-block.warning {
+    background: #fff8eb;
+}
+
+.feedback-icon {
+    color: #4380d9;
+    font-size: 16px;
+}
+
+.feedback-block.success .feedback-icon {
+    color: #18a167;
+}
+
+.feedback-block.warning .feedback-icon {
+    color: #dc941f;
+}
+
+.feedback-block strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #39475b;
+    font-size: 13px;
+}
+
+.feedback-block p {
+    margin: 0;
+    color: #697689;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.waiting-feedback {
+    padding: 30px 15px;
+    text-align: center;
+}
+
+.waiting-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    color: #d89426;
+    background: #fff4df;
+    font-size: 22px;
+}
+
+.waiting-feedback h4 {
+    margin-bottom: 6px;
+    color: #344258;
+    font-size: 18px;
+}
+
+.waiting-feedback p {
+    max-width: 400px;
+    margin: auto;
+    color: #8a95a4;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.modern-modal .modal-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #edf0f5;
+}
+
+.modal-close-btn {
+    padding: 9px 18px;
+    border: 1px solid #dfe5ed;
+    border-radius: 6px;
+    background: white;
+    color: #657184;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 1100px) {
+
+    .resume-main-grid {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .resume-page .section-card {
-        border-radius: 16px;
-        overflow: hidden;
-    }
-    .resume-page .section-card .card-header {
-        border-bottom: 1px solid #eef0f4;
+    .requests-column {
+        grid-column: span 2;
     }
 
-    /* Stat cards */
-    .resume-page .stat-card {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        background: #fff;
-        border-radius: 14px;
-        padding: 18px;
-        box-shadow: 0 1px 3px rgba(16, 24, 40, .06);
-        border: 1px solid #eef0f4;
-        height: 100%;
-        transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .resume-page .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(16, 24, 40, .08);
-    }
-    .resume-page .stat-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
-        font-size: 1.05rem;
-        flex-shrink: 0;
-    }
-    .resume-page .stat-value { font-size: 1.35rem; font-weight: 700; margin-bottom: 0; line-height: 1.1; }
-    .resume-page .stat-label { font-size: .78rem; color: #6b7280; margin-bottom: 0; }
-
-    .resume-page .stat-card-primary .stat-icon { background: rgba(79,70,229,.1); color: #4f46e5; }
-    .resume-page .stat-card-warning .stat-icon { background: rgba(245,158,11,.12); color: #d97706; }
-    .resume-page .stat-card-info .stat-icon    { background: rgba(14,165,233,.12); color: #0284c7; }
-    .resume-page .stat-card-success .stat-icon { background: rgba(16,185,129,.12); color: #059669; }
-
-    /* Request rows */
-    .resume-page .request-row {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 14px;
-        border-radius: 12px;
-        transition: background .15s ease, transform .1s ease;
-    }
-    .resume-page .request-row:hover {
-        background: #f8f9fc;
-    }
-    .resume-page .request-row:not(:last-child) {
-        margin-bottom: 6px;
-    }
-    .resume-page .request-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        background: rgba(79,70,229,.1);
-        color: #4f46e5;
-        flex-shrink: 0;
-        font-size: 1rem;
+    .hero-benefits {
+        right: 18px;
+        width: 215px;
     }
 
-    /* How it works numbers */
-    .resume-page .step-number {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background: rgba(79,70,229,.1);
-        color: #4f46e5;
-        font-weight: 700;
-        font-size: .8rem;
-        flex-shrink: 0;
+    .hero-content {
+        width: 50%;
     }
 
-    /* Mentor cards */
-    .resume-page .mentor-card {
-        display: flex;
+    .hero-visual {
+        left: 52%;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .resume-hero {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        padding: 24px 20px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .resume-feedback-page {
+        padding: 15px 10px 30px;
+        font-size: 13px;
+    }
+
+    .resume-hero {
+        min-height: auto;
+    }
+
+    .hero-content {
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+    }
+
+    .hero-content p {
+        font-size: 13px;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .hero-benefits {
+        display: none;
+    }
+
+    .resume-main-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .requests-column {
+        grid-column: auto;
+    }
+
+    .status-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .panel-header h2 {
+        font-size: 15px;
+    }
+
+    .rating-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps-row {
         flex-direction: column;
-        height: 100%;
-        border: 1px solid #eef0f4;
-        border-radius: 14px;
-        padding: 16px;
-        transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
     }
-    .resume-page .mentor-card:hover {
-        border-color: #c7d2fe;
-        box-shadow: 0 8px 20px rgba(16, 24, 40, .08);
-        transform: translateY(-2px);
+
+    .step-row-arrow {
+        transform: rotate(90deg);
+        padding: 4px 0;
     }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .resume-feedback-page {
+        font-size: 12px;
+        padding: 10px 6px 16px;
+    }
+
+    .hero-content h1 {
+        font-size: 24px;
+    }
+
+    .hero-content p {
+        font-size: 12px;
+    }
+
+    .hero-btn {
+        font-size: 12px;
+        padding: 10px 18px;
+    }
+
+    .panel-header {
+        align-items: flex-start;
+    }
+
+    .panel-header h2 {
+        font-size: 14px;
+    }
+
+    .view-link {
+        display: none;
+    }
+
+    .status-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .feature-strip {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .status-section-header {
+        align-items: flex-start;
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .status-section-header h2 {
+        font-size: 14px;
+    }
+
+    .new-request-btn {
+        font-size: 10px;
+        padding: 7px 12px;
+    }
+
+    .request-meta {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .modal-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rating-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+    }
+
+    .modern-modal .modal-title {
+        font-size: 17px;
+    }
+
+    .resume-request-form input[type="text"],
+    .resume-request-form select {
+        height: 35px;
+        font-size: 12px;
+    }
+
+    .submit-request-btn {
+        height: 38px;
+        font-size: 12px;
+    }
+
+    .checkbox-option {
+        font-size: 10px !important;
+        padding: 5px 9px;
+    }
+
+    .feature-box {
+        padding: 8px 6px;
+    }
+
+    .feature-box strong {
+        font-size: 11px;
+    }
+
+    .feature-box span {
+        font-size: 9px;
+    }
+
+    .status-card {
+        padding: 8px 6px;
+        gap: 6px;
+    }
+
+    .status-card strong {
+        font-size: 15px;
+    }
+
+    .status-card span {
+        font-size: 9px;
+    }
+
+    .status-card-icon {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        font-size: 12px;
+    }
+
+    .upload-label {
+        padding: 12px 10px;
+    }
+
+    .upload-icon {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        font-size: 12px;
+    }
+
+    .upload-content strong {
+        font-size: 11px;
+    }
+
+    .upload-content span {
+        font-size: 9px;
+    }
+
+    .step-row-item {
+        padding: 12px 10px;
+    }
+}
 </style>
+
 @endsection

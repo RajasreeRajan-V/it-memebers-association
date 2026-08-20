@@ -1,4 +1,4 @@
-<!-- SkillConnect Site Header (v2 - two-row nav) -->
+<!-- Tech Leaders Network Site Header (v2 - two-row nav) -->
 
 <header class="site-header pt-1">
     <!-- ROW 1: Logo / Search / Actions -->
@@ -17,7 +17,7 @@
                 </svg>
             </span>
             <span class="logo-text">
-                SkillConnect
+                Tech Leaders Network
                 <small>Mentor Portal</small>
             </span>
         </a>
@@ -90,9 +90,9 @@
                <a href="{{ route('mentor.webinars.index') }}" class="{{ request()->routeIs('mentor.webinars.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-video"></i><span>Webinars</span>
                 </a>
-                <a href="{{ route('mentor.training-materials.index') }}" class="{{ request()->routeIs('mentor.training-materials.*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-book"></i><span>Training Materials</span>
-                </a>
+             <a href="{{ route('mentor.trainings.index') }}" class="{{ request()->routeIs('mentor.trainings.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-book"></i><span>Training Materials</span>
+</a>
                 <a href="{{ route('mentor.mock-interviews.index') }}" class="{{ request()->routeIs('mentor.mock-interviews.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-comments"></i><span>Mock Interviews</span>
                 </a>

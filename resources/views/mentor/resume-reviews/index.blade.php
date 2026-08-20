@@ -84,7 +84,15 @@
 
                     <div class="list-group list-group-flush rr-scroll" id="reviewList">
                         @forelse ($reviews as $index => $item)
-                            @php $isActive = $selected && $selected->id === $item->id; @endphp
+                            @php
+                                $isActive = $selected && $selected->id === $item->id;
+                                $itemBadge = match($item->status) {
+                                    'completed' => ['label' => 'Approved', 'class' => 'rr-badge-green'],
+                                    'in_review' => ['label' => 'In Review', 'class' => 'rr-badge-orange'],
+                                    'rejected' => ['label' => 'Rejected', 'class' => 'rr-badge-red'],
+                                    default => ['label' => ucfirst(str_replace('_', ' ', $item->status)), 'class' => 'rr-badge-blue'],
+                                };
+                            @endphp
                             <a href="{{ route('mentor.resume-reviews.show', ['review' => $item, 'tab' => $tab, 'q' => $search]) }}"
                                class="list-group-item list-group-item-action py-3 border-0 border-bottom rr-review-item {{ $isActive ? 'rr-item-active' : '' }} {{ $index >= 3 ? 'd-none rr-hidden-item' : '' }}"
                                data-index="{{ $index }}">
@@ -97,12 +105,13 @@
                                             <span class="rr-time flex-shrink-0">{{ $item->created_at->diffForHumans(null, true) }}</span>
                                         </div>
                                         <p class="small text-muted mb-2 text-truncate">{{ $item->student->college ?? $item->student->institution ?? '' }}</p>
-                                        <div class="d-flex flex-wrap gap-1">
+                                        <div class="d-flex flex-wrap gap-1 align-items-center">
                                             @foreach (($item->skills ?? [$item->review_type]) as $i => $skill)
                                                 @if($i < 3)
                                                     <span class="rr-tag rr-tag-{{ $i % 3 }}">{{ $skill }}</span>
                                                 @endif
                                             @endforeach
+                                            <span class="rr-pill {{ $itemBadge['class'] }}">{{ $itemBadge['label'] }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -311,6 +320,36 @@
                     {{-- Feedback form --}}
                     <div class="card rr-card border-0">
                         <div class="card-body p-4">
+
+                            {{-- Admin confirmation status banner --}}
+                            @if ($latestConfirmation && $latestConfirmation->status === 'rejected')
+                                <div class="rr-confirm-banner rr-confirm-rejected mb-4">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <div>
+                                        <strong>This review was rejected by admin.</strong>
+                                        <p class="mb-0 mt-1">
+                                            {{ $latestConfirmation->admin_notes ?? 'No reason provided. Please revise and resubmit.' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            @elseif ($latestConfirmation && $latestConfirmation->status === 'pending')
+                                <div class="rr-confirm-banner rr-confirm-pending mb-4">
+                                    <i class="fa-solid fa-clock"></i>
+                                    <div>
+                                        <strong>Awaiting admin confirmation.</strong>
+                                        <p class="mb-0 mt-1">This review has been submitted and is waiting for admin to approve it before the student can see it.</p>
+                                    </div>
+                                </div>
+                            @elseif ($latestConfirmation && $latestConfirmation->status === 'approved')
+                                <div class="rr-confirm-banner rr-confirm-approved mb-4">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    <div>
+                                        <strong>Approved.</strong>
+                                        <p class="mb-0 mt-1">This review has been approved and is now visible to the student.</p>
+                                    </div>
+                                </div>
+                            @endif
+
                             <h2 class="h6 fw-semibold mb-4">Your Review &amp; Feedback</h2>
 
                             <form method="POST" action="{{ route('mentor.resume-reviews.submit', $selected) }}">
@@ -733,6 +772,61 @@
 .rr-badge-purple {
     background: #EEE8FF;
     color: #7042D6;
+}
+
+.rr-badge-red {
+    background: #FDE3E3;
+    color: #C0392B;
+}
+
+
+/* =========================================================
+   ADMIN CONFIRMATION BANNER (NEW)
+   ========================================================= */
+
+.rr-confirm-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.rr-confirm-banner i {
+    font-size: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.rr-confirm-banner strong {
+    display: block;
+    font-size: 13.5px;
+}
+
+.rr-confirm-banner p {
+    color: inherit;
+    opacity: .9;
+    font-size: 12.5px;
+}
+
+.rr-confirm-rejected {
+    background: #FEF2F2;
+    color: #B91C1C;
+    border: 1px solid #FECACA;
+}
+
+.rr-confirm-pending {
+    background: #FFFBEB;
+    color: #92400E;
+    border: 1px solid #FDE68A;
+}
+
+.rr-confirm-approved {
+    background: #F0FDF4;
+    color: #15803D;
+    border: 1px solid #BBF7D0;
 }
 
 

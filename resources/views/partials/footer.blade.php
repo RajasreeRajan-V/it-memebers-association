@@ -10,7 +10,7 @@
                             <path d="M8 12.5 10.5 15 16 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
-                    SkillConnect
+                    Tech Leaders Network
                 </div>
                 <p>One platform connecting students, employees, employers, investors, freelancers and mentors.</p>
 
@@ -56,7 +56,7 @@
         </div>
 
         <div class="footer-bottom">
-            © 2026 SkillConnect. All Rights Reserved.
+            © 2026 Tech Leaders Network. All Rights Reserved.
         </div>
     </div>
 </footer>

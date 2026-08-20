@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reset Password — SkillConnect</title>
+    <title>Reset Password — Tech Leaders Network</title>
     <!-- Font Awesome 6 (solid + regular) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <style>
@@ -311,7 +311,7 @@
         <!-- Logo – unchanged style, dark bg -->
         <div class="auth-logo">
             <a href="{{ url('/') }}">
-                <i class="fa-solid fa-people-arrows"></i> SkillConnect
+                <i class="fa-solid fa-people-arrows"></i> Tech Leaders Network
             </a>
         </div>
 
