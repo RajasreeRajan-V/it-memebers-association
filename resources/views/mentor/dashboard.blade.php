@@ -48,7 +48,7 @@
                 <a href="{{ route('mentor.mentees.index') }}" class="btn btn-outline-primary">View Mentees</a>
                 <a href="{{ route('mentor.resume-reviews.index') }}" class="btn btn-outline-primary">Resume Reviews</a>
                 <a href="{{ route('mentor.webinars.create') }}" class="btn btn-outline-primary">Host a Webinar</a>
-                <a href="{{ route('mentor.training-materials.create') }}" class="btn btn-outline-primary">Upload Training Material</a>
+                <a href="" class="btn btn-outline-primary">Upload Training Material</a>
                 <a href="{{ route('mentor.mock-interviews.index') }}" class="btn btn-outline-primary">Mock Interviews</a>
             </div>
         </div>

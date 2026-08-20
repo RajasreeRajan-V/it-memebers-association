@@ -90,8 +90,12 @@
                <a href="{{ route('mentor.webinars.index') }}" class="{{ request()->routeIs('mentor.webinars.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-video"></i><span>Webinars</span>
                 </a>
-             <a href="{{ route('mentor.trainings.index') }}" class="{{ request()->routeIs('mentor.trainings.*') ? 'active' : '' }}">
-    <i class="fa-solid fa-book"></i><span>Training Materials</span>
+
+
+                <a href="" class="">
+                    <i class="fa-solid fa-video"></i><span>trainings</span>
+                </a>
+         
 </a>
                 <a href="{{ route('mentor.mock-interviews.index') }}" class="{{ request()->routeIs('mentor.mock-interviews.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-comments"></i><span>Mock Interviews</span>
