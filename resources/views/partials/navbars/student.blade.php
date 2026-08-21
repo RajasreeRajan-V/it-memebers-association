@@ -97,8 +97,8 @@
     <i class="fa-solid fa-video"></i> Webinars
 </a>
 
-  <a href="{{ route('student.courses-training') }}"
-   class="{{ request()->routeIs('student.courses-training') ? 'active' : '' }}">
+  <a href=""
+   class="">
     <i class="fa-solid fa-graduation-cap"></i>
     Training
 </a>
