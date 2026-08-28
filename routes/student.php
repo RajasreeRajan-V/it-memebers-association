@@ -10,6 +10,7 @@ use App\Http\Controllers\Student\MockInterviewController;
 use App\Http\Controllers\Student\WebinarController;
 use App\Http\Controllers\Student\RequestController;
 use App\Http\Controllers\Student\SessionController;
+use App\Http\Controllers\Student\SessionSchedulingController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\SupportController;
@@ -22,201 +23,371 @@ Route::middleware(['member.auth'])
     ->name('student.')
     ->group(function () {
 
-        // =====================================================
-        // DASHBOARD
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard
+        |--------------------------------------------------------------------------
+        */
 
-        Route::get('/dashboard', [StudentDashboardController::class, 'index'])
-            ->name('dashboard');
-
-
-        // =====================================================
-        // MENTORS
-        // =====================================================
-
-        Route::prefix('mentors')->name('mentors.')->group(function () {
-
-            Route::get('/', [MentorController::class, 'index'])
-                ->name('index');
-
-            Route::get('/{mentor}', [MentorController::class, 'show'])
-                ->name('show');
-
-            Route::get('/{mentor}/request', [MentorController::class, 'requestForm'])
-                ->name('request');
-
-            Route::post('/{mentor}/request', [MentorController::class, 'storeRequest'])
-                ->name('request.store');
-        });
+        Route::get(
+            '/dashboard',
+            [StudentDashboardController::class, 'index']
+        )->name('dashboard');
 
 
-        // =====================================================
-        // RESUME REVIEW
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Mentors
+        |--------------------------------------------------------------------------
+        */
 
-        Route::get('/resume-review', [ResumeReviewController::class, 'index'])
-            ->name('resume-review');
+        Route::prefix('mentors')
+            ->name('mentors.')
+            ->group(function () {
 
-        Route::get('/resume-review/create', [ResumeReviewController::class, 'create'])
-            ->name('resume-review.create');
+                Route::get(
+                    '/',
+                    [MentorController::class, 'index']
+                )->name('index');
 
-        Route::post('/resume-review', [ResumeReviewController::class, 'store'])
-            ->name('resume-review.store');
+                Route::get(
+                    '/{mentor}',
+                    [MentorController::class, 'show']
+                )->name('show');
 
-        Route::get('/resume-review/{review}', [ResumeReviewController::class, 'show'])
-            ->name('resume-review.show');
+                Route::get(
+                    '/{mentor}/request',
+                    [MentorController::class, 'requestForm']
+                )->name('request');
 
-
-        // =====================================================
-        // MOCK INTERVIEWS
-        // =====================================================
-
-        Route::get('/mock-interviews', [MockInterviewController::class, 'index'])
-            ->name('mock-interviews');
-
-        Route::post('/mock-interviews/{interview}/book', [MockInterviewController::class, 'book'])
-            ->name('mock-interviews.book');
-
-
-        // =====================================================
-        // WEBINARS
-        // =====================================================
-
-        Route::get('/webinars', [WebinarController::class, 'index'])
-            ->name('webinars');
-
-        Route::post('/webinars/{webinar}/register', [WebinarController::class, 'register'])
-            ->name('webinars.register');
-
-        Route::get('/webinars/{webinar}', [WebinarController::class, 'show'])
-            ->name('webinars.show');
-
-        Route::get('/my-webinars', [WebinarController::class, 'myWebinars'])
-            ->name('webinars.my');
-
-        Route::post('/webinars/{webinar}/feedback', [WebinarFeedbackController::class, 'store'])
-            ->name('webinars.feedback');
-
-        Route::get('/webinars/{webinar}/certificate', [CertificateController::class, 'download'])
-            ->name('webinars.certificate');
+                Route::post(
+                    '/{mentor}/request',
+                    [MentorController::class, 'storeRequest']
+                )->name('request.store');
+            });
 
 
-        
-        // =====================================================
-        // MENTORSHIP REQUESTS
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | My Mentorship
+        |--------------------------------------------------------------------------
+        */
 
-        Route::prefix('requests')->name('requests.')->group(function () {
+        Route::prefix('mentorship')
+            ->name('mentorship.')
+            ->group(function () {
 
-            Route::get('/', [RequestController::class, 'index'])
-                ->name('index');
+                Route::get(
+                    '/',
+                    [RequestController::class, 'index']
+                )->name('index');
 
-            Route::get('/pending', [RequestController::class, 'pending'])
-                ->name('pending');
+                Route::get(
+                    '/pending',
+                    [RequestController::class, 'pending']
+                )->name('pending');
 
-            Route::get('/accepted', [RequestController::class, 'accepted'])
-                ->name('accepted');
+                Route::post(
+                    '/requests/{mentorshipRequest}/accept-suggestion',
+                    [RequestController::class, 'acceptSuggestion']
+                )->name('accept-suggestion');
 
-            Route::delete('/{request}', [RequestController::class, 'cancel'])
-                ->name('cancel');
-        });
+                Route::delete(
+                    '/requests/{mentorshipRequest}',
+                    [RequestController::class, 'cancel']
+                )->name('cancel');
+            });
 
 
-        // =====================================================
-        // MENTORSHIP FEEDBACK
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Mentorship Requests
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('requests')
+            ->name('requests.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [RequestController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/pending',
+                    [RequestController::class, 'pending']
+                )->name('pending');
+
+                Route::get(
+                    '/accepted',
+                    [RequestController::class, 'accepted']
+                )->name('accepted');
+
+                Route::delete(
+                    '/{request}',
+                    [RequestController::class, 'cancel']
+                )->name('cancel');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mentorship Sessions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('sessions')
+            ->name('sessions.')
+            ->group(function () {
+
+                Route::get(
+                    '/upcoming',
+                    [SessionController::class, 'upcoming']
+                )->name('upcoming');
+
+                Route::get(
+                    '/completed',
+                    [SessionController::class, 'completed']
+                )->name('completed');
+
+                Route::get(
+                    '/{session}',
+                    [SessionController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{session}/confirm',
+                    [SessionController::class, 'confirm']
+                )->name('confirm');
+
+                Route::post(
+                    '/{session}/feedback',
+                    [SessionController::class, 'storeFeedback']
+                )->name('feedback');
+
+                Route::post(
+                    '/{session}/cancel',
+                    [SessionSchedulingController::class, 'cancel']
+                )->name('cancel');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mentorship Feedback
+        |--------------------------------------------------------------------------
+        */
 
         Route::prefix('mentorship/{mentorship}/feedback')
             ->name('mentorship.feedback.')
             ->group(function () {
 
-                Route::get('/', [FeedbackController::class, 'create'])
-                    ->name('create');
+                Route::get(
+                    '/',
+                    [FeedbackController::class, 'create']
+                )->name('create');
 
-                Route::post('/', [FeedbackController::class, 'store'])
-                    ->name('store');
+                Route::post(
+                    '/',
+                    [FeedbackController::class, 'store']
+                )->name('store');
             });
 
 
-        // =====================================================
-        // MENTORSHIP SESSIONS
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Resume Review
+        |--------------------------------------------------------------------------
+        */
 
-        Route::prefix('sessions')->name('sessions.')->group(function () {
+        Route::prefix('resume-review')
+            ->name('resume-review.')
+            ->group(function () {
 
-            Route::get('/upcoming', [SessionController::class, 'upcoming'])
-                ->name('upcoming');
+                Route::get(
+                    '/',
+                    [ResumeReviewController::class, 'index']
+                )->name('index');
 
-            Route::get('/completed', [SessionController::class, 'completed'])
-                ->name('completed');
+                Route::get(
+                    '/create',
+                    [ResumeReviewController::class, 'create']
+                )->name('create');
 
-            Route::post('/{session}/confirm', [SessionController::class, 'confirm'])
-                ->name('confirm');
-        });
+                Route::post(
+                    '/',
+                    [ResumeReviewController::class, 'store']
+                )->name('store');
 
-
-        // =====================================================
-        // PROFILE
-        // =====================================================
-
-        Route::get('/profile', [ProfileController::class, 'show'])
-            ->name('profile');
-
-        Route::put('/profile', [ProfileController::class, 'update'])
-            ->name('profile.update');
-
-
-        // =====================================================
-        // SETTINGS
-        // =====================================================
-
-        Route::get('/settings', [ProfileController::class, 'settings'])
-            ->name('settings');
-
-        Route::put('/settings', [ProfileController::class, 'updateSettings'])
-            ->name('settings.update');
+                Route::get(
+                    '/{review}',
+                    [ResumeReviewController::class, 'show']
+                )->name('show');
+            });
 
 
-        // =====================================================
-        // NOTIFICATIONS
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Mock Interviews
+        |--------------------------------------------------------------------------
+        */
 
-        Route::get('/notifications', [NotificationController::class, 'index'])
-            ->name('notifications');
+        Route::prefix('mock-interviews')
+            ->name('mock-interviews.')
+            ->group(function () {
 
+                Route::get(
+                    '/',
+                    [MockInterviewController::class, 'index']
+                )->name('index');
 
-        // =====================================================
-        // SEARCH
-        // =====================================================
-
-        Route::get('/search', [SearchController::class, 'index'])
-            ->name('search');
-
-
-        // =====================================================
-        // HOW IT WORKS
-        // =====================================================
-
-        Route::get('/how-it-works', function () {
-            return view('students.how-it-works');
-        })->name('how-it-works');
+                Route::post(
+                    '/{interview}/book',
+                    [MockInterviewController::class, 'book']
+                )->name('book');
+            });
 
 
-        // =====================================================
-        // SUPPORT
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Webinars
+        |--------------------------------------------------------------------------
+        */
 
-        Route::get('/support', [SupportController::class, 'index'])
-            ->name('support');
+        Route::prefix('webinars')
+            ->name('webinars.')
+            ->group(function () {
 
-        Route::post('/support', [SupportController::class, 'store'])
-            ->name('support.store');
+                Route::get(
+                    '/',
+                    [WebinarController::class, 'index']
+                )->name('index');
+
+                Route::post(
+                    '/{webinar}/register',
+                    [WebinarController::class, 'register']
+                )->name('register');
+
+                Route::post(
+                    '/{webinar}/feedback',
+                    [WebinarFeedbackController::class, 'store']
+                )->name('feedback');
+
+                Route::get(
+                    '/{webinar}/certificate',
+                    [CertificateController::class, 'download']
+                )->name('certificate');
+
+                Route::get(
+                    '/{webinar}',
+                    [WebinarController::class, 'show']
+                )->name('show');
+            });
+
+        Route::get(
+            '/my-webinars',
+            [WebinarController::class, 'myWebinars']
+        )->name('webinars.my');
 
 
-        // =====================================================
-        // LOGOUT
-        // =====================================================
+        /*
+        |--------------------------------------------------------------------------
+        | Profile
+        |--------------------------------------------------------------------------
+        */
 
-        Route::post('/logout', [ProfileController::class, 'logout'])
-            ->name('logout');
+        Route::get(
+            '/profile',
+            [ProfileController::class, 'show']
+        )->name('profile');
+
+        Route::put(
+            '/profile',
+            [ProfileController::class, 'update']
+        )->name('profile.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Settings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/settings',
+            [ProfileController::class, 'settings']
+        )->name('settings');
+
+        Route::put(
+            '/settings',
+            [ProfileController::class, 'updateSettings']
+        )->name('settings.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Notifications
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/notifications',
+            [NotificationController::class, 'index']
+        )->name('notifications');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/search',
+            [SearchController::class, 'index']
+        )->name('search');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | How It Works
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/how-it-works',
+            function () {
+                return view('students.how-it-works');
+            }
+        )->name('how-it-works');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Support
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/support',
+            [SupportController::class, 'index']
+        )->name('support');
+
+        Route::post(
+            '/support',
+            [SupportController::class, 'store']
+        )->name('support.store');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logout
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post(
+            '/logout',
+            [ProfileController::class, 'logout']
+        )->name('logout');
     });

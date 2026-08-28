@@ -65,10 +65,10 @@
 
     {{-- ===== Filters ===== --}}
     <aside class="sidebar-card" style="padding:14px;">
-        <form method="GET" action="{{ route('student.webinars') }}">
+        <form method="GET" action="route('student.webinars.index')">
             <div class="sidebar-card-header" style="margin-bottom:10px;">
                 <h3 style="font-size:12.5px;">Filters</h3>
-                <a href="{{ route('student.webinars') }}" style="font-size:11px;">Clear all</a>
+                <a href="route('student.webinars.index')" style="font-size:11px;">Clear all</a>
             </div>
 
             {{-- Search --}}
@@ -130,7 +130,7 @@
                     {{ $events->total() }} {{ \Illuminate\Support\Str::plural('event', $events->total()) }} found
                 </p>
             </div>
-            <form method="GET" action="{{ route('student.webinars') }}" style="display:flex;align-items:center;gap:8px;">
+            <form method="GET" action="route('student.webinars.index')" style="display:flex;align-items:center;gap:8px;">
                 @foreach(request()->except(['sort', 'page']) as $key => $value)
                     <input type="hidden" name="{{ $key }}" value="{{ $value }}">
                 @endforeach
@@ -226,7 +226,7 @@
         <div class="sidebar-card">
             <div class="sidebar-card-header">
                 <h3>Upcoming Events</h3>
-                <a href="{{ route('student.webinars') }}?sort=upcoming">View all</a>
+                <a href="route('student.webinars.index')?sort=upcoming">View all</a>
             </div>
             @forelse($upcoming as $item)
                 @php $d = \Illuminate\Support\Carbon::parse($item->scheduled_date); @endphp
@@ -253,7 +253,7 @@
                 <h3>Event Categories</h3>
             </div>
             @php $dotColors = ['--blue-fg', '--green-fg', '--pink-fg', '--yellow-fg', '--purple-fg', '--cyan-fg']; @endphp
-            <a href="{{ route('student.webinars') }}" style="text-decoration:none;color:inherit;">
+            <a href="route('student.webinars.index')" style="text-decoration:none;color:inherit;">
                 <div class="category-row">
                     <span style="display:flex;align-items:center;font-weight:{{ !$activeType ? '700' : '400' }};color:{{ !$activeType ? 'var(--secondary)' : 'var(--text)' }};">
                         <span class="dot" style="background:var(--secondary);"></span>
@@ -263,7 +263,7 @@
                 </div>
             </a>
             @foreach($categories as $i => $cat)
-                <a href="{{ route('student.webinars', ['q' => $cat->category]) }}" style="text-decoration:none;color:inherit;">
+                <a href="route('student.webinars', ['q' => $cat->category]) }}" style="text-decoration:none;color:inherit;">
                     <div class="category-row">
                         <span style="display:flex;align-items:center;">
                             <span class="dot" style="background:var({{ $dotColors[$i % count($dotColors)] }});"></span>

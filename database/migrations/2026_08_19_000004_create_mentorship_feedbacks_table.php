@@ -10,26 +10,15 @@ return new class extends Migration
     {
         Schema::create('mentorship_feedbacks', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('mentorship_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
-            $table->foreignId('student_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
-            $table->foreignId('mentor_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
+            $table->foreignId('mentorship_id')->constrained('mentorships')->cascadeOnDelete();
+            $table->foreignId('session_id')->nullable()->constrained('mentorship_sessions')->nullOnDelete();
+            $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('mentor_id')->constrained('users')->cascadeOnDelete();
 
             $table->unsignedTinyInteger('rating'); // 1-5
             $table->text('comment')->nullable();
 
             $table->timestamps();
-
-            // One review per mentorship
-            $table->unique('mentorship_id');
         });
     }
 

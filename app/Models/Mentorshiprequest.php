@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Admin;
 
 class MentorshipRequest extends Model
 {
@@ -22,80 +22,72 @@ class MentorshipRequest extends Model
         'preferred_time',
         'message',
         'status',
+        'suggested_date',
+        'suggested_time',
+        'suggestion_note',
         'accepted_at',
         'admin_verified_at',
         'admin_id',
     ];
 
     protected $casts = [
-        'preferred_days' => 'array',
-        'accepted_at' => 'datetime',
+        'preferred_days'    => 'array',
+        'suggested_date'    => 'date',
+        'accepted_at'       => 'datetime',
         'admin_verified_at' => 'datetime',
     ];
 
-    /**
-     * Student who requested the mentorship.
-     * mentorship_requests.student_id -> users.id
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function student()
     {
-        return $this->belongsTo(
-            User::class,
-            'student_id'
-        );
+        return $this->belongsTo(User::class, 'student_id');
     }
 
-    /**
-     * Mentor who receives the request.
-     * mentorship_requests.mentor_id -> users.id
-     */
     public function mentor()
     {
-        return $this->belongsTo(
-            User::class,
-            'mentor_id'
-        );
+        return $this->belongsTo(User::class, 'mentor_id');
     }
 
-    /**
-     * Admin who verified/rejected the request.
-     * mentorship_requests.admin_id -> admins.id
-     */
     public function admin()
     {
-        return $this->belongsTo(
-            Admin::class,
-            'admin_id'
-        );
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 
-    /**
-     * Mentorship created from this request.
-     */
+    /** The Mentorship created once this request is accepted. */
     public function mentorship()
     {
-        return $this->hasOne(
-            Mentorship::class,
-            'mentorship_request_id'
-        );
+        return $this->hasOne(Mentorship::class, 'mentorship_request_id');
     }
 
-    /**
-     * Pending requests.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
     }
 
-    /**
-     * Requests waiting for admin verification.
-     */
     public function scopeAwaitingAdmin($query)
     {
-        return $query->where(
-            'status',
-            'admin_verification'
-        );
+        return $query->where('status', 'admin_verification');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers
+    |--------------------------------------------------------------------------
+    */
+
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
     }
 }

@@ -19,7 +19,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | Home
+        | Dashboard
         |--------------------------------------------------------------------------
         */
 
@@ -31,7 +31,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | 1. My Mentees
+        | My Mentees / Mentorship Requests
         |--------------------------------------------------------------------------
         */
 
@@ -45,57 +45,49 @@ Route::middleware(['member.auth'])
             [MenteeController::class, 'show']
         )->name('mentees.show');
 
-        // Schedule a session — this is where the double-booking check runs
         Route::post(
-            '/mentees/{mentee}/sessions',
-            [SessionSchedulingController::class, 'store']
-        )->name('mentees.sessions.store');
+            '/mentees/requests/{mentorshipRequest}/accept',
+            [MenteeController::class, 'acceptRequest']
+        )->name('requests.accept');
 
-        // End Mentorship
+        Route::post(
+            '/mentees/requests/{mentorshipRequest}/reject',
+            [MenteeController::class, 'rejectRequest']
+        )->name('requests.reject');
+
+        Route::post(
+            '/mentees/requests/{mentorshipRequest}/suggest-time',
+            [MenteeController::class, 'suggestTime']
+        )->name('requests.suggest-time');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Complete Mentorship
+        |--------------------------------------------------------------------------
+        */
+
         Route::post(
             '/mentees/{mentee}/complete',
             [CompleteMentorshipController::class, 'complete']
         )->name('mentees.complete');
 
 
-
-        Route::post(
-    '/sessions/{session}/conduct',
-    [SessionLifecycleController::class, 'conduct']
-)->name('sessions.conduct');
-
-Route::post(
-    '/sessions/{session}/notes',
-    [SessionLifecycleController::class, 'storeNotes']
-)->name('sessions.notes.store');
-
-Route::post(
-    '/sessions/{session}/complete',
-    [SessionLifecycleController::class, 'markCompleted']
-)->name('sessions.complete');
-
         /*
         |--------------------------------------------------------------------------
-        | Mentorship Requests
+        | Session Scheduling
         |--------------------------------------------------------------------------
         */
 
-        Route::post(
-            '/mentees/requests/{mentorshipRequest}/accept',
-            [MenteeController::class, 'acceptRequest']
-        )->name('mentees.requests.accept');
+        Route::get(
+            '/mentees/{mentee}/sessions/create',
+            [SessionSchedulingController::class, 'create']
+        )->name('sessions.create');
 
         Route::post(
-            '/mentees/requests/{mentorshipRequest}/reject',
-            [MenteeController::class, 'rejectRequest']
-        )->name('mentees.requests.reject');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Sessions — reschedule, cancel, conduct, notes, complete
-        |--------------------------------------------------------------------------
-        */
+            '/mentees/{mentee}/sessions',
+            [SessionSchedulingController::class, 'store']
+        )->name('sessions.store');
 
         Route::post(
             '/sessions/{session}/reschedule',
@@ -107,6 +99,13 @@ Route::post(
             [SessionSchedulingController::class, 'cancel']
         )->name('sessions.cancel');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Session Lifecycle
+        |--------------------------------------------------------------------------
+        */
+
         Route::post(
             '/sessions/{session}/conduct',
             [SessionLifecycleController::class, 'conduct']
@@ -115,7 +114,7 @@ Route::post(
         Route::post(
             '/sessions/{session}/notes',
             [SessionLifecycleController::class, 'storeNotes']
-        )->name('sessions.notes.store');
+        )->name('sessions.notes');
 
         Route::post(
             '/sessions/{session}/complete',
@@ -125,7 +124,7 @@ Route::post(
 
         /*
         |--------------------------------------------------------------------------
-        | 2. Resume Reviews
+        | Resume Reviews
         |--------------------------------------------------------------------------
         */
 
@@ -147,7 +146,7 @@ Route::post(
 
         /*
         |--------------------------------------------------------------------------
-        | 3. Webinars & Workshops
+        | Webinars
         |--------------------------------------------------------------------------
         */
 
@@ -186,25 +185,37 @@ Route::post(
             [WebinarController::class, 'registrations']
         )->name('webinars.registrations.index');
 
-        Route::get('/webinars/{webinar}/attendance', [WebinarAttendanceController::class, 'edit'])
-            ->name('webinars.attendance');
 
-        Route::put('/webinars/{webinar}/attendance', [WebinarAttendanceController::class, 'updateAttendance'])
-            ->name('webinars.attendance.update');
+        /*
+        |--------------------------------------------------------------------------
+        | Webinar Attendance & Resources
+        |--------------------------------------------------------------------------
+        */
 
-        Route::post('/webinars/{webinar}/resources', [WebinarAttendanceController::class, 'storeResource'])
-            ->name('webinars.resources.store');
+        Route::get(
+            '/webinars/{webinar}/attendance',
+            [WebinarAttendanceController::class, 'edit']
+        )->name('webinars.attendance');
 
-        Route::delete('/webinar-resources/{resource}', [WebinarAttendanceController::class, 'destroyResource'])
-            ->name('webinar-resources.destroy');
+        Route::put(
+            '/webinars/{webinar}/attendance',
+            [WebinarAttendanceController::class, 'updateAttendance']
+        )->name('webinars.attendance.update');
 
-     
+        Route::post(
+            '/webinars/{webinar}/resources',
+            [WebinarAttendanceController::class, 'storeResource']
+        )->name('webinars.resources.store');
 
+        Route::delete(
+            '/webinar-resources/{resource}',
+            [WebinarAttendanceController::class, 'destroyResource']
+        )->name('webinar-resources.destroy');
 
 
         /*
         |--------------------------------------------------------------------------
-        | 5. Mock Interviews
+        | Mock Interviews
         |--------------------------------------------------------------------------
         */
 

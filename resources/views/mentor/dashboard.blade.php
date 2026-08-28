@@ -1,150 +1,58 @@
-@extends('layouts.app')
+@extends('layouts.mentorship')
+@php($portal = 'mentor')
+@section('title', 'Mentor Dashboard')
 
 @section('content')
 
-    @include('dashboard-layouts.partials.mentor')
-
-    <div class="container py-4">
-
-        <div class="dashboard-header mb-4">
-            <h1>Welcome back, {{ Auth::user()->name }} 👋</h1>
-            <p class="text-muted">Here's what's happening with your mentorship activity.</p>
+    <div class="hero">
+        <span class="kicker">Mentor Program</span>
+        <h1>Guide. Inspire. <span class="accent">Grow.</span></h1>
+        <p>Manage your mentees, review requests and run great mentorship sessions.</p>
+        <div class="actions">
+            <a href="{{ route('mentor.mentees.index') }}" class="btn btn-primary"><i class="fa-solid fa-user-graduate"></i> Go to My Mentees</a>
         </div>
+    </div>
 
-        {{-- Quick stats --}}
-        <div class="row g-3 mb-4">
-            <div class="col-md-3 col-sm-6">
-                <div class="card p-3 text-center shadow-sm">
-                    <h3>{{ $menteeCount }}</h3>
-                    <p class="text-muted mb-0">My Mentees</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card p-3 text-center shadow-sm">
-                    <h3>{{ $pendingReviews }}</h3>
-                    <p class="text-muted mb-0">Pending Resume Reviews</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card p-3 text-center shadow-sm">
-                    <h3>{{ $upcomingWebinars }}</h3>
-                    <p class="text-muted mb-0">Upcoming Webinars</p>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="card p-3 text-center shadow-sm">
-                    <h3>{{ $scheduledInterviews }}</h3>
-                    <p class="text-muted mb-0">Mock Interviews Scheduled</p>
-                </div>
-            </div>
-        </div>
+    <div class="stat-row" style="margin-bottom:22px;">
+        <div class="stat-box"><div class="num">{{ $stats['active_mentees'] }}</div><div class="lbl">Active Mentees</div></div>
+        <div class="stat-box"><div class="num">{{ $stats['upcoming_sessions'] }}</div><div class="lbl">Upcoming Sessions</div></div>
+        <div class="stat-box"><div class="num">{{ $stats['completed_sessions'] }}</div><div class="lbl">Completed Sessions</div></div>
+    </div>
 
-        {{-- Quick actions --}}
-        <div class="card mb-4">
+    <div class="grid-2">
+        <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">Quick Actions</h5>
+                <div class="card-title" style="font-size:.95rem;">Pending Requests</div>
+                <a href="{{ route('mentor.mentees.index') }}" class="link-more">View All ›</a>
             </div>
-            <div class="card-body d-flex flex-wrap gap-2">
-                <a href="{{ route('mentor.mentees.index') }}" class="btn btn-outline-primary">View Mentees</a>
-                <a href="{{ route('mentor.resume-reviews.index') }}" class="btn btn-outline-primary">Resume Reviews</a>
-                <a href="{{ route('mentor.webinars.create') }}" class="btn btn-outline-primary">Host a Webinar</a>
-                <a href="" class="btn btn-outline-primary">Upload Training Material</a>
-                <a href="{{ route('mentor.mock-interviews.index') }}" class="btn btn-outline-primary">Mock Interviews</a>
-            </div>
+            @forelse($pendingRequests as $r)
+                <div class="mentee-card" style="margin-bottom:10px;">
+                    <div class="person">
+                        <div class="avatar">{{ strtoupper(substr($r->student->name,0,1)) }}</div>
+                        <div><div class="name">{{ $r->student->name }}</div><div class="role">{{ $r->career_goal }}</div></div>
+                    </div>
+                </div>
+            @empty
+                <div class="empty-state" style="padding:20px;"><p>No pending requests.</p></div>
+            @endforelse
         </div>
 
-        <div class="row g-4">
-
-            {{-- Recent mentees --}}
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Recent Mentees</h5>
-                        <a href="{{ route('mentor.mentees.index') }}" class="small">View all</a>
-                    </div>
-                    <div class="card-body">
-                        @forelse ($recentMentees as $mentee)
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>{{ $mentee->student->name ?? 'Unknown' }}</span>
-                                <a href="{{ route('mentor.mentees.show', $mentee->id) }}" class="btn btn-sm btn-light">
-                                    View
-                                </a>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No mentees assigned yet.</p>
-                        @endforelse
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title" style="font-size:.95rem;">Active Mentees</div>
+                <a href="{{ route('mentor.mentees.index') }}" class="link-more">View All ›</a>
+            </div>
+            @forelse($activeMentees as $m)
+                <div class="mentee-card" style="margin-bottom:10px;">
+                    <div class="person">
+                        <div class="avatar">{{ strtoupper(substr($m->student->name,0,1)) }}</div>
+                        <div><div class="name">{{ $m->student->name }}</div><div class="role">{{ $m->career_goal }}</div></div>
                     </div>
                 </div>
-            </div>
-
-            {{-- Pending resume reviews --}}
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Pending Resume Reviews</h5>
-                        <a href="{{ route('mentor.resume-reviews.index') }}" class="small">View all</a>
-                    </div>
-                    <div class="card-body">
-                        @forelse ($recentResumeReviews as $review)
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>{{ $review->student->name ?? 'Unknown' }}</span>
-                                <a href="{{ route('mentor.resume-reviews.show', $review->id) }}" class="btn btn-sm btn-light">
-                                    Review
-                                </a>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No pending reviews.</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-
-            {{-- Upcoming webinars --}}
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Upcoming Webinars</h5>
-                        <a href="{{ route('mentor.webinars.index') }}" class="small">View all</a>
-                    </div>
-                    <div class="card-body">
-                        @forelse ($upcomingWebinarsList as $webinar)
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>{{ $webinar->title }} — {{ $webinar->scheduled_date->format('M d') }}</span>
-                                <a href="{{ route('mentor.webinars.edit', $webinar->id) }}" class="btn btn-sm btn-light">
-                                    Edit
-                                </a>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No webinars scheduled.</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-
-            {{-- Mock interviews --}}
-            <div class="col-md-6">
-                <div class="card h-100">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Mock Interviews</h5>
-                        <a href="{{ route('mentor.mock-interviews.index') }}" class="small">View all</a>
-                    </div>
-                    <div class="card-body">
-                        @forelse ($recentInterviews as $interview)
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>{{ $interview->student->name ?? 'Unknown' }}</span>
-                                <a href="{{ route('mentor.mock-interviews.show', $interview->id) }}" class="btn btn-sm btn-light">
-                                    View
-                                </a>
-                            </div>
-                        @empty
-                            <p class="text-muted mb-0">No interviews scheduled.</p>
-                        @endforelse
-                    </div>
-                </div>
-            </div>
-
+            @empty
+                <div class="empty-state" style="padding:20px;"><p>No active mentees yet.</p></div>
+            @endforelse
         </div>
-
     </div>
 
 @endsection
