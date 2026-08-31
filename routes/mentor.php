@@ -11,6 +11,7 @@ use App\Http\Controllers\Mentor\WebinarAttendanceController;
 use App\Http\Controllers\Mentor\SessionSchedulingController;
 use App\Http\Controllers\Mentor\SessionLifecycleController;
 use App\Http\Controllers\Mentor\CompleteMentorshipController;
+use App\Http\Controllers\Mentor\TrainingController as MentorTrainingController;
 
 Route::middleware(['member.auth'])
     ->prefix('mentor')
@@ -185,7 +186,16 @@ Route::middleware(['member.auth'])
             [WebinarController::class, 'registrations']
         )->name('webinars.registrations.index');
 
-
+     Route::prefix('trainings')->name('trainings.')->group(function () {
+            Route::get('/',              [MentorTrainingController::class, 'index'])->name('index');
+            Route::get('/create',        [MentorTrainingController::class, 'create'])->name('create');
+            Route::post('/',             [MentorTrainingController::class, 'store'])->name('store');
+            Route::get('/{training}',    [MentorTrainingController::class, 'show'])->name('show');
+            Route::get('/{training}/edit', [MentorTrainingController::class, 'edit'])->name('edit');
+            Route::put('/{training}',    [MentorTrainingController::class, 'update'])->name('update');
+            Route::delete('/{training}', [MentorTrainingController::class, 'destroy'])->name('destroy');
+            Route::post('/{training}/submit', [MentorTrainingController::class, 'submit'])->name('submit');
+        });
         /*
         |--------------------------------------------------------------------------
         | Webinar Attendance & Resources

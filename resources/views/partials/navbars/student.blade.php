@@ -95,11 +95,11 @@
     <i class="fa-solid fa-video"></i> Webinars
 </a>
 
-            <a href="" class="">
-                <i class="fa-solid fa-graduation-cap"></i>
-                Training
-            </a>
-
+    <a href="{{ route('student.trainings.index') }}"
+   class="{{ request()->routeIs('student.trainings.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-graduation-cap"></i>
+    Training
+</a>
             <a href="" class="">
                 <i class="fa-solid fa-comments"></i> Mock Interviews
             </a>

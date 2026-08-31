@@ -361,34 +361,34 @@
 
             <div class="feature-grid">
 
+               <div class="feature-item">
+    <i class="fas fa-check-circle"></i>
+    <span style="color: black;">Professional Networking</span>
+</div>
+
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Professional Networking
+                    <span style="color: black;">Job & Internship Portal</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Job & Internship Portal
+                    <span style="color: black;">Startup Investment</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Startup Investment
+                    <span style="color: black;">Mentorship Programs</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Mentorship Programs
+                    <span style="color: black;">Freelancing Opportunities</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Freelancing Opportunities
-                </div>
-
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Verified Community
+                    <span style="color: black;">Verified Community</span>
                 </div>
 
             </div>
@@ -1138,9 +1138,7 @@
                         Create Your Account
                     </a>
 
-                    <a href="members" class="btn btn-cta-outline">
-                        Explore More
-                    </a>
+                   
                 </div>
             </div>
 

@@ -17,7 +17,7 @@ use App\Http\Controllers\Student\SupportController;
 use App\Http\Controllers\Student\SearchController;
 use App\Http\Controllers\Student\CertificateController;
 use App\Http\Controllers\Student\FeedbackController;
-
+use App\Http\Controllers\Student\TrainingController as StudentTrainingController;
 
 Route::middleware(['member.auth'])
     ->name('student.')
@@ -225,6 +225,18 @@ Route::middleware(['member.auth'])
                     [ResumeReviewController::class, 'show']
                 )->name('show');
             });
+
+  Route::prefix('trainings')->name('trainings.')->group(function () {
+            Route::get('/',                       [StudentTrainingController::class, 'index'])->name('index');
+            Route::get('/my-trainings',            [StudentTrainingController::class, 'myTrainings'])->name('my-trainings');
+            Route::get('/{training}',              [StudentTrainingController::class, 'show'])->name('show');
+            Route::post('/{training}/enroll',      [StudentTrainingController::class, 'enroll'])->name('enroll');
+            Route::get('/{training}/learn',        [StudentTrainingController::class, 'learn'])->name('learn');
+            Route::post('/{training}/progress',    [StudentTrainingController::class, 'updateProgress'])->name('progress');
+            Route::post('/{training}/complete',    [StudentTrainingController::class, 'complete'])->name('complete');
+            Route::get('/{training}/certificate',  [StudentTrainingController::class, 'certificate'])->name('certificate');
+        });
+
 
 
         /*

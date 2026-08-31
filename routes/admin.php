@@ -20,7 +20,7 @@ use App\Http\Controllers\Admin\ResumeReviewManagementController;
 use App\Http\Controllers\Admin\WebinarManagementController;
 use App\Http\Controllers\Admin\MockInterviewManagementController;
 use App\Http\Controllers\Admin\LegalHelpController;
-use App\Http\Controllers\Admin\TrainingProgramManagementController;
+use App\Http\Controllers\Admin\TrainingController as AdminTrainingController;
 
 
 /*
@@ -384,41 +384,14 @@ Route::name('admin.')->group(function () {
         )->name('webinars.publish');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | 5. Training Programs
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get(
-            'trainings',
-            [TrainingProgramManagementController::class, 'index']
-        )->name('trainings.index');
-
-        Route::get(
-            'trainings/{training}',
-            [TrainingProgramManagementController::class, 'show']
-        )->name('trainings.show');
-
-        Route::post(
-            'trainings/{training}/approve',
-            [TrainingProgramManagementController::class, 'approve']
-        )->name('trainings.approve');
-
-        Route::post(
-            'trainings/{training}/reject',
-            [TrainingProgramManagementController::class, 'reject']
-        )->name('trainings.reject');
-
-        Route::post(
-            'trainings/{training}/publish',
-            [TrainingProgramManagementController::class, 'publish']
-        )->name('trainings.publish');
-
-        Route::post(
-            'trainings/{training}/unpublish',
-            [TrainingProgramManagementController::class, 'unpublish']
-        )->name('trainings.unpublish');
+       Route::prefix('trainings')->name('trainings.')->group(function () {
+            Route::get('/',                    [AdminTrainingController::class, 'index'])->name('index');
+            Route::get('/{training}',          [AdminTrainingController::class, 'show'])->name('show');
+            Route::post('/{training}/approve', [AdminTrainingController::class, 'approve'])->name('approve');
+            Route::post('/{training}/reject',  [AdminTrainingController::class, 'reject'])->name('reject');
+            Route::post('/{training}/publish', [AdminTrainingController::class, 'publish'])->name('publish');
+            Route::post('/{training}/unpublish', [AdminTrainingController::class, 'unpublish'])->name('unpublish');
+        });
 
 
         /*
