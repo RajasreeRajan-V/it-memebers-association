@@ -28,9 +28,7 @@
         @empty
             <div class="sidebar-card" style="text-align:center;padding:50px 20px;color:var(--muted);">
                 No upcoming registrations yet.
-                <div style="margin-top:14px;">
-                    <a href="{{ route('student.webinars') }}" class="btn btn-primary">Browse Events</a>
-                </div>
+                
             </div>
         @endforelse
     </div>

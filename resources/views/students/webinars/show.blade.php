@@ -19,7 +19,9 @@
 @endphp
 
 <div class="container" style="max-width:800px;padding:48px 0;">
-    <a href="{{ route('student.webinars') }}" style="font-size:0.85rem;color:var(--muted);">&larr; Back to Events</a>
+   <a href="{{ route('student.webinars.index') }}" style="font-size:0.85rem;color:var(--muted);">
+    &larr; Back to Events
+</a>
 
     <div class="sidebar-card" style="padding:28px;margin-top:16px;">
         <div class="material-card-tags" style="margin-bottom:10px;">

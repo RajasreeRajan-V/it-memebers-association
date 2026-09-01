@@ -49,7 +49,7 @@ class WebinarController extends Controller
                 fn ($q) => $q->latest(),
                 fn ($q) => $q->orderBy('scheduled_date')->orderBy('scheduled_time')
             )
-            ->paginate(6)
+            ->paginate(3)
             ->withQueryString();
 
         $upcoming = (clone $base)

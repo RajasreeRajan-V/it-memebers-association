@@ -10,51 +10,34 @@ return new class extends Migration
     {
         Schema::create('mentorship_requests', function (Blueprint $table) {
             $table->id();
-
-            // Student and Mentor are users
-            $table->foreignId('student_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
-            $table->foreignId('mentor_id')
-                ->constrained('users')
-                ->cascadeOnDelete();
+            $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('mentor_id')->constrained('users')->cascadeOnDelete();
 
             $table->text('goal');
             $table->string('current_skills')->nullable();
             $table->string('career_goal');
-
-            $table->enum('frequency', [
-                'weekly',
-                'biweekly',
-                'monthly'
-            ])->default('weekly');
-
+            $table->enum('frequency', ['weekly', 'biweekly', 'monthly']);
             $table->json('preferred_days')->nullable();
             $table->string('preferred_time')->nullable();
             $table->text('message')->nullable();
 
-            // PENDING -> ACCEPTED -> ADMIN_VERIFICATION -> ACTIVE
-            // PENDING -> REJECTED
-            // ACCEPTED -> ADMIN_REJECTED
+            // pending -> accepted -> (mentorship created) | rejected | time_suggested | cancelled
             $table->enum('status', [
                 'pending',
                 'accepted',
                 'rejected',
-                'admin_verification',
-                'admin_rejected',
-                'active',
+                'time_suggested',
                 'cancelled',
             ])->default('pending');
 
-            $table->timestamp('accepted_at')->nullable();
-            $table->timestamp('admin_verified_at')->nullable();
+            // Used when mentor proposes a different date/time ("Suggest New Time")
+            $table->date('suggested_date')->nullable();
+            $table->string('suggested_time')->nullable();
+            $table->text('suggestion_note')->nullable();
 
-            // Admin is stored in admins table
-            $table->foreignId('admin_id')
-                ->nullable()
-                ->constrained('admins')
-                ->nullOnDelete();
+            $table->timestamp('accepted_at')->nullable();
+            $table->foreignId('admin_id')->nullable()->constrained('admins')->nullOnDelete();
+            $table->timestamp('admin_verified_at')->nullable();
 
             $table->timestamps();
 

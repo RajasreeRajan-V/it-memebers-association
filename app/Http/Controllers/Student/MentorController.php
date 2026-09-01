@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\MentorshipRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MentorController extends Controller
 {
-    // GET /student/mentors
+    // GET /student/mentors — "Select Mentor / Mentorship"
     public function index(Request $request)
     {
         $mentors = User::query()
@@ -35,12 +35,11 @@ class MentorController extends Controller
         return view('students.mentors.index', compact('mentors'));
     }
 
-    // GET /student/mentors/{mentor}
+    // GET /student/mentors/{mentor} — View Mentor Profile
     public function show(User $mentor)
     {
         abort_unless(
-            $mentor->role === 'mentor' &&
-            $mentor->verification_status === 'approved',
+            $mentor->role === 'mentor' && $mentor->verification_status === 'approved',
             404
         );
 
@@ -54,27 +53,23 @@ class MentorController extends Controller
 
         $existingRequest = MentorshipRequest::where('student_id', Auth::id())
             ->where('mentor_id', $mentor->id)
-            ->whereIn('status', [
-                'pending',
-                'accepted',
-                'admin_verification',
-                'active',
-            ])
+            ->whereIn('status', ['pending', 'accepted', 'time_suggested'])
             ->latest()
             ->first();
 
-        return view(
-            'students.mentors.show',
-            compact('mentor', 'existingRequest')
-        );
+        $activeMentorship = \App\Models\Mentorship::where('student_id', Auth::id())
+            ->where('mentor_id', $mentor->id)
+            ->where('status', 'active')
+            ->first();
+
+        return view('students.mentors.show', compact('mentor', 'existingRequest', 'activeMentorship'));
     }
 
-    // GET /student/mentors/{mentor}/request
+    // GET /student/mentors/{mentor}/request — "Submit Mentorship Request" form
     public function requestForm(User $mentor)
     {
         abort_unless(
-            $mentor->role === 'mentor' &&
-            $mentor->verification_status === 'approved',
+            $mentor->role === 'mentor' && $mentor->verification_status === 'approved',
             404
         );
 
@@ -87,25 +82,19 @@ class MentorController extends Controller
     public function storeRequest(Request $request, User $mentor)
     {
         abort_unless(
-            $mentor->role === 'mentor' &&
-            $mentor->verification_status === 'approved',
+            $mentor->role === 'mentor' && $mentor->verification_status === 'approved',
             404
         );
 
         $duplicate = MentorshipRequest::where('student_id', Auth::id())
             ->where('mentor_id', $mentor->id)
-            ->whereIn('status', [
-                'pending',
-                'accepted',
-                'admin_verification',
-                'active',
-            ])
+            ->whereIn('status', ['pending', 'accepted', 'time_suggested'])
             ->exists();
 
         if ($duplicate) {
             return back()->withErrors([
                 'mentor' => 'You already have an active or pending request with this mentor.',
-            ]);
+            ])->withInput();
         }
 
         $data = $request->validate([
@@ -127,10 +116,7 @@ class MentorController extends Controller
         ]);
 
         return redirect()
-            ->route('student.requests.index')
-            ->with(
-                'success',
-                'Mentorship request sent to ' . $mentor->name . '.'
-            );
+            ->route('student.mentorship.index')
+            ->with('success', 'Mentorship request sent to ' . $mentor->name . '.');
     }
 }

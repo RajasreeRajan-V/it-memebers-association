@@ -11,20 +11,60 @@ class MentorshipFeedback extends Model
 
     protected $table = 'mentorship_feedbacks';
 
-    protected $fillable = ['mentorship_id', 'student_id', 'mentor_id', 'rating', 'comment'];
+    protected $fillable = [
+        'session_id',
+        'mentorship_id',
+        'student_id',
+        'mentor_id',
+        'rating',
+        'comment',
+    ];
 
+    protected $casts = [
+        'rating' => 'integer',
+    ];
+
+    /**
+     * Feedback belongs to a mentorship session.
+     */
+    public function session()
+    {
+        return $this->belongsTo(
+            MentorshipSession::class,
+            'session_id'
+        );
+    }
+
+    /**
+     * Feedback belongs to a mentorship.
+     */
     public function mentorship()
     {
-        return $this->belongsTo(Mentorship::class);
+        return $this->belongsTo(
+            Mentorship::class,
+            'mentorship_id'
+        );
     }
 
-    public function mentor()
-    {
-        return $this->belongsTo(Member::class, 'mentor_id');
-    }
-
+    /**
+     * Feedback belongs to the student.
+     */
     public function student()
     {
-        return $this->belongsTo(Member::class, 'student_id');
+        return $this->belongsTo(
+            User::class,
+            'student_id'
+        );
+    }
+
+    /**
+     * Feedback belongs to the mentor.
+     */
+    public function mentor()
+    {
+        return $this->belongsTo(
+            User::class,
+            'mentor_id'
+        );
     }
 }
