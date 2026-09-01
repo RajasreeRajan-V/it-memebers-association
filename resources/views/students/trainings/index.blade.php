@@ -9,19 +9,20 @@
 <style>
     /* =========================================================
        TECH LEADERS NETWORK - STUDENT TRAININGS
-       Design matched with Student Mentorship section
+       Design matched with Student Mentorship / Mock Interview section
     ========================================================= */
 
     :root {
         --training-primary: #3376F2;
         --training-primary-dark: #245ED1;
         --training-purple: #7C4DFF;
-        --training-green: #20B486;
+        --training-green: #16A34A;
         --training-bg: #F6F8FC;
         --training-card: #FFFFFF;
         --training-text: #172033;
         --training-muted: #667085;
         --training-border: #E5EAF2;
+        --training-shadow: 0 8px 28px rgba(31, 41, 55, 0.07);
     }
 
     .training-page {
@@ -31,265 +32,235 @@
     }
 
     /* =========================================================
-       HERO SECTION
+       HERO SECTION (grid-based, matches Mock Interviews page)
     ========================================================= */
 
     .training-hero {
         background: #fff;
         border: 1px solid var(--training-border);
-        border-radius: 18px;
-        padding: 42px 48px;
+        border-radius: 24px;
+        padding: 44px 46px;
         margin-bottom: 28px;
         position: relative;
         overflow: hidden;
-        min-height: 350px;
+        box-shadow: var(--training-shadow);
     }
 
-    .training-hero::before {
-        content: "";
-        position: absolute;
-        width: 260px;
-        height: 260px;
-        background: rgba(51, 118, 242, 0.05);
-        border-radius: 50%;
-        right: 290px;
-        top: -110px;
-    }
-
-    .training-hero-content {
+    .hero-grid {
         position: relative;
         z-index: 2;
+        display: grid;
+        grid-template-columns: 1.15fr auto 1fr;
+        gap: 30px;
+        align-items: center;
     }
 
     .training-label {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 9px 16px;
-        background: #EEF4FF;
+        background: #EAF1FF;
         color: var(--training-primary);
-        border-radius: 30px;
-        font-size: 14px;
-        font-weight: 600;
+        border: 1px solid #D9E6FF;
+        padding: 7px 15px;
+        border-radius: 999px;
+        font-size: 12.5px;
+        font-weight: 700;
         margin-bottom: 18px;
     }
 
-    .training-label i {
-        font-size: 15px;
-    }
-
     .training-hero-title {
-        font-size: 40px;
-        line-height: 1.15;
-        font-weight: 700;
+        font-size: 36px;
+        line-height: 1.18;
+        font-weight: 800;
+        margin: 0 0 14px;
+        letter-spacing: -0.6px;
         color: var(--training-text);
-        margin: 0;
-        letter-spacing: -1px;
     }
 
     .training-hero-title span {
-        color: var(--training-primary);
+        display: block;
+        background: linear-gradient(90deg, var(--training-primary), var(--training-purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
     }
 
     .training-hero-description {
-        font-size: 16px;
-        line-height: 1.7;
-        color: #64748B;
-        max-width: 560px;
-        margin: 18px 0 24px;
+        margin: 0 0 26px;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--training-muted);
+        max-width: 480px;
     }
-
-    /* =========================================================
-       HERO ACTIONS
-    ========================================================= */
 
     .training-actions {
         display: flex;
+        align-items: center;
         gap: 12px;
         flex-wrap: wrap;
+    }
+
+    .training-btn-primary,
+    .training-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 13px 22px;
+        border-radius: 12px;
+        transition: 0.2s ease;
+        border: 1px solid transparent;
     }
 
     .training-btn-primary {
         background: var(--training-primary);
         color: #fff !important;
-        border: none;
-        padding: 12px 22px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 7px 18px rgba(51, 118, 242, 0.18);
-        transition: all .2s ease;
+        box-shadow: 0 10px 22px rgba(51,118,242,0.24);
     }
 
     .training-btn-primary:hover {
         background: var(--training-primary-dark);
-        transform: translateY(-1px);
         color: #fff !important;
+        transform: translateY(-1px);
     }
 
     .training-btn-outline {
         background: #fff;
-        color: var(--training-primary) !important;
-        border: 1px solid #D7E1F5;
-        padding: 12px 22px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        transition: all .2s ease;
+        color: var(--training-text) !important;
+        border-color: #DDE3EC;
     }
 
     .training-btn-outline:hover {
         border-color: var(--training-primary);
-        background: #F7F9FF;
         color: var(--training-primary) !important;
     }
 
-    /* =========================================================
-       HERO ILLUSTRATION
-    ========================================================= */
+    /* -- illustration -- */
 
     .training-illustration {
+        position: relative;
+        width: 170px;
+        height: 190px;
+        flex-shrink: 0;
+        margin: 0 auto;
+    }
+
+    .training-illustration-circle {
         position: absolute;
-        right: 330px;
-        top: 90px;
+        top: 0;
+        left: 10px;
         width: 150px;
         height: 150px;
-        background: #F5F8FF;
         border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: linear-gradient(135deg, #EAF1FF, #F3EEFF);
     }
 
     .training-illustration-card {
-        width: 92px;
-        height: 112px;
+        position: absolute;
+        left: 34px;
+        top: 46px;
+        width: 108px;
+        height: 130px;
         background: #fff;
-        border: 1px solid #DDE6F7;
-        border-radius: 10px;
-        transform: rotate(-5deg);
-        box-shadow: 0 10px 25px rgba(31, 65, 114, .08);
-        padding: 15px;
-        position: relative;
+        border-radius: 16px;
+        box-shadow: 0 14px 30px rgba(31,41,55,0.13);
+        padding: 16px 14px;
     }
 
     .training-illustration-icon {
-        width: 28px;
-        height: 28px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
-        background: #DDEAFF;
-        margin-bottom: 10px;
+        background: #DCE8FF;
+        margin-bottom: 12px;
     }
 
     .training-line {
-        height: 5px;
-        background: #DCE5F5;
-        border-radius: 10px;
-        margin-bottom: 7px;
+        height: 6px;
+        border-radius: 4px;
+        background: #EEF1F6;
+        margin-bottom: 8px;
     }
 
-    .training-line.short {
-        width: 55%;
-    }
+    .training-line.medium { width: 80%; }
+    .training-line.short { width: 55%; }
 
-    .training-line.medium {
-        width: 75%;
+    .training-small-badge {
+        position: absolute;
+        right: -8px;
+        bottom: 6px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--training-primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        border: 4px solid #fff;
+        box-shadow: 0 8px 16px rgba(51,118,242,0.30);
     }
 
     .training-check {
         position: absolute;
-        right: -20px;
-        top: 2px;
-        width: 36px;
-        height: 36px;
-        background: #E5FAF1;
+        top: -6px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #E9FBF0;
+        border: 1px solid #CFF5DC;
         color: var(--training-green);
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 6px 15px rgba(32, 180, 134, .12);
+        font-size: 15px;
     }
 
-    .training-small-badge {
-        position: absolute;
-        bottom: 8px;
-        right: -18px;
-        width: 48px;
-        height: 48px;
-        background: #fff;
-        border: 5px solid #EEF4FF;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--training-primary);
-        font-size: 18px;
-    }
-
-    /* =========================================================
-       HERO FEATURES
-    ========================================================= */
+    /* -- feature list -- */
 
     .training-features {
-        position: absolute;
-        right: 45px;
-        top: 75px;
-        width: 245px;
-        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
     }
 
     .training-feature {
         display: flex;
-        align-items: center;
-        gap: 13px;
-        margin-bottom: 25px;
+        align-items: flex-start;
+        gap: 12px;
     }
 
     .training-feature-icon {
         width: 38px;
         height: 38px;
-        min-width: 38px;
-        border-radius: 9px;
+        border-radius: 11px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
+        flex-shrink: 0;
     }
 
-    .training-feature-icon.blue {
-        background: #EEF4FF;
-        color: var(--training-primary);
-    }
-
-    .training-feature-icon.purple {
-        background: #F1EAFF;
-        color: var(--training-purple);
-    }
-
-    .training-feature-icon.green {
-        background: #E8F9F2;
-        color: var(--training-green);
-    }
+    .training-feature-icon.blue { background: #EAF1FF; color: var(--training-primary); }
+    .training-feature-icon.purple { background: #F3EEFF; color: var(--training-purple); }
+    .training-feature-icon.green { background: #E9FBF0; color: var(--training-green); }
 
     .training-feature-title {
-        font-size: 14px;
+        font-size: 13.5px;
         font-weight: 700;
-        color: #172033;
-        margin-bottom: 4px;
+        color: var(--training-text);
+        margin-bottom: 2px;
     }
 
     .training-feature-text {
         font-size: 12px;
-        color: #8A94A6;
+        color: var(--training-muted);
+        line-height: 1.5;
     }
 
     /* =========================================================
@@ -574,35 +545,16 @@
 
     @media (max-width: 1100px) {
 
+        .hero-grid {
+            grid-template-columns: 1fr;
+        }
+
         .training-illustration {
-            right: 280px;
-        }
-
-        .training-features {
-            right: 25px;
-            width: 220px;
-        }
-
-        .training-hero {
-            padding-left: 35px;
+            margin: 8px 0 0;
         }
     }
 
     @media (max-width: 900px) {
-
-        .training-hero {
-            min-height: auto;
-            padding: 35px;
-        }
-
-        .training-illustration,
-        .training-features {
-            display: none;
-        }
-
-        .training-hero-description {
-            max-width: 650px;
-        }
 
         .training-search-form {
             flex-wrap: wrap;
@@ -621,24 +573,27 @@
         }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
 
         .training-page {
             padding: 15px;
         }
 
         .training-hero {
-            padding: 28px 22px;
-            border-radius: 14px;
+            padding: 28px 24px;
+            border-radius: 19px;
         }
 
         .training-hero-title {
-            font-size: 31px;
+            font-size: 27px;
         }
 
-        .training-hero-description {
-            font-size: 14px;
+        .training-features {
+            width: 100%;
         }
+    }
+
+    @media (max-width: 600px) {
 
         .training-actions {
             flex-direction: column;
@@ -664,6 +619,13 @@
             font-size: 20px;
         }
     }
+
+    @media (max-width: 500px) {
+
+        .training-illustration {
+            display: none;
+        }
+    }
 </style>
 
 
@@ -675,127 +637,125 @@
 
     <div class="training-hero">
 
-        <div class="training-hero-content">
+        <div class="hero-grid">
 
-            <div class="training-label">
-                <i class="bi bi-mortarboard-fill"></i>
-                Student Training
+            {{-- LEFT: copy + actions --}}
+            <div class="training-hero-content">
+
+                <div class="training-label">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    Student Training
+                </div>
+
+                <h1 class="training-hero-title">
+                    Learn New Skills
+                    <span>Build Your Future</span>
+                </h1>
+
+                <p class="training-hero-description">
+                    Explore expert-led training programs, strengthen your technical
+                    skills, and prepare yourself for real-world career opportunities
+                    with industry-focused learning.
+                </p>
+
+                <div class="training-actions">
+
+                    <a href="#available-trainings" class="training-btn-primary">
+                        <i class="bi bi-grid-fill"></i>
+                        Explore Trainings
+                    </a>
+
+                    <a href="#training-search" class="training-btn-outline">
+                        <i class="bi bi-search"></i>
+                        Find a Training
+                    </a>
+
+                </div>
+
             </div>
 
-            <h1 class="training-hero-title">
-                Learn New Skills<br>
-                <span>Build Your Future</span>
-            </h1>
 
-            <p class="training-hero-description">
-                Explore expert-led training programs, strengthen your technical
-                skills, and prepare yourself for real-world career opportunities
-                with industry-focused learning.
-            </p>
+            {{-- CENTER: illustration --}}
+            <div class="training-illustration">
 
-            <div class="training-actions">
+                <div class="training-illustration-circle"></div>
 
-                <a href="#available-trainings" class="training-btn-primary">
-                    <i class="bi bi-grid-fill"></i>
-                    Explore Trainings
-                </a>
-
-                <a href="#training-search" class="training-btn-outline">
-                    <i class="bi bi-search"></i>
-                    Find a Training
-                </a>
-
-            </div>
-
-        </div>
-
-
-        {{-- =================================================
-             CENTER ILLUSTRATION
-        ================================================== --}}
-
-        <div class="training-illustration">
-
-            <div class="training-illustration-card">
-
-                <div class="training-illustration-icon"></div>
-
-                <div class="training-line"></div>
-                <div class="training-line medium"></div>
-                <div class="training-line"></div>
-                <div class="training-line short"></div>
-
-                <div class="training-check">
-                    <i class="bi bi-check-lg"></i>
+                <div class="training-illustration-card">
+                    <div class="training-illustration-icon"></div>
+                    <div class="training-line"></div>
+                    <div class="training-line medium"></div>
+                    <div class="training-line"></div>
+                    <div class="training-line short"></div>
                 </div>
 
                 <div class="training-small-badge">
                     <i class="bi bi-mortarboard-fill"></i>
                 </div>
 
-            </div>
-
-        </div>
-
-
-        {{-- =================================================
-             FEATURE LIST
-        ================================================== --}}
-
-        <div class="training-features">
-
-            <div class="training-feature">
-
-                <div class="training-feature-icon blue">
-                    <i class="bi bi-person-workspace"></i>
-                </div>
-
-                <div>
-                    <div class="training-feature-title">
-                        Expert-Led Training
-                    </div>
-
-                    <div class="training-feature-text">
-                        Learn directly from professionals
-                    </div>
+                <div class="training-check">
+                    <i class="bi bi-check-lg"></i>
                 </div>
 
             </div>
 
 
-            <div class="training-feature">
+            {{-- RIGHT: feature list --}}
+            <div class="training-features">
 
-                <div class="training-feature-icon purple">
-                    <i class="bi bi-lightbulb-fill"></i>
+                <div class="training-feature">
+
+                    <div class="training-feature-icon blue">
+                        <i class="bi bi-person-workspace"></i>
+                    </div>
+
+                    <div>
+                        <div class="training-feature-title">
+                            Expert-Led Training
+                        </div>
+
+                        <div class="training-feature-text">
+                            Learn directly from professionals
+                        </div>
+                    </div>
+
                 </div>
 
-                <div>
-                    <div class="training-feature-title">
-                        Practical Learning
+
+                <div class="training-feature">
+
+                    <div class="training-feature-icon purple">
+                        <i class="bi bi-lightbulb-fill"></i>
                     </div>
 
-                    <div class="training-feature-text">
-                        Build skills through real projects
+                    <div>
+                        <div class="training-feature-title">
+                            Practical Learning
+                        </div>
+
+                        <div class="training-feature-text">
+                            Build skills through real projects
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
 
+                <div class="training-feature">
 
-            <div class="training-feature">
-
-                <div class="training-feature-icon green">
-                    <i class="bi bi-graph-up-arrow"></i>
-                </div>
-
-                <div>
-                    <div class="training-feature-title">
-                        Career Growth
+                    <div class="training-feature-icon green">
+                        <i class="bi bi-graph-up-arrow"></i>
                     </div>
 
-                    <div class="training-feature-text">
-                        Improve your skills and confidence
+                    <div>
+                        <div class="training-feature-title">
+                            Career Growth
+                        </div>
+
+                        <div class="training-feature-text">
+                            Improve your skills and confidence
+                        </div>
                     </div>
+
                 </div>
 
             </div>

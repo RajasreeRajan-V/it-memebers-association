@@ -6,12 +6,12 @@ use App\Http\Controllers\Mentor\MentorDashboardController;
 use App\Http\Controllers\Mentor\MenteeController;
 use App\Http\Controllers\Mentor\ResumeReviewController;
 use App\Http\Controllers\Mentor\WebinarController;
-use App\Http\Controllers\Mentor\MockInterviewController;
 use App\Http\Controllers\Mentor\WebinarAttendanceController;
 use App\Http\Controllers\Mentor\SessionSchedulingController;
 use App\Http\Controllers\Mentor\SessionLifecycleController;
 use App\Http\Controllers\Mentor\CompleteMentorshipController;
 use App\Http\Controllers\Mentor\TrainingController as MentorTrainingController;
+use App\Http\Controllers\Mentor\MockInterviewController as MentorMockInterviewController;
 
 Route::middleware(['member.auth'])
     ->prefix('mentor')
@@ -186,7 +186,14 @@ Route::middleware(['member.auth'])
             [WebinarController::class, 'registrations']
         )->name('webinars.registrations.index');
 
-     Route::prefix('trainings')->name('trainings.')->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Trainings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('trainings')->name('trainings.')->group(function () {
             Route::get('/',              [MentorTrainingController::class, 'index'])->name('index');
             Route::get('/create',        [MentorTrainingController::class, 'create'])->name('create');
             Route::post('/',             [MentorTrainingController::class, 'store'])->name('store');
@@ -196,6 +203,8 @@ Route::middleware(['member.auth'])
             Route::delete('/{training}', [MentorTrainingController::class, 'destroy'])->name('destroy');
             Route::post('/{training}/submit', [MentorTrainingController::class, 'submit'])->name('submit');
         });
+
+
         /*
         |--------------------------------------------------------------------------
         | Webinar Attendance & Resources
@@ -227,31 +236,20 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         | Mock Interviews
         |--------------------------------------------------------------------------
+        | Inherits the 'mentor' prefix and 'member.auth' middleware from the
+        | outer group above, so these register as:
+        |   mentor.mock-interviews.index   -> GET  /mentor/mock-interviews
+        |   mentor.mock-interviews.show    -> GET  /mentor/mock-interviews/{mockInterview}
+        |   etc.
         */
 
-        Route::get(
-            '/mock-interviews',
-            [MockInterviewController::class, 'index']
-        )->name('mock-interviews.index');
-
-        Route::get(
-            '/mock-interviews/{interview}',
-            [MockInterviewController::class, 'show']
-        )->name('mock-interviews.show');
-
-        Route::post(
-            '/mock-interviews/{interview}/schedule',
-            [MockInterviewController::class, 'schedule']
-        )->name('mock-interviews.schedule');
-
-        Route::post(
-            '/mock-interviews/{interview}/conduct',
-            [MockInterviewController::class, 'conduct']
-        )->name('mock-interviews.conduct');
-
-        Route::post(
-            '/mock-interviews/{interview}/feedback',
-            [MockInterviewController::class, 'submitFeedback']
-        )->name('mock-interviews.feedback');
+        Route::prefix('mock-interviews')->name('mock-interviews.')->group(function () {
+            Route::get('/', [MentorMockInterviewController::class, 'index'])->name('index');
+            Route::get('/{mockInterview}', [MentorMockInterviewController::class, 'show'])->name('show');
+            Route::patch('/{mockInterview}/schedule', [MentorMockInterviewController::class, 'schedule'])->name('schedule');
+            Route::patch('/{mockInterview}/complete', [MentorMockInterviewController::class, 'complete'])->name('complete');
+            Route::patch('/{mockInterview}/cancel', [MentorMockInterviewController::class, 'cancel'])->name('cancel');
+            Route::post('/{mockInterview}/feedback', [MentorMockInterviewController::class, 'storeFeedback'])->name('feedback');
+        });
 
     });

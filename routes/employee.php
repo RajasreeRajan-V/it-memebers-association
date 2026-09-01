@@ -8,7 +8,7 @@ use App\Http\Controllers\Employee\LegalHelpController;
 use App\Http\Controllers\Employee\WebinarController;
 use App\Http\Controllers\Employee\WebinarFeedbackController;
 use App\Http\Controllers\Employee\CertificateController;
-
+use App\Http\Controllers\Employee\TrainingController as EmployeeTrainingController;
 Route::middleware(['member.auth'])
     ->name('employee.')
     ->group(function () {
@@ -82,7 +82,10 @@ Route::middleware(['member.auth'])
             ->name('articles.comments.destroy');
 
 
-
+  Route::prefix('trainings')->name('trainings.')->group(function () {
+            Route::get('/', [EmployeeTrainingController::class, 'index'])->name('index');
+            Route::get('/{training}', [EmployeeTrainingController::class, 'show'])->name('show');
+        });
 
                     // Webinars
         Route::get('/webinars', [WebinarController::class, 'index'])

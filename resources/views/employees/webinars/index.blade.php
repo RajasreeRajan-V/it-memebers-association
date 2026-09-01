@@ -4,302 +4,364 @@
 
 @section('content')
 
-@if(session('success'))
-    <div class="registration-success">
-        {{ session('success') }}
-    </div>
-@endif
+@push('styles')
+{{-- Remove this <script> tag if Tailwind is already compiled into your app's build.
+     Kept here only so this page renders standalone for preview. --}}
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+</style>
+@endpush
 
-@if(session('error'))
-    <div class="registration-error">
-        {{ session('error') }}
-    </div>
-@endif
+<div class="bg-white min-h-screen overflow-x-hidden">
 
-{{-- ===== Hero ===== --}}
-<section class="hero">
-    <div class="container hero-inner">
-        <div>
-            <span class="eyebrow">Events &amp; Webinars</span>
-            <h1>Learn. Connect. <span class="accent-text">Grow.</span></h1>
-            <p class="hero-sub">
-                Join live sessions with mentors, attend webinars and workshops,
-                and sharpen your skills for what's next.
-            </p>
-            <div class="hero-actions">
-                <a href="#event-list" class="btn btn-primary btn-lg">Browse Events</a>
-                <a href="{{ route('employee.webinars.my') }}" class="btn btn-outline btn-lg">My Webinars</a>
+    @if(session('success'))
+        <div class="max-w-6xl mx-auto px-6 pt-6">
+            <div class="rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-700 font-semibold text-sm px-5 py-3.5">
+                {{ session('success') }}
             </div>
         </div>
+    @endif
 
-        <div class="hero-visual">
-            <div class="hero-blob"></div>
-            <div class="hero-dots"></div>
-
-            <div class="hero-float-chip hero-float-chip-brand">
-                <span class="hero-float-chip-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 3v13.5l-5.25-3.75m-9.75 3.75h9.75V4.5H1.5v12h6.75z"/></svg>
-                </span>
-                <span class="hero-float-chip-text">
-                    <strong>{{ $counts['all'] }}</strong>
-                    <span>Live Events</span>
-                </span>
-            </div>
-
-            <div class="hero-float-chip hero-float-chip-round">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.75 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>
-            </div>
-
-            <div class="hero-float-chip hero-float-chip-person">
-                <span class="hero-float-chip-avatar">M</span>
-                <span class="hero-float-chip-text">
-                    <strong>Mentor-led</strong>
-                    <span>Small groups</span>
-                </span>
+    @if(session('error'))
+        <div class="max-w-6xl mx-auto px-6 pt-6">
+            <div class="rounded-xl border border-red-200 bg-red-50 text-red-700 font-semibold text-sm px-5 py-3.5">
+                {{ session('error') }}
             </div>
         </div>
-    </div>
-</section>
+    @endif
 
-<div class="container" id="event-list" style="display:grid;grid-template-columns:200px 1fr 300px;gap:24px;padding:48px 0 72px;align-items:start;">
+    {{-- ============ HERO ============ --}}
+    <div class="bg-gradient-to-b from-[#F5F8FF] to-white border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
 
-    {{-- ===== Filters ===== --}}
-    <aside class="sidebar-card" style="padding:14px;">
-        <form method="GET" action="{{ route('employee.webinars') }}">
-            <div class="sidebar-card-header" style="margin-bottom:10px;">
-                <h3 style="font-size:12.5px;">Filters</h3>
-                <a href="{{ route('employee.webinars') }}" style="font-size:11px;">Clear all</a>
-            </div>
+            {{-- Left: text content --}}
+            <div class="flex flex-col items-start text-left">
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100/70 px-3.5 py-1.5 rounded-full mb-5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.25 6.75L22.5 3v13.5l-5.25-3.75m-9.75 3.75h9.75V4.5H1.5v12h6.75z"/>
+                    </svg>
+                    EVENTS &amp; WEBINARS
+                </span>
 
-            {{-- Search --}}
-            <div class="form-row" style="margin-bottom:14px;gap:4px;">
-                <label for="q" style="font-size:12px;">Search Events</label>
-                <input type="text" id="q" name="q" value="{{ $search }}" placeholder="Search events..." style="padding:7px 10px;font-size:12.5px;">
-            </div>
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+                    Learn. Connect.<br>
+                    <span class="text-blue-600">Grow.</span>
+                </h1>
 
-            {{-- Event type --}}
-            <div style="margin-bottom:14px;">
-                <label style="font-size:11.5px;font-weight:600;color:var(--primary);display:block;margin-bottom:6px;">Event Type</label>
-                <div class="role-radio-grid" style="grid-template-columns:1fr;gap:6px;">
-                    <label class="role-radio-card" style="padding:7px 10px;">
-                        <input type="radio" name="type" value="" {{ !$activeType ? 'checked' : '' }} onchange="this.form.submit()">
-                        <span class="radio-circle" style="width:16px;height:16px;"></span>
-                        <span class="radio-label" style="font-size:12px;">All Types ({{ $counts['all'] }})</span>
-                    </label>
-                    <label class="role-radio-card" style="padding:7px 10px;">
-                        <input type="radio" name="type" value="webinar" {{ $activeType === 'webinar' ? 'checked' : '' }} onchange="this.form.submit()">
-                        <span class="radio-circle" style="width:16px;height:16px;"></span>
-                        <span class="radio-label" style="font-size:12px;">Webinars ({{ $counts['webinar'] }})</span>
-                    </label>
-                    <label class="role-radio-card" style="padding:7px 10px;">
-                        <input type="radio" name="type" value="workshop" {{ $activeType === 'workshop' ? 'checked' : '' }} onchange="this.form.submit()">
-                        <span class="radio-circle" style="width:16px;height:16px;"></span>
-                        <span class="radio-label" style="font-size:12px;">Workshops ({{ $counts['workshop'] }})</span>
-                    </label>
+                <p class="text-slate-500 text-base mb-7 max-w-md">
+                    Join live sessions with mentors, attend webinars and workshops,
+                    and sharpen your skills for what's next.
+                </p>
+
+                <div class="flex items-center gap-3">
+                    <a href="#event-list" class="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 hover:bg-blue-700 transition">
+                        Browse Events
+                    </a>
+                    <a href="{{ route('employee.webinars.my') }}" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 text-sm font-semibold px-5 py-2.5 hover:border-blue-400 hover:text-blue-600 transition">
+                        My Webinars
+                    </a>
                 </div>
             </div>
 
-            {{-- Date --}}
-            <div style="margin-bottom:16px;">
-                <label style="font-size:11.5px;font-weight:600;color:var(--primary);display:block;margin-bottom:6px;">Date</label>
-                <div class="role-radio-grid" style="grid-template-columns:1fr;gap:6px;">
-                    @foreach(['' => 'All', 'today' => 'Today', 'week' => 'This Week', 'month' => 'This Month'] as $value => $label)
-                        <label class="role-radio-card" style="padding:7px 10px;">
-                            <input type="radio" name="date" value="{{ $value }}"
-                                   {{ $activeDate === $value || (!$activeDate && $value === '') ? 'checked' : '' }}
-                                   onchange="this.form.submit()">
-                            <span class="radio-circle" style="width:16px;height:16px;"></span>
-                            <span class="radio-label" style="font-size:12px;">{{ $label }}</span>
-                        </label>
+            {{-- Right: hero image with floating stat chips --}}
+            <div class="relative flex justify-center md:justify-end">
+                <img
+                    src="{{ asset('assets/img/web.png') }}"
+                    alt="Events and webinars hero"
+                    class="w-full max-w-sm h-auto rounded-xl object-cover"
+                    onerror="this.style.display='none'"
+                >
+
+                <div class="absolute top-4 left-0 md:left-4 flex items-center gap-2 bg-white rounded-xl shadow-lg shadow-blue-900/10 px-4 py-2.5">
+                    <span class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17.25 6.75L22.5 3v13.5l-5.25-3.75m-9.75 3.75h9.75V4.5H1.5v12h6.75z"/>
+                        </svg>
+                    </span>
+                    <span class="text-sm font-semibold text-slate-800 whitespace-nowrap">
+                        {{ $counts['all'] }} Live Events
+                    </span>
+                </div>
+
+                <div class="absolute top-1/2 -translate-y-1/2 right-0 md:-right-4 w-11 h-11 rounded-full bg-white shadow-lg shadow-blue-900/10 flex items-center justify-center text-blue-600">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.75 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+                </div>
+
+                <div class="absolute bottom-6 left-0 md:-left-6 flex items-center gap-2 bg-white rounded-xl shadow-lg shadow-blue-900/10 px-4 py-2.5">
+                    <span class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-700 font-bold text-sm">
+                        M
+                    </span>
+                    <span class="text-sm font-semibold text-slate-800 whitespace-nowrap">
+                        Mentor-led <span class="block text-xs font-medium text-slate-400">Small groups</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ============ BODY ============ --}}
+    <div class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-[260px_1fr_300px] gap-6" id="event-list">
+
+        {{-- ---------- LEFT: Filters ---------- --}}
+        <aside class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 h-fit lg:sticky lg:top-6">
+            <form method="GET" action="{{ route('employee.webinars') }}">
+
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-slate-800">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M7 12h10M10 18h4"/>
+                        </svg>
+                        Filters
+                    </h3>
+                    <a href="{{ route('employee.webinars') }}" class="text-sm font-medium text-blue-600 hover:underline">Clear all</a>
+                </div>
+
+                {{-- Search --}}
+                <div class="py-4 border-b border-slate-100">
+                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Search Events</h4>
+                    <input
+                        type="text" id="q" name="q" value="{{ $search }}"
+                        placeholder="Search events..."
+                        class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                    >
+                </div>
+
+                {{-- Event type --}}
+                <div class="py-4 border-b border-slate-100">
+                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Event Type</h4>
+                    <ul class="space-y-1">
+                        <li>
+                            <label class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm cursor-pointer transition
+                                          {{ !$activeType ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                <input type="radio" name="type" value="" {{ !$activeType ? 'checked' : '' }}
+                                       class="accent-blue-600" onchange="this.form.submit()">
+                                All Types ({{ $counts['all'] }})
+                            </label>
+                        </li>
+                        <li>
+                            <label class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm cursor-pointer transition
+                                          {{ $activeType === 'webinar' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                <input type="radio" name="type" value="webinar" {{ $activeType === 'webinar' ? 'checked' : '' }}
+                                       class="accent-blue-600" onchange="this.form.submit()">
+                                Webinars ({{ $counts['webinar'] }})
+                            </label>
+                        </li>
+                        <li>
+                            <label class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm cursor-pointer transition
+                                          {{ $activeType === 'workshop' ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                <input type="radio" name="type" value="workshop" {{ $activeType === 'workshop' ? 'checked' : '' }}
+                                       class="accent-blue-600" onchange="this.form.submit()">
+                                Workshops ({{ $counts['workshop'] }})
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+
+                {{-- Date --}}
+                <div class="py-4">
+                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Date</h4>
+                    <ul class="space-y-1">
+                        @foreach(['' => 'All', 'today' => 'Today', 'week' => 'This Week', 'month' => 'This Month'] as $value => $label)
+                            @php $isActive = $activeDate === $value || (!$activeDate && $value === ''); @endphp
+                            <li>
+                                <label class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-sm cursor-pointer transition
+                                              {{ $isActive ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                    <input type="radio" name="date" value="{{ $value }}" {{ $isActive ? 'checked' : '' }}
+                                           class="accent-blue-600" onchange="this.form.submit()">
+                                    {{ $label }}
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <button type="submit" class="w-full rounded-lg bg-blue-600 text-white text-sm font-medium py-2 hover:bg-blue-700 transition">
+                    Apply Filters
+                </button>
+            </form>
+        </aside>
+
+        {{-- ---------- CENTER: Event list ---------- --}}
+        <main>
+            <div class="flex items-center justify-between gap-4 mb-5">
+                <div>
+                    <h2 class="text-[13px] font-bold text-slate-500 uppercase tracking-[0.12em]">All Events</h2>
+                    <p class="text-sm text-slate-400 mt-1">
+                        {{ $events->total() }} {{ \Illuminate\Support\Str::plural('event', $events->total()) }} found
+                    </p>
+                </div>
+
+                <form method="GET" action="{{ route('employee.webinars') }}" class="flex items-center gap-2 shrink-0">
+                    @foreach(request()->except(['sort', 'page']) as $key => $value)
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endforeach
+                    <label class="text-sm font-medium text-slate-500">Sort by:</label>
+                    <select name="sort" onchange="this.form.submit()"
+                            class="border border-slate-200 rounded-md text-sm font-medium py-1.5 px-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                        <option value="upcoming" {{ $activeSort === 'upcoming' ? 'selected' : '' }}>Upcoming</option>
+                        <option value="newest" {{ $activeSort === 'newest' ? 'selected' : '' }}>Newest</option>
+                    </select>
+                </form>
+            </div>
+
+            @if($events->isEmpty())
+                <div class="bg-white border border-slate-200 rounded-xl text-center text-slate-400 py-14 text-base font-medium">
+                    No events match your filters right now. Try clearing filters or check back soon.
+                </div>
+            @else
+                <div class="space-y-3">
+                    @foreach($events as $event)
+                        @php
+                            $isWorkshop = $event->type === 'workshop';
+                            $scheduledDate = \Illuminate\Support\Carbon::parse($event->scheduled_date);
+                            $scheduledTime = $event->scheduled_time
+                                ? (function () use ($event) {
+                                    try {
+                                        return \Illuminate\Support\Carbon::parse($event->scheduled_time)->format('h:i A');
+                                    } catch (\Throwable $e) {
+                                        return $event->scheduled_time;
+                                    }
+                                })()
+                                : null;
+                        @endphp
+                        <article class="bg-white border border-slate-200 rounded-xl px-4 py-3.5 hover:shadow-sm hover:border-slate-300 transition">
+                            <div class="flex items-start gap-3">
+                                @if($event->banner)
+                                    <img src="{{ Storage::url($event->banner) }}" alt="{{ $event->title }}"
+                                         class="w-14 h-14 object-cover rounded-lg bg-slate-100 shrink-0">
+                                @else
+                                    <span class="w-14 h-14 rounded-lg flex items-center justify-center shrink-0
+                                                 {{ $isWorkshop ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600' }}">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                            @if($isWorkshop)
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            @else
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-2.72a.75.75 0 011.125.65v8.14a.75.75 0 01-1.125.65L15.75 15M4.5 18.75h9a1.5 1.5 0 001.5-1.5v-7.5a1.5 1.5 0 00-1.5-1.5h-9a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5z" />
+                                            @endif
+                                        </svg>
+                                    </span>
+                                @endif
+
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div class="min-w-0">
+                                            <div class="flex items-center flex-wrap gap-2">
+                                                <h3 class="text-[14.5px] font-bold text-slate-900 leading-snug tracking-tight">
+                                                    {{ $event->title }}
+                                                </h3>
+                                                @if($event->category)
+                                                    <span class="inline-flex items-center text-[10px] font-bold tracking-wide text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full uppercase shrink-0">
+                                                        {{ $event->category }}
+                                                    </span>
+                                                @endif
+                                                <span class="inline-flex items-center text-[10px] font-bold tracking-wide {{ $isWorkshop ? 'text-emerald-700 bg-emerald-50' : 'text-blue-700 bg-blue-50' }} px-2 py-0.5 rounded-full uppercase shrink-0">
+                                                    {{ $event->type }}
+                                                </span>
+                                            </div>
+
+                                            <p class="text-[13px] text-slate-500 leading-relaxed line-clamp-2 mt-1.5">
+                                                {{ \Illuminate\Support\Str::limit($event->description, 110) }}
+                                            </p>
+
+                                            <p class="text-[12.5px] text-slate-400 font-medium mt-2">
+                                                {{ $scheduledDate->format('d M, Y') }}
+                                                @if($scheduledTime) &middot; {{ $scheduledTime }} @endif
+                                                @if($event->platform) &middot; {{ $event->platform }} @endif
+                                                @if($event->mentor) &middot; {{ $event->mentor->name }} @endif
+                                            </p>
+                                        </div>
+
+                                        <div class="text-right shrink-0">
+                                            <p class="text-slate-600 font-bold text-[13.5px] flex items-center justify-end gap-1">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                                {{ $event->capacity ?: '—' }}
+                                            </p>
+                                            <p class="text-[11.5px] text-slate-400 font-medium mt-1">
+                                                {{ $scheduledDate->diffForHumans() }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        @include('employees.webinars._action', ['event' => $event, 'myRegistrations' => $myRegistrations])
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
                     @endforeach
                 </div>
-            </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:8px 14px;font-size:0.8rem;">
-                Apply Filters
-            </button>
-        </form>
-    </aside>
+                <div class="mt-6 flex justify-center">
+                    {{ $events->onEachSide(1)->links() }}
+                </div>
+            @endif
+        </main>
 
-    {{-- ===== Main: event list ===== --}}
-    <main>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        {{-- ---------- RIGHT: Upcoming + Categories ---------- --}}
+        <aside class="space-y-6">
+            {{-- Upcoming events --}}
             <div>
-                <h2 style="font-size:1.3rem;font-weight:700;color:var(--primary);font-family:var(--font-display);">All Events</h2>
-                <p style="color:var(--muted);font-size:0.9rem;margin-top:2px;">
-                    {{ $events->total() }} {{ \Illuminate\Support\Str::plural('event', $events->total()) }} found
-                </p>
-            </div>
-            <form method="GET" action="{{ route('employee.webinars') }}" style="display:flex;align-items:center;gap:8px;">
-                @foreach(request()->except(['sort', 'page']) as $key => $value)
-                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
-                @endforeach
-                <label style="font-size:0.85rem;color:var(--muted);">Sort by:</label>
-                <select name="sort" onchange="this.form.submit()" class="mentor-select">
-                    <option value="upcoming" {{ $activeSort === 'upcoming' ? 'selected' : '' }}>Upcoming</option>
-                    <option value="newest" {{ $activeSort === 'newest' ? 'selected' : '' }}>Newest</option>
-                </select>
-            </form>
-        </div>
-
-        @if($events->isEmpty())
-            <div class="sidebar-card" style="text-align:center;padding:60px 20px;color:var(--muted);">
-                No events match your filters right now. Try clearing filters or check back soon.
-            </div>
-        @else
-            <div class="material-list">
-                @foreach($events as $event)
-                    @php
-                        $isWorkshop = $event->type === 'workshop';
-                        $scheduledDate = \Illuminate\Support\Carbon::parse($event->scheduled_date);
-                        $scheduledTime = $event->scheduled_time
-                            ? (function () use ($event) {
-                                try {
-                                    return \Illuminate\Support\Carbon::parse($event->scheduled_time)->format('h:i A');
-                                } catch (\Throwable $e) {
-                                    return $event->scheduled_time;
-                                }
-                            })()
-                            : null;
-                    @endphp
-                    <div class="material-card">
-                        @if($event->banner)
-                            <div class="material-thumb">
-                                <img src="{{ Storage::url($event->banner) }}" alt="{{ $event->title }}">
-                            </div>
-                        @else
-                            <div class="material-icon {{ $isWorkshop ? 'c2' : 'c1' }}">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                                    @if($isWorkshop)
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    @else
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-2.72a.75.75 0 011.125.65v8.14a.75.75 0 01-1.125.65L15.75 15M4.5 18.75h9a1.5 1.5 0 001.5-1.5v-7.5a1.5 1.5 0 00-1.5-1.5h-9a1.5 1.5 0 00-1.5 1.5v7.5a1.5 1.5 0 001.5 1.5z" />
-                                    @endif
-                                </svg>
-                            </div>
-                        @endif
-
-                        <div class="material-card-body">
-                            <h3 class="material-card-title">{{ $event->title }}</h3>
-                            <p class="material-card-desc">{{ \Illuminate\Support\Str::limit($event->description, 110) }}</p>
-
-                            <div class="material-card-tags">
-                                @if($event->category)
-                                    <span class="tag-pill category-pill">{{ strtoupper($event->category) }}</span>
-                                @endif
-                                <span class="tag-pill">{{ strtoupper($event->type) }}</span>
-                            </div>
-
-                            <div class="material-card-meta">
-                                {{ $scheduledDate->format('d M, Y') }}
-                                @if($scheduledTime) &middot; {{ $scheduledTime }} @endif
-                                @if($event->platform) &middot; {{ $event->platform }} @endif
-                                @if($event->mentor) &middot; {{ $event->mentor->name }} @endif
-                            </div>
-                        </div>
-
-                        <div class="material-card-stats">
-                            <div class="stat-top">
-                                <span class="stat-views">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                                    {{ $event->capacity ?: '—' }}
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase">Upcoming Events</h3>
+                    <a href="{{ route('employee.webinars') }}?sort=upcoming" class="text-sm font-medium text-blue-600 hover:underline">View all</a>
+                </div>
+                <ul class="space-y-3">
+                    @forelse($upcoming as $item)
+                        @php $d = \Illuminate\Support\Carbon::parse($item->scheduled_date); @endphp
+                        <li>
+                            <a href="{{ route('employee.webinars.show', $item) }}" class="flex items-center gap-3 group">
+                                <span class="w-11 h-11 rounded-lg bg-blue-50 text-blue-600 font-bold text-sm flex items-center justify-center shrink-0">
+                                    {{ $d->format('d') }}
                                 </span>
-                            </div>
-                            <div class="stat-date">{{ $scheduledDate->diffForHumans() }}</div>
-                            <div style="margin-top:10px;">
-                                @include('employees.webinars._action', ['event' => $event, 'myRegistrations' => $myRegistrations])
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-sm font-medium text-slate-800 group-hover:text-blue-600 leading-snug line-clamp-2">
+                                        {{ $item->title }}
+                                    </p>
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        {{ $d->format('M') }} &middot; {{ $d->format('h:i A') }} &middot; {{ ucfirst($item->type) }}
+                                    </p>
+                                </div>
+                                <span class="text-slate-300 group-hover:text-blue-600 transition shrink-0">&rarr;</span>
+                            </a>
+                        </li>
+                    @empty
+                        <p class="text-sm text-slate-400">No upcoming events yet.</p>
+                    @endforelse
+                </ul>
             </div>
 
-            <div class="mentor-pagination" style="justify-content:center;margin-top:32px;">
-                {{ $events->onEachSide(1)->links() }}
-            </div>
-        @endif
-    </main>
+            {{-- Categories --}}
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+                <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Event Categories</h3>
+                @php $dotColors = ['bg-blue-500', 'bg-emerald-500', 'bg-pink-500', 'bg-amber-500', 'bg-purple-500', 'bg-cyan-500']; @endphp
 
-    {{-- ===== Right sidebar ===== --}}
-    <aside>
-        {{-- Upcoming events --}}
-        <div class="sidebar-card">
-            <div class="sidebar-card-header">
-                <h3>Upcoming Events</h3>
-                <a href="{{ route('employee.webinars') }}?sort=upcoming">View all</a>
-            </div>
-            @forelse($upcoming as $item)
-                @php $d = \Illuminate\Support\Carbon::parse($item->scheduled_date); @endphp
-                <a href="{{ route('employee.webinars.show', $item) }}" style="text-decoration:none;color:inherit;">
-                    <div class="ranked-row">
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <span class="rank">{{ $d->format('d') }}</span>
-                            <span class="name">
-                                {{ $item->title }}
-                                <small>{{ $d->format('M') }} &middot; {{ $d->format('h:i A') }} &middot; {{ ucfirst($item->type) }}</small>
-                            </span>
-                        </div>
-                        <span class="count">&rarr;</span>
-                    </div>
-                </a>
-            @empty
-                <p style="font-size:12.5px;color:var(--muted);">No upcoming events yet.</p>
-            @endforelse
-        </div>
-
-        {{-- Categories --}}
-        <div class="sidebar-card">
-            <div class="sidebar-card-header">
-                <h3>Event Categories</h3>
-            </div>
-            @php $dotColors = ['--blue-fg', '--green-fg', '--pink-fg', '--yellow-fg', '--purple-fg', '--cyan-fg']; @endphp
-            <a href="{{ route('employee.webinars') }}" style="text-decoration:none;color:inherit;">
-                <div class="category-row">
-                    <span style="display:flex;align-items:center;font-weight:{{ !$activeType ? '700' : '400' }};color:{{ !$activeType ? 'var(--secondary)' : 'var(--text)' }};">
-                        <span class="dot" style="background:var(--secondary);"></span>
+                <a href="{{ route('employee.webinars') }}"
+                   class="flex items-center justify-between px-2.5 py-1.5 rounded-md text-sm transition
+                          {{ !$activeType ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                    <span class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-blue-600"></span>
                         All Categories
                     </span>
-                    <span class="count">{{ $counts['all'] }}</span>
-                </div>
-            </a>
-            @foreach($categories as $i => $cat)
-                <a href="{{ route('employee.webinars', ['q' => $cat->category]) }}" style="text-decoration:none;color:inherit;">
-                    <div class="category-row">
-                        <span style="display:flex;align-items:center;">
-                            <span class="dot" style="background:var({{ $dotColors[$i % count($dotColors)] }});"></span>
+                    <span class="text-xs {{ !$activeType ? 'text-blue-500' : 'text-slate-400' }}">{{ $counts['all'] }}</span>
+                </a>
+
+                @foreach($categories as $i => $cat)
+                    <a href="{{ route('employee.webinars', ['q' => $cat->category]) }}"
+                       class="flex items-center justify-between px-2.5 py-1.5 rounded-md text-sm text-slate-600 hover:bg-slate-50 hover:text-slate-800 transition">
+                        <span class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full {{ $dotColors[$i % count($dotColors)] }}"></span>
                             {{ $cat->category }}
                         </span>
-                        <span class="count">{{ $cat->total }}</span>
-                    </div>
-                </a>
-            @endforeach
-        </div>
-    </aside>
+                        <span class="text-xs text-slate-400">{{ $cat->total }}</span>
+                    </a>
+                @endforeach
+            </div>
+        </aside>
+    </div>
 </div>
 
 <style>
-    .registration-success {
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 14px 20px;
-        background: #ecfdf5;
-        border: 1px solid #10b981;
-        color: #047857;
-        border-radius: 10px;
-        font-weight: 600;
-    }
-
-    .registration-error {
-        max-width: 1200px;
-        margin: 20px auto;
-        padding: 14px 20px;
-        background: #fef2f2;
-        border: 1px solid #ef4444;
-        color: #b91c1c;
-        border-radius: 10px;
-        font-weight: 600;
-    }
-
     .status-badge {
         display: inline-block;
         padding: 7px 16px;

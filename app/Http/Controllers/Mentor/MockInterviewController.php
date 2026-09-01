@@ -9,82 +9,106 @@ use Illuminate\Support\Facades\Auth;
 
 class MockInterviewController extends Controller
 {
-    // View interviews assigned by admin to the logged-in mentor
-    public function index()
+    /**
+     * List mock interview requests / sessions for the logged-in mentor.
+     * Optional ?status= filter (pending, scheduled, completed, cancelled).
+     */
+    public function index(Request $request)
     {
-        $interviews = MockInterview::with('student')
-            ->where('mentor_id', Auth::id())
-            ->latest()
-            ->paginate(10);
+        $query = MockInterview::forMentor(Auth::id())->with('student')->latest();
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->query('status'));
+        }
+
+        $interviews = $query->paginate(10)->withQueryString();
 
         return view('mentor.mock-interviews.index', compact('interviews'));
     }
 
-    public function show(MockInterview $interview)
+    /**
+     * Show a single request so the mentor can review details,
+     * schedule it, or leave feedback once completed.
+     */
+    public function show(MockInterview $mockInterview)
     {
-        $this->authorizeInterview($interview);
+        abort_unless($mockInterview->mentor_id === Auth::id(), 403);
 
-        return view('mentor.mock-interviews.show', compact('interview'));
+        $mockInterview->load('student');
+
+        return view('mentor.mock-interviews.show', compact('mockInterview'));
     }
 
-    // Schedule the assigned interview
-    public function schedule(Request $request, MockInterview $interview)
+    /**
+     * Mentor confirms date/time + meeting link. This is what "Admin
+     * Verifies Slot Availability" precedes in the flow — the mentor
+     * submits the slot, admin (or a scheduling service) can validate
+     * it before it flips to 'scheduled'. Here we schedule directly;
+     * swap in an approval step if slot verification is required first.
+     */
+    public function schedule(Request $request, MockInterview $mockInterview)
     {
-        $this->authorizeInterview($interview);
+        abort_unless($mockInterview->mentor_id === Auth::id(), 403);
+        abort_unless($mockInterview->status === 'pending', 422, 'Only pending requests can be scheduled.');
 
-        $data = $request->validate([
-            'scheduled_at' => ['required', 'date'],
-            'mode' => ['required', 'in:online,offline'],
-            'meeting_link' => ['nullable', 'string', 'max:255'],
+        $validated = $request->validate([
+            'scheduled_at' => ['required', 'date', 'after:now'],
+            'meeting_link' => ['required', 'url', 'max:255'],
         ]);
 
-        $interview->update([
-            'scheduled_at' => $data['scheduled_at'],
-            'mode' => $data['mode'],
-            'meeting_link' => $data['meeting_link'] ?? null,
-            'status' => 'scheduled',
+        $mockInterview->update([
+            'scheduled_at' => $validated['scheduled_at'],
+            'meeting_link' => $validated['meeting_link'],
+            'status'       => 'scheduled',
         ]);
 
-        return back()->with('success', 'Interview scheduled.');
+        return redirect()
+            ->route('mentor.mock-interviews.show', $mockInterview)
+            ->with('success', 'Mock interview scheduled and confirmed with the student.');
     }
 
-    // Mark as conducted
-    public function conduct(MockInterview $interview)
+    /**
+     * Mentor marks an interview as completed once it has taken place,
+     * unlocking the feedback form for both sides.
+     */
+    public function complete(MockInterview $mockInterview)
     {
-        $this->authorizeInterview($interview);
+        abort_unless($mockInterview->mentor_id === Auth::id(), 403);
+        abort_unless($mockInterview->status === 'scheduled', 422, 'Only scheduled interviews can be marked complete.');
 
-        $interview->update([
-            'status' => 'conducted',
-            'conducted_at' => now(),
-        ]);
+        $mockInterview->update(['status' => 'completed']);
 
-        return back()->with('success', 'Interview marked as conducted.');
+        return back()->with('success', 'Marked as completed. You can now leave feedback.');
     }
 
-    // Fill evaluation form + submit feedback
-    public function submitFeedback(Request $request, MockInterview $interview)
+    /**
+     * Mentor cancels a pending or scheduled request.
+     */
+    public function cancel(MockInterview $mockInterview)
     {
-        $this->authorizeInterview($interview);
+        abort_unless($mockInterview->mentor_id === Auth::id(), 403);
+        abort_if($mockInterview->status === 'completed', 422, 'Completed interviews cannot be cancelled.');
 
-        $data = $request->validate([
-            'technical_rating' => ['required', 'integer', 'min:1', 'max:10'],
-            'communication_rating' => ['required', 'integer', 'min:1', 'max:10'],
-            'confidence_rating' => ['required', 'integer', 'min:1', 'max:10'],
-            'overall_rating' => ['required', 'integer', 'min:1', 'max:10'],
-            'feedback' => ['required', 'string'],
-        ]);
+        $mockInterview->update(['status' => 'cancelled']);
 
-        $interview->update(array_merge($data, [
-            'status' => 'conducted',
-            'conducted_at' => $interview->conducted_at ?? now(),
-        ]));
-
-        return redirect()->route('mentor.mock-interviews.index')
-            ->with('success', 'Evaluation submitted.');
+        return back()->with('success', 'Mock interview cancelled.');
     }
 
-    private function authorizeInterview(MockInterview $interview): void
+    /**
+     * Mentor leaves feedback/rating for the student after completion.
+     */
+    public function storeFeedback(Request $request, MockInterview $mockInterview)
     {
-        abort_unless($interview->mentor_id === Auth::id(), 403);
+        abort_unless($mockInterview->mentor_id === Auth::id(), 403);
+        abort_unless($mockInterview->status === 'completed', 422, 'You can only give feedback after the interview is completed.');
+
+        $validated = $request->validate([
+            'mentor_feedback' => ['required', 'string', 'max:2000'],
+            'mentor_rating'   => ['required', 'integer', 'min:1', 'max:5'],
+        ]);
+
+        $mockInterview->update($validated);
+
+        return back()->with('success', 'Feedback submitted for the student.');
     }
 }

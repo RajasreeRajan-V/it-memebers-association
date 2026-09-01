@@ -6,7 +6,6 @@ use App\Http\Controllers\Student\WebinarFeedbackController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\MentorController;
 use App\Http\Controllers\Student\ResumeReviewController;
-use App\Http\Controllers\Student\MockInterviewController;
 use App\Http\Controllers\Student\WebinarController;
 use App\Http\Controllers\Student\RequestController;
 use App\Http\Controllers\Student\SessionController;
@@ -18,6 +17,7 @@ use App\Http\Controllers\Student\SearchController;
 use App\Http\Controllers\Student\CertificateController;
 use App\Http\Controllers\Student\FeedbackController;
 use App\Http\Controllers\Student\TrainingController as StudentTrainingController;
+use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
 
 Route::middleware(['member.auth'])
     ->name('student.')
@@ -226,7 +226,14 @@ Route::middleware(['member.auth'])
                 )->name('show');
             });
 
-  Route::prefix('trainings')->name('trainings.')->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Trainings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('trainings')->name('trainings.')->group(function () {
             Route::get('/',                       [StudentTrainingController::class, 'index'])->name('index');
             Route::get('/my-trainings',            [StudentTrainingController::class, 'myTrainings'])->name('my-trainings');
             Route::get('/{training}',              [StudentTrainingController::class, 'show'])->name('show');
@@ -238,27 +245,26 @@ Route::middleware(['member.auth'])
         });
 
 
-
         /*
         |--------------------------------------------------------------------------
         | Mock Interviews
         |--------------------------------------------------------------------------
+        | Inherits 'member.auth' middleware and the 'student.' name prefix from
+        | the outer group above (no URL prefix, matching the sibling groups
+        | such as 'mentors', 'mentorship', 'resume-review'). Registers as:
+        |   student.mock-interviews.index  -> GET  /mock-interviews
+        |   student.mock-interviews.show   -> GET  /mock-interviews/{mockInterview}
+        |   etc.
         */
 
-        Route::prefix('mock-interviews')
-            ->name('mock-interviews.')
-            ->group(function () {
-
-                Route::get(
-                    '/',
-                    [MockInterviewController::class, 'index']
-                )->name('index');
-
-                Route::post(
-                    '/{interview}/book',
-                    [MockInterviewController::class, 'book']
-                )->name('book');
-            });
+        Route::prefix('mock-interviews')->name('mock-interviews.')->group(function () {
+            Route::get('/', [StudentMockInterviewController::class, 'index'])->name('index');
+            Route::get('/create', [StudentMockInterviewController::class, 'create'])->name('create');
+            Route::post('/', [StudentMockInterviewController::class, 'store'])->name('store');
+            Route::get('/{mockInterview}', [StudentMockInterviewController::class, 'show'])->name('show');
+            Route::patch('/{mockInterview}/cancel', [StudentMockInterviewController::class, 'cancel'])->name('cancel');
+            Route::post('/{mockInterview}/feedback', [StudentMockInterviewController::class, 'storeFeedback'])->name('feedback');
+        });
 
 
         /*

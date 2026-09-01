@@ -106,7 +106,7 @@
                     {{ ($categories[0]['count'] ?? 48) }}+ NEW ARTICLES THIS WEEK
                 </span>
 
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+                <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight mb-4">
                     Discover.<br>
                     <span class="text-blue-600">Learn. Grow.</span>
                 </h1>
@@ -477,9 +477,9 @@
     </div>
 </div>
 
-{{-- ============ ARTICLE POPUP MODAL ============ --}}
+{{-- ============ ARTICLE POPUP MODAL — card style matching the Training Details popup (blue theme, boxed fields) ============ --}}
 <div id="article-modal-overlay" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-20 overflow-y-auto">
-    <div class="bg-white rounded-xl max-w-2xl w-full my-8 relative shadow-2xl max-h-[90vh] flex flex-col">
+    <div class="bg-white rounded-2xl max-w-2xl w-full my-8 relative shadow-2xl max-h-[90vh] flex flex-col">
         <button id="modal-close-btn" type="button"
                 class="absolute top-5 right-5 w-9 h-9 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-slate-800 shadow-sm z-20">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -490,43 +490,64 @@
         </div>
 
         <div id="modal-content" class="hidden p-8 overflow-y-auto">
-            <span id="modal-category" class="inline-block text-xs font-semibold tracking-wide text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full mb-2 uppercase"></span>
-            <h2 id="modal-title" class="text-2xl font-bold text-slate-900 leading-snug mb-3"></h2>
 
-            <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400 pb-4 border-b border-slate-100 mb-5">
-                <span class="flex items-center gap-2">
-                    <span id="modal-author-initial" class="w-6 h-6 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-semibold text-slate-500"></span>
-                    <span id="modal-author-name"></span>
-                </span>
-                <span id="modal-date"></span>
-                <span id="modal-read-minutes"></span>
+            {{-- Header: avatar-style initial box + title + category, same pattern as the Training Details card --}}
+            <div class="flex items-start gap-4 mb-6 pr-8">
+                <div id="modal-author-initial" class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg shrink-0"></div>
+                <div class="min-w-0">
+                    <h2 id="modal-title" class="text-xl font-extrabold text-slate-900 leading-tight"></h2>
+                    <span id="modal-category" class="inline-block text-[11px] font-semibold tracking-wide text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full mt-1.5 uppercase"></span>
+                </div>
+            </div>
 
-                <span class="ml-auto flex items-center gap-4">
-                    <span class="flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                        <span id="modal-views-count"></span>
-                    </span>
+            <img id="modal-image" alt="" class="w-full h-56 object-cover rounded-xl bg-slate-100 mb-6">
 
-                    <button type="button" id="modal-like-btn" class="like-btn flex items-center gap-1.5 transition text-slate-400 hover:text-red-400">
+            {{-- Meta grid — always 2 columns, boxed fields, matching the reference card exactly --}}
+            <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Author</span>
+                    <span id="modal-author-name" class="font-semibold text-slate-800 text-sm block truncate"></span>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Published</span>
+                    <span id="modal-date" class="font-semibold text-slate-800 text-sm block truncate"></span>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Read Time</span>
+                    <span id="modal-read-minutes" class="font-semibold text-slate-800 text-sm block truncate"></span>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Views</span>
+                    <span id="modal-views-count" class="font-semibold text-slate-800 text-sm block truncate"></span>
+                </div>
+
+                {{-- Likes / Comments — boxed fields, blue theme (same pattern as Rating/Status pairing in the reference) --}}
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Likes</span>
+                    <button type="button" id="modal-like-btn" class="like-btn inline-flex items-center gap-1.5 text-sm font-semibold transition text-slate-500 hover:text-blue-600">
                         <svg class="like-icon w-4 h-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                             <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
                         </svg>
                         <span class="like-count" id="modal-like-count"></span>
                     </button>
+                </div>
 
-                    <span class="flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
+                <div class="bg-slate-50 rounded-xl px-4 py-3">
+                    <span class="block text-[11px] font-semibold tracking-wide text-slate-400 uppercase mb-1">Comments</span>
+                    <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-800">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
                         <span class="comment-count" id="modal-comments-count"></span>
                     </span>
-                </span>
+                </div>
             </div>
-
-            <img id="modal-image" alt="" class="w-full h-56 object-cover rounded-lg bg-slate-100 mb-5">
 
             <div id="modal-body" class="modal-body-text text-base text-slate-700 leading-relaxed mb-6"></div>
 
             {{-- Comments — reuses the same .comment-form / .comment-list pattern as the cards --}}
-            <div class="border-t border-slate-100 pt-5">
+            <div class="pt-1">
                 <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Comments</h3>
 
                 <form class="comment-form flex items-start gap-2 mb-4" id="modal-comment-form" data-article-id="">
