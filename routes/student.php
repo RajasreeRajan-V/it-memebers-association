@@ -18,6 +18,8 @@ use App\Http\Controllers\Student\CertificateController;
 use App\Http\Controllers\Student\FeedbackController;
 use App\Http\Controllers\Student\TrainingController as StudentTrainingController;
 use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
+use App\Http\Controllers\Student\JobController as StudentJobController;
+use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
 
 Route::middleware(['member.auth'])
     ->name('student.')
@@ -179,7 +181,7 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-        Route::prefix('mentorship/{mentorship}/feedback')
+          Route::prefix('mentorship/{mentorship}/feedback')
             ->name('mentorship.feedback.')
             ->group(function () {
 
@@ -192,6 +194,40 @@ Route::middleware(['member.auth'])
                     '/',
                     [FeedbackController::class, 'store']
                 )->name('store');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Jobs
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('jobs')
+            ->name('jobs.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentJobController::class, 'index']
+                )->name('index');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Internships
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('internships')
+            ->name('internships.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentInternshipController::class, 'index']
+                )->name('index');
             });
 
 

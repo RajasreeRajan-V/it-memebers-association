@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @php($portal = 'student')
@@ -9,8 +10,8 @@
 <style>
     /* =========================================================
        TECH LEADERS NETWORK - STUDENT TRAININGS
-       Design matched with Student Mentorship / Mock Interview section
-    ========================================================= */
+       Hero + Filter + Training Cards
+    ========================================================== */
 
     :root {
         --training-primary: #3376F2;
@@ -19,7 +20,7 @@
         --training-green: #16A34A;
         --training-bg: #F6F8FC;
         --training-card: #FFFFFF;
-        --training-text: #172033;
+        --training-text: #172033f3;
         --training-muted: #667085;
         --training-border: #E5EAF2;
         --training-shadow: 0 8px 28px rgba(31, 41, 55, 0.07);
@@ -32,8 +33,8 @@
     }
 
     /* =========================================================
-       HERO SECTION (grid-based, matches Mock Interviews page)
-    ========================================================= */
+       HERO SECTION
+    ========================================================== */
 
     .training-hero {
         background: #fff;
@@ -80,7 +81,11 @@
 
     .training-hero-title span {
         display: block;
-        background: linear-gradient(90deg, var(--training-primary), var(--training-purple));
+        background: linear-gradient(
+            90deg,
+            var(--training-primary),
+            var(--training-purple)
+        );
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -138,7 +143,9 @@
         color: var(--training-primary) !important;
     }
 
-    /* -- illustration -- */
+    /* =========================================================
+       HERO ILLUSTRATION
+    ========================================================== */
 
     .training-illustration {
         position: relative;
@@ -185,8 +192,13 @@
         margin-bottom: 8px;
     }
 
-    .training-line.medium { width: 80%; }
-    .training-line.short { width: 55%; }
+    .training-line.medium {
+        width: 80%;
+    }
+
+    .training-line.short {
+        width: 55%;
+    }
 
     .training-small-badge {
         position: absolute;
@@ -221,7 +233,9 @@
         font-size: 15px;
     }
 
-    /* -- feature list -- */
+    /* =========================================================
+       HERO FEATURES
+    ========================================================== */
 
     .training-features {
         display: flex;
@@ -246,9 +260,20 @@
         flex-shrink: 0;
     }
 
-    .training-feature-icon.blue { background: #EAF1FF; color: var(--training-primary); }
-    .training-feature-icon.purple { background: #F3EEFF; color: var(--training-purple); }
-    .training-feature-icon.green { background: #E9FBF0; color: var(--training-green); }
+    .training-feature-icon.blue {
+        background: #EAF1FF;
+        color: var(--training-primary);
+    }
+
+    .training-feature-icon.purple {
+        background: #F3EEFF;
+        color: var(--training-purple);
+    }
+
+    .training-feature-icon.green {
+        background: #E9FBF0;
+        color: var(--training-green);
+    }
 
     .training-feature-title {
         font-size: 13.5px;
@@ -265,17 +290,17 @@
 
     /* =========================================================
        SECTION HEADER
-    ========================================================= */
+    ========================================================== */
 
     .training-section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 5px 2px 17px;
+        margin: 0 0 17px;
     }
 
     .training-section-title {
-        font-size: 23px;
+        font-size: 20px;
         font-weight: 700;
         color: var(--training-text);
         margin: 0;
@@ -288,184 +313,263 @@
     }
 
     /* =========================================================
-       SEARCH BOX
-    ========================================================= */
+       BODY LAYOUT
+    ========================================================== */
 
-    .training-search-card {
+    .training-body {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 24px;
+        align-items: start;
+    }
+
+    /* =========================================================
+       FILTER SIDEBAR
+    ========================================================== */
+
+    .training-filter {
         background: #fff;
         border: 1px solid var(--training-border);
         border-radius: 14px;
-        padding: 18px;
-        margin-bottom: 24px;
-        box-shadow: 0 3px 12px rgba(25, 45, 80, .025);
+        padding: 20px;
+        box-shadow: var(--training-shadow);
+        position: sticky;
+        top: 20px;
     }
 
-    .training-search-form {
+    .training-filter-header {
         display: flex;
-        gap: 12px;
         align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #F1F5F9;
     }
 
-    .training-search-input {
-        height: 46px;
-        border: 1px solid #DCE3EE;
-        border-radius: 8px;
-        padding: 0 15px;
+    .training-filter-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        color: var(--training-text);
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .training-filter-title i {
+        color: var(--training-muted);
         font-size: 14px;
-        color: #263247;
+    }
+
+    .training-clear {
+        color: var(--training-primary);
+        font-size: 12.5px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .training-clear:hover {
+        text-decoration: underline;
+    }
+
+    .training-filter-section {
+        padding: 17px 0;
+        border-bottom: 1px solid #F1F5F9;
+    }
+
+    .training-filter-section:last-of-type {
+        border-bottom: none;
+        padding-bottom: 4px;
+    }
+
+    .training-filter-label {
+        display: block;
+        margin-bottom: 10px;
+        color: #9AA3B2;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .training-filter-input {
         width: 100%;
-        outline: none;
-        transition: .2s;
-    }
-
-    .training-search-input:focus {
-        border-color: var(--training-primary);
-        box-shadow: 0 0 0 3px rgba(51, 118, 242, .08);
-    }
-
-    .training-search-select {
-        height: 46px;
-        border: 1px solid #DCE3EE;
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid #DDE3EC;
         border-radius: 8px;
-        padding: 0 14px;
-        font-size: 14px;
-        color: #263247;
         outline: none;
-        background: #fff;
-        min-width: 180px;
+        color: var(--training-text);
+        font-size: 13px;
+        transition: .2s ease;
     }
 
-    .training-search-select:focus {
+    .training-filter-input:focus {
         border-color: var(--training-primary);
+        box-shadow: 0 0 0 3px rgba(51,118,242,.10);
     }
 
-    .training-search-button {
-        height: 46px;
-        min-width: 115px;
-        border: none;
+    /* =========================================================
+       LEVEL LIST
+    ========================================================== */
+
+    .training-level-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .training-level-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 9px;
         border-radius: 8px;
+        color: #4B5563;
+        font-size: 13px;
+        cursor: pointer;
+        transition: .15s ease;
+    }
+
+    .training-level-label:hover {
+        background: #F6F8FC;
+    }
+
+    .training-level-label.active {
+        background: #EAF1FF;
+        color: var(--training-primary);
+        font-weight: 600;
+    }
+
+    .training-level-label input {
+        accent-color: var(--training-primary);
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+    }
+
+    .training-apply-button {
+        width: 100%;
+        height: 42px;
+        margin-top: 8px;
+        border: 0;
+        border-radius: 9px;
         background: var(--training-primary);
         color: #fff;
-        font-size: 14px;
-        font-weight: 600;
-        padding: 0 20px;
-        transition: .2s;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s ease;
     }
 
-    .training-search-button:hover {
+    .training-apply-button:hover {
         background: var(--training-primary-dark);
+        transform: translateY(-1px);
     }
 
     /* =========================================================
        TRAINING CARDS
-    ========================================================= */
+    ========================================================== */
+
+    .training-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
 
     .training-card {
+        display: flex;
+        flex-direction: column;
         background: #fff;
         border: 1px solid var(--training-border);
         border-radius: 14px;
         overflow: hidden;
-        height: 100%;
-        transition: all .25s ease;
         box-shadow: 0 3px 12px rgba(25, 45, 80, .025);
+        transition: .2s ease;
     }
 
     .training-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-3px);
         border-color: #D5E1FA;
         box-shadow: 0 12px 30px rgba(31, 65, 114, .09);
     }
 
-    .training-image-wrapper {
-        height: 175px;
-        background: #F3F6FB;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .training-thumb {
+    .training-card-image {
         width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: 160px;
         display: block;
-        transition: transform .35s ease;
+        object-fit: cover;
+        background: #F1F5F9;
     }
 
-    .training-card:hover .training-thumb {
-        transform: scale(1.04);
-    }
-
-    .training-category {
-        position: absolute;
-        left: 13px;
-        top: 13px;
-        background: rgba(255, 255, 255, .94);
-        color: var(--training-primary);
-        border-radius: 6px;
-        padding: 6px 10px;
-        font-size: 11px;
-        font-weight: 700;
-        box-shadow: 0 4px 12px rgba(0,0,0,.07);
-    }
-
-    .training-card-body {
-        padding: 19px;
+    .training-card-content {
         display: flex;
+        flex: 1;
         flex-direction: column;
-        min-height: 215px;
+        padding: 16px;
+    }
+
+    .training-card-badges {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 9px;
+    }
+
+    .training-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: #EFF6FF;
+        color: var(--training-primary);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: .5px;
+        text-transform: uppercase;
     }
 
     .training-card-title {
-        font-size: 17px;
-        line-height: 1.4;
-        font-weight: 700;
+        margin: 0 0 7px;
         color: var(--training-text);
-        margin: 0 0 8px;
+        font-size: 15px;
+        line-height: 1.45;
+        font-weight: 700;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .training-description {
+        flex: 1;
+        margin: 0 0 16px;
+        color: var(--training-muted);
         font-size: 13px;
         line-height: 1.6;
-        color: #778196;
-        margin-bottom: 15px;
-    }
-
-    .training-meta {
-        display: flex;
-        align-items: center;
-        gap: 17px;
-        margin-bottom: 17px;
-        color: #7A8496;
-        font-size: 12px;
-    }
-
-    .training-meta-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .training-meta-item i {
-        color: var(--training-primary);
-        font-size: 13px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .training-view-btn {
-        width: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
         height: 40px;
-        border-radius: 7px;
-        background: #3376F2;
-        border: none;
+        border-radius: 8px;
+        background: var(--training-primary);
         color: #fff !important;
         font-size: 13px;
         font-weight: 600;
         text-decoration: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
         margin-top: auto;
-        transition: .2s;
+        transition: .2s ease;
     }
 
     .training-view-btn:hover {
@@ -475,7 +579,7 @@
 
     /* =========================================================
        EMPTY STATE
-    ========================================================= */
+    ========================================================== */
 
     .training-empty {
         background: #fff;
@@ -513,10 +617,10 @@
 
     /* =========================================================
        PAGINATION
-    ========================================================= */
+    ========================================================== */
 
     .training-pagination {
-        margin-top: 28px;
+        margin-top: 26px;
         display: flex;
         justify-content: center;
     }
@@ -541,7 +645,7 @@
 
     /* =========================================================
        RESPONSIVE
-    ========================================================= */
+    ========================================================== */
 
     @media (max-width: 1100px) {
 
@@ -552,24 +656,17 @@
         .training-illustration {
             margin: 8px 0 0;
         }
-    }
 
-    @media (max-width: 900px) {
-
-        .training-search-form {
-            flex-wrap: wrap;
+        .training-body {
+            grid-template-columns: 1fr;
         }
 
-        .training-search-input {
-            flex: 1 1 100%;
+        .training-filter {
+            position: static;
         }
 
-        .training-search-select {
-            flex: 1;
-        }
-
-        .training-search-button {
-            flex: 0 0 120px;
+        .training-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
 
@@ -602,21 +699,15 @@
         .training-btn-primary,
         .training-btn-outline {
             justify-content: center;
-        }
-
-        .training-search-form {
-            display: block;
-        }
-
-        .training-search-input,
-        .training-search-select,
-        .training-search-button {
             width: 100%;
-            margin-bottom: 10px;
         }
 
         .training-section-title {
-            font-size: 20px;
+            font-size: 18px;
+        }
+
+        .training-grid {
+            grid-template-columns: 1fr;
         }
     }
 
@@ -639,7 +730,7 @@
 
         <div class="hero-grid">
 
-            {{-- LEFT: copy + actions --}}
+            {{-- HERO CONTENT --}}
             <div class="training-hero-content">
 
                 <div class="training-label">
@@ -675,17 +766,23 @@
             </div>
 
 
-            {{-- CENTER: illustration --}}
+            {{-- ILLUSTRATION --}}
             <div class="training-illustration">
 
                 <div class="training-illustration-circle"></div>
 
                 <div class="training-illustration-card">
+
                     <div class="training-illustration-icon"></div>
+
                     <div class="training-line"></div>
+
                     <div class="training-line medium"></div>
+
                     <div class="training-line"></div>
+
                     <div class="training-line short"></div>
+
                 </div>
 
                 <div class="training-small-badge">
@@ -699,7 +796,7 @@
             </div>
 
 
-            {{-- RIGHT: feature list --}}
+            {{-- FEATURES --}}
             <div class="training-features">
 
                 <div class="training-feature">
@@ -766,171 +863,293 @@
 
 
     {{-- =====================================================
-         AVAILABLE TRAININGS HEADER
+         BODY: SIDEBAR FILTER + TRAINING GRID
     ====================================================== --}}
 
-    <div class="training-section-header" id="available-trainings">
+    <div class="training-body" id="available-trainings">
 
-        <div>
-            <h2 class="training-section-title">
-                Available Trainings
-            </h2>
+        {{-- =================================================
+             LEFT: FILTER SIDEBAR
+        ================================================== --}}
 
-            <div class="training-section-subtitle">
-                Choose a training and start building your skills
+        <aside class="training-filter" id="training-search">
+
+            <div class="training-filter-header">
+
+                <h3 class="training-filter-title">
+                    <i class="bi bi-sliders"></i>
+                    Filters
+                </h3>
+
+                <a href="{{ url()->current() }}" class="training-clear">
+                    Clear all
+                </a>
+
             </div>
-        </div>
-
-    </div>
 
 
-    {{-- =====================================================
-         SEARCH & FILTER
-    ====================================================== --}}
+            <form method="GET" action="{{ url()->current() }}">
 
-    <div class="training-search-card" id="training-search">
+                {{-- SEARCH --}}
+                <div class="training-filter-section">
 
-        <form method="GET" class="training-search-form">
+                    <label class="training-filter-label">
+                        Search
+                    </label>
 
-            <input
-                type="text"
-                name="search"
-                class="training-search-input"
-                placeholder="Search by title, technology, category..."
-                value="{{ request('search') }}"
-            >
-
-            <select name="level" class="training-search-select">
-
-                <option value="">
-                    All Levels
-                </option>
-
-                @foreach (['beginner','intermediate','advanced'] as $lvl)
-
-                    <option
-                        value="{{ $lvl }}"
-                        @selected(request('level') === $lvl)
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search', '') }}"
+                        placeholder="Title, technology, category..."
+                        class="training-filter-input"
                     >
-                        {{ ucfirst($lvl) }}
-                    </option>
 
-                @endforeach
-
-            </select>
-
-            <button type="submit" class="training-search-button">
-
-                <i class="bi bi-search"></i>
-                Search
-
-            </button>
-
-        </form>
-
-    </div>
+                </div>
 
 
-    {{-- =====================================================
-         TRAINING CARDS
-    ====================================================== --}}
+                {{-- CATEGORY --}}
+                <div class="training-filter-section">
 
-    <div class="row g-4">
+                    <label class="training-filter-label">
+                        Category
+                    </label>
 
-        @forelse ($trainings as $training)
+                    <input
+                        type="text"
+                        name="category"
+                        value="{{ request('category', '') }}"
+                        placeholder="e.g. Web Dev, Cloud..."
+                        class="training-filter-input"
+                    >
 
-            <div class="col-xl-4 col-lg-4 col-md-6">
-
-                <div class="training-card">
-
-                    {{-- Image --}}
-                    <div class="training-image-wrapper">
-
-                        <img
-                            src="{{ $training->thumbnail
-                                ? asset('storage/'.$training->thumbnail)
-                                : 'https://via.placeholder.com/600x350?text=Training'
-                            }}"
-                            class="training-thumb"
-                            alt="{{ $training->title }}"
-                        >
-
-                        @if($training->category)
-
-                            <div class="training-category">
-                                {{ $training->category }}
-                            </div>
-
-                        @endif
-
-                    </div>
+                </div>
 
 
-                    {{-- Card Body --}}
-                    <div class="training-card-body">
+                {{-- LEVEL --}}
+                <div class="training-filter-section">
 
-                        <h5 class="training-card-title">
-                            {{ $training->title }}
-                        </h5>
+                    <label class="training-filter-label">
+                        Level
+                    </label>
 
+                    <ul class="training-level-list">
 
-                        <p class="training-description">
+                        {{-- ALL LEVELS --}}
+                        <li>
 
-                            {{ Str::limit(
-                                $training->short_description,
-                                100
-                            ) }}
+                            <label class="training-level-label {{ request('level', '') === '' ? 'active' : '' }}">
 
-                        </p>
+                                <input
+                                    type="radio"
+                                    name="level"
+                                    value=""
+                                    {{ request('level', '') === '' ? 'checked' : '' }}
+                                    onchange="this.form.submit()"
+                                >
 
+                                All Levels
 
-                        <div class="training-meta">
+                            </label>
 
-                            <div class="training-meta-item">
-
-                                <i class="bi bi-bar-chart-fill"></i>
-
-                                <span>
-                                    {{ ucfirst($training->level) }}
-                                </span>
-
-                            </div>
+                        </li>
 
 
-                            <div class="training-meta-item">
+                        {{-- BEGINNER --}}
+                        <li>
 
-                                <i class="bi bi-clock-fill"></i>
+                            <label class="training-level-label {{ request('level') === 'beginner' ? 'active' : '' }}">
 
-                                <span>
-                                    {{ $training->duration }}
-                                </span>
+                                <input
+                                    type="radio"
+                                    name="level"
+                                    value="beginner"
+                                    {{ request('level') === 'beginner' ? 'checked' : '' }}
+                                    onchange="this.form.submit()"
+                                >
 
-                            </div>
+                                Beginner
 
-                        </div>
+                            </label>
+
+                        </li>
 
 
-                        <a
-                            href="{{ route('student.trainings.show', $training) }}"
-                            class="training-view-btn"
-                        >
+                        {{-- INTERMEDIATE --}}
+                        <li>
 
-                            View Training Details
+                            <label class="training-level-label {{ request('level') === 'intermediate' ? 'active' : '' }}">
 
-                            <i class="bi bi-arrow-right"></i>
+                                <input
+                                    type="radio"
+                                    name="level"
+                                    value="intermediate"
+                                    {{ request('level') === 'intermediate' ? 'checked' : '' }}
+                                    onchange="this.form.submit()"
+                                >
 
-                        </a>
+                                Intermediate
 
+                            </label>
+
+                        </li>
+
+
+                        {{-- ADVANCED --}}
+                        <li>
+
+                            <label class="training-level-label {{ request('level') === 'advanced' ? 'active' : '' }}">
+
+                                <input
+                                    type="radio"
+                                    name="level"
+                                    value="advanced"
+                                    {{ request('level') === 'advanced' ? 'checked' : '' }}
+                                    onchange="this.form.submit()"
+                                >
+
+                                Advanced
+
+                            </label>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                {{-- APPLY --}}
+                <button type="submit" class="training-apply-button">
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Apply Filters
+
+                </button>
+
+            </form>
+
+        </aside>
+
+
+        {{-- =================================================
+             RIGHT: TRAINING LIST
+        ================================================== --}}
+
+        <main>
+
+            <div class="training-section-header">
+
+                <div>
+
+                    <h2 class="training-section-title">
+                        Available Trainings
+                    </h2>
+
+                    <div class="training-section-subtitle">
+                        Choose a training and start building your skills
                     </div>
 
                 </div>
 
             </div>
 
-        @empty
 
-            <div class="col-12">
+            {{-- TRAINING GRID --}}
+            @if ($trainings->isNotEmpty())
 
+                <div class="training-grid">
+
+                    @foreach ($trainings as $training)
+
+                        <article class="training-card">
+
+                            {{-- TRAINING IMAGE --}}
+                            <img
+                                src="{{ $training->thumbnail
+                                    ? asset('storage/' . $training->thumbnail)
+                                    : 'https://via.placeholder.com/600x350?text=Training'
+                                }}"
+                                class="training-card-image"
+                                alt="{{ $training->title }}"
+                            >
+
+
+                            <div class="training-card-content">
+
+                                {{-- BADGES --}}
+                                <div class="training-card-badges">
+
+                                    @if ($training->level)
+
+                                        <span class="training-badge">
+                                            {{ ucfirst($training->level) }}
+                                        </span>
+
+                                    @endif
+
+
+                                    @if ($training->category)
+
+                                        <span class="training-badge">
+                                            {{ $training->category }}
+                                        </span>
+
+                                    @endif
+
+
+                                    @if ($training->duration)
+
+                                        <span class="training-badge">
+                                            {{ $training->duration }}
+                                        </span>
+
+                                    @endif
+
+                                </div>
+
+
+                                {{-- TITLE --}}
+                                <h3 class="training-card-title">
+                                    {{ $training->title }}
+                                </h3>
+
+
+                                {{-- DESCRIPTION --}}
+                                <p class="training-description">
+
+                                    {{ Str::limit(
+                                        $training->short_description ?? '',
+                                        100
+                                    ) }}
+
+                                </p>
+
+
+                                {{-- DETAILS BUTTON --}}
+                                <a
+                                    href="{{ route('student.trainings.show', $training) }}"
+                                    class="training-view-btn"
+                                >
+
+                                    View Training Details
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    @endforeach
+
+                </div>
+
+            @else
+
+                {{-- EMPTY STATE --}}
                 <div class="training-empty">
 
                     <div class="training-empty-icon">
@@ -948,25 +1167,25 @@
 
                 </div>
 
-            </div>
+            @endif
 
-        @endforelse
+
+            {{-- PAGINATION --}}
+            @if ($trainings->hasPages())
+
+                <div class="training-pagination">
+
+                    {{ $trainings->withQueryString()->links() }}
+
+                </div>
+
+            @endif
+
+        </main>
 
     </div>
-
-
-    {{-- =====================================================
-         PAGINATION
-    ====================================================== --}}
-
-    @if($trainings->hasPages())
-
-        <div class="training-pagination">
-            {{ $trainings->links() }}
-        </div>
-
-    @endif
 
 </div>
 
 @endsection
+

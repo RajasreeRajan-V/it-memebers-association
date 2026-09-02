@@ -176,7 +176,9 @@
     }
 
     /* =========================================================
-       HERO ILLUSTRATION
+       HERO ILLUSTRATION - matches training-page illustration style
+       (soft gradient circle, straight rounded card, circular badge
+       bottom-right, check bubble top-right)
     ========================================================= */
 
     .hero-visual {
@@ -189,99 +191,85 @@
 
     .visual-circle {
         position: absolute;
-        width: 170px;
-        height: 170px;
+        width: 150px;
+        height: 150px;
         border-radius: 50%;
-        background: #F3F7FF;
+        background: linear-gradient(135deg, #EAF1FF, #F3EEFF);
     }
 
     .mentor-illustration {
         position: relative;
-        width: 160px;
-        height: 180px;
+        width: 170px;
+        height: 190px;
         z-index: 2;
     }
 
     .illustration-card {
         position: absolute;
+        left: 34px;
+        top: 46px;
         width: 108px;
-        height: 132px;
+        height: 130px;
         background: #fff;
-        border: 1px solid #DCE6F8;
-        border-radius: 9px;
-        left: 10px;
-        top: 18px;
-        transform: rotate(-4deg);
-        box-shadow: 0 10px 24px rgba(50, 82, 140, .09);
+        border-radius: 16px;
+        box-shadow: 0 14px 30px rgba(31, 41, 55, .13);
+        padding: 16px 14px;
     }
 
-    .illustration-avatar {
-        position: absolute;
-        width: 33px;
-        height: 33px;
+    .illustration-icon {
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
-        background: #DDEAFF;
-        top: 15px;
-        left: 14px;
+        background: #DCE8FF;
+        margin-bottom: 12px;
     }
 
     .illustration-line {
-        position: absolute;
-        height: 5px;
-        border-radius: 10px;
-        background: #DCE5F3;
-        left: 54px;
-        right: 12px;
+        height: 6px;
+        border-radius: 4px;
+        background: #EEF1F6;
+        margin-bottom: 8px;
     }
 
-    .illustration-line.one { top: 21px; }
-    .illustration-line.two { top: 31px; right: 27px; }
-    .illustration-line.three { top: 60px; left: 14px; right: 14px; }
-    .illustration-line.four { top: 73px; left: 14px; right: 24px; }
-    .illustration-line.five { top: 86px; left: 14px; right: 32px; }
-    .illustration-line.six { top: 99px; left: 14px; right: 20px; }
+    .illustration-line.medium {
+        width: 80%;
+    }
+
+    .illustration-line.short {
+        width: 55%;
+    }
+
+    .illustration-badge {
+        position: absolute;
+        right: -8px;
+        bottom: 6px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--tl-primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        border: 4px solid #fff;
+        box-shadow: 0 8px 16px rgba(51, 118, 242, .30);
+    }
 
     .illustration-check {
         position: absolute;
-        width: 32px;
-        height: 32px;
+        top: -6px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
-        background: #E5F8EF;
+        background: #E9FBF0;
+        border: 1px solid #CFF5DC;
         color: var(--tl-green);
         display: flex;
         align-items: center;
         justify-content: center;
-        right: 0;
-        top: 12px;
-        font-size: 14px;
-        box-shadow: 0 6px 16px rgba(24, 169, 87, .1);
-    }
-
-    .illustration-person {
-        position: absolute;
-        right: 1px;
-        bottom: 10px;
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        background: #E8F0FF;
-        border: 6px solid #fff;
-        box-shadow: 0 6px 18px rgba(51, 118, 242, .14);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--tl-primary);
-        font-size: 23px;
-    }
-
-    .illustration-connection {
-        position: absolute;
-        width: 48px;
-        height: 2px;
-        background: #BFD2F8;
-        right: 40px;
-        bottom: 38px;
-        transform: rotate(-28deg);
+        font-size: 15px;
     }
 
     /* =========================================================
@@ -1432,7 +1420,7 @@
         </div>
 
 
-        {{-- CENTER ILLUSTRATION --}}
+        {{-- CENTER ILLUSTRATION - training-page style --}}
         <div class="hero-visual">
 
             <div class="visual-circle"></div>
@@ -1441,25 +1429,24 @@
 
                 <div class="illustration-card">
 
-                    <div class="illustration-avatar"></div>
+                    <div class="illustration-icon"></div>
 
-                    <div class="illustration-line one"></div>
-                    <div class="illustration-line two"></div>
-                    <div class="illustration-line three"></div>
-                    <div class="illustration-line four"></div>
-                    <div class="illustration-line five"></div>
-                    <div class="illustration-line six"></div>
+                    <div class="illustration-line"></div>
 
+                    <div class="illustration-line medium"></div>
+
+                    <div class="illustration-line"></div>
+
+                    <div class="illustration-line short"></div>
+
+                </div>
+
+                <div class="illustration-badge">
+                    <i class="fa-solid fa-user-tie"></i>
                 </div>
 
                 <div class="illustration-check">
                     <i class="fa-solid fa-check"></i>
-                </div>
-
-                <div class="illustration-connection"></div>
-
-                <div class="illustration-person">
-                    <i class="fa-solid fa-user-tie"></i>
                 </div>
 
             </div>
