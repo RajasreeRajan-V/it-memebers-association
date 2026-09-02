@@ -29,7 +29,7 @@ class MentorController extends Controller
                 });
             })
             ->latest('id')
-            ->paginate(12)
+            ->paginate(3)
             ->withQueryString();
 
         return view('students.mentors.index', compact('mentors'));

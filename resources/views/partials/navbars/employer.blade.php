@@ -1,10 +1,11 @@
 
-<!-- Tech Leaders Network Employer Header -->
+
 <header class="site-header">
 
     <!-- =====================================================
          ROW 1: LOGO / ACTIONS
     ====================================================== -->
+
     <div class="container header-top">
 
         <!-- Logo -->
@@ -27,7 +28,6 @@
                 <span class="pill-badge">12</span>
             </a>
 
-         
             <!-- Settings -->
             <div class="settings-menu-wrap">
 
@@ -103,8 +103,10 @@
 
     <!-- =====================================================
          ROW 2: BLUE NAVIGATION BAR
-         Employer routes kept unchanged
+         Student Header Style
+         Employer Routes Unchanged
     ====================================================== -->
+
     <div class="header-bottom">
 
         <div class="container header-bottom-inner">
@@ -115,7 +117,10 @@
                 aria-label="Primary"
             >
 
-                <!-- HOME -->
+                <!-- =================================================
+                     HOME
+                ================================================== -->
+
                 <a
                     href="{{ route('dashboard') }}"
                     class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"
@@ -125,131 +130,158 @@
                 </a>
 
 
-                <!-- JOBS -->
-                <div class="dropdown">
+                <!-- =================================================
+                     JOBS DROPDOWN
+                ================================================== -->
 
-                    <a
-                        href="{{ route('employer.jobs.index') }}"
-                        class="{{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}"
+                <div class="nav-dropdown">
+
+                    <button
+                        type="button"
+                        class="nav-dropdown-toggle
+                        {{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}"
                     >
                         <i class="fa-solid fa-briefcase"></i>
                         <span>Jobs</span>
-                    </a>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
 
-                    <ul class="dropdown-menu">
+                    <div class="nav-dropdown-menu">
 
-                        <li>
-                            <a href="{{ route('employer.jobs.create') }}">
-                                <i class="fa-solid fa-plus"></i>
-                                Create Job
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.jobs.create') }}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Create Job</span>
+                        </a>
 
-                        <li>
-                            <a href="{{ route('employer.jobs.index') }}">
-                                <i class="fa-solid fa-list"></i>
-                                View Jobs
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.jobs.index') }}"
+                        >
+                            <i class="fa-solid fa-list"></i>
+                            <span>View Jobs</span>
+                        </a>
 
-                    </ul>
+                    </div>
+
                 </div>
 
 
-                <!-- INTERNSHIPS -->
-                <div class="dropdown">
+                <!-- =================================================
+                     INTERNSHIPS DROPDOWN
+                ================================================== -->
 
-                    <a
-                        href="{{ route('employer.internships.index') }}"
-                        class="{{ request()->routeIs('employer.internships.*') ? 'active' : '' }}"
+                <div class="nav-dropdown">
+
+                    <button
+                        type="button"
+                        class="nav-dropdown-toggle
+                        {{ request()->routeIs('employer.internships.*') ? 'active' : '' }}"
                     >
                         <i class="fa-solid fa-user-graduate"></i>
                         <span>Internships</span>
-                    </a>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
 
-                    <ul class="dropdown-menu">
+                    <div class="nav-dropdown-menu">
 
-                        <li>
-                            <a href="{{ route('employer.internships.create') }}">
-                                <i class="fa-solid fa-plus"></i>
-                                Create Internship
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.internships.create') }}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Create Internship</span>
+                        </a>
 
-                        <li>
-                            <a href="{{ route('employer.internships.index') }}">
-                                <i class="fa-solid fa-list"></i>
-                                View Internships
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.internships.index') }}"
+                        >
+                            <i class="fa-solid fa-list"></i>
+                            <span>View Internships</span>
+                        </a>
 
-                    </ul>
+                    </div>
+
                 </div>
 
 
-                <!-- PROJECTS -->
-                <div class="dropdown">
+                <!-- =================================================
+                     PROJECTS DROPDOWN
+                ================================================== -->
 
-                    <a
-                        href="{{ route('employer.projects.index') }}"
-                        class="{{ request()->routeIs('employer.projects.*') ? 'active' : '' }}"
+                <div class="nav-dropdown">
+
+                    <button
+                        type="button"
+                        class="nav-dropdown-toggle
+                        {{ request()->routeIs('employer.projects.*') ? 'active' : '' }}"
                     >
                         <i class="fa-solid fa-diagram-project"></i>
                         <span>Projects</span>
-                    </a>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
 
-                    <ul class="dropdown-menu">
+                    <div class="nav-dropdown-menu">
 
-                        <li>
-                            <a href="{{ route('employer.projects.create') }}">
-                                <i class="fa-solid fa-plus"></i>
-                                Create Project
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.projects.create') }}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Create Project</span>
+                        </a>
 
-                        <li>
-                            <a href="{{ route('employer.projects.index') }}">
-                                <i class="fa-solid fa-list"></i>
-                                View Projects
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.projects.index') }}"
+                        >
+                            <i class="fa-solid fa-list"></i>
+                            <span>View Projects</span>
+                        </a>
 
-                    </ul>
+                    </div>
+
                 </div>
 
 
-                <!-- STARTUP -->
-                <div class="dropdown">
+                <!-- =================================================
+                     STARTUP DROPDOWN
+                ================================================== -->
 
-                    <a
-                        href="{{ route('employer.startup-profile.index') }}"
-                        class="{{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}"
+                <div class="nav-dropdown">
+
+                    <button
+                        type="button"
+                        class="nav-dropdown-toggle
+                        {{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}"
                     >
                         <i class="fa-solid fa-rocket"></i>
                         <span>Startup</span>
-                    </a>
+                        <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+                    </button>
 
-                    <ul class="dropdown-menu">
+                    <div class="nav-dropdown-menu">
 
-                        <li>
-                            <a href="{{ route('employer.startup-profile.create') }}">
-                                <i class="fa-solid fa-plus"></i>
-                                Create Startup
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.startup-profile.create') }}"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Create Startup</span>
+                        </a>
 
-                        <li>
-                            <a href="{{ route('employer.startup-profile.index') }}">
-                                <i class="fa-solid fa-list"></i>
-                                View Startups
-                            </a>
-                        </li>
+                        <a
+                            href="{{ route('employer.startup-profile.index') }}"
+                        >
+                            <i class="fa-solid fa-list"></i>
+                            <span>View Startups</span>
+                        </a>
 
-                    </ul>
+                    </div>
+
                 </div>
 
 
-                <!-- APPLICANTS -->
+                <!-- =================================================
+                     APPLICANTS
+                ================================================== -->
+
                 <a
                     href="{{ route('employer.applicants.index') }}"
                     class="{{ request()->routeIs('employer.applicants.*') ? 'active' : '' }}"
@@ -259,7 +291,9 @@
                 </a>
 
             </nav>
+
         </div>
+
     </div>
 
 </header>
@@ -269,7 +303,7 @@
 
 /* =========================================================
    TECH LEADERS NETWORK - EMPLOYER HEADER
-   Same style as Student Header
+   STUDENT NAVBAR STYLE
 ========================================================= */
 
 .site-header {
@@ -304,21 +338,16 @@
     width: 100%;
     height: 76px;
     margin: 0 auto;
-
     display: flex;
     align-items: center;
-
     gap: 36px;
-
     padding: 8px 40px;
-
     box-sizing: border-box;
 }
 
 
 /* =========================================================
    LOGO
-   Uses your logo1.png
 ========================================================= */
 
 .logo {
@@ -332,13 +361,10 @@
 .logo-mark {
     width: 175px;
     height: 60px;
-
     display: flex;
     align-items: center;
     justify-content: flex-start;
-
     flex-shrink: 0;
-
     overflow: visible;
     border-radius: 8px;
 }
@@ -346,7 +372,6 @@
 .logo-mark img {
     width: 175px;
     height: 82px;
-
     object-fit: contain;
     display: block;
 }
@@ -359,9 +384,7 @@
 .header-actions {
     display: flex;
     align-items: center;
-
     gap: 34px;
-
     flex-shrink: 0;
     margin-left: auto;
 }
@@ -373,16 +396,11 @@
 
 .action-item {
     position: relative;
-
     display: flex;
     align-items: center;
-
     gap: 9px;
-
     text-decoration: none;
-
     color: #374151;
-
     font-size: .87rem;
     font-weight: 500;
 }
@@ -407,25 +425,18 @@
 
 .pill-badge {
     position: absolute;
-
     top: -8px;
     right: -14px;
-
     background: #3364d7;
     color: #fff;
-
     font-size: .65rem;
     font-weight: 700;
-
     min-width: 16px;
     height: 16px;
-
     border-radius: 50px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 0 4px;
 }
 
@@ -441,54 +452,38 @@
 .settings-top-btn {
     display: flex;
     align-items: center;
-
     gap: 10px;
-
     border: none;
     background: transparent;
-
     cursor: pointer;
-
     padding: 4px;
-
     font-family: inherit;
 }
 
 .settings-icon-circle {
     width: 42px;
     height: 42px;
-
     border-radius: 50%;
-
     background: #3364d7;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     color: #fff;
-
     font-size: 16px;
-
     flex-shrink: 0;
 }
 
 .settings-top-label {
     font-weight: 600;
     font-size: .9rem;
-
     color: #111827;
-
     white-space: nowrap;
 }
 
 .settings-top-btn .arrow {
     font-size: 11px;
-
     color: #9ca3af;
-
     margin-left: 2px;
-
     transition: transform .25s ease;
 }
 
@@ -503,26 +498,16 @@
 
 .settings-top-dropdown {
     position: absolute;
-
     right: 0;
     top: calc(100% + 12px);
-
     width: 200px;
-
     background: #fff;
-
     border-radius: 14px;
-
     box-shadow: 0 20px 50px rgba(0, 0, 0, .18);
-
     display: none;
-
     overflow: hidden;
-
     z-index: 999;
-
     border: 1px solid rgba(0, 0, 0, .08);
-
     animation: slideDown .25s ease;
 }
 
@@ -537,6 +522,7 @@
         opacity: 1;
         transform: translateY(0);
     }
+
 }
 
 .settings-top-dropdown.show {
@@ -551,40 +537,25 @@
 .settings-menu-item {
     display: flex;
     align-items: center;
-
     gap: 10px;
-
     width: 100%;
-
     padding: 12px 18px;
-
     text-decoration: none;
-
     color: #111827;
-
     background: none;
-
     border: none;
-
     text-align: left;
-
     cursor: pointer;
-
     font-size: .87rem;
     font-weight: 500;
-
     font-family: inherit;
-
     transition: background .2s ease;
 }
 
 .settings-menu-item i {
     width: 16px;
-
     text-align: center;
-
     color: #6b7280;
-
     font-size: 14px;
 }
 
@@ -609,7 +580,6 @@
 
 .settings-menu-item.logout {
     color: #dc2626;
-
     border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
@@ -625,7 +595,7 @@
 
 /* =========================================================
    BLUE NAVIGATION BAR
-   Same as Student Navbar
+   SAME STYLE AS STUDENT NAVBAR
 ========================================================= */
 
 .header-bottom {
@@ -641,7 +611,6 @@
         inset 0 -1px 0 rgba(255, 255, 255, .08);
 
     position: relative;
-
     margin-bottom: 0;
 }
 
@@ -663,39 +632,31 @@
 
 .main-nav {
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     gap: 10px;
-
     flex-wrap: wrap;
 }
 
 
 /* =========================================================
-   NAV LINKS
+   NORMAL NAV LINKS
 ========================================================= */
 
 .main-nav > a,
-.main-nav > .dropdown > a {
-
+.main-nav > .nav-dropdown > .nav-dropdown-toggle {
     display: flex;
-
     align-items: center;
-
     gap: 7px;
 
     text-decoration: none;
 
     font-weight: 500;
-
     font-size: .85rem;
 
     color: rgba(255, 255, 255, .82);
 
     padding: 12px 16px;
-
     margin: 8px 0;
 
     white-space: nowrap;
@@ -710,148 +671,180 @@
 }
 
 
-/* NAV ICON */
+/* =========================================================
+   DROPDOWN BUTTON
+========================================================= */
 
-.main-nav > a i,
-.main-nav > .dropdown > a i {
+.nav-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.nav-dropdown-toggle {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   NAV ICON
+========================================================= */
+
+.main-nav > a > i,
+.main-nav > .nav-dropdown > .nav-dropdown-toggle > i {
     font-size: 13px;
-
     color: rgba(255, 255, 255, .65);
 }
 
 
-/* HOVER */
+/* =========================================================
+   DROPDOWN ARROW
+========================================================= */
+
+.nav-dropdown-toggle .dropdown-arrow {
+    font-size: 10px !important;
+    margin-left: 2px;
+    transition: transform .25s ease;
+    color: rgba(255, 255, 255, .65) !important;
+}
+
+.nav-dropdown.open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
 
 .main-nav > a:hover,
-.main-nav > .dropdown > a:hover {
-
+.main-nav > .nav-dropdown > .nav-dropdown-toggle:hover {
     color: #fff;
-
     background: rgba(255, 255, 255, .14);
 }
 
 .main-nav > a:hover i,
-.main-nav > .dropdown > a:hover i {
-    color: #fff;
-}
-
-
-/* ACTIVE */
-
-.main-nav > a.active,
-.main-nav > .dropdown > a.active {
-
-    color: #fff;
-
-    font-weight: 600;
-
-    background: rgba(255, 255, 255, .18);
-}
-
-.main-nav > a.active i,
-.main-nav > .dropdown > a.active i {
+.main-nav > .nav-dropdown > .nav-dropdown-toggle:hover i {
     color: #fff;
 }
 
 
 /* =========================================================
-   DROPDOWN
+   ACTIVE
 ========================================================= */
 
-.dropdown {
-    position: relative;
-
-    display: inline-block;
+.main-nav > a.active,
+.main-nav > .nav-dropdown > .nav-dropdown-toggle.active {
+    color: #fff;
+    font-weight: 600;
+    background: rgba(255, 255, 255, .18);
 }
 
-.dropdown-menu {
+.main-nav > a.active i,
+.main-nav > .nav-dropdown > .nav-dropdown-toggle.active i {
+    color: #fff;
+}
 
-    display: none;
 
+/* =========================================================
+   DROPDOWN MENU
+========================================================= */
+
+.nav-dropdown-menu {
     position: absolute;
 
-    top: calc(100% + 4px);
-
+    top: calc(100% + 2px);
     left: 50%;
 
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(-5px);
 
-    min-width: 200px;
+    width: 210px;
 
     background: #fff;
 
     border: 1px solid #eef0f3;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     padding: 6px;
 
-    list-style: none;
-
-    margin: 0;
-
     box-shadow:
-        0 12px 28px rgba(17, 24, 39, .18);
+        0 15px 35px rgba(17, 24, 39, .18);
 
-    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity .2s ease,
+        transform .2s ease,
+        visibility .2s ease;
 
     z-index: 1100;
 }
 
 
-/* Dropdown Items */
+/* =========================================================
+   DESKTOP DROPDOWN
+========================================================= */
 
-.dropdown-menu li {
-    margin: 0;
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown.open .nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform: translateX(-50%) translateY(0);
 }
 
-.dropdown-menu li a {
 
+/* =========================================================
+   DROPDOWN LINKS
+========================================================= */
+
+.nav-dropdown-menu a {
     display: flex;
-
     align-items: center;
 
-    gap: 8px;
+    gap: 10px;
 
-    padding: 10px 12px;
+    padding: 11px 13px;
 
     color: #374151;
 
     text-decoration: none;
 
     font-size: .85rem;
-
     font-weight: 500;
 
-    border-radius: 6px;
+    border-radius: 7px;
 
     transition:
         background .15s ease,
         color .15s ease;
 }
 
-.dropdown-menu li a i {
+.nav-dropdown-menu a i {
+    width: 16px;
+
+    text-align: center;
+
     font-size: 12px;
 
     color: #9ca3af;
 }
 
-.dropdown-menu li a:hover {
-
+.nav-dropdown-menu a:hover {
     background: #eef2ff;
-
     color: #3364d7;
 }
 
-.dropdown-menu li a:hover i {
+.nav-dropdown-menu a:hover i {
     color: #3364d7;
-}
-
-
-/* Desktop dropdown */
-
-.dropdown:hover .dropdown-menu {
-    display: block;
 }
 
 
@@ -860,7 +853,6 @@
 ========================================================= */
 
 .nav-toggle {
-
     display: none;
 
     flex-direction: column;
@@ -877,14 +869,14 @@
 }
 
 .nav-toggle span {
-
     width: 22px;
-
     height: 2px;
 
     background: #374151;
 
     border-radius: 2px;
+
+    transition: .25s ease;
 }
 
 
@@ -913,6 +905,7 @@
     .logo-mark img {
         width: 150px;
     }
+
 }
 
 
@@ -922,8 +915,12 @@
 
 @media (max-width: 768px) {
 
-    .header-top {
+    .site-header .container {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
 
+    .header-top {
         height: 70px;
 
         flex-wrap: wrap;
@@ -934,31 +931,31 @@
     }
 
 
+    /* LOGO */
+
     .logo {
         height: 54px;
     }
 
     .logo-mark {
-
         width: 140px;
-
         height: 54px;
     }
 
     .logo-mark img {
-
         width: 140px;
-
         height: 68px;
     }
 
+
+    /* MOBILE TOGGLE */
 
     .nav-toggle {
         display: flex;
     }
 
 
-    /* Hide blue navbar initially */
+    /* HIDE NAV */
 
     .header-bottom {
         display: none;
@@ -967,7 +964,7 @@
     }
 
 
-    /* Show when menu clicked */
+    /* SHOW NAV */
 
     .header-bottom.open {
         display: block;
@@ -975,13 +972,13 @@
 
 
     .header-bottom-inner {
-
         display: block;
     }
 
 
-    .main-nav {
+    /* MAIN NAV */
 
+    .main-nav {
         flex-direction: column;
 
         align-items: stretch;
@@ -994,22 +991,42 @@
     }
 
 
+    /* NORMAL LINKS */
+
     .main-nav > a,
-    .main-nav > .dropdown > a {
+    .main-nav > .nav-dropdown > .nav-dropdown-toggle {
 
         width: 100%;
 
         margin: 2px 0;
+
+        justify-content: flex-start;
+
+        box-sizing: border-box;
     }
 
 
-    /* Mobile dropdown */
+    /* MOBILE DROPDOWN */
 
-    .dropdown-menu {
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .nav-dropdown-menu {
 
         position: static;
 
-        transform: none;
+        width: 100%;
+
+        transform: none !important;
+
+        opacity: 1;
+
+        visibility: visible;
+
+        pointer-events: auto;
+
+        display: none;
 
         box-shadow: none;
 
@@ -1017,49 +1034,56 @@
 
         background: #274ea3;
 
-        margin-top: 4px;
-
-        display: none;
+        margin-top: 2px;
 
         border-radius: 8px;
+
+        padding: 5px;
     }
 
 
-    .dropdown-menu li a {
+    /* OPEN DROPDOWN */
 
+    .nav-dropdown.open .nav-dropdown-menu {
+        display: block;
+    }
+
+
+    /* MOBILE DROPDOWN LINKS */
+
+    .nav-dropdown-menu a {
         color: #fff;
 
         padding: 10px 16px;
+
+        border-radius: 6px;
     }
 
-
-    .dropdown-menu li a i {
+    .nav-dropdown-menu a i {
         color: rgba(255, 255, 255, .7);
     }
 
-
-    .dropdown-menu li a:hover {
-
+    .nav-dropdown-menu a:hover {
         background: rgba(255, 255, 255, .12);
 
         color: #fff;
     }
 
-
-    .dropdown.open .dropdown-menu {
-        display: block;
+    .nav-dropdown-menu a:hover i {
+        color: #fff;
     }
 
 
-    /* Disable hover on mobile */
+    /* DISABLE DESKTOP HOVER */
 
-    .dropdown:hover .dropdown-menu {
+    .nav-dropdown:hover .nav-dropdown-menu {
         display: none;
     }
 
-    .dropdown.open .dropdown-menu {
+    .nav-dropdown.open .nav-dropdown-menu {
         display: block;
     }
+
 }
 
 
@@ -1069,8 +1093,12 @@
 
 @media (max-width: 480px) {
 
-    .header-top {
+    .site-header .container {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 
+    .header-top {
         height: 64px;
 
         padding: 8px 16px;
@@ -1078,39 +1106,31 @@
         gap: 12px;
     }
 
-
     .logo {
         height: 50px;
     }
 
     .logo-mark {
-
         width: 125px;
-
         height: 50px;
     }
 
     .logo-mark img {
-
         width: 125px;
-
         height: 62px;
     }
-
 
     .header-actions {
         gap: 12px;
     }
 
-
     .settings-icon-circle {
-
         width: 38px;
-
         height: 38px;
 
         font-size: 14px;
     }
+
 }
 
 
@@ -1131,6 +1151,7 @@
     .header-actions {
         gap: 8px;
     }
+
 }
 
 </style>
@@ -1151,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('settingsTopDropdown');
 
 
-    if (settingsTopBtn) {
+    if (settingsTopBtn && settingsTopDropdown) {
 
         settingsTopBtn.addEventListener('click', function (e) {
 
@@ -1162,6 +1183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             settingsTopBtn.classList.toggle('open');
 
         });
+
     }
 
 
@@ -1179,6 +1201,7 @@ document.addEventListener('DOMContentLoaded', function () {
             settingsTopDropdown?.classList.remove('show');
 
             settingsTopBtn?.classList.remove('open');
+
         }
 
     });
@@ -1195,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.header-bottom');
 
 
-    if (navToggle) {
+    if (navToggle && headerBottom) {
 
         navToggle.addEventListener('click', function () {
 
@@ -1208,32 +1231,170 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
         });
+
     }
 
 
     /* =====================================================
-       MOBILE DROPDOWNS
+       NAV DROPDOWNS
     ===================================================== */
 
-    const dropdownLinks =
-        document.querySelectorAll('.dropdown > a');
+    const dropdownToggles =
+        document.querySelectorAll('.nav-dropdown-toggle');
 
 
-    dropdownLinks.forEach(function (link) {
+    dropdownToggles.forEach(function (toggle) {
 
-        link.addEventListener('click', function (e) {
+        toggle.addEventListener('click', function (e) {
 
             if (window.innerWidth <= 768) {
 
                 e.preventDefault();
 
                 const dropdown =
-                    this.parentElement;
+                    this.closest('.nav-dropdown');
+
+                document
+                    .querySelectorAll('.nav-dropdown.open')
+                    .forEach(function (item) {
+
+                        if (item !== dropdown) {
+                            item.classList.remove('open');
+                        }
+
+                    });
 
                 dropdown.classList.toggle('open');
+
+            } else {
+
+                const dropdown =
+                    this.closest('.nav-dropdown');
+
+                document
+                    .querySelectorAll('.nav-dropdown.open')
+                    .forEach(function (item) {
+
+                        if (item !== dropdown) {
+                            item.classList.remove('open');
+                        }
+
+                    });
+
+                dropdown.classList.toggle('open');
+
             }
 
         });
+
+    });
+
+
+    /* =====================================================
+       CLOSE DROPDOWNS OUTSIDE CLICK
+    ===================================================== */
+
+    document.addEventListener('click', function (e) {
+
+        if (!e.target.closest('.nav-dropdown')) {
+
+            document
+                .querySelectorAll('.nav-dropdown.open')
+                .forEach(function (dropdown) {
+
+                    dropdown.classList.remove('open');
+
+                });
+
+        }
+
+    });
+
+
+    /* =====================================================
+       CLOSE MOBILE NAV AFTER NORMAL LINK CLICK
+    ===================================================== */
+
+    document
+        .querySelectorAll('.main-nav > a')
+        .forEach(function (link) {
+
+            link.addEventListener('click', function () {
+
+                if (window.innerWidth <= 768) {
+
+                    headerBottom?.classList.remove('open');
+
+                    navToggle?.setAttribute(
+                        'aria-expanded',
+                        'false'
+                    );
+
+                }
+
+            });
+
+        });
+
+
+    /* =====================================================
+       CLOSE MOBILE NAV AFTER DROPDOWN LINK CLICK
+    ===================================================== */
+
+    document
+        .querySelectorAll('.nav-dropdown-menu a')
+        .forEach(function (link) {
+
+            link.addEventListener('click', function () {
+
+                if (window.innerWidth <= 768) {
+
+                    headerBottom?.classList.remove('open');
+
+                    navToggle?.setAttribute(
+                        'aria-expanded',
+                        'false'
+                    );
+
+                    document
+                        .querySelectorAll('.nav-dropdown.open')
+                        .forEach(function (dropdown) {
+
+                            dropdown.classList.remove('open');
+
+                        });
+
+                }
+
+            });
+
+        });
+
+
+    /* =====================================================
+       WINDOW RESIZE
+    ===================================================== */
+
+    window.addEventListener('resize', function () {
+
+        if (window.innerWidth > 768) {
+
+            headerBottom?.classList.remove('open');
+
+            navToggle?.setAttribute(
+                'aria-expanded',
+                'false'
+            );
+
+            document
+                .querySelectorAll('.nav-dropdown.open')
+                .forEach(function (dropdown) {
+
+                    dropdown.classList.remove('open');
+
+                });
+
+        }
 
     });
 

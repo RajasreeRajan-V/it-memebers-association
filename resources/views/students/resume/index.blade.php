@@ -8,85 +8,102 @@
 <div class="resume-feedback-page">
 
     {{-- =========================================================
-        HERO - WEBINAR STYLE WITH WHITE BG (FULL WIDTH)
+        HERO - TRAINING-PAGE STYLE (rounded card, gradient title,
+        3-column grid: content | illustration | features)
     ========================================================== --}}
     <div class="resume-hero mb-4">
-        <div class="hero-content">
-            <span class="hero-eyebrow">
-                <i class="fa-solid fa-graduation-cap"></i>
-                {{ $counts['pending'] ?? 0 }}+ Awaiting Review
-            </span>
+        <div class="hero-grid">
 
-            <h1>
-                Resume Reviews
-                <span>Built By Mentors, For Mentees</span>
-            </h1>
+            {{-- HERO CONTENT --}}
+            <div class="hero-content">
+                <span class="hero-eyebrow">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    {{ $counts['pending'] ?? 0 }}+ Awaiting Review
+                </span>
 
-            <p>
-                Review students' resumes and provide constructive feedback to help them
-                improve, stand out, and land the roles they're aiming for.
-            </p>
+                <h1 class="hero-title">
+                    Resume Reviews
+                    <span>Built By Mentors, For Mentees</span>
+                </h1>
 
-            <div class="mentor-header-actions">
-                <a href="{{ route('mentor.resume-reviews.index', ['tab' => 'pending']) }}" class="hero-btn">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                    Start Reviewing
-                </a>
+                <p class="hero-description">
+                    Review students' resumes and provide constructive feedback to help them
+                    improve, stand out, and land the roles they're aiming for.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ route('mentor.resume-reviews.index', ['tab' => 'pending']) }}" class="hero-btn-primary">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        Start Reviewing
+                    </a>
+
+                    <a href="#submit-resume-request" class="hero-btn-outline">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                        Submit a Resume
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div class="hero-visual">
-            <div class="resume-paper">
-                <div class="paper-top">
-                    <div class="paper-avatar"></div>
-                    <div class="paper-lines">
-                        <span></span>
-                        <span style="width: 70%;"></span>
+            {{-- HERO ILLUSTRATION --}}
+            <div class="hero-illustration">
+
+                <div class="hero-illustration-circle"></div>
+
+                <div class="hero-illustration-card">
+                    <div class="hero-illustration-avatar"></div>
+                    <div class="hero-illustration-line one"></div>
+                    <div class="hero-illustration-line two"></div>
+                    <div class="hero-illustration-line three"></div>
+                    <div class="hero-illustration-line four"></div>
+                    <div class="hero-illustration-line five"></div>
+                    <div class="hero-illustration-line six"></div>
+                </div>
+
+                <div class="hero-small-badge">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+
+                <div class="hero-check">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+            </div>
+
+            {{-- HERO FEATURES --}}
+            <div class="hero-features">
+
+                <div class="hero-feature">
+                    <div class="hero-feature-icon blue">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <div class="hero-feature-title">Expert Mentors</div>
+                        <div class="hero-feature-text">Verified professionals</div>
                     </div>
                 </div>
-                <div class="paper-section"></div>
-                <div class="paper-line long"></div>
-                <div class="paper-line medium"></div>
-                <div class="paper-line long"></div>
-                <div class="paper-line medium"></div>
-                <div class="paper-line long" style="width: 55%;"></div>
-            </div>
-            <div class="hero-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div class="hero-check">
-                <i class="fa-solid fa-check"></i>
-            </div>
-        </div>
 
-        <div class="hero-benefits">
-            <div class="hero-benefit">
-                <div class="benefit-icon blue">
-                    <i class="fa-solid fa-users"></i>
+                <div class="hero-feature">
+                    <div class="hero-feature-icon purple">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <div class="hero-feature-title">Quick Turnaround</div>
+                        <div class="hero-feature-text">Feedback within days</div>
+                    </div>
                 </div>
-                <div>
-                    <strong>Expert Mentors</strong>
-                    <small>Verified professionals</small>
+
+                <div class="hero-feature">
+                    <div class="hero-feature-icon orange">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                        <div class="hero-feature-title">Quality Feedback</div>
+                        <div class="hero-feature-text">Actionable insights</div>
+                    </div>
                 </div>
+
             </div>
-            <div class="hero-benefit">
-                <div class="benefit-icon purple">
-                    <i class="fa-solid fa-clock"></i>
-                </div>
-                <div>
-                    <strong>Quick Turnaround</strong>
-                    <small>Feedback within days</small>
-                </div>
-            </div>
-            <div class="hero-benefit">
-                <div class="benefit-icon orange">
-                    <i class="fa-solid fa-star"></i>
-                </div>
-                <div>
-                    <strong>Quality Feedback</strong>
-                    <small>Actionable insights</small>
-                </div>
-            </div>
+
         </div>
     </div>
 
@@ -1280,8 +1297,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 /* ============================================================
-   GLOBAL - FULL WIDTH HERO
-   Redesigned spacing pass: larger type, more breathing room.
+   GLOBAL
 ============================================================ */
 
 html, body {
@@ -1309,39 +1325,40 @@ html, body {
 
 
 /* ============================================================
-   HERO - FULL WIDTH WITH WHITE BACKGROUND
+   HERO - TRAINING-PAGE STYLE
+   Rounded card, gradient title, 3-column grid layout:
+   content | illustration | features
 ============================================================ */
 
 .resume-hero {
     position: relative;
-    min-height: 250px;
-    display: flex;
-    align-items: center;
-    overflow: visible;
-    padding: 40px 48px;
+    overflow: hidden;
+    padding: 44px 46px;
     margin-bottom: 28px;
-    margin-left: -24px;
-    margin-right: -24px;
     border: 1px solid #e5edfa;
-    border-radius: 16px;
+    border-radius: 24px;
     background: #ffffff;
-    width: calc(100% + 48px);
+    box-shadow: 0 8px 28px rgba(31, 41, 55, .07);
 }
 
-.hero-content {
+.hero-grid {
     position: relative;
-    z-index: 3;
-    width: 44%;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.15fr auto 1fr;
+    gap: 30px;
+    align-items: center;
 }
 
 .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     padding: 7px 15px 7px 12px;
-    border-radius: 20px;
-    background: rgba(51, 120, 229, 0.08);
+    border-radius: 999px;
+    background: #EAF1FF;
+    border: 1px solid #D9E6FF;
     color: #3378e5;
     font-size: 12.5px;
     font-weight: 700;
@@ -1352,221 +1369,217 @@ html, body {
     font-size: 14px;
 }
 
-.hero-content h1 {
-    margin: 0;
+.hero-title {
+    margin: 0 0 14px;
     color: #17243a;
-    font-size: 38px;
-    line-height: 1.2;
+    font-size: 36px;
+    line-height: 1.18;
     font-weight: 800;
-    letter-spacing: -0.8px;
+    letter-spacing: -0.6px;
 }
 
-.hero-content h1 span {
+.hero-title span {
     display: block;
-    color: #286ed8;
+    background: linear-gradient(90deg, #3378e5, #8a64df);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.hero-content p {
-    max-width: 520px;
-    margin: 16px 0 24px;
+.hero-description {
+    max-width: 480px;
+    margin: 0 0 26px;
     color: #5a687c;
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
-.hero-btn {
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-btn-primary,
+.hero-btn-outline {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    padding: 14px 26px;
-    border-radius: 8px;
-    background: #3378e5;
-    color: white !important;
+    gap: 8px;
+    padding: 13px 22px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: 700;
-    box-shadow: 0 6px 15px rgba(51, 120, 229, .2);
-    transition: .2s;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: .2s ease;
 }
 
-.hero-btn:hover {
-    transform: translateY(-1px);
+.hero-btn-primary {
+    background: #3378e5;
+    color: #fff !important;
+    box-shadow: 0 10px 22px rgba(51,120,229,.24);
+}
+
+.hero-btn-primary:hover {
     background: #2468d3;
-    color: white !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+.hero-btn-outline {
+    background: #fff;
+    color: #17243a !important;
+    border-color: #DDE3EC;
+}
+
+.hero-btn-outline:hover {
+    border-color: #3378e5;
+    color: #3378e5 !important;
 }
 
 
 /* ============================================================
-   HERO VISUAL
+   HERO ILLUSTRATION
 ============================================================ */
 
-.hero-visual {
+.hero-illustration {
+    position: relative;
+    width: 170px;
+    height: 190px;
+    flex-shrink: 0;
+    margin: 0 auto;
+}
+
+.hero-illustration-circle {
     position: absolute;
-    left: 47%;
+    top: 0;
+    left: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #EAF1FF, #F3EEFF);
+}
+
+.hero-illustration-card {
+    position: absolute;
+    left: 24px;
     top: 34px;
-    width: 230px;
-    height: 160px;
-}
-
-.resume-paper {
-    position: absolute;
-    left: 25px;
-    top: 5px;
     width: 108px;
-    height: 145px;
-    padding: 12px;
-    border-radius: 5px;
-    background: white;
-    border: 1px solid #dfe8f7;
-    box-shadow: 0 10px 25px rgba(42, 76, 130, .08);
-    transform: rotate(-3deg);
+    height: 132px;
+    background: #fff;
+    border: 1px solid #DCE6F8;
+    border-radius: 14px;
+    box-shadow: 0 14px 30px rgba(31,41,55,.13);
+    padding: 16px 14px;
 }
 
-.paper-top {
-    display: flex;
-    gap: 7px;
-    align-items: center;
+.hero-illustration-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #DDEAFF;
     margin-bottom: 12px;
 }
 
-.paper-avatar {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #d9e8ff;
-}
-
-.paper-lines {
-    flex: 1;
-}
-
-.paper-lines span {
-    display: block;
-    height: 4px;
-    margin-bottom: 4px;
-    border-radius: 4px;
-    background: #dce6f4;
-}
-
-.paper-section {
-    width: 40%;
+.hero-illustration-line {
     height: 5px;
-    margin: 10px 0 7px;
-    border-radius: 4px;
-    background: #6a9ce9;
+    border-radius: 10px;
+    background: #EEF1F6;
+    margin-bottom: 8px;
 }
 
-.paper-line {
-    width: 80%;
-    height: 4px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-    background: #e3e9f1;
-}
+.hero-illustration-line.two { width: 70%; }
+.hero-illustration-line.four { width: 80%; }
+.hero-illustration-line.six { width: 55%; }
 
-.paper-line.long {
-    width: 100%;
-}
-
-.paper-line.medium {
-    width: 62%;
-}
-
-.hero-search {
+.hero-small-badge {
     position: absolute;
-    left: 108px;
-    top: 54px;
+    right: -8px;
+    bottom: 6px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #3378e5;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 16px rgba(51,120,229,.30);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 57px;
-    height: 57px;
-    border: 6px solid #3378e5;
-    border-radius: 50%;
-    background: rgba(255,255,255,.95);
-    color: #3378e5;
-    font-size: 22px;
-    transform: rotate(-10deg);
-    box-shadow: 0 8px 20px rgba(51,120,229,.12);
-}
-
-.hero-search::after {
-    content: "";
-    position: absolute;
-    width: 28px;
-    height: 7px;
-    right: -22px;
-    bottom: -10px;
-    border-radius: 8px;
-    background: #3378e5;
-    transform: rotate(45deg);
+    color: #fff;
+    font-size: 17px;
 }
 
 .hero-check {
     position: absolute;
-    top: 8px;
-    right: 35px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
+    top: -6px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background: #e5f8ef;
-    color: #15a467;
-    font-size: 11px;
-}
-
-.hero-benefits {
-    position: absolute;
-    right: 38px;
-    top: 40px;
-    width: 260px;
-}
-
-.hero-benefit {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.benefit-icon {
+    background: #E9FBF0;
+    border: 1px solid #CFF5DC;
+    color: #18A957;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
-    border-radius: 9px;
-    font-size: 13px;
+    font-size: 15px;
 }
 
-.benefit-icon.blue {
-    color: #3276df;
-    background: #e6f0ff;
+
+/* ============================================================
+   HERO FEATURES
+============================================================ */
+
+.hero-features {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
 }
 
-.benefit-icon.purple {
+.hero-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.hero-feature-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.hero-feature-icon.blue {
+    background: #EAF1FF;
+    color: #3378e5;
+}
+
+.hero-feature-icon.purple {
+    background: #F3EEFF;
     color: #8a64df;
-    background: #f0eaff;
 }
 
-.benefit-icon.orange {
-    color: #ec9a31;
+.hero-feature-icon.orange {
     background: #fff2df;
+    color: #ec9a31;
 }
 
-.hero-benefit strong {
-    display: block;
-    color: #27364d;
-    font-size: 14px;
+.hero-feature-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #17243a;
+    margin-bottom: 2px;
 }
 
-.hero-benefit small {
-    display: block;
-    margin-top: 3px;
-    color: #7b8798;
+.hero-feature-text {
     font-size: 12px;
+    color: #667085;
+    line-height: 1.5;
 }
 
 
@@ -2258,13 +2271,6 @@ html, body {
     background: #fff2df;
 }
 
-.steps-row {
-    display: flex;
-    align-items: stretch;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
 .step-row-item {
     flex: 1 1 190px;
     min-width: 160px;
@@ -2297,16 +2303,6 @@ html, body {
     color: #8a95a4;
     font-size: 12px;
     line-height: 1.6;
-}
-
-.step-row-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-    padding-top: 34px;
-    color: #c3cbd6;
-    font-size: 13px;
 }
 
 .steps-grid {
@@ -2348,18 +2344,6 @@ html, body {
     font-weight: 800;
 }
 
-.new-request-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 11px 16px;
-    border-radius: 7px;
-    background: #3378e5;
-    color: #fff !important;
-    font-size: 12px;
-    font-weight: 700;
-}
-
 .status-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -2376,41 +2360,33 @@ html, body {
     background: #fbfcfe;
 }
 
-.status-card-icon,
-.feature-icon {
+.status-card-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 9px;
-}
-
-.status-card-icon {
     width: 46px;
     height: 46px;
     flex: 0 0 46px;
     font-size: 16px;
 }
 
-.status-card-icon.blue,
-.feature-icon.blue {
+.status-card-icon.blue {
     color: #3378df;
     background: #eaf2ff;
 }
 
-.status-card-icon.orange,
-.feature-icon.orange {
+.status-card-icon.orange {
     color: #e39a31;
     background: #fff3e1;
 }
 
-.status-card-icon.purple,
-.feature-icon.purple {
+.status-card-icon.purple {
     color: #8863dc;
     background: #f0eaff;
 }
 
-.status-card-icon.green,
-.feature-icon.green {
+.status-card-icon.green {
     color: #16a267;
     background: #e8f8f0;
 }
@@ -2427,52 +2403,6 @@ html, body {
     margin-top: 5px;
     color: #8792a1;
     font-size: 12px;
-}
-
-
-/* ============================================================
-   FEATURE STRIP
-============================================================ */
-
-.feature-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-top: 22px;
-}
-
-.feature-box {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 16px 14px;
-    border: 1px solid #e7ecf3;
-    border-radius: 10px;
-    background: #fff;
-}
-
-.feature-icon {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
-    font-size: 15px;
-}
-
-.feature-box strong,
-.feature-box span {
-    display: block;
-}
-
-.feature-box strong {
-    color: #344157;
-    font-size: 13px;
-}
-
-.feature-box span {
-    margin-top: 3px;
-    color: #8993a2;
-    font-size: 11px;
-    line-height: 1.4;
 }
 
 
@@ -2711,17 +2641,30 @@ html, body {
         grid-column: span 2;
     }
 
-    .hero-benefits {
-        right: 24px;
-        width: 220px;
+    .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
-    .hero-content {
-        width: 50%;
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .hero-visual {
-        left: 52%;
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-illustration {
+        margin: 20px auto;
+    }
+
+    .hero-features {
+        align-items: center;
+    }
+
+    .hero-feature {
+        max-width: 320px;
     }
 
 }
@@ -2730,10 +2673,8 @@ html, body {
 @media (max-width: 768px) {
 
     .resume-hero {
-        margin-left: 0;
-        margin-right: 0;
-        width: 100%;
         padding: 30px 24px;
+        border-radius: 19px;
     }
 
     .form-row {
@@ -2746,27 +2687,15 @@ html, body {
         font-size: 14px;
     }
 
-    .resume-hero {
-        min-height: auto;
-    }
-
-    .hero-content {
-        width: 100%;
-    }
-
-    .hero-content h1 {
+    .hero-title {
         font-size: 28px;
     }
 
-    .hero-content p {
+    .hero-description {
         font-size: 13.5px;
     }
 
-    .hero-visual {
-        display: none;
-    }
-
-    .hero-benefits {
+    .hero-illustration {
         display: none;
     }
 
@@ -2783,10 +2712,6 @@ html, body {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .feature-strip {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
     .panel-header h2 {
         font-size: 16px;
     }
@@ -2799,15 +2724,6 @@ html, body {
         grid-template-columns: 1fr;
     }
 
-    .steps-row {
-        flex-direction: column;
-    }
-
-    .step-row-arrow {
-        transform: rotate(90deg);
-        padding: 4px 0;
-    }
-
 }
 
 
@@ -2818,15 +2734,16 @@ html, body {
         padding: 14px 10px 22px;
     }
 
-    .hero-content h1 {
+    .hero-title {
         font-size: 24px;
     }
 
-    .hero-content p {
+    .hero-description {
         font-size: 12.5px;
     }
 
-    .hero-btn {
+    .hero-btn-primary,
+    .hero-btn-outline {
         font-size: 13px;
         padding: 12px 20px;
     }
@@ -2848,11 +2765,6 @@ html, body {
         gap: 10px;
     }
 
-    .feature-strip {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
     .status-section-header {
         align-items: flex-start;
         gap: 10px;
@@ -2861,11 +2773,6 @@ html, body {
 
     .status-section-header h2 {
         font-size: 15px;
-    }
-
-    .new-request-btn {
-        font-size: 11px;
-        padding: 9px 14px;
     }
 
     .request-meta {
@@ -2900,18 +2807,6 @@ html, body {
     .checkbox-option {
         font-size: 11px !important;
         padding: 7px 11px;
-    }
-
-    .feature-box {
-        padding: 10px 8px;
-    }
-
-    .feature-box strong {
-        font-size: 12px;
-    }
-
-    .feature-box span {
-        font-size: 10px;
     }
 
     .status-card {

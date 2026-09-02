@@ -55,7 +55,7 @@ public function completed(Request $request)
         ->where('student_id', $studentId)
         ->where('status', 'completed')
         ->latest('starts_at')
-        ->paginate(10);
+        ->paginate(3);
 
     // Total completed sessions
     $totalSessions = MentorshipSession::where('student_id', $studentId)
