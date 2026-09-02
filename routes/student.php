@@ -20,6 +20,8 @@ use App\Http\Controllers\Student\TrainingController as StudentTrainingController
 use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
 use App\Http\Controllers\Student\JobController as StudentJobController;
 use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
+use App\Http\Controllers\Student\ArticleController as StudentArticleController;
+
 
 Route::middleware(['member.auth'])
     ->name('student.')
@@ -263,6 +265,42 @@ Route::middleware(['member.auth'])
             });
 
 
+
+                /*
+        |--------------------------------------------------------------------------
+        | Articles
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('articles')
+            ->name('articles.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentArticleController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/{article}',
+                    [StudentArticleController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{article}/like',
+                    [StudentArticleController::class, 'toggleLike']
+                )->name('like');
+
+                Route::post(
+                    '/{article}/comments',
+                    [StudentArticleController::class, 'storeComment']
+                )->name('comments.store');
+
+                Route::delete(
+                    '/comments/{comment}',
+                    [StudentArticleController::class, 'destroyComment']
+                )->name('comments.destroy');
+            });
         /*
         |--------------------------------------------------------------------------
         | Trainings
