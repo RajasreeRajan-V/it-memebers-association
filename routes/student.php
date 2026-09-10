@@ -20,6 +20,8 @@ use App\Http\Controllers\Student\TrainingController as StudentTrainingController
 use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
 use App\Http\Controllers\Student\JobController as StudentJobController;
 use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
+use App\Http\Controllers\Student\ArticleController as StudentArticleController;
+
 
 Route::middleware(['member.auth'])
     ->name('student.')
@@ -203,16 +205,62 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-        Route::prefix('jobs')
-            ->name('jobs.')
-            ->group(function () {
-
-                Route::get(
-                    '/',
-                    [StudentJobController::class, 'index']
-                )->name('index');
-            });
-
+Route::prefix('jobs')
+    ->name('jobs.')
+    ->group(function () {
+ 
+        Route::get(
+            '/',
+            [StudentJobController::class, 'index']
+        )->name('index');
+ 
+        Route::post(
+            '/{job}/apply',
+            [StudentJobController::class, 'apply']
+        )->name('apply');
+ 
+        Route::post(
+            '/{job}/save',
+            [StudentJobController::class, 'toggleSave']
+        )->name('save');
+ 
+        Route::get(
+            '/saved',
+            [StudentJobController::class, 'saved']
+        )->name('saved');
+ 
+        Route::get(
+            '/applied',
+            [StudentJobController::class, 'applied']
+        )->name('applied');
+ 
+        Route::get(
+            '/interviews',
+            [StudentJobController::class, 'interviews']
+        )->name('interviews');
+ 
+        Route::get(
+            '/in-progress',
+            [StudentJobController::class, 'inProgress']
+        )->name('in-progress');
+ 
+        Route::get(
+            '/hired',
+            [StudentJobController::class, 'hired']
+        )->name('hired');
+ 
+        Route::get(
+            '/archived',
+            [StudentJobController::class, 'archived']
+        )->name('archived');
+ 
+        // Job details modal is inline on the index page, but a dedicated
+        // "show" route is useful for deep-linking from other pages.
+        Route::get(
+            '/{job}',
+            [StudentJobController::class, 'show']
+        )->name('show');
+    });
 
         /*
         |--------------------------------------------------------------------------
@@ -263,6 +311,42 @@ Route::middleware(['member.auth'])
             });
 
 
+
+                /*
+        |--------------------------------------------------------------------------
+        | Articles
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('articles')
+            ->name('articles.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentArticleController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/{article}',
+                    [StudentArticleController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{article}/like',
+                    [StudentArticleController::class, 'toggleLike']
+                )->name('like');
+
+                Route::post(
+                    '/{article}/comments',
+                    [StudentArticleController::class, 'storeComment']
+                )->name('comments.store');
+
+                Route::delete(
+                    '/comments/{comment}',
+                    [StudentArticleController::class, 'destroyComment']
+                )->name('comments.destroy');
+            });
         /*
         |--------------------------------------------------------------------------
         | Trainings

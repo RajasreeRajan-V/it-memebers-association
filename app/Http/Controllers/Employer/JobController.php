@@ -16,7 +16,7 @@ class JobController extends Controller
                 $query->where('title', 'like', "%{$search}%");
             })
             ->latest()
-            ->paginate(4)
+            ->paginate(3)
             ->withQueryString();
 
         return view('employers.jobs.index', compact('jobs'));

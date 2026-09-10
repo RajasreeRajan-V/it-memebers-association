@@ -15,14 +15,35 @@ class TrainingController extends Controller
     /**
      * List all trainings created by the logged-in mentor.
      */
-    public function index()
-    {
-        $trainings = Training::forMentor(Auth::id())
-            ->latest()
-            ->paginate(10);
+ public function index(Request $request)
+{
+    $mentor = auth()->user();
 
-        return view('mentor.trainings.index', compact('trainings'));
-    }
+    $activeStatus = $request->get('status');
+    $search       = $request->get('q');
+
+    $query = $mentor->trainings()
+        ->when($activeStatus, fn ($q) => $q->where('status', $activeStatus))
+        ->when($search, fn ($q) => $q->where('title', 'like', "%{$search}%"))
+        ->latest();
+
+    $trainings = $query->paginate(10)->withQueryString();
+
+    $stats = [
+    'total'     => $mentor->trainings()->count(),
+    'draft'     => $mentor->trainings()->where('status', Training::STATUS_DRAFT)->count(),
+    'pending'   => $mentor->trainings()->where('status', Training::STATUS_PENDING_APPROVAL)->count(),
+    'approved'  => $mentor->trainings()->where('status', Training::STATUS_APPROVED)->count(),
+    'rejected'  => $mentor->trainings()->where('status', Training::STATUS_REJECTED)->count(),
+    'published' => $mentor->trainings()->where('status', Training::STATUS_PUBLISHED)->count(),
+];
+
+    $recent = $mentor->trainings()->latest()->take(4)->get();
+
+    return view('mentor.trainings.index', compact(
+        'trainings', 'stats', 'activeStatus', 'search', 'recent'
+    ));
+}
 
     /**
      * Show the "Create Training" form.

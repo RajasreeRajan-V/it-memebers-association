@@ -264,12 +264,10 @@
                 <!-- =================================================
                      ARTICLES
                 ================================================== -->
-                <a href="" class="{{ request()->routeIs('student.articles.*') ? 'active' : '' }}">
-
+                <a href="{{ route('student.articles.index') }}"
+                    class="{{ request()->routeIs('student.articles.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-newspaper"></i>
-
                     <span>Articles</span>
-
                 </a>
 
 

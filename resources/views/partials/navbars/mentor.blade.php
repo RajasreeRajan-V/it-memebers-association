@@ -1,4 +1,3 @@
-
 <!-- Tech Leaders Network Site Header (Mentor Portal) -->
 
 <header class="site-header">
@@ -223,6 +222,19 @@
                     <i class="fa-solid fa-comments"></i>
 
                     <span>Mock Interviews</span>
+
+                </a>
+
+
+                <!-- ARTICLES -->
+                <a
+                    href="{{ route('mentor.articles.index') }}"
+                    class="{{ request()->routeIs('mentor.articles.*') ? 'active' : '' }}"
+                >
+
+                    <i class="fa-solid fa-newspaper"></i>
+
+                    <span>Articles</span>
 
                 </a>
 
@@ -1388,4 +1400,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
-

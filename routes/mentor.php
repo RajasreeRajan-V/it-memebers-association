@@ -12,6 +12,8 @@ use App\Http\Controllers\Mentor\SessionLifecycleController;
 use App\Http\Controllers\Mentor\CompleteMentorshipController;
 use App\Http\Controllers\Mentor\TrainingController as MentorTrainingController;
 use App\Http\Controllers\Mentor\MockInterviewController as MentorMockInterviewController;
+use App\Http\Controllers\Mentor\ArticleController;
+
 
 Route::middleware(['member.auth'])
     ->prefix('mentor')
@@ -99,6 +101,49 @@ Route::middleware(['member.auth'])
             '/sessions/{session}/cancel',
             [SessionSchedulingController::class, 'cancel']
         )->name('sessions.cancel');
+
+
+     /* 
+|--------------------------------------------------------------------------
+| Articles
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/articles',
+    [ArticleController::class, 'index']
+)->name('articles.index');
+
+Route::get(
+    '/articles/{article}',
+    [ArticleController::class, 'show']
+)->name('articles.show');
+
+Route::post(
+    '/articles/{article}/like',
+    [ArticleController::class, 'toggleLike']
+)->name('articles.like');
+
+/*
+|--------------------------------------------------------------------------
+| Article Comments
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/articles/{article}/comments',
+    [ArticleController::class, 'comments']
+)->name('articles.comments.index');
+
+Route::post(
+    '/articles/{article}/comments',
+    [ArticleController::class, 'storeComment']
+)->name('articles.comments.store');
+
+Route::delete(
+    '/comments/{comment}',
+    [ArticleController::class, 'destroyComment']
+)->name('articles.comments.destroy');
 
 
         /*
