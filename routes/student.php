@@ -205,16 +205,62 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-        Route::prefix('jobs')
-            ->name('jobs.')
-            ->group(function () {
-
-                Route::get(
-                    '/',
-                    [StudentJobController::class, 'index']
-                )->name('index');
-            });
-
+Route::prefix('jobs')
+    ->name('jobs.')
+    ->group(function () {
+ 
+        Route::get(
+            '/',
+            [StudentJobController::class, 'index']
+        )->name('index');
+ 
+        Route::post(
+            '/{job}/apply',
+            [StudentJobController::class, 'apply']
+        )->name('apply');
+ 
+        Route::post(
+            '/{job}/save',
+            [StudentJobController::class, 'toggleSave']
+        )->name('save');
+ 
+        Route::get(
+            '/saved',
+            [StudentJobController::class, 'saved']
+        )->name('saved');
+ 
+        Route::get(
+            '/applied',
+            [StudentJobController::class, 'applied']
+        )->name('applied');
+ 
+        Route::get(
+            '/interviews',
+            [StudentJobController::class, 'interviews']
+        )->name('interviews');
+ 
+        Route::get(
+            '/in-progress',
+            [StudentJobController::class, 'inProgress']
+        )->name('in-progress');
+ 
+        Route::get(
+            '/hired',
+            [StudentJobController::class, 'hired']
+        )->name('hired');
+ 
+        Route::get(
+            '/archived',
+            [StudentJobController::class, 'archived']
+        )->name('archived');
+ 
+        // Job details modal is inline on the index page, but a dedicated
+        // "show" route is useful for deep-linking from other pages.
+        Route::get(
+            '/{job}',
+            [StudentJobController::class, 'show']
+        )->name('show');
+    });
 
         /*
         |--------------------------------------------------------------------------

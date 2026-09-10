@@ -4,808 +4,1444 @@
 
 <style>
     :root {
-        --primary: #3376F2;
-        --primary-dark: #245FD0;
-        --purple: #7C4DFF;
-        --text: #172033;
-        --muted: #718096;
-        --border: #E7ECF4;
-        --bg: #F7F9FC;
-        --white: #FFFFFF;
-        --green: #16A36A;
-        --orange: #F59E0B;
-        --red: #EF4444;
+        --mr-primary: #3376F2;
+        --mr-primary-dark: #245FD0;
+        --mr-purple: #7257E8;
+        --mr-text: #17213A;
+        --mr-muted: #7B879A;
+        --mr-border: #E8EDF5;
+        --mr-bg: #F7F9FD;
+        --mr-white: #FFFFFF;
+        --mr-green: #22B573;
+        --mr-orange: #F5A623;
+        --mr-red: #EF5350;
+        --mr-light-blue: #EEF4FF;
+        --mr-light-purple: #F3EFFF;
+        --mr-shadow: 0 5px 20px rgba(35, 61, 105, .055);
     }
 
-    .mentees-page {
+    * {
+        box-sizing: border-box;
+    }
+
+    .mentorship-page {
+        width: 100%;
         min-height: 100vh;
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Poppins", "Inter", Arial, sans-serif;
-        padding: 30px 34px 60px;
+        background: var(--mr-bg);
+        color: var(--mr-text);
+        font-family: inherit;
+        padding: 24px 28px 50px;
+        font-size: 15px;
     }
 
-    .mentees-container {
-        max-width: 1440px;
+    .mentorship-container {
+        width: 100%;
+        max-width: 1450px;
         margin: 0 auto;
     }
 
-    /* =====================================================
+    /* =========================================================
        ALERTS
-    ===================================================== */
+    ========================================================= */
 
-    .mentor-alert {
+    .mr-alert {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 14px 17px;
-        border-radius: 12px;
-        margin-bottom: 22px;
-        font-size: 12px;
+        padding: 13px 17px;
+        border-radius: 10px;
+        margin-bottom: 16px;
+        font-size: 14px;
         font-weight: 600;
     }
 
-    .mentor-alert.success {
-        background: #EAF9F2;
-        color: #147A4D;
-        border: 1px solid #C8EEDD;
+    .mr-alert.success {
+        color: #16764C;
+        background: #EAF9F1;
+        border: 1px solid #CBEEDC;
     }
 
-    .mentor-alert.error {
-        background: #FFF1F2;
-        color: #BE123C;
-        border: 1px solid #FFD5DC;
+    .mr-alert.error {
+        color: #B4233E;
+        background: #FFF0F2;
+        border: 1px solid #FFD4DB;
     }
 
-    /* =====================================================
+    /* =========================================================
        HERO
-    ===================================================== */
+    ========================================================= */
 
-    .mentees-hero {
+    .mr-hero {
         position: relative;
         overflow: hidden;
-        background: #FFFFFF;
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 42px 46px;
-        margin-bottom: 26px;
-        box-shadow: 0 12px 35px rgba(30, 55, 90, 0.06);
+        min-height: 280px;
+        border: 1px solid #E9EDF6;
+        border-radius: 22px;
+        background:
+            radial-gradient(circle at 78% 28%, rgba(117, 88, 232, .08), transparent 28%),
+            radial-gradient(circle at 93% 80%, rgba(51, 118, 242, .08), transparent 30%),
+            linear-gradient(110deg, #FFFFFF 0%, #FBFCFF 55%, #F5F7FF 100%);
+        box-shadow: var(--mr-shadow);
+        padding: 34px 38px;
+        margin-bottom: 20px;
     }
 
-    .mentees-hero::before {
+    .mr-hero::before {
         content: "";
         position: absolute;
-        width: 280px;
-        height: 280px;
-        right: -100px;
-        top: -130px;
+        width: 310px;
+        height: 310px;
+        right: -75px;
+        top: -110px;
+        border: 1px dashed rgba(51, 118, 242, .15);
         border-radius: 50%;
-        background: rgba(51, 118, 242, 0.06);
     }
 
-    .mentees-hero::after {
+    .mr-hero::after {
         content: "";
         position: absolute;
-        width: 180px;
-        height: 180px;
-        right: 180px;
-        bottom: -130px;
+        width: 190px;
+        height: 190px;
+        right: 150px;
+        bottom: -135px;
         border-radius: 50%;
-        background: rgba(124, 77, 255, 0.05);
+        background: rgba(114, 87, 232, .055);
     }
 
-    .hero-content {
+    .mr-hero-content {
         position: relative;
-        z-index: 2;
+        z-index: 3;
+        width: 54%;
     }
 
-    .hero-left {
-        max-width: 760px;
-    }
-
-    .hero-badge {
-        display: inline-flex;
+    .mr-breadcrumb {
+        display: flex;
         align-items: center;
-        gap: 8px;
-        background: #EEF4FF;
-        color: var(--primary);
-        border-radius: 30px;
-        padding: 8px 14px;
-        font-size: 12px;
+        gap: 7px;
+        margin-bottom: 14px;
+        color: var(--mr-primary);
+        font-size: 13px;
         font-weight: 700;
-        margin-bottom: 17px;
     }
 
-    .hero-badge-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: var(--primary);
+    .mr-breadcrumb span {
+        color: #9BA5B5;
     }
 
-    .hero-title {
-        margin: 0 0 12px;
-        font-size: 38px;
+    .mr-hero-title {
+        margin: 0;
+        font-size: 36px;
         line-height: 1.2;
         font-weight: 800;
-        letter-spacing: -1px;
-        color: #15213A;
+        letter-spacing: -.7px;
+        color: #17213A;
     }
 
-    .hero-title span {
-        color: var(--primary);
+    .mr-hero-title .blue {
+        color: var(--mr-primary);
     }
 
-    .hero-description {
-        margin: 0;
-        max-width: 700px;
-        color: var(--muted);
+    .mr-hero-title .purple {
+        color: var(--mr-purple);
+    }
+
+    .mr-hero-description {
+        max-width: 570px;
+        margin: 12px 0 22px;
+        color: #7A8495;
         font-size: 15px;
-        line-height: 1.8;
+        line-height: 1.65;
     }
 
-    /* =====================================================
-       STATS
-    ===================================================== */
+    /* =========================================================
+       HERO VISUAL — MENTORSHIP ROADMAP (NO HUMAN FIGURES)
+    ========================================================= */
 
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-        margin-bottom: 30px;
+    .mr-hero-visual {
+        position: absolute;
+        z-index: 2;
+        right: 24px;
+        top: 18px;
+        width: 43%;
+        height: 225px;
     }
 
-    .stat-card {
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 22px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        box-shadow: 0 8px 24px rgba(30, 55, 90, .045);
-        transition: .2s ease;
+    .visual-circle {
+        position: absolute;
+        width: 205px;
+        height: 205px;
+        right: 78px;
+        top: 4px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #F2EEFF, #EEF5FF);
+        box-shadow: inset 0 0 0 1px rgba(114,87,232,.04);
     }
 
-    .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 28px rgba(30, 55, 90, .07);
+    .visual-orbit {
+        position: absolute;
+        width: 235px;
+        height: 150px;
+        right: 62px;
+        top: 27px;
+        border: 1px dashed rgba(51,118,242,.18);
+        border-radius: 50%;
+        transform: rotate(-16deg);
     }
 
-    .stat-icon {
+    .visual-node {
+        position: absolute;
+        z-index: 5;
         width: 48px;
         height: 48px;
-        flex-shrink: 0;
-        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 19px;
-    }
-
-    .stat-icon.blue {
-        background: #EEF4FF;
-        color: var(--primary);
-    }
-
-    .stat-icon.orange {
-        background: #FFF7E8;
-        color: var(--orange);
-    }
-
-    .stat-icon.green {
-        background: #EAF9F2;
-        color: var(--green);
-    }
-
-    .stat-icon.purple {
-        background: #F2EDFF;
-        color: var(--purple);
-    }
-
-    .stat-label {
-        margin: 0 0 5px;
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 600;
-    }
-
-    .stat-value {
-        margin: 0;
-        color: #172033;
-        font-size: 25px;
-        font-weight: 800;
-        line-height: 1;
-    }
-
-    /* =====================================================
-       SECTIONS
-    ===================================================== */
-
-    .section {
-        margin-bottom: 30px;
-    }
-
-    .section-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        margin-bottom: 15px;
-    }
-
-    .section-title-wrap {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-    }
-
-    .section-title-icon {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: #EEF4FF;
-        color: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-    }
-
-    .section-title {
-        margin: 0;
-        font-size: 19px;
-        font-weight: 800;
-        color: #172033;
-    }
-
-    .section-count {
-        min-width: 28px;
-        height: 26px;
-        padding: 0 8px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 20px;
-        background: #EEF4FF;
-        color: var(--primary);
-        font-size: 11px;
-        font-weight: 800;
-    }
-
-    /* =====================================================
-       REQUESTS
-    ===================================================== */
-
-    .requests-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-    }
-
-    .request-card {
+        border-radius: 13px;
         background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 20px;
-        box-shadow: 0 8px 24px rgba(30, 55, 90, .045);
+        border: 1px solid #E5EBF5;
+        box-shadow: 0 8px 20px rgba(48,67,103,.10);
     }
 
-    .request-top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 15px;
+    .visual-node i {
+        font-size: 18px;
     }
 
-    .student-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 0;
-    }
-
-    .student-avatar {
-        width: 46px;
-        height: 46px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .visual-node.node-book {
+        left: 29%;
+        bottom: 35px;
+        color: var(--mr-primary);
         background: #EEF4FF;
-        color: var(--primary);
-        font-weight: 800;
-        font-size: 16px;
-        flex-shrink: 0;
     }
 
-    .student-name {
-        margin: 0 0 4px;
-        font-size: 14px;
-        font-weight: 800;
-        color: #172033;
+    .visual-node.node-target {
+        right: 25%;
+        bottom: 25px;
+        color: var(--mr-purple);
+        background: #F3EFFF;
     }
 
-    .student-email {
-        margin: 0;
-        font-size: 11px;
-        color: var(--muted);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    .visual-node.node-check {
+        right: 8%;
+        top: 91px;
+        color: var(--mr-green);
+        background: #EAF9F2;
     }
 
-    .pending-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 6px 9px;
-        border-radius: 20px;
-        background: #FFF7E8;
-        color: #C77A00;
-        font-size: 10px;
-        font-weight: 800;
-        white-space: nowrap;
+    .visual-connection {
+        position: absolute;
+        z-index: 3;
+        height: 2px;
+        border-radius: 10px;
+        transform-origin: left center;
+        background: linear-gradient(90deg, rgba(51,118,242,.20), rgba(114,87,232,.55));
     }
 
-    .request-goal {
-        margin-top: 17px;
-        background: #F8FAFD;
-        border-radius: 12px;
+    .connection-one {
+        width: 88px;
+        left: 37%;
+        top: 151px;
+        transform: rotate(-31deg);
+    }
+
+    .connection-two {
+        width: 82px;
+        left: 48%;
+        top: 158px;
+        transform: rotate(24deg);
+    }
+
+    .connection-three {
+        width: 68px;
+        left: 67%;
+        top: 128px;
+        transform: rotate(-35deg);
+    }
+
+    .visual-roadmap {
+        position: absolute;
+        z-index: 4;
+        left: 38%;
+        top: 72px;
+        width: 112px;
+        height: 84px;
+        border-radius: 18px;
+        background: linear-gradient(145deg, #FFFFFF, #F7F9FF);
+        border: 1px solid #E2E8F3;
+        box-shadow: 0 10px 25px rgba(48,67,103,.10);
         padding: 13px;
     }
 
-    .request-goal-label {
-        margin: 0 0 5px;
-        color: #8A94A6;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .5px;
+    .roadmap-line {
+        height: 7px;
+        border-radius: 8px;
+        margin-bottom: 9px;
+        background: #E8EDF7;
     }
 
-    .request-goal-text {
-        margin: 0;
-        color: #374151;
-        font-size: 12px;
-        line-height: 1.6;
+    .roadmap-line.short {
+        width: 62%;
     }
 
-    .request-actions {
-        display: flex;
-        gap: 9px;
-        margin-top: 15px;
+    .roadmap-line.blue {
+        width: 82%;
+        background: #DCE8FF;
     }
 
-    .request-btn {
-        flex: 1;
-        min-height: 39px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        background: #fff;
-        cursor: pointer;
+    .roadmap-progress {
+        position: relative;
+        height: 6px;
+        margin-top: 12px;
+        border-radius: 8px;
+        background: #EDF1F7;
+        overflow: hidden;
+    }
+
+    .roadmap-progress::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 72%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #3376F2, #7257E8);
+    }
+
+    .visual-card {
+        position: absolute;
+        z-index: 8;
+        min-width: 128px;
+        padding: 9px 12px;
+        background: rgba(255,255,255,.96);
+        border: 1px solid #E7ECF5;
+        border-radius: 9px;
+        box-shadow: 0 7px 18px rgba(48,67,103,.08);
+    }
+
+    .visual-card small {
+        display: block;
+        color: #7B8799;
         font-size: 11px;
-        font-weight: 700;
-        transition: .2s ease;
+        margin-bottom: 3px;
     }
 
-    .request-btn.accept {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: #fff;
+    .visual-card strong {
+        color: #25304A;
+        font-size: 12px;
+        font-weight: 800;
     }
 
-    .request-btn.accept:hover {
-        background: var(--primary-dark);
+    .visual-card i {
+        color: var(--mr-primary);
+        margin-right: 4px;
     }
 
-    .request-btn.reject {
-        color: var(--red);
+    .visual-card.card-one {
+        left: 3%;
+        top: 24px;
     }
 
-    .request-btn.reject:hover {
-        background: #FFF1F2;
+    .visual-card.card-two {
+        right: 1%;
+        top: 17px;
     }
 
-    /* =====================================================
-       ACTIVE MENTEES
-    ===================================================== */
+    .visual-card.card-three {
+        right: 4%;
+        bottom: 14px;
+    }
 
-    .mentees-grid {
+    .visual-star {
+        position: absolute;
+        z-index: 6;
+        color: #F5A623;
+        font-size: 12px;
+    }
+
+    .visual-star.one { left: 23%; top: 83px; }
+    .visual-star.two { right: 28%; top: 51px; font-size: 9px; }
+    .visual-star.three { right: 14%; bottom: 64px; font-size: 10px; }
+
+    /* =========================================================
+       HERO STATS
+    ========================================================= */
+
+    .mr-hero-stats {
+        display: flex;
+        gap: 12px;
+    }
+
+    .mr-mini-stat {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 145px;
+        padding: 11px 14px;
+        border: 1px solid #E8EDF5;
+        background: rgba(255,255,255,.88);
+        border-radius: 9px;
+        box-shadow: 0 5px 14px rgba(35,61,105,.04);
+    }
+
+    .mr-mini-icon {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 7px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        font-size: 14px;
+    }
+
+    .mr-mini-stat.green .mr-mini-icon {
+        background: #EAF9F2;
+        color: var(--mr-green);
+    }
+
+    .mr-mini-stat.purple .mr-mini-icon {
+        background: #F2EDFF;
+        color: var(--mr-purple);
+    }
+
+    .mr-mini-value {
+        margin: 0;
+        font-size: 20px;
+        line-height: 1;
+        font-weight: 800;
+        color: #25304A;
+    }
+
+    .mr-mini-label {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: #8993A4;
+    }
+
+    /* =========================================================
+       MAIN LAYOUT
+    ========================================================= */
+
+    .mr-main-layout {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
+        grid-template-columns: 220px minmax(0, 1fr) 240px;
+        gap: 16px;
+        align-items: start;
     }
 
-    .mentee-card {
+    .mr-panel {
+        background: #FFFFFF;
+        border: 1px solid var(--mr-border);
+        border-radius: 13px;
+        box-shadow: 0 4px 15px rgba(35, 61, 105, .035);
+    }
+
+    /* =========================================================
+       FILTER SIDEBAR
+    ========================================================= */
+
+    .mr-filter {
+        padding: 18px;
+    }
+
+    .mr-filter-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 17px;
+        font-size: 15px;
+        font-weight: 800;
+        color: #26314A;
+    }
+
+    .mr-filter-title i {
+        color: var(--mr-primary);
+        font-size: 14px;
+    }
+
+    .mr-filter-label {
+        display: block;
+        margin: 0 0 9px;
+        color: #6F7A8D;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .mr-filter-group {
+        margin-bottom: 18px;
+    }
+
+    .mr-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        color: #697487;
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+    .mr-check input {
+        width: 14px;
+        height: 14px;
+        margin: 0;
+        accent-color: var(--mr-primary);
+    }
+
+    .mr-select {
+        width: 100%;
+        height: 38px;
+        padding: 0 10px;
+        border: 1px solid #E2E7EF;
+        border-radius: 7px;
         background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 21px;
-        box-shadow: 0 8px 24px rgba(30, 55, 90, .045);
-        transition: .2s ease;
+        color: #687487;
+        font-size: 13px;
+        outline: none;
     }
 
-    .mentee-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 13px 30px rgba(30, 55, 90, .07);
+    .mr-filter-btn {
+        width: 100%;
+        min-height: 38px;
+        border: 1px solid #D8E3F8;
+        border-radius: 7px;
+        background: #F5F8FF;
+        color: var(--mr-primary);
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
     }
 
-    .mentee-card-top {
+    /* =========================================================
+       REQUESTS PANEL
+    ========================================================= */
+
+    .mr-requests-panel {
+        overflow: hidden;
+    }
+
+    .mr-request-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+        padding: 16px 18px;
+        border-bottom: 1px solid #EDF0F5;
     }
 
-    .mentee-profile {
+    .mr-request-heading h2 {
+        margin: 0 0 4px;
+        color: #202B43;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .mr-request-heading p {
+        margin: 0;
+        color: #929BAB;
+        font-size: 12px;
+    }
+
+    .mr-search-sort {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 8px;
+    }
+
+    .mr-search {
+        position: relative;
+    }
+
+    .mr-search input {
+        width: 210px;
+        height: 38px;
+        padding: 0 34px 0 12px;
+        border: 1px solid #E2E7EF;
+        border-radius: 7px;
+        outline: none;
+        font-size: 13px;
+        color: #526075;
+    }
+
+    .mr-search i {
+        position: absolute;
+        right: 11px;
+        top: 12px;
+        color: #A0A8B6;
+        font-size: 13px;
+    }
+
+    .mr-sort {
+        height: 38px;
+        padding: 0 9px;
+        border: 1px solid #E2E7EF;
+        border-radius: 7px;
+        color: #667286;
+        background: #fff;
+        font-size: 13px;
+    }
+
+    /* =========================================================
+       REQUEST ROW
+    ========================================================= */
+
+    .mr-request-row {
+        display: grid;
+        grid-template-columns: 210px minmax(200px, 1fr) 170px 110px;
+        gap: 14px;
+        align-items: center;
+        min-height: 110px;
+        padding: 15px 18px;
+        border-bottom: 1px solid #EEF1F5;
+        transition: background .15s ease;
+    }
+
+    .mr-request-row:last-child {
+        border-bottom: 0;
+    }
+
+    .mr-request-row:hover {
+        background: #FBFCFF;
+    }
+
+    .mr-student {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
         min-width: 0;
     }
 
-    .mentee-avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #EEF4FF, #F2EDFF);
-        color: var(--primary);
+    .mr-avatar {
+        width: 46px;
+        height: 46px;
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 16px;
-        font-weight: 800;
-        flex-shrink: 0;
-    }
-
-    .mentee-name {
-        margin: 0 0 4px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #EEF4FF, #E5ECFF);
+        color: var(--mr-primary);
         font-size: 14px;
         font-weight: 800;
-        color: #172033;
+        overflow: hidden;
+    }
+
+    .mr-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .mr-student-info {
+        min-width: 0;
+    }
+
+    .mr-student-name {
+        margin: 0 0 3px;
+        color: #25304A;
+        font-size: 14px;
+        font-weight: 800;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .mentee-role {
-        margin: 0;
-        color: var(--muted);
-        font-size: 11px;
+    .mr-student-role {
+        margin: 0 0 5px;
+        color: #7D8798;
+        font-size: 12px;
     }
 
-    .active-badge {
-        padding: 6px 9px;
-        border-radius: 20px;
-        background: #EAF9F2;
-        color: var(--green);
-        font-size: 9px;
-        font-weight: 800;
+    .mr-student-location {
+        color: #98A1AF;
+        font-size: 12px;
     }
 
-    .mentee-divider {
-        height: 1px;
-        background: #EDF0F5;
-        margin: 18px 0;
+    .mr-student-location i {
+        color: var(--mr-primary);
+        margin-right: 4px;
     }
 
-    .mentee-meta {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 11px;
-    }
-
-    .meta-item {
-        background: #F8FAFD;
-        border-radius: 11px;
-        padding: 11px;
-    }
-
-    .meta-label {
-        margin: 0 0 4px;
-        color: #8A94A6;
-        font-size: 9px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: .4px;
-    }
-
-    .meta-value {
-        margin: 0;
-        color: #374151;
-        font-size: 11px;
-        font-weight: 700;
-    }
-
-    .rating {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        color: #F59E0B;
-    }
-
-    .rating-number {
-        color: #374151;
-        margin-left: 2px;
-    }
-
-    .mentee-footer {
-        display: flex;
-        gap: 9px;
-        margin-top: 17px;
-    }
-
-    .view-btn {
-        flex: 1;
-        min-height: 39px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background: #EEF4FF;
-        color: var(--primary);
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: 800;
-        transition: .2s ease;
-    }
-
-    .view-btn:hover {
-        background: var(--primary);
-        color: #fff;
-    }
-
-    /* =====================================================
-       UPCOMING SESSIONS
-    ===================================================== */
-
-    .sessions-card {
-        background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 8px 24px rgba(30, 55, 90, .045);
-    }
-
-    .session-row {
-        display: grid;
-        grid-template-columns: 76px 1fr auto;
-        align-items: center;
-        gap: 20px;
-        padding: 19px 22px;
-        border-bottom: 1px solid #EDF0F5;
-    }
-
-    .session-row:last-child {
-        border-bottom: none;
-    }
-
-    .session-date-box {
-        width: 62px;
-        min-height: 64px;
-        border-radius: 14px;
-        background: #EEF4FF;
-        color: var(--primary);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .session-month {
-        font-size: 9px;
-        text-transform: uppercase;
-        font-weight: 800;
-    }
-
-    .session-day {
-        font-size: 21px;
-        line-height: 1.2;
-        font-weight: 800;
-    }
-
-    .session-details {
+    .mr-goal {
         min-width: 0;
     }
 
-    .session-title {
+    .mr-goal-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0 0 8px;
+        color: #586376;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .mr-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .mr-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 7px;
+        border-radius: 4px;
+        background: #F1F5FF;
+        color: #6682BF;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .mr-tag.purple {
+        background: #F3EFFF;
+        color: #806AD1;
+    }
+
+    .mr-tag.green {
+        background: #EAF9F2;
+        color: #39966D;
+    }
+
+    .mr-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .mr-detail {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #788396;
+        font-size: 12px;
+    }
+
+    .mr-detail i {
+        width: 13px;
+        color: #6B8FDE;
+        text-align: center;
+    }
+
+    .mr-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .mr-action-btn {
+        width: 100%;
+        min-height: 34px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: .15s ease;
+    }
+
+    .mr-action-btn.accept {
+        border: 1px solid var(--mr-primary);
+        background: var(--mr-primary);
+        color: #fff;
+    }
+
+    .mr-action-btn.accept:hover {
+        background: var(--mr-primary-dark);
+    }
+
+    .mr-action-btn.view {
+        border: 1px solid #CBDCFF;
+        background: #fff;
+        color: var(--mr-primary);
+    }
+
+    .mr-action-btn.view:hover {
+        background: #EEF4FF;
+    }
+
+    .mr-action-btn.reject {
+        border: 1px solid #FFD3D8;
+        background: #fff;
+        color: var(--mr-red);
+    }
+
+    /* =========================================================
+       EMPTY
+    ========================================================= */
+
+    .mr-empty {
+        padding: 55px 20px;
+        text-align: center;
+    }
+
+    .mr-empty-icon {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #F2F5F9;
+        color: #9BA5B5;
+        font-size: 20px;
+    }
+
+    .mr-empty h3 {
         margin: 0 0 6px;
-        color: #172033;
+        color: #394459;
+        font-size: 16px;
+        font-weight: 800;
+    }
+
+    .mr-empty p {
+        margin: 0;
+        color: #929BAB;
+        font-size: 13px;
+    }
+
+    /* =========================================================
+       PAGINATION
+    ========================================================= */
+
+    .mr-pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 14px;
+        border-top: 1px solid #EDF0F5;
+    }
+
+    .mr-page-btn {
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #E4E8F0;
+        border-radius: 5px;
+        background: #fff;
+        color: #7D8797;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .mr-page-btn.active {
+        border-color: var(--mr-primary);
+        background: var(--mr-primary);
+        color: #fff;
+    }
+
+    /* =========================================================
+       HOW IT WORKS
+    ========================================================= */
+
+    .mr-how-panel {
+        padding: 18px;
+    }
+
+    .mr-how-title {
+        margin: 0 0 16px;
+        color: #26314A;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .mr-how-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .mr-how-icon {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        font-size: 13px;
+    }
+
+    .mr-how-item:nth-child(3) .mr-how-icon {
+        background: #F3EFFF;
+        color: var(--mr-purple);
+    }
+
+    .mr-how-item:nth-child(4) .mr-how-icon {
+        background: #EAF9F2;
+        color: var(--mr-green);
+    }
+
+    .mr-how-item:nth-child(5) .mr-how-icon {
+        background: #FFF6E7;
+        color: var(--mr-orange);
+    }
+
+    .mr-how-content h4 {
+        margin: 0 0 4px;
+        color: #394459;
         font-size: 13px;
         font-weight: 800;
     }
 
-    .session-meta {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        color: var(--muted);
-        font-size: 10px;
+    .mr-how-content p {
+        margin: 0;
+        color: #929BAB;
+        font-size: 12px;
+        line-height: 1.5;
     }
 
-    .session-meta span {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
+    .mr-help-box {
+        margin-top: 9px;
+        padding: 14px;
+        border-radius: 9px;
+        background: #F5F8FF;
+        border: 1px solid #E1E9FA;
     }
 
-    .session-action {
+    .mr-help-box h4 {
+        margin: 0 0 5px;
+        color: #34415B;
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .mr-help-box p {
+        margin: 0 0 10px;
+        color: #8A94A5;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .mr-help-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 38px;
-        padding: 0 15px;
-        border-radius: 10px;
-        background: #EEF4FF;
-        color: var(--primary);
-        text-decoration: none;
-        font-size: 10px;
-        font-weight: 800;
-        white-space: nowrap;
-    }
-
-    .session-action:hover {
-        background: var(--primary);
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 5px;
+        background: var(--mr-primary);
         color: #fff;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
     }
 
-    /* =====================================================
-       COMPLETED
-    ===================================================== */
+    /* =========================================================
+       SECONDARY SECTIONS
+    ========================================================= */
 
-    .completed-grid {
+    .mr-secondary {
+        margin-top: 24px;
+    }
+
+    .mr-section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+    }
+
+    .mr-section-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .mr-section-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        font-size: 14px;
+    }
+
+    .mr-section-title h2 {
+        margin: 0;
+        color: #25304A;
+        font-size: 18px;
+        font-weight: 800;
+    }
+
+    .mr-section-count {
+        min-width: 27px;
+        height: 26px;
+        padding: 0 9px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       MENTEE CARDS
+    ========================================================= */
+
+    .mr-mentees-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
+        gap: 14px;
     }
 
-    .completed-card {
+    .mr-mentee-card {
+        padding: 16px;
         background: #fff;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 19px;
-        box-shadow: 0 8px 24px rgba(30, 55, 90, .04);
+        border: 1px solid var(--mr-border);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(35,61,105,.035);
     }
 
-    .completed-top {
+    .mr-mentee-top {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
     }
 
-    .completed-avatar {
+    .mr-mentee-avatar {
         width: 42px;
         height: 42px;
-        border-radius: 12px;
-        background: #EAF9F2;
-        color: var(--green);
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: linear-gradient(145deg,#EEF4FF,#F2EDFF);
+        color: var(--mr-primary);
+        font-size: 13px;
+        font-weight: 800;
+    }
+
+    .mr-mentee-name {
+        margin: 0 0 3px;
+        color: #303A50;
         font-size: 14px;
         font-weight: 800;
     }
 
-    .completed-name {
-        margin: 0 0 3px;
-        font-size: 13px;
-        font-weight: 800;
-    }
-
-    .completed-date {
+    .mr-mentee-role {
         margin: 0;
-        color: var(--muted);
-        font-size: 10px;
+        color: #929BAB;
+        font-size: 12px;
     }
 
-    .completed-status {
+    .mr-active {
         margin-left: auto;
         padding: 5px 8px;
         border-radius: 20px;
         background: #EAF9F2;
-        color: var(--green);
-        font-size: 9px;
+        color: #299568;
+        font-size: 11px;
         font-weight: 800;
     }
 
-    /* =====================================================
-       EMPTY
-    ===================================================== */
-
-    .empty-card {
-        background: #fff;
-        border: 1px dashed #DCE3ED;
-        border-radius: 18px;
-        padding: 42px 25px;
-        text-align: center;
+    .mr-mentee-divider {
+        height: 1px;
+        margin: 13px 0;
+        background: #EDF0F5;
     }
 
-    .empty-icon {
-        width: 52px;
-        height: 52px;
-        margin: 0 auto 13px;
-        border-radius: 15px;
+    .mr-mentee-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .mr-meta-box {
+        padding: 9px;
+        border-radius: 7px;
+        background: #F8FAFD;
+    }
+
+    .mr-meta-label {
+        margin: 0 0 3px;
+        color: #98A1AF;
+        font-size: 11px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .mr-meta-value {
+        margin: 0;
+        color: #465167;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .mr-view-mentee {
+        width: 100%;
+        min-height: 36px;
+        margin-top: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border-radius: 7px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       SESSION CARD
+    ========================================================= */
+
+    .mr-session-panel {
+        overflow: hidden;
+    }
+
+    .mr-session-row {
+        display: grid;
+        grid-template-columns: 66px 1fr auto;
+        gap: 14px;
+        align-items: center;
+        padding: 15px 18px;
+        border-bottom: 1px solid #EDF0F5;
+    }
+
+    .mr-session-row:last-child {
+        border-bottom: none;
+    }
+
+    .mr-date-box {
+        width: 54px;
+        height: 58px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+    }
+
+    .mr-date-month {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .mr-date-day {
+        font-size: 20px;
+        line-height: 1.2;
+        font-weight: 800;
+    }
+
+    .mr-session-title {
+        margin: 0 0 5px;
+        color: #344057;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .mr-session-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 11px;
+        color: #8993A3;
+        font-size: 12px;
+    }
+
+    .mr-session-action {
+        min-height: 34px;
+        padding: 0 13px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        background: #EEF4FF;
+        color: var(--mr-primary);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       COMPLETED
+    ========================================================= */
+
+    .mr-completed-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .mr-completed-card {
+        padding: 15px;
+        background: #fff;
+        border: 1px solid var(--mr-border);
+        border-radius: 11px;
+    }
+
+    .mr-completed-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .mr-completed-avatar {
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #F1F4F8;
-        color: #98A2B3;
-        font-size: 19px;
+        border-radius: 50%;
+        background: #EAF9F2;
+        color: var(--mr-green);
+        font-size: 12px;
+        font-weight: 800;
     }
 
-    .empty-title {
-        margin: 0 0 6px;
+    .mr-completed-name {
+        margin: 0 0 3px;
+        color: #344057;
         font-size: 14px;
         font-weight: 800;
-        color: #374151;
     }
 
-    .empty-text {
+    .mr-completed-date {
         margin: 0;
-        color: var(--muted);
-        font-size: 11px;
-        line-height: 1.6;
+        color: #929BAB;
+        font-size: 12px;
     }
 
-    /* =====================================================
+    .mr-completed-status {
+        margin-left: auto;
+        padding: 5px 8px;
+        border-radius: 20px;
+        background: #EAF9F2;
+        color: var(--mr-green);
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    /* =========================================================
+       ACTIVE MENTEES + UPCOMING SESSIONS ROW
+    ========================================================= */
+
+    .mr-secondary-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        align-items: start;
+        margin-top: 24px;
+    }
+
+    .mr-secondary-col {
+        min-width: 0;
+    }
+
+    .mr-secondary-row .mr-mentees-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* =========================================================
        RESPONSIVE
-    ===================================================== */
+    ========================================================= */
 
     @media (max-width: 1200px) {
 
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
+        .mr-main-layout {
+            grid-template-columns: 200px minmax(0, 1fr);
         }
 
-        .mentees-grid {
-            grid-template-columns: repeat(2, 1fr);
+        .mr-how-panel-wrap {
+            display: none;
         }
 
-        .completed-grid {
-            grid-template-columns: repeat(2, 1fr);
+        .mr-request-row {
+            grid-template-columns: 180px minmax(170px, 1fr) 140px 95px;
+        }
+
+        .mr-hero-content {
+            width: 62%;
+        }
+
+        .mr-hero-visual {
+            width: 38%;
         }
     }
 
     @media (max-width: 900px) {
 
-        .mentees-page {
-            padding: 22px 18px 45px;
+        .mentorship-page {
+            padding: 18px;
         }
 
-        .requests-grid {
+        .mr-hero {
+            min-height: 270px;
+        }
+
+        .mr-hero-content {
+            width: 100%;
+        }
+
+        .mr-hero-visual {
+            opacity: .18;
+            width: 70%;
+            right: 0;
+        }
+
+        .mr-main-layout {
             grid-template-columns: 1fr;
         }
 
-        .mentees-grid {
-            grid-template-columns: 1fr;
+        .mr-filter {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            align-items: end;
         }
 
-        .completed-grid {
+        .mr-filter-title {
+            grid-column: 1 / -1;
+            margin-bottom: 0;
+        }
+
+        .mr-filter-group {
+            margin: 0;
+        }
+
+        .mr-filter-btn {
+            height: 38px;
+        }
+
+        .mr-request-row {
+            grid-template-columns: 170px 1fr 120px;
+        }
+
+        .mr-details {
+            display: none;
+        }
+
+        .mr-mentees-grid,
+        .mr-completed-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .mr-secondary-row {
             grid-template-columns: 1fr;
         }
     }
 
     @media (max-width: 650px) {
 
-        .mentees-hero {
-            padding: 30px 24px;
+        .mentorship-page {
+            padding: 12px;
         }
 
-        .hero-title {
-            font-size: 29px;
+        .mr-hero {
+            padding: 26px 22px;
+            min-height: auto;
         }
 
-        .stats-grid {
+        .mr-hero-title {
+            font-size: 27px;
+        }
+
+        .mr-hero-description {
+            font-size: 13px;
+            max-width: 100%;
+        }
+
+        .mr-hero-stats {
+            flex-direction: column;
+            width: 175px;
+        }
+
+        .mr-mini-stat {
+            min-width: 175px;
+        }
+
+        .mr-hero-visual {
+            display: none;
+        }
+
+        .mr-filter {
+            display: block;
+        }
+
+        .mr-filter-group {
+            margin-bottom: 14px;
+        }
+
+        .mr-request-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .mr-search-sort {
+            width: 100%;
+        }
+
+        .mr-search {
+            flex: 1;
+        }
+
+        .mr-search input {
+            width: 100%;
+        }
+
+        .mr-request-row {
+            display: block;
+            padding: 16px;
+        }
+
+        .mr-student {
+            margin-bottom: 13px;
+        }
+
+        .mr-goal {
+            margin-bottom: 12px;
+        }
+
+        .mr-details {
+            display: flex;
+            margin-bottom: 12px;
+        }
+
+        .mr-actions {
+            flex-direction: row;
+        }
+
+        .mr-action-btn {
+            flex: 1;
+        }
+
+        .mr-mentees-grid,
+        .mr-completed-grid {
             grid-template-columns: 1fr;
         }
 
-        .session-row {
-            grid-template-columns: 62px 1fr;
+        .mr-session-row {
+            grid-template-columns: 56px 1fr;
         }
 
-        .session-action {
+        .mr-session-action {
             grid-column: 2;
             justify-self: start;
         }
@@ -813,181 +1449,337 @@
 </style>
 
 
-<div class="mentees-page">
+<div class="mentorship-page">
 
-    <div class="mentees-container">
+    <div class="mentorship-container">
 
-        {{-- ==================================================
+        {{-- =====================================================
              ALERTS
-        =================================================== --}}
+        ====================================================== --}}
 
         @if(session('success'))
-            <div class="mentor-alert success">
+            <div class="mr-alert success">
                 <i class="fas fa-check-circle"></i>
                 <span>{{ session('success') }}</span>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="mentor-alert error">
+            <div class="mr-alert error">
                 <i class="fas fa-exclamation-circle"></i>
                 <span>{{ session('error') }}</span>
             </div>
         @endif
 
 
-        {{-- ==================================================
+        {{-- =====================================================
              HERO
-        =================================================== --}}
-
-        <section class="mentees-hero">
-
-            <div class="hero-content">
-
-                <div class="hero-left">
-
-                    <div class="hero-badge">
-                        <span class="hero-badge-dot"></span>
-                        Mentor Workspace
-                    </div>
-
-                    <h1 class="hero-title">
-                        My <span>Mentees</span>
-                    </h1>
-
-                    <p class="hero-description">
-                        Manage your mentorship relationships, review student
-                        requests, track upcoming sessions, and support your
-                        mentees throughout their learning journey.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        {{-- ==================================================
-             STATS
-        =================================================== --}}
+        ====================================================== --}}
 
         @php
             $upcomingSessions = $upcomingSessions ?? collect();
+
+            $activeCount = $stats['active_count'] ?? 0;
+            $pendingCount = $stats['pending_count'] ?? $pendingRequests->count();
+            $upcomingCount = $stats['upcoming_sessions_count'] ?? $upcomingSessions->count();
+            $completedCount = $stats['completed_count'] ?? 0;
         @endphp
 
-        <section class="stats-grid">
+        <section class="mr-hero">
 
-            <div class="stat-card">
+            <div class="mr-hero-content">
 
-                <div class="stat-icon blue">
-                    <i class="fas fa-users"></i>
+                <div class="mr-breadcrumb">
+                    <i class="fas fa-home"></i>
+                    <span>›</span>
+                    Mentorship Requests
                 </div>
 
-                <div>
-                    <p class="stat-label">
-                        Active Mentees
-                    </p>
+                <h1 class="mr-hero-title">
+                    Mentorship Requests
+                    <br>
+                    <span class="blue">Waiting for Your Guidance</span>
+                    
+                </h1>
 
-                    <p class="stat-value">
-                        {{ $stats['active_count'] ?? 0 }}
-                    </p>
+                <p class="mr-hero-description">
+                    Review and respond to mentorship requests from students and
+                    professionals eager to learn from your expertise.
+                </p>
+
+                <div class="mr-hero-stats">
+
+                    <div class="mr-mini-stat">
+                        <div class="mr-mini-icon">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+
+                        <div>
+                            <p class="mr-mini-value">
+                                {{ $pendingCount }}
+                            </p>
+
+                            <p class="mr-mini-label">
+                                Pending Requests
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mr-mini-stat green">
+                        <div class="mr-mini-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+
+                        <div>
+                            <p class="mr-mini-value">
+                                {{ $activeCount }}
+                            </p>
+
+                            <p class="mr-mini-label">
+                                Active Mentees
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mr-mini-stat purple">
+                        <div class="mr-mini-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+
+                        <div>
+                            <p class="mr-mini-value">
+                                {{ $completedCount }}
+                            </p>
+
+                            <p class="mr-mini-label">
+                                Completed
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <div class="stat-card">
+            {{-- Mentor-related abstract illustration — no human figures --}}
 
-                <div class="stat-icon orange">
-                    <i class="fas fa-clock"></i>
+            <div class="mr-hero-visual" aria-hidden="true">
+
+                <div class="visual-circle"></div>
+                <div class="visual-orbit"></div>
+
+                <div class="visual-card card-one">
+                    <small>
+                        <i class="fas fa-user-plus"></i>
+                        Mentee Journey
+                    </small>
+                    <strong>New Connection</strong>
                 </div>
 
-                <div>
-                    <p class="stat-label">
-                        Pending Requests
-                    </p>
-
-                    <p class="stat-value">
-                        {{ $stats['pending_count'] ?? 0 }}
-                    </p>
+                <div class="visual-card card-two">
+                    <small>
+                        <i class="fas fa-bullseye"></i>
+                        Career Goal
+                    </small>
+                    <strong>Growth Target</strong>
                 </div>
 
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon purple">
-                    <i class="fas fa-calendar-check"></i>
+                <div class="visual-card card-three">
+                    <small>
+                        <i class="fas fa-chart-line"></i>
+                        Mentorship
+                    </small>
+                    <strong>Progress 72%</strong>
                 </div>
 
-                <div>
-                    <p class="stat-label">
-                        Upcoming Sessions
-                    </p>
+                <div class="visual-connection connection-one"></div>
+                <div class="visual-connection connection-two"></div>
+                <div class="visual-connection connection-three"></div>
 
-                    <p class="stat-value">
-                        {{ $stats['upcoming_sessions_count'] ?? $upcomingSessions->count() }}
-                    </p>
+                <div class="visual-roadmap">
+                    <div class="roadmap-line blue"></div>
+                    <div class="roadmap-line"></div>
+                    <div class="roadmap-line short"></div>
+                    <div class="roadmap-progress"></div>
                 </div>
 
-            </div>
-
-
-            <div class="stat-card">
-
-                <div class="stat-icon green">
-                    <i class="fas fa-check-double"></i>
+                <div class="visual-node node-book">
+                    <i class="fas fa-book-open"></i>
                 </div>
 
-                <div>
-                    <p class="stat-label">
-                        Completed
-                    </p>
-
-                    <p class="stat-value">
-                        {{ $stats['completed_count'] ?? 0 }}
-                    </p>
+                <div class="visual-node node-target">
+                    <i class="fas fa-bullseye"></i>
                 </div>
+
+                <div class="visual-node node-check">
+                    <i class="fas fa-check"></i>
+                </div>
+
+                <i class="fas fa-star visual-star one"></i>
+                <i class="fas fa-star visual-star two"></i>
+                <i class="fas fa-star visual-star three"></i>
 
             </div>
 
         </section>
 
 
-        {{-- ==================================================
-             PENDING REQUESTS
-        =================================================== --}}
+        {{-- =====================================================
+             MAIN CONTENT
+        ====================================================== --}}
 
-        <section class="section">
+        <div class="mr-main-layout">
 
-            <div class="section-header">
 
-                <div class="section-title-wrap">
+            {{-- =================================================
+                 FILTERS
+            ================================================== --}}
 
-                    <div class="section-title-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
+            <aside class="mr-panel mr-filter">
 
-                    <h2 class="section-title">
-                        Pending Requests
-                    </h2>
+                <h3 class="mr-filter-title">
+                    <i class="fas fa-filter"></i>
+                    Filter Requests
+                </h3>
 
-                    @if($pendingRequests->count() > 0)
-                        <span class="section-count">
-                            {{ $pendingRequests->count() }}
-                        </span>
-                    @endif
+                <div class="mr-filter-group">
+
+                    <label class="mr-filter-label">
+                        Request Status
+                    </label>
+
+                    <label class="mr-check">
+                        <input type="checkbox" id="filter-status-all" checked>
+                        <span>All Requests</span>
+                    </label>
+
+                    <label class="mr-check">
+                        <input type="checkbox" class="filter-status" value="pending">
+                        <span>Pending</span>
+                    </label>
+
+                    <label class="mr-check">
+                        <input type="checkbox" class="filter-status" value="accepted">
+                        <span>Accepted</span>
+                    </label>
+
+                    <label class="mr-check">
+                        <input type="checkbox" class="filter-status" value="declined">
+                        <span>Declined</span>
+                    </label>
+
+                    <label class="mr-check">
+                        <input type="checkbox" class="filter-status" value="completed">
+                        <span>Completed</span>
+                    </label>
 
                 </div>
 
-            </div>
+
+                <div class="mr-filter-group">
+
+                    <label class="mr-filter-label">
+                        Request Type
+                    </label>
+
+                    <select class="mr-select" id="filter-type">
+                        <option value="">All Types</option>
+                        <option value="Career Guidance">Career Guidance</option>
+                        <option value="Technical">Technical</option>
+                        <option value="Interview Preparation">Interview Preparation</option>
+                        <option value="Resume Review">Resume Review</option>
+                    </select>
+
+                </div>
 
 
-            @if($pendingRequests->count() > 0)
+                <div class="mr-filter-group">
 
-                <div class="requests-grid">
+                    <label class="mr-filter-label">
+                        Experience Level
+                    </label>
+
+                    <select class="mr-select" id="filter-level">
+                        <option value="">All Levels</option>
+                        <option value="Student">Student</option>
+                        <option value="Fresher">Fresher</option>
+                        <option value="Junior">Junior</option>
+                        <option value="Experienced">Experienced</option>
+                    </select>
+
+                </div>
+
+
+                <div class="mr-filter-group">
+
+                    <label class="mr-filter-label">
+                        Availability
+                    </label>
+
+                    <select class="mr-select" id="filter-availability">
+                        <option value="">All Availability</option>
+                        <option value="Available Now">Available Now</option>
+                        <option value="This Week">This Week</option>
+                        <option value="Weekend">Weekend</option>
+                    </select>
+
+                </div>
+
+
+                <button type="button" class="mr-filter-btn" id="clear-filters-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    Clear Filters
+                </button>
+
+            </aside>
+
+
+            {{-- =================================================
+                 REQUEST LIST
+            ================================================== --}}
+
+            <main class="mr-panel mr-requests-panel">
+
+                <div class="mr-request-header">
+
+                    <div class="mr-request-heading">
+
+                        <h2>
+                            All Mentorship Requests
+                        </h2>
+
+                        <p>
+                            Review and respond to students looking for your guidance.
+                        </p>
+
+                    </div>
+
+                    <div class="mr-search-sort">
+
+                        <div class="mr-search">
+                            <input
+                                type="text"
+                                id="filter-search"
+                                placeholder="Search by name, skills or topic..."
+                            >
+
+                            <i class="fas fa-search"></i>
+                        </div>
+
+                        <select class="mr-sort" id="filter-sort">
+                            <option value="recent">Sort: Recent</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="az">Name A-Z</option>
+                            <option value="za">Name Z-A</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                @if($pendingRequests->count() > 0)
 
                     @foreach($pendingRequests as $requestItem)
 
@@ -997,6 +1789,9 @@
 
                             $studentName =
                                 $student->name ?? 'Student';
+
+                            $studentEmail =
+                                $student->email ?? '';
 
                             $studentInitials = collect(
                                 preg_split(
@@ -1014,112 +1809,186 @@
                             )
                             ->implode('');
 
-                            $studentEmail =
-                                $student->email ?? '';
-
                             $careerGoal =
                                 $requestItem->career_goal
                                 ?? 'Mentorship support requested.';
 
+                            $requestType =
+                                $requestItem->request_type
+                                ?? 'Career Guidance';
+
+                            $experienceLevel =
+                                $requestItem->experience_level
+                                ?? 'Student';
+
+                            $location =
+                                $student->city
+                                ?? $student->location
+                                ?? '';
+
+                            $createdAt =
+                                $requestItem->created_at ?? null;
+
                         @endphp
 
 
-                        <div class="request-card">
+                        <div
+                            class="mr-request-row"
+                            data-status="pending"
+                            data-type="{{ $requestType }}"
+                            data-level="{{ $experienceLevel }}"
+                            data-name="{{ strtolower($studentName) }}"
+                            data-goal="{{ strtolower($careerGoal) }}"
+                            data-created="{{ $createdAt ? \Carbon\Carbon::parse($createdAt)->timestamp : 0 }}"
+                        >
 
-                            <div class="request-top">
 
-                                <div class="student-info">
+                            {{-- STUDENT --}}
 
-                                    <div class="student-avatar">
+                            <div class="mr-student">
+
+                                <div class="mr-avatar">
+
+                                    @if(!empty($student->profile_image))
+
+                                        <img
+                                            src="{{ asset('storage/' . $student->profile_image) }}"
+                                            alt="{{ $studentName }}"
+                                        >
+
+                                    @else
+
                                         {{ $studentInitials ?: 'S' }}
-                                    </div>
 
-                                    <div>
-
-                                        <h3 class="student-name">
-                                            {{ $studentName }}
-                                        </h3>
-
-                                        @if($studentEmail)
-
-                                            <p class="student-email">
-                                                {{ $studentEmail }}
-                                            </p>
-
-                                        @endif
-
-                                    </div>
+                                    @endif
 
                                 </div>
 
+                                <div class="mr-student-info">
 
-                                <span class="pending-badge">
-                                    <i class="fas fa-clock"></i>
-                                    Pending
-                                </span>
+                                    <h3 class="mr-student-name">
+                                        {{ $studentName }}
+                                    </h3>
+
+                                    <p class="mr-student-role">
+                                        {{ $requestType }}
+                                    </p>
+
+                                    @if($location)
+
+                                        <div class="mr-student-location">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            {{ $location }}
+                                        </div>
+
+                                    @elseif($studentEmail)
+
+                                        <div class="mr-student-location">
+                                            <i class="fas fa-envelope"></i>
+                                            {{ $studentEmail }}
+                                        </div>
+
+                                    @endif
+
+                                </div>
 
                             </div>
 
 
-                            <div class="request-goal">
+                            {{-- REQUEST GOAL --}}
 
-                                <p class="request-goal-label">
-                                    Career Goal
-                                </p>
+                            <div class="mr-goal">
 
-                                <p class="request-goal-text">
+                                <p class="mr-goal-text">
                                     {{ $careerGoal }}
                                 </p>
 
+                                <div class="mr-tags">
+
+                                    <span class="mr-tag">
+                                        {{ $requestType }}
+                                    </span>
+
+                                    <span class="mr-tag purple">
+                                        {{ $experienceLevel }}
+                                    </span>
+
+                                    @if($studentEmail)
+
+                                        <span class="mr-tag green">
+                                            Profile Verified
+                                        </span>
+
+                                    @endif
+
+                                </div>
+
                             </div>
 
 
-                            {{-- IMPORTANT:
-                                 Routes are mentor.requests.accept
-                                 and mentor.requests.reject
-                            --}}
+                            {{-- DETAILS --}}
 
-                            <div class="request-actions">
+                            <div class="mr-details">
+
+                                @if($createdAt)
+
+                                    <div class="mr-detail">
+                                        <i class="fas fa-calendar"></i>
+
+                                        <span>
+                                            Requested
+                                            {{ \Carbon\Carbon::parse($createdAt)->format('M d, Y') }}
+                                        </span>
+                                    </div>
+
+                                @endif
+
+                                <div class="mr-detail">
+                                    <i class="fas fa-clock"></i>
+
+                                    <span>
+                                        Pending Request
+                                    </span>
+                                </div>
+
+                                <div class="mr-detail">
+                                    <i class="fas fa-user-graduate"></i>
+
+                                    <span>
+                                        {{ $experienceLevel }}
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            {{-- ACTIONS --}}
+
+                            <div class="mr-actions">
 
                                 <form
                                     action="{{ route('mentor.requests.accept', $requestItem) }}"
                                     method="POST"
-                                    style="flex:1;"
                                 >
 
                                     @csrf
 
                                     <button
                                         type="submit"
-                                        class="request-btn accept"
-                                        style="width:100%;"
+                                        class="mr-action-btn accept"
                                     >
-                                        <i class="fas fa-check"></i>
                                         Accept
                                     </button>
 
                                 </form>
 
 
-                                <form
-                                    action="{{ route('mentor.requests.reject', $requestItem) }}"
-                                    method="POST"
-                                    style="flex:1;"
-                                    onsubmit="return confirm('Are you sure you want to reject this mentorship request?');"
+                                <a
+                                    href="{{ route('mentor.mentees.show', $requestItem) }}"
+                                    class="mr-action-btn view"
                                 >
-
-                                    @csrf
-
-                                    <button
-                                        type="submit"
-                                        class="request-btn reject"
-                                        style="width:100%;"
-                                    >
-                                        <i class="fas fa-times"></i>
-                                        Reject
-                                    </button>
-
-                                </form>
+                                    View Profile
+                                </a>
 
                             </div>
 
@@ -1127,51 +1996,209 @@
 
                     @endforeach
 
-                </div>
 
-            @else
+                    {{-- Shown by JS when filters match nothing --}}
+                    <div class="mr-empty" id="filter-empty-state" style="display:none;">
 
-                <div class="empty-card">
+                        <div class="mr-empty-icon">
+                            <i class="fas fa-filter"></i>
+                        </div>
 
-                    <div class="empty-icon">
-                        <i class="fas fa-user-check"></i>
+                        <h3>
+                            No Matching Requests
+                        </h3>
+
+                        <p>
+                            Try adjusting or clearing your filters.
+                        </p>
+
                     </div>
 
-                    <h3 class="empty-title">
-                        No Pending Requests
+
+                    {{-- PAGINATION --}}
+
+                    <div class="mr-pagination" id="mr-pagination">
+
+                        <a href="#" class="mr-page-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+
+                        <a href="#" class="mr-page-btn active">
+                            1
+                        </a>
+
+                        <a href="#" class="mr-page-btn">
+                            2
+                        </a>
+
+                        <a href="#" class="mr-page-btn">
+                            3
+                        </a>
+
+                        <span class="mr-page-btn">
+                            ...
+                        </span>
+
+                        <a href="#" class="mr-page-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+
+                    </div>
+
+
+                @else
+
+                    <div class="mr-empty">
+
+                        <div class="mr-empty-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+
+                        <h3>
+                            No Pending Requests
+                        </h3>
+
+                        <p>
+                            New mentorship requests from students will appear here.
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </main>
+
+
+            {{-- =================================================
+                 HOW IT WORKS
+            ================================================== --}}
+
+            <aside class="mr-panel mr-how-panel-wrap">
+
+                <div class="mr-how-panel">
+
+                    <h3 class="mr-how-title">
+                        How It Works
                     </h3>
 
-                    <p class="empty-text">
-                        New mentorship requests from students will appear here.
-                    </p>
+
+                    <div class="mr-how-item">
+
+                        <div class="mr-how-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+
+                        <div class="mr-how-content">
+
+                            <h4>
+                                Review Request
+                            </h4>
+
+                            <p>
+                                Review the student's profile and mentorship goals.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mr-how-item">
+
+                        <div class="mr-how-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+
+                        <div class="mr-how-content">
+
+                            <h4>
+                                View Profile
+                            </h4>
+
+                            <p>
+                                Learn about their experience and career interests.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mr-how-item">
+
+                        <div class="mr-how-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+
+                        <div class="mr-how-content">
+
+                            <h4>
+                                Accept Mentee
+                            </h4>
+
+                            <p>
+                                Accept the request when you are ready to guide them.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mr-how-item">
+
+                        <div class="mr-how-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+
+                        <div class="mr-how-content">
+
+                            <h4>
+                                Schedule Session
+                            </h4>
+
+                            <p>
+                                Plan sessions and connect with your mentee.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                   
+
+                    </div>
 
                 </div>
 
-            @endif
+            </aside>
 
-        </section>
+        </div>
 
 
-        {{-- ==================================================
-             ACTIVE MENTEES
-        =================================================== --}}
+        {{-- =====================================================
+             ACTIVE MENTEES + UPCOMING SESSIONS (ROW)
+        ====================================================== --}}
 
-        <section class="section">
+        <div class="mr-secondary-row">
 
-            <div class="section-header">
+        <section class="mr-secondary-col">
 
-                <div class="section-title-wrap">
+            <div class="mr-section-header">
 
-                    <div class="section-title-icon">
+                <div class="mr-section-title">
+
+                    <div class="mr-section-icon">
                         <i class="fas fa-users"></i>
                     </div>
 
-                    <h2 class="section-title">
+                    <h2>
                         Active Mentees
                     </h2>
 
                     @if($activeMentees->count() > 0)
-                        <span class="section-count">
+                        <span class="mr-section-count">
                             {{ $activeMentees->count() }}
                         </span>
                     @endif
@@ -1183,7 +2210,7 @@
 
             @if($activeMentees->count() > 0)
 
-                <div class="mentees-grid">
+                <div class="mr-mentees-grid">
 
                     @foreach($activeMentees as $mentorship)
 
@@ -1210,66 +2237,56 @@
                             )
                             ->implode('');
 
-                            $latestSession =
-                                $mentorship->sessions->first();
-
                             $rating =
                                 $mentorship->avg_rating;
 
-                            $rating = is_numeric($rating)
-                                ? number_format(
-                                    (float)$rating,
-                                    1
-                                )
+                            $rating =
+                                is_numeric($rating)
+                                ? number_format((float)$rating, 1)
                                 : '—';
 
                         @endphp
 
 
-                        <div class="mentee-card">
+                        <div class="mr-mentee-card">
 
-                            <div class="mentee-card-top">
+                            <div class="mr-mentee-top">
 
-                                <div class="mentee-profile">
+                                <div class="mr-mentee-avatar">
+                                    {{ $initials ?: 'S' }}
+                                </div>
 
-                                    <div class="mentee-avatar">
-                                        {{ $initials ?: 'S' }}
-                                    </div>
+                                <div>
 
-                                    <div style="min-width:0;">
+                                    <h3 class="mr-mentee-name">
+                                        {{ $studentName }}
+                                    </h3>
 
-                                        <h3 class="mentee-name">
-                                            {{ $studentName }}
-                                        </h3>
-
-                                        <p class="mentee-role">
-                                            Active Mentee
-                                        </p>
-
-                                    </div>
+                                    <p class="mr-mentee-role">
+                                        Active Mentee
+                                    </p>
 
                                 </div>
 
-
-                                <span class="active-badge">
+                                <span class="mr-active">
                                     ACTIVE
                                 </span>
 
                             </div>
 
 
-                            <div class="mentee-divider"></div>
+                            <div class="mr-mentee-divider"></div>
 
 
-                            <div class="mentee-meta">
+                            <div class="mr-mentee-meta">
 
-                                <div class="meta-item">
+                                <div class="mr-meta-box">
 
-                                    <p class="meta-label">
+                                    <p class="mr-meta-label">
                                         Sessions
                                     </p>
 
-                                    <p class="meta-value">
+                                    <p class="mr-meta-value">
 
                                         @if(isset($mentorship->sessions_count))
 
@@ -1286,22 +2303,21 @@
                                 </div>
 
 
-                                <div class="meta-item">
+                                <div class="mr-meta-box">
 
-                                    <p class="meta-label">
+                                    <p class="mr-meta-label">
                                         Rating
                                     </p>
 
-                                    <p class="meta-value rating">
-
+                                    <p class="mr-meta-value">
                                         @if($rating !== '—')
-                                            <i class="fas fa-star"></i>
+                                            <i
+                                                class="fas fa-star"
+                                                style="color:#F5A623;"
+                                            ></i>
                                         @endif
 
-                                        <span class="rating-number">
-                                            {{ $rating }}
-                                        </span>
-
+                                        {{ $rating }}
                                     </p>
 
                                 </div>
@@ -1309,22 +2325,14 @@
                             </div>
 
 
-                            <div class="mentee-footer">
+                            <a
+                                href="{{ route('mentor.mentees.show', $mentorship) }}"
+                                class="mr-view-mentee"
+                            >
+                                View Mentee
 
-                                <a
-                                    href="{{ route('mentor.mentees.show', $mentorship) }}"
-                                    class="view-btn"
-                                >
-                                    View Mentee
-
-                                    <i
-                                        class="fas fa-arrow-right"
-                                        style="margin-left:7px;"
-                                    ></i>
-
-                                </a>
-
-                            </div>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
 
                         </div>
 
@@ -1334,19 +2342,18 @@
 
             @else
 
-                <div class="empty-card">
+                <div class="mr-panel mr-empty">
 
-                    <div class="empty-icon">
+                    <div class="mr-empty-icon">
                         <i class="fas fa-users"></i>
                     </div>
 
-                    <h3 class="empty-title">
+                    <h3>
                         No Active Mentees Yet
                     </h3>
 
-                    <p class="empty-text">
-                        Once you accept a mentorship request,
-                        the student will appear here.
+                    <p>
+                        Once you accept a mentorship request, the student will appear here.
                     </p>
 
                 </div>
@@ -1356,27 +2363,23 @@
         </section>
 
 
-        {{-- ==================================================
-             UPCOMING SESSIONS
-        =================================================== --}}
+        <section class="mr-secondary-col">
 
-        <section class="section">
+            <div class="mr-section-header">
 
-            <div class="section-header">
+                <div class="mr-section-title">
 
-                <div class="section-title-wrap">
-
-                    <div class="section-title-icon">
+                    <div class="mr-section-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
 
-                    <h2 class="section-title">
+                    <h2>
                         Upcoming Sessions
                     </h2>
 
                     @if($upcomingSessions->count() > 0)
 
-                        <span class="section-count">
+                        <span class="mr-section-count">
                             {{ $upcomingSessions->count() }}
                         </span>
 
@@ -1389,20 +2392,15 @@
 
             @if($upcomingSessions->count() > 0)
 
-                <div class="sessions-card">
+                <div class="mr-panel mr-session-panel">
 
                     @foreach($upcomingSessions as $item)
 
                         @php
 
-                            $session =
-                                $item['session'];
-
-                            $mentee =
-                                $item['mentee'];
-
-                            $student =
-                                $mentee->student ?? null;
+                            $session = $item['session'];
+                            $mentee = $item['mentee'];
+                            $student = $mentee->student ?? null;
 
                             $studentName =
                                 $student->name ?? 'Mentee';
@@ -1444,27 +2442,27 @@
                         @endphp
 
 
-                        <div class="session-row">
+                        <div class="mr-session-row">
 
-                            <div class="session-date-box">
+                            <div class="mr-date-box">
 
                                 @if($sessionDate)
 
-                                    <span class="session-month">
+                                    <span class="mr-date-month">
                                         {{ $sessionDate->format('M') }}
                                     </span>
 
-                                    <span class="session-day">
+                                    <span class="mr-date-day">
                                         {{ $sessionDate->format('d') }}
                                     </span>
 
                                 @else
 
-                                    <span class="session-month">
+                                    <span class="mr-date-month">
                                         Date
                                     </span>
 
-                                    <span class="session-day">
+                                    <span class="mr-date-day">
                                         —
                                     </span>
 
@@ -1473,19 +2471,18 @@
                             </div>
 
 
-                            <div class="session-details">
+                            <div>
 
-                                <h3 class="session-title">
+                                <h3 class="mr-session-title">
                                     {{ $sessionTitle }}
                                 </h3>
 
-                                <div class="session-meta">
+                                <div class="mr-session-meta">
 
                                     <span>
                                         <i class="fas fa-user"></i>
                                         {{ $studentName }}
                                     </span>
-
 
                                     @if($sessionDate)
 
@@ -1495,7 +2492,6 @@
                                         </span>
 
                                     @endif
-
 
                                     <span>
                                         <i class="fas fa-video"></i>
@@ -1515,7 +2511,7 @@
                                         href="{{ $meetingUrl }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="session-action"
+                                        class="mr-session-action"
                                     >
                                         Join Session
                                     </a>
@@ -1524,7 +2520,7 @@
 
                                     <a
                                         href="{{ route('mentor.mentees.show', $mentee) }}"
-                                        class="session-action"
+                                        class="mr-session-action"
                                     >
                                         View Session
                                     </a>
@@ -1541,17 +2537,17 @@
 
             @else
 
-                <div class="empty-card">
+                <div class="mr-panel mr-empty">
 
-                    <div class="empty-icon">
+                    <div class="mr-empty-icon">
                         <i class="fas fa-calendar-day"></i>
                     </div>
 
-                    <h3 class="empty-title">
+                    <h3>
                         No Upcoming Sessions
                     </h3>
 
-                    <p class="empty-text">
+                    <p>
                         Your scheduled mentorship sessions will appear here.
                     </p>
 
@@ -1561,28 +2557,30 @@
 
         </section>
 
+        </div>
 
-        {{-- ==================================================
+
+        {{-- =====================================================
              COMPLETED MENTORSHIPS
-        =================================================== --}}
+        ====================================================== --}}
 
-        <section class="section">
+        <section class="mr-secondary">
 
-            <div class="section-header">
+            <div class="mr-section-header">
 
-                <div class="section-title-wrap">
+                <div class="mr-section-title">
 
-                    <div class="section-title-icon">
+                    <div class="mr-section-icon">
                         <i class="fas fa-check-double"></i>
                     </div>
 
-                    <h2 class="section-title">
+                    <h2>
                         Completed Mentorships
                     </h2>
 
                     @if($completed->count() > 0)
 
-                        <span class="section-count">
+                        <span class="mr-section-count">
                             {{ $completed->count() }}
                         </span>
 
@@ -1595,7 +2593,7 @@
 
             @if($completed->count() > 0)
 
-                <div class="completed-grid">
+                <div class="mr-completed-grid">
 
                     @foreach($completed as $mentorship)
 
@@ -1630,21 +2628,21 @@
                         @endphp
 
 
-                        <div class="completed-card">
+                        <div class="mr-completed-card">
 
-                            <div class="completed-top">
+                            <div class="mr-completed-top">
 
-                                <div class="completed-avatar">
+                                <div class="mr-completed-avatar">
                                     {{ $initials ?: 'S' }}
                                 </div>
 
                                 <div>
 
-                                    <h3 class="completed-name">
+                                    <h3 class="mr-completed-name">
                                         {{ $studentName }}
                                     </h3>
 
-                                    <p class="completed-date">
+                                    <p class="mr-completed-date">
 
                                         @if($completedDate)
 
@@ -1661,7 +2659,7 @@
 
                                 </div>
 
-                                <span class="completed-status">
+                                <span class="mr-completed-status">
                                     COMPLETED
                                 </span>
 
@@ -1675,17 +2673,17 @@
 
             @else
 
-                <div class="empty-card">
+                <div class="mr-panel mr-empty">
 
-                    <div class="empty-icon">
+                    <div class="mr-empty-icon">
                         <i class="fas fa-history"></i>
                     </div>
 
-                    <h3 class="empty-title">
+                    <h3>
                         No Completed Mentorships
                     </h3>
 
-                    <p class="empty-text">
+                    <p>
                         Completed mentorship relationships will appear here.
                     </p>
 
@@ -1698,5 +2696,173 @@
     </div>
 
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    var allCheckbox   = document.getElementById('filter-status-all');
+    var statusChecks  = Array.prototype.slice.call(document.querySelectorAll('.filter-status'));
+    var typeSelect     = document.getElementById('filter-type');
+    var levelSelect     = document.getElementById('filter-level');
+    var searchInput     = document.getElementById('filter-search');
+    var sortSelect       = document.getElementById('filter-sort');
+    var clearBtn           = document.getElementById('clear-filters-btn');
+
+    var rowsContainer = document.querySelector('.mr-requests-panel');
+    var pagination      = document.getElementById('mr-pagination');
+    var emptyState      = document.getElementById('filter-empty-state');
+
+    if (!rowsContainer) {
+        return;
+    }
+
+    function getRows() {
+        return Array.prototype.slice.call(
+            rowsContainer.querySelectorAll('.mr-request-row')
+        );
+    }
+
+    // "All Requests" and the individual status boxes behave like a
+    // typical filter group: checking "All" clears the rest, and
+    // checking any specific status un-checks "All".
+    if (allCheckbox) {
+        allCheckbox.addEventListener('change', function () {
+            if (allCheckbox.checked) {
+                statusChecks.forEach(function (cb) { cb.checked = false; });
+            }
+            applyFilters();
+        });
+    }
+
+    statusChecks.forEach(function (cb) {
+        cb.addEventListener('change', function () {
+            if (cb.checked && allCheckbox) {
+                allCheckbox.checked = false;
+            }
+            var anyChecked = statusChecks.some(function (c) { return c.checked; });
+            if (!anyChecked && allCheckbox) {
+                allCheckbox.checked = true;
+            }
+            applyFilters();
+        });
+    });
+
+    if (typeSelect) {
+        typeSelect.addEventListener('change', applyFilters);
+    }
+
+    if (levelSelect) {
+        levelSelect.addEventListener('change', applyFilters);
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', applyFilters);
+    }
+
+    if (sortSelect) {
+        sortSelect.addEventListener('change', applyFilters);
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+            if (allCheckbox) allCheckbox.checked = true;
+            statusChecks.forEach(function (cb) { cb.checked = false; });
+            if (typeSelect) typeSelect.value = '';
+            if (levelSelect) levelSelect.value = '';
+            if (searchInput) searchInput.value = '';
+            if (sortSelect) sortSelect.value = 'recent';
+            applyFilters();
+        });
+    }
+
+    function activeStatuses() {
+        if (!allCheckbox || allCheckbox.checked) {
+            return null; // null = no status filtering, show all
+        }
+        return statusChecks.filter(function (cb) { return cb.checked; })
+                            .map(function (cb) { return cb.value; });
+    }
+
+    function applyFilters() {
+
+        var statuses   = activeStatuses();
+        var type        = typeSelect ? typeSelect.value : '';
+        var level       = levelSelect ? levelSelect.value : '';
+        var query        = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+        var rows = getRows();
+        var visibleCount = 0;
+
+        rows.forEach(function (row) {
+
+            var rowStatus = row.getAttribute('data-status') || '';
+            var rowType     = row.getAttribute('data-type') || '';
+            var rowLevel    = row.getAttribute('data-level') || '';
+            var rowName     = row.getAttribute('data-name') || '';
+            var rowGoal     = row.getAttribute('data-goal') || '';
+
+            var matchesStatus = !statuses || statuses.indexOf(rowStatus) !== -1;
+            var matchesType     = !type || rowType === type;
+            var matchesLevel    = !level || rowLevel === level;
+            var matchesQuery    = !query ||
+                rowName.indexOf(query) !== -1 ||
+                rowGoal.indexOf(query) !== -1 ||
+                rowType.toLowerCase().indexOf(query) !== -1;
+
+            var isMatch = matchesStatus && matchesType && matchesLevel && matchesQuery;
+
+            row.style.display = isMatch ? '' : 'none';
+
+            if (isMatch) {
+                visibleCount += 1;
+            }
+        });
+
+        applySort();
+
+        if (emptyState) {
+            emptyState.style.display = visibleCount === 0 ? '' : 'none';
+        }
+
+        if (pagination) {
+            pagination.style.display = visibleCount === 0 ? 'none' : '';
+        }
+    }
+
+    function applySort() {
+
+        if (!sortSelect) {
+            return;
+        }
+
+        var mode = sortSelect.value;
+        var rows = getRows();
+
+        rows.sort(function (a, b) {
+
+            if (mode === 'az' || mode === 'za') {
+                var nameA = a.getAttribute('data-name') || '';
+                var nameB = b.getAttribute('data-name') || '';
+                return mode === 'az'
+                    ? nameA.localeCompare(nameB)
+                    : nameB.localeCompare(nameA);
+            }
+
+            var createdA = parseInt(a.getAttribute('data-created') || '0', 10);
+            var createdB = parseInt(b.getAttribute('data-created') || '0', 10);
+
+            return mode === 'oldest'
+                ? createdA - createdB
+                : createdB - createdA;
+        });
+
+        rows.forEach(function (row) {
+            rowsContainer.insertBefore(row, emptyState || null);
+        });
+    }
+
+});
+</script>
 
 @endsection

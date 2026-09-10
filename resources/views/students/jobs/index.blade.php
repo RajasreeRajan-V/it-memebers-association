@@ -667,6 +667,77 @@
     }
 
     /* =========================================================
+       SIDEBAR STATUS NAV (Saved / Applied / Proposals /
+       Interviews / In Progress / Hired / Archived)
+    ========================================================= */
+
+    .sidebar-status-nav {
+        margin-top: 16px;
+        padding-top: 15px;
+        border-top: 1px solid var(--job-border);
+    }
+
+    .status-nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 9px 10px;
+        border-radius: 9px;
+        text-decoration: none;
+        color: #4B5563;
+        font-size: 12.5px;
+        font-weight: 600;
+        transition: .15s ease;
+    }
+
+    .status-nav-link:hover {
+        background: #F6F8FC;
+        color: var(--job-primary);
+    }
+
+    .status-nav-link .status-nav-left {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .status-nav-link i {
+        font-size: 14px;
+        color: #9AA3B2;
+        width: 16px;
+        text-align: center;
+    }
+
+    .status-nav-badge {
+        font-size: 10.5px;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 2px 8px;
+        line-height: 1.5;
+    }
+
+    .status-nav-badge.blue {
+        background: #EAF1FF;
+        color: var(--job-primary);
+    }
+
+    .status-nav-badge.green {
+        background: #E9FBF0;
+        color: var(--job-success);
+    }
+
+    .status-nav-badge.amber {
+        background: #FEF3E2;
+        color: var(--job-warning);
+    }
+
+    .status-nav-badge.gray {
+        background: #F1F4F9;
+        color: #6B7280;
+    }
+
+    /* =========================================================
        JOB SECTION HEADER
     ========================================================= */
 
@@ -856,6 +927,12 @@
         border-top: 1px solid #F0F2F6;
     }
 
+    .job-card-bottom-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
     .salary {
         display: flex;
         align-items: center;
@@ -898,6 +975,26 @@
     }
 
     .view-job-btn i {
+        font-size: 12px;
+    }
+
+    /* APPLIED BADGE (shown on the job card once the student has applied) */
+
+    .applied-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #E9FBF0;
+        border: 1px solid #CFF5DC;
+        color: var(--job-success);
+        border-radius: 999px;
+        padding: 7px 12px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .applied-badge i {
         font-size: 12px;
     }
 
@@ -1165,6 +1262,13 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .modal-footer-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
     .modal-posted {
@@ -1174,8 +1278,8 @@
 
     .modal-close-btn {
         border: 0;
-        background: var(--job-primary);
-        color: #fff;
+        background: #F1F4F9;
+        color: #4B5563;
         border-radius: 9px;
         padding: 9px 18px;
         font-size: 11px;
@@ -1185,7 +1289,42 @@
     }
 
     .modal-close-btn:hover {
+        background: #E5E9F0;
+    }
+
+    /* APPLY BUTTON INSIDE THE VIEW DETAILS MODAL */
+
+    .modal-apply-btn {
+        border: 0;
+        background: var(--job-primary);
+        color: #fff;
+        border-radius: 9px;
+        padding: 9px 20px;
+        font-size: 11.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .modal-apply-btn:hover:not(:disabled) {
         background: var(--job-primary-dark);
+        transform: translateY(-1px);
+    }
+
+    .modal-apply-btn:disabled,
+    .modal-apply-btn.applied {
+        background: #E9FBF0;
+        color: var(--job-success);
+        cursor: default;
+        transform: none;
+    }
+
+    .modal-apply-btn.loading {
+        opacity: .7;
+        cursor: wait;
     }
 
     /* =========================================================
@@ -1328,6 +1467,10 @@
             flex-direction: column;
         }
 
+        .job-card-bottom-actions {
+            width: 100%;
+        }
+
         .view-job-btn {
             width: 100%;
         }
@@ -1350,8 +1493,14 @@
             flex-direction: column;
         }
 
+        .modal-footer-actions {
+            width: 100%;
+        }
+
+        .modal-apply-btn,
         .modal-close-btn {
             width: 100%;
+            justify-content: center;
         }
     }
 
@@ -1379,6 +1528,8 @@
     }
 </style>
 
+{{-- Holds the CSRF token for the AJAX apply call below --}}
+<div id="csrf-holder" data-token="{{ csrf_token() }}" style="display:none;"></div>
 
 <div class="student-jobs-page">
 
@@ -1815,6 +1966,98 @@
 
                 </div>
 
+
+                {{-- STATUS NAV: Saved / Applied / Proposals / Interviews / In Progress / Hired / Archived --}}
+
+                <div class="sidebar-status-nav">
+
+                    <a href="{{ route('student.jobs.saved') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-bookmark"></i>
+                            Saved Jobs
+                        </span>
+
+                        @if(($savedJobsCount ?? 0) > 0)
+                            <span class="status-nav-badge blue">{{ $savedJobsCount }}</span>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('student.jobs.applied') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-check2-circle"></i>
+                            Applied Jobs
+                        </span>
+
+                        @if(($appliedJobsCount ?? 0) > 0)
+                            <span class="status-nav-badge green">{{ $appliedJobsCount }}</span>
+                        @endif
+                    </a>
+
+                    {{--
+                        "My Proposals" only applies if students can submit
+                        proposals for contract/project-style listings. If
+                        your app doesn't have this route, this block is
+                        skipped automatically.
+                    --}}
+                    @if(\Illuminate\Support\Facades\Route::has('student.projects.proposals'))
+                        <a href="{{ route('student.projects.proposals') }}" class="status-nav-link">
+                            <span class="status-nav-left">
+                                <i class="bi bi-file-earmark-text"></i>
+                                My Proposals
+                            </span>
+
+                            @if(($proposalsCount ?? 0) > 0)
+                                <span class="status-nav-badge amber">{{ $proposalsCount }}</span>
+                            @endif
+                        </a>
+                    @endif
+
+                    <a href="{{ route('student.jobs.interviews') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-calendar-event"></i>
+                            Interviews
+                        </span>
+
+                        @if(($interviewsCount ?? 0) > 0)
+                            <span class="status-nav-badge blue">{{ $interviewsCount }}</span>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('student.jobs.in-progress') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-hourglass-split"></i>
+                            In Progress
+                        </span>
+
+                        @if(($inprogress ?? 0) > 0)
+                            <span class="status-nav-badge amber">{{ $inprogress }}</span>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('student.jobs.hired') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-patch-check"></i>
+                            Hired
+                        </span>
+
+                        @if(($hiredJobsCount ?? 0) > 0)
+                            <span class="status-nav-badge green">{{ $hiredJobsCount }}</span>
+                        @endif
+                    </a>
+
+                    <a href="{{ route('student.jobs.archived') }}" class="status-nav-link">
+                        <span class="status-nav-left">
+                            <i class="bi bi-archive"></i>
+                            Archived
+                        </span>
+
+                        @if(($archivedCount ?? 0) > 0)
+                            <span class="status-nav-badge gray">{{ $archivedCount }}</span>
+                        @endif
+                    </a>
+
+                </div>
+
             </aside>
 
 
@@ -1955,6 +2198,14 @@
                                 )
                                 : null;
 
+                            /*
+                             * Whether the logged-in student has already
+                             * applied to this job. Controller should pass
+                             * $appliedJobIds as an array of job ids.
+                             */
+
+                            $hasApplied = in_array($job->id, $appliedJobIds ?? []);
+
                         @endphp
 
 
@@ -1962,7 +2213,7 @@
                              JOB CARD
                         ================================================== --}}
 
-                        <article class="student-job-card">
+                        <article class="student-job-card" id="student-job-card-{{ $job->id }}">
 
                             <div class="job-card-inner">
 
@@ -2017,7 +2268,7 @@
                                                 </strong>
 
                                                 <span class="separator">
-                                                    ·
+                                                    &middot;
                                                 </span>
 
                                                 {{ $location }}
@@ -2105,17 +2356,37 @@
                                         @endif
 
 
-                                        <button
-                                            type="button"
-                                            class="view-job-btn"
-                                            onclick="openStudentJobModal('student-job-{{ $job->id }}')"
-                                        >
+                                        <div class="job-card-bottom-actions">
 
-                                            View Details
+                                            {{-- Applied badge (only visible once the student has applied) --}}
 
-                                            <i class="bi bi-arrow-right"></i>
+                                            <span id="applied-badge-{{ $job->id }}">
 
-                                        </button>
+                                                @if($hasApplied)
+
+                                                    <span class="applied-badge">
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                        Applied
+                                                    </span>
+
+                                                @endif
+
+                                            </span>
+
+
+                                            <button
+                                                type="button"
+                                                class="view-job-btn"
+                                                onclick="openStudentJobModal('student-job-{{ $job->id }}')"
+                                            >
+
+                                                View Details
+
+                                                <i class="bi bi-arrow-right"></i>
+
+                                            </button>
+
+                                        </div>
 
                                     </div>
 
@@ -2178,7 +2449,7 @@
                                             {{ $companyName }}
 
                                             <span style="margin:0 5px;">
-                                                ·
+                                                &middot;
                                             </span>
 
                                             {{ $location }}
@@ -2354,15 +2625,40 @@
                                     </span>
 
 
-                                    <button
-                                        type="button"
-                                        class="modal-close-btn"
-                                        onclick="closeStudentJobModal('student-job-{{ $job->id }}')"
-                                    >
+                                    <div class="modal-footer-actions">
 
-                                        Close
+                                        {{-- APPLY BUTTON --}}
 
-                                    </button>
+                                        <button
+                                            type="button"
+                                            class="modal-apply-btn {{ $hasApplied ? 'applied' : '' }}"
+                                            id="modal-apply-btn-{{ $job->id }}"
+                                            data-job-id="{{ $job->id }}"
+                                            data-apply-url="{{ route('student.jobs.apply', $job->id) }}"
+                                            onclick="applyToStudentJob({{ $job->id }}, this)"
+                                            {{ $hasApplied ? 'disabled' : '' }}
+                                        >
+
+                                            <i class="bi {{ $hasApplied ? 'bi-check-circle-fill' : 'bi-send-check' }}"></i>
+
+                                            <span class="modal-apply-btn-text">
+                                                {{ $hasApplied ? 'Applied' : 'Apply Now' }}
+                                            </span>
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="modal-close-btn"
+                                            onclick="closeStudentJobModal('student-job-{{ $job->id }}')"
+                                        >
+
+                                            Close
+
+                                        </button>
+
+                                    </div>
 
                                 </div>
 
@@ -2521,6 +2817,125 @@
 
         }
     );
+
+
+    /*
+     * ================================================
+     * APPLY TO JOB (AJAX)
+     * ================================================
+     * Sends a POST request to the route defined in
+     * data-apply-url on the modal's apply button.
+     * On success it:
+     *   - Disables the modal button and marks it "Applied"
+     *   - Shows an "Applied" badge on the matching job card
+     */
+
+    function applyToStudentJob(jobId, btn) {
+
+        if (!btn || btn.disabled) {
+            return;
+        }
+
+        const csrfHolder = document.getElementById('csrf-holder');
+        const csrfToken = csrfHolder ? csrfHolder.dataset.token : '';
+        const applyUrl = btn.dataset.applyUrl;
+        const textEl = btn.querySelector('.modal-apply-btn-text');
+        const originalText = textEl ? textEl.textContent : 'Apply Now';
+
+        btn.disabled = true;
+        btn.classList.add('loading');
+
+        if (textEl) {
+            textEl.textContent = 'Applying...';
+        }
+
+        fetch(applyUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(function (res) {
+            return res.json().then(function (data) {
+                return { ok: res.ok, data: data };
+            });
+        })
+        .then(function (result) {
+
+            btn.classList.remove('loading');
+
+            if (!result.ok) {
+
+                // Restore button so the student can try again
+                btn.disabled = false;
+
+                if (textEl) {
+                    textEl.textContent = originalText;
+                }
+
+                const message = (result.data && result.data.message)
+                    ? result.data.message
+                    : 'Something went wrong. Please try again.';
+
+                alert(message);
+
+                return;
+            }
+
+            markStudentJobApplied(jobId);
+        })
+        .catch(function () {
+
+            btn.disabled = false;
+            btn.classList.remove('loading');
+
+            if (textEl) {
+                textEl.textContent = originalText;
+            }
+
+            alert('Network error. Please try again.');
+        });
+    }
+
+
+    function markStudentJobApplied(jobId) {
+
+        // Update the modal's apply button
+        const modalBtn = document.getElementById('modal-apply-btn-' + jobId);
+
+        if (modalBtn) {
+
+            modalBtn.disabled = true;
+            modalBtn.classList.add('applied');
+            modalBtn.classList.remove('loading');
+
+            const icon = modalBtn.querySelector('i');
+            if (icon) {
+                icon.classList.remove('bi-send-check');
+                icon.classList.add('bi-check-circle-fill');
+            }
+
+            const textEl = modalBtn.querySelector('.modal-apply-btn-text');
+            if (textEl) {
+                textEl.textContent = 'Applied';
+            }
+        }
+
+        // Show the "Applied" badge on the job card in the list
+        const badgeSlot = document.getElementById('applied-badge-' + jobId);
+
+        if (badgeSlot && !badgeSlot.querySelector('.applied-badge')) {
+
+            badgeSlot.innerHTML =
+                '<span class="applied-badge">' +
+                '<i class="bi bi-check-circle-fill"></i>' +
+                'Applied' +
+                '</span>';
+        }
+    }
 
 </script>
 

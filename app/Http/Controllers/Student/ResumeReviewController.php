@@ -71,7 +71,7 @@ class ResumeReviewController extends Controller
         ]);
 
         // Redirect back with success message
-        return redirect()->route('student.resume-review')
+       return redirect()->route('student.resume-review.index')
             ->with('success', 'Your resume review request has been submitted to ' . $resumeReview->mentor->name . '!');
     }
 
@@ -81,6 +81,6 @@ class ResumeReviewController extends Controller
     {
         abort_unless($review->student_id === Auth::id(), 403);
 
-        return redirect()->route('student.resume-review');
+        return redirect()->route('student.resume-review.index');
     }
 }

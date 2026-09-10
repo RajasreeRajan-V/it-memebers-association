@@ -6,42 +6,143 @@
     <div class="container-fluid px-3 px-md-4 py-4">
 
         @if (session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="rr-alert success">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>{{ session('success') }}</span>
+            </div>
         @endif
 
-        
-        <div class="mentor-hero mb-4">
-            <div class="mentor-hero-content">
-                <span class="mentor-hero-badge">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    {{ $counts['pending'] ?? 0 }}+ Awaiting Review
-                </span>
 
-                <h1>
+        {{-- =====================================================
+             HERO
+        ====================================================== --}}
+
+        <section class="rr-hero mb-4">
+
+            <div class="rr-hero-content">
+
+                <div class="rr-breadcrumb">
+                    <i class="fa-solid fa-house"></i>
+                    <span>›</span>
                     Resume Reviews
-                    <span>Built By Mentors, For Mentees</span>
+                </div>
+
+                <h1 class="rr-hero-title">
+                    Resume Reviews
+                    <br>
+                    <span class="blue">Built By Mentors,For Mentees </span>
+                    
                 </h1>
 
-                <p>
-                    Review students' resumes and provide constructive feedback to help them
-                    improve, stand out, and land the roles they're aiming for.
+                <p class="rr-hero-description">
+                    Review students' resumes and provide constructive feedback to help
+                    them improve, stand out, and land the roles they're aiming for.
                 </p>
 
-                <div class="mentor-header-actions">
-                    <a href="{{ route('mentor.resume-reviews.index', ['tab' => 'pending']) }}" class="btn-mentor-hero">
+                <div class="rr-hero-actions">
+                    <a href="{{ route('mentor.resume-reviews.index', ['tab' => 'pending']) }}" class="rr-hero-btn">
                         <i class="fa-solid fa-arrow-right-to-bracket"></i>
                         Start Reviewing
                     </a>
                 </div>
+
+                <div class="rr-hero-stats">
+
+                    <div class="rr-mini-stat">
+                        <div class="rr-mini-icon">
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+
+                        <div>
+                            <p class="rr-mini-value">{{ $counts['pending'] ?? 0 }}</p>
+                            <p class="rr-mini-label">Pending Reviews</p>
+                        </div>
+                    </div>
+
+                    <div class="rr-mini-stat orange">
+                        <div class="rr-mini-icon">
+                            <i class="fa-solid fa-spinner"></i>
+                        </div>
+
+                        <div>
+                            <p class="rr-mini-value">{{ $counts['in_progress'] ?? 0 }}</p>
+                            <p class="rr-mini-label">In Progress</p>
+                        </div>
+                    </div>
+
+                    <div class="rr-mini-stat green">
+                        <div class="rr-mini-icon">
+                            <i class="fa-solid fa-check-double"></i>
+                        </div>
+
+                        <div>
+                            <p class="rr-mini-value">{{ $counts['reviewed'] ?? 0 }}</p>
+                            <p class="rr-mini-label">Reviewed</p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="mentor-hero-illustration pl-7 p-10">
-                <img src="{{ asset('assets/img/mem.png') }}" alt="Resume reviews illustration"
-                     onerror="this.closest('.mentor-hero-illustration').style.display='none'">
-            </div>
-        </div>
 
-  
+            {{-- Decorative illustration: a resume being reviewed --}}
+
+            <div class="rr-hero-visual">
+
+                <div class="rr-visual-circle"></div>
+
+                <div class="rr-visual-card card-one">
+                    <small>
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                        New Upload
+                    </small>
+                    <strong>Resume Received</strong>
+                </div>
+
+                <div class="rr-visual-card card-two">
+                    <small>
+                        <i class="fa-solid fa-star"></i>
+                        Rating
+                    </small>
+                    <strong>4.8 / 5.0</strong>
+                </div>
+
+                <div class="rr-visual-card card-three">
+                    <small>
+                        <i class="fa-regular fa-comment-dots"></i>
+                        Feedback
+                    </small>
+                    <strong>Sent to Student</strong>
+                </div>
+
+                <div class="rr-visual-resume">
+                    <div class="rr-resume-head"></div>
+                    <div class="rr-resume-line w-70"></div>
+                    <div class="rr-resume-line w-50"></div>
+                    <div class="rr-resume-line w-90"></div>
+                    <div class="rr-resume-line w-60"></div>
+                    <div class="rr-resume-line w-80"></div>
+                    <div class="rr-resume-line w-40"></div>
+                </div>
+
+                <div class="rr-visual-magnifier">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <div class="rr-visual-check">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        {{-- =====================================================
+             TABS
+        ====================================================== --}}
+
         <div class="rr-tabbar mb-4">
             @php
                 $tabMeta = [
@@ -60,12 +161,12 @@
             @endforeach
         </div>
 
-       
+
         <div class="rr-row">
 
-           
+
             <div class="rr-col-left">
-                
+
                 {{-- Review Requests --}}
                 <div class="card rr-card border-0 mb-4">
                     <div class="card-header bg-white border-0 pb-3 pt-3 px-3">
@@ -203,7 +304,7 @@
                                     </li>
                                 @endif
                             </ul>
-                            
+
                         </div>
                     </div>
 
@@ -211,7 +312,7 @@
                     <div class="card rr-card rr-side-card border-0">
                         <div class="card-header bg-white d-flex justify-content-between align-items-center py-3 border-0">
                             <h3 class="h6 fw-semibold mb-0">
-                                <i class="fa-solid fa-file-circle-check me-2" style="color: #3376F2;"></i></i>Review History
+                                <i class="fa-solid fa-file-circle-check me-2" style="color: var(--rr-primary);"></i>Review History
                             </h3>
                             <a href="#" class="rr-side-link rr-side-link-sm">View All</a>
                         </div>
@@ -427,37 +528,31 @@
 <style>
 /* =========================================================
    RESUME REVIEWS - FULL PAGE UI
-   Layout:
-   Left: Review Requests + Student Details + Review History
-   Right: Resume to Review
+   Same design language as the Mentorship Requests page:
+   soft blue/purple palette, card panels, CSS-drawn hero art.
    ========================================================= */
 
 :root {
-    --rr-primary: #315FE8;
-    --rr-primary-dark: #2449C7;
-    --rr-primary-light: #EEF3FF;
+    --rr-primary: #3376F2;
+    --rr-primary-dark: #245FD0;
+    --rr-purple: #7257E8;
 
-    --rr-purple: #6D28D9;
-    --rr-purple-light: #F5F3FF;
+    --rr-green: #22B573;
+    --rr-orange: #F5A623;
+    --rr-red: #EF5350;
 
-    --rr-green: #059669;
-    --rr-orange: #D97706;
-    --rr-red: #DC2626;
-
-    --rr-bg: #FFFFFF;
+    --rr-bg: #F7F9FD;
     --rr-white: #FFFFFF;
 
-    --rr-text: #111827;
+    --rr-text: #17213A;
     --rr-text-dark: #1F2937;
-    --rr-muted: #6B7280;
+    --rr-muted: #7B879A;
     --rr-light-muted: #9CA3AF;
 
-    --rr-border: #E5E7EB;
+    --rr-border: #E8EDF5;
 
-    --rr-radius: 14px;
-    --rr-shadow:
-        0 1px 3px rgba(16, 24, 40, 0.06),
-        0 4px 12px rgba(16, 24, 40, 0.04);
+    --rr-radius: 13px;
+    --rr-shadow: 0 4px 15px rgba(35, 61, 105, .035);
 }
 
 
@@ -470,18 +565,38 @@
     min-height: 100vh;
     background: var(--rr-bg);
     color: var(--rr-text);
+    font-family: inherit;
     padding-bottom: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
-    font-size: 16px;
+    padding-left: 28px;
+    padding-right: 28px;
+    font-size: 15px;
 }
 
 .rr-page .container-fluid {
     width: 100%;
     max-width: 1700px;
     margin: 0 auto;
-    padding-left: 28px !important;
-    padding-right: 28px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* =========================================================
+   ALERT
+   ========================================================= */
+
+.rr-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 17px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #16764C;
+    background: #EAF9F1;
+    border: 1px solid #CBEEDC;
 }
 
 
@@ -509,200 +624,326 @@
 
 
 /* =========================================================
-   HERO - No border, larger image
+   HERO
    ========================================================= */
 
-.mentor-hero {
-    width: 100%;
-    min-height: 200px;
-
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(350px, 0.75fr);
-
+.rr-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+    border: 1px solid #E9EDF6;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 78% 28%, rgba(117, 88, 232, .08), transparent 28%),
+        radial-gradient(circle at 93% 80%, rgba(51, 118, 242, .08), transparent 30%),
+        linear-gradient(110deg, #FFFFFF 0%, #FBFCFF 55%, #F5F7FF 100%);
+    box-shadow: 0 5px 20px rgba(35, 61, 105, .055);
+    padding: 34px 38px;
+    margin-bottom: 20px;
+    display: flex;
     align-items: center;
     gap: 30px;
-
-    background: transparent;
-
-    padding: 50px 0 48px 0;
-
-    position: relative;
-
-    margin-bottom: 8px;
 }
 
+.rr-hero::before {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    right: -75px;
+    top: -110px;
+    border: 1px dashed rgba(51, 118, 242, .15);
+    border-radius: 50%;
+}
 
-/* Hero content */
+.rr-hero::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: 150px;
+    bottom: -135px;
+    border-radius: 50%;
+    background: rgba(114, 87, 232, .055);
+}
 
-.mentor-hero-content {
+.rr-hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
+    width: 55%;
+}
 
+.rr-breadcrumb {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    min-width: 0;
-}
-
-.mentor-hero-badge {
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
-
+    gap: 7px;
+    margin-bottom: 14px;
     color: var(--rr-primary);
-
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
-
-    margin-bottom: 10px;
 }
 
-.mentor-hero-badge i {
-    font-size: 14px;
+.rr-breadcrumb span {
+    color: #9BA5B5;
 }
 
-
-/* Hero heading */
-
-.mentor-hero-content h1 {
-    margin: 0 0 12px;
-
-    font-size: clamp(30px, 3vw, 44px);
-    line-height: 1.12;
-
+.rr-hero-title {
+    margin: 0;
+    font-size: 36px;
+    line-height: 1.2;
     font-weight: 800;
-
-    letter-spacing: -1.2px;
-
-    color: #111827;
+    letter-spacing: -.7px;
+    color: #17213A;
 }
 
-.mentor-hero-content h1 span {
-    display: inline;
-
-    font-size: inherit;
-    line-height: inherit;
-
-    font-weight: 800;
-
+.rr-hero-title .blue {
     color: var(--rr-primary);
 }
 
+.rr-hero-title .purple {
+    color: var(--rr-purple);
+}
 
-/* Hero paragraph */
-
-.mentor-hero-content p {
-    max-width: 560px;
-
-    margin: 0 0 24px;
-
-    color: #6B7280;
-
+.rr-hero-description {
+    max-width: 570px;
+    margin: 12px 0 20px;
+    color: #7A8495;
     font-size: 15px;
     line-height: 1.65;
-
-    font-weight: 400;
 }
 
-
-/* Hero button */
-
-.mentor-header-actions {
-    display: flex;
-    align-items: center;
+.rr-hero-actions {
+    margin-bottom: 22px;
 }
 
-.btn-mentor-hero {
+.rr-hero-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     gap: 9px;
-
     padding: 12px 24px;
-
     background: var(--rr-primary);
     color: #ffffff;
-
     border-radius: 8px;
-
     font-size: 14px;
     font-weight: 700;
-
     text-decoration: none;
-
-    box-shadow: 0 6px 14px rgba(49, 95, 232, 0.25);
-
+    box-shadow: 0 6px 14px rgba(51, 118, 242, .25);
     transition: all .2s ease;
 }
 
-.btn-mentor-hero:hover {
+.rr-hero-btn:hover {
     background: var(--rr-primary-dark);
     color: #ffffff;
-
     transform: translateY(-1px);
 }
 
 
-/* Hero illustration - Larger image, no borders */
+/* Hero stats */
 
-.mentor-hero-illustration {
-    width: 100%;
-    height: 100%;
+.rr-hero-stats {
+    display: flex;
+    gap: 12px;
+}
 
-    min-height: 200px;
+.rr-mini-stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 145px;
+    padding: 11px 14px;
+    border: 1px solid #E8EDF5;
+    background: rgba(255,255,255,.88);
+    border-radius: 9px;
+    box-shadow: 0 5px 14px rgba(35,61,105,.04);
+}
 
-    position: relative;
-    z-index: 2;
-
+.rr-mini-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    background: transparent;
-
-    margin: 0;
-    padding: 0;
+    border-radius: 7px;
+    background: #EEF4FF;
+    color: var(--rr-primary);
+    font-size: 14px;
 }
 
-.mentor-hero-illustration img {
-    width: 100%;
-    height: 100%;
+.rr-mini-stat.orange .rr-mini-icon {
+    background: #FFF6E7;
+    color: var(--rr-orange);
+}
 
-    max-height: 400px;
+.rr-mini-stat.green .rr-mini-icon {
+    background: #EAF9F2;
+    color: var(--rr-green);
+}
 
-    object-fit: contain;
-    object-position: center;
-
-    display: block;
-
+.rr-mini-value {
     margin: 0;
-    padding: 0;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 800;
+    color: #25304A;
+}
 
-    border: none;
-    border-radius: 0;
-
-    background: transparent;
+.rr-mini-label {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #8993A4;
 }
 
 
 /* =========================================================
-   TABS - Increased font sizes
+   HERO VISUAL - resume being reviewed
+   ========================================================= */
+
+.rr-hero-visual {
+    position: relative;
+    z-index: 2;
+    width: 45%;
+    height: 235px;
+    flex-shrink: 0;
+}
+
+.rr-visual-circle {
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    right: 55px;
+    top: 5px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #F2EEFF, #EEF5FF);
+}
+
+.rr-visual-resume {
+    position: absolute;
+    z-index: 4;
+    left: 42%;
+    top: 18px;
+    width: 118px;
+    height: 155px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 14px 30px rgba(35, 61, 105, .14);
+    padding: 16px 14px;
+    transform: rotate(-4deg);
+}
+
+.rr-resume-head {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #7A4EE8, #9A70FF);
+    margin-bottom: 10px;
+}
+
+.rr-resume-line {
+    height: 6px;
+    border-radius: 4px;
+    background: #E7ECF6;
+    margin-bottom: 8px;
+}
+
+.rr-resume-line.w-70 { width: 70%; background: #D8E1F5; }
+.rr-resume-line.w-50 { width: 50%; }
+.rr-resume-line.w-90 { width: 90%; }
+.rr-resume-line.w-60 { width: 60%; }
+.rr-resume-line.w-80 { width: 80%; }
+.rr-resume-line.w-40 { width: 40%; }
+
+.rr-visual-magnifier {
+    position: absolute;
+    z-index: 6;
+    right: 30%;
+    bottom: 38px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #2770DF, #408AF5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 17px;
+    box-shadow: 0 10px 20px rgba(39, 112, 223, .3);
+}
+
+.rr-visual-check {
+    position: absolute;
+    z-index: 6;
+    left: 39%;
+    top: 4px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--rr-green);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    box-shadow: 0 6px 14px rgba(34, 181, 115, .35);
+}
+
+.rr-visual-card {
+    position: absolute;
+    z-index: 8;
+    min-width: 120px;
+    padding: 9px 12px;
+    background: rgba(255,255,255,.94);
+    border: 1px solid #E7ECF5;
+    border-radius: 9px;
+    box-shadow: 0 7px 18px rgba(48, 67, 103, .08);
+}
+
+.rr-visual-card small {
+    display: block;
+    color: #7B8799;
+    font-size: 11px;
+    margin-bottom: 3px;
+}
+
+.rr-visual-card strong {
+    color: #25304A;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.rr-visual-card i {
+    color: var(--rr-primary);
+    margin-right: 4px;
+}
+
+.rr-visual-card.card-one {
+    left: 0;
+    top: 30px;
+}
+
+.rr-visual-card.card-two {
+    right: 0;
+    top: 16px;
+}
+
+.rr-visual-card.card-three {
+    right: 4%;
+    bottom: 14px;
+}
+
+
+/* =========================================================
+   TABS
    ========================================================= */
 
 .rr-tabbar {
     width: 100%;
-
     display: flex;
     align-items: center;
-
     gap: 30px;
-
     border-bottom: 1px solid #DDE2EA;
-
     margin-bottom: 14px;
-
     padding: 0 2px;
 }
 
@@ -710,18 +951,12 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-
     padding: 12px 2px 11px;
-
     color: #667085;
-
     font-size: 15px;
     font-weight: 600;
-
     text-decoration: none;
-
     border-bottom: 2px solid transparent;
-
     white-space: nowrap;
 }
 
@@ -731,57 +966,50 @@
 
 .rr-tab-active {
     color: var(--rr-primary);
-
     font-weight: 700;
-
     border-bottom-color: var(--rr-primary);
 }
 
 .rr-pill {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
     min-width: 24px;
     height: 23px;
-
     padding: 0 8px;
-
     border-radius: 999px;
-
     font-size: 12px;
     font-weight: 700;
 }
 
 .rr-badge-blue {
-    background: #E7EEFF;
-    color: #315FE8;
+    background: #EEF4FF;
+    color: var(--rr-primary);
 }
 
 .rr-badge-orange {
-    background: #FFF4DD;
-    color: #C47A00;
+    background: #FFF6E7;
+    color: var(--rr-orange);
 }
 
 .rr-badge-green {
-    background: #DDF8ED;
-    color: #087B55;
+    background: #EAF9F2;
+    color: var(--rr-green);
 }
 
 .rr-badge-purple {
-    background: #EEE8FF;
-    color: #7042D6;
+    background: #F3EFFF;
+    color: var(--rr-purple);
 }
 
 .rr-badge-red {
-    background: #FDE3E3;
-    color: #C0392B;
+    background: #FFF0F2;
+    color: var(--rr-red);
 }
 
 
 /* =========================================================
-   ADMIN CONFIRMATION BANNER (NEW)
+   ADMIN CONFIRMATION BANNER
    ========================================================= */
 
 .rr-confirm-banner {
@@ -812,9 +1040,9 @@
 }
 
 .rr-confirm-rejected {
-    background: #FEF2F2;
-    color: #B91C1C;
-    border: 1px solid #FECACA;
+    background: #FFF0F2;
+    color: #B4233E;
+    border: 1px solid #FFD4DB;
 }
 
 .rr-confirm-pending {
@@ -824,9 +1052,9 @@
 }
 
 .rr-confirm-approved {
-    background: #F0FDF4;
-    color: #15803D;
-    border: 1px solid #BBF7D0;
+    background: #EAF9F1;
+    color: #16764C;
+    border: 1px solid #CBEEDC;
 }
 
 
@@ -836,29 +1064,20 @@
 
 .rr-card {
     background: #ffffff;
-
-    border: 1px solid #E7EAF0 !important;
-
+    border: 1px solid var(--rr-border) !important;
     border-radius: var(--rr-radius);
-
     box-shadow: var(--rr-shadow);
-
     overflow: hidden;
 }
 
 
 /* =========================================================
-   LEFT COLUMN - Spacing between cards
+   LEFT COLUMN
    ========================================================= */
 
 .rr-col-left > .card:not(:last-child) {
     margin-bottom: 18px !important;
 }
-
-
-/* =========================================================
-   REVIEW REQUEST LIST - Increased font sizes
-   ========================================================= */
 
 .rr-col-left .card-header {
     padding: 18px 16px !important;
@@ -875,32 +1094,23 @@
 
 .rr-search {
     width: 100%;
-
     border: 1px solid #E2E6ED;
-
     border-radius: 8px;
-
     overflow: hidden;
 }
 
 .rr-search .input-group-text {
     border: 0 !important;
-
     background: #ffffff !important;
-
     padding-left: 10px;
     padding-right: 6px;
 }
 
 .rr-search .form-control {
     border: 0 !important;
-
     box-shadow: none !important;
-
     height: 42px;
-
     font-size: 14px;
-
     color: #374151;
 }
 
@@ -914,9 +1124,7 @@
 
 .rr-scroll {
     max-height: 440px;
-
     overflow-y: auto;
-
     scrollbar-width: thin;
 }
 
@@ -934,11 +1142,8 @@
 
 .rr-col-left .list-group-item {
     padding: 15px 14px !important;
-
     border-bottom: 1px solid #F0F2F5 !important;
-
     transition: all .15s ease;
-
     background: #ffffff;
 }
 
@@ -947,8 +1152,7 @@
 }
 
 .rr-item-active {
-    background: #EEF3FF !important;
-
+    background: #EEF4FF !important;
     border-left: 3px solid var(--rr-primary) !important;
 }
 
@@ -965,15 +1169,11 @@
 }
 
 .rr-time {
-    background: #FFF4EA;
-
-    color: #C65D17;
-
+    background: #FFF6E7;
+    color: #C47A00;
     font-size: 11px;
     font-weight: 700;
-
     padding: 4px 8px;
-
     border-radius: 999px;
 }
 
@@ -982,82 +1182,57 @@
 
 .rr-tag {
     display: inline-flex;
-
     align-items: center;
-
     padding: 4px 10px;
-
     border-radius: 5px;
-
     font-size: 11px;
-
     font-weight: 600;
-
     white-space: nowrap;
 }
 
 .rr-tag-0 {
-    background: #E8F0FF;
-    color: #315FE8;
+    background: #EEF4FF;
+    color: var(--rr-primary);
 }
 
 .rr-tag-1 {
-    background: #E4F8EF;
-    color: #087B55;
+    background: #EAF9F2;
+    color: var(--rr-green);
 }
 
 .rr-tag-2 {
-    background: #F0E9FF;
-    color: #7042D6;
+    background: #F3EFFF;
+    color: var(--rr-purple);
 }
 
 
 /* =========================================================
-   STUDENT DETAILS & REVIEW HISTORY - Increased font sizes
+   STUDENT DETAILS & REVIEW HISTORY
    ========================================================= */
 
 .rr-side-card {
     width: 100%;
-
     position: relative;
-
     overflow: hidden;
 }
 
-
-/* Top blue line */
-
 .rr-side-card-accent {
     height: 3px;
-
     width: 100%;
-
     background: var(--rr-primary);
 }
-
-
-/* Side card body */
 
 .rr-side-card .card-body {
     padding: 18px !important;
 }
 
-
-/* Side heading */
-
 .rr-side-label {
     display: flex;
-
     align-items: center;
-
     gap: 8px;
-
     color: #374151;
-
     font-size: 13px;
-
     font-weight: 700;
-
     margin-bottom: 15px !important;
 }
 
@@ -1065,18 +1240,11 @@
     color: var(--rr-primary);
 }
 
-
-/* Avatar */
-
 .rr-side-avatar {
     width: 48px !important;
     height: 48px !important;
-
     border: 2px solid #EEF2FF;
 }
-
-
-/* Student name */
 
 .rr-side-card h3 {
     font-size: 14px !important;
@@ -1088,38 +1256,25 @@
     font-size: 12px;
 }
 
-
-/* Student details */
-
 .rr-side-list {
     margin-bottom: 15px !important;
 }
 
 .rr-side-list li {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     color: #667085;
-
     font-size: 12px;
-
     line-height: 1.5;
-
     margin-bottom: 10px !important;
 }
 
 .rr-side-list i {
     width: 16px;
-
     text-align: center;
-
     color: #7B8798;
-
     font-size: 11px;
-
     flex-shrink: 0;
 }
 
@@ -1129,22 +1284,13 @@
     word-break: break-all;
 }
 
-
-/* Sidebar links */
-
 .rr-side-link {
     display: inline-flex;
-
     align-items: center;
-
     gap: 7px;
-
     color: var(--rr-primary);
-
     font-size: 12px;
-
     font-weight: 700;
-
     text-decoration: none;
 }
 
@@ -1158,14 +1304,12 @@
 
 
 /* =========================================================
-   REVIEW HISTORY - Increased font sizes
+   REVIEW HISTORY
    ========================================================= */
 
 .rr-history-item {
     padding: 14px 16px !important;
-
     border-bottom: 1px solid #F0F2F5 !important;
-
     transition: background .15s ease;
 }
 
@@ -1175,17 +1319,13 @@
 
 .rr-history-item .rr-pill {
     font-size: 10px;
-
     min-width: auto;
-
     height: 22px;
-
     padding: 0 9px;
 }
 
 .rr-history-item .small {
     font-size: 11px;
-
     line-height: 1.5;
 }
 
@@ -1199,12 +1339,11 @@
 
 
 /* =========================================================
-   RESUME SECTION - Increased font sizes
+   RESUME SECTION
    ========================================================= */
 
 .rr-col-resume > .d-flex {
     min-height: 38px;
-
     margin-bottom: 8px !important;
 }
 
@@ -1222,50 +1361,31 @@
 
 
 /* =========================================================
-   RESUME PROFILE CARD - Increased font sizes
+   RESUME PROFILE CARD
    ========================================================= */
 
 .rr-profile-row {
     display: grid;
-
     grid-template-columns: 185px minmax(0, 1fr);
-
     width: 100%;
 }
-
-
-/* Dark profile */
 
 .rr-profile-panel {
     width: 100%;
     max-width: none !important;
-
     min-height: 190px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #1E293B,
-            #111827
-        );
-
+    background: linear-gradient(145deg, #1E293B, #111827);
     display: flex;
-
     flex-direction: column;
-
     justify-content: center;
-
     padding: 25px !important;
 }
 
 .rr-profile-panel img {
     width: 72px;
     height: 72px;
-
     object-fit: cover;
-
     border: none;
-
     margin-bottom: 12px !important;
 }
 
@@ -1291,31 +1411,18 @@
     width: 14px;
 }
 
-
-/* Role badge */
-
 .rr-role-badge {
     width: fit-content;
-
     background: rgba(255,255,255,.12);
-
     color: #DDE5FF;
-
     font-size: 11px;
-
     padding: 5px 10px;
-
     border-radius: 5px;
-
     margin-bottom: 4px !important;
 }
 
-
-/* Resume summary */
-
 .rr-profile-row > div:last-child {
     min-width: 0;
-
     padding: 24px !important;
 }
 
@@ -1346,17 +1453,14 @@
 
 .rr-col-resume iframe {
     width: 100%;
-
     min-height: 600px;
-
     border: 0;
-
     background: #ffffff;
 }
 
 
 /* =========================================================
-   FEEDBACK - Increased font sizes
+   FEEDBACK
    ========================================================= */
 
 .rr-col-resume .card-body {
@@ -1369,17 +1473,10 @@
     color: #1F2937;
 }
 
-
-/* Rating grid */
-
 .rr-ratings-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
-
     margin-bottom: 22px !important;
 }
 
@@ -1392,18 +1489,11 @@
     font-size: 12px;
 }
 
-
-/* Stars */
-
 .star-rating {
     display: flex;
-
     flex-direction: row-reverse;
-
     justify-content: flex-end;
-
     gap: 3px;
-
     margin-top: 5px;
 }
 
@@ -1421,36 +1511,28 @@
 .star-rating label:hover,
 .star-rating label:hover ~ label,
 .star-rating input:checked ~ label {
-    color: #F5A623;
+    color: var(--rr-orange);
 }
-
-
-/* Feedback boxes */
 
 .rr-feedback-box {
     border-radius: 9px;
-
     padding: 13px 15px;
-
     border: 1px solid transparent;
 }
 
 .rr-feedback-green {
-    background: #F0FBF5;
-
-    border-color: #D8F2E4;
+    background: #EAF9F2;
+    border-color: #CBEEDC;
 }
 
 .rr-feedback-red {
-    background: #FFF5F5;
-
-    border-color: #FBE0E0;
+    background: #FFF0F2;
+    border-color: #FFD4DB;
 }
 
 .rr-feedback-blue {
-    background: #F1F6FF;
-
-    border-color: #DDE8FF;
+    background: #EEF4FF;
+    border-color: #D8E3F8;
 }
 
 .rr-feedback-box label {
@@ -1470,9 +1552,6 @@
     font-size: 12px;
 }
 
-
-/* Buttons */
-
 .rr-col-resume .btn-primary {
     background: var(--rr-primary);
     border-color: var(--rr-primary);
@@ -1480,14 +1559,18 @@
     font-weight: 600;
 }
 
+.rr-col-resume .btn-outline-primary {
+    color: var(--rr-primary);
+    border-color: var(--rr-primary);
+}
+
 
 /* =========================================================
-   PAGINATION - Increased font sizes
+   PAGINATION
    ========================================================= */
 
 .rr-col-left .pagination {
     justify-content: center;
-
     margin: 10px 0;
 }
 
@@ -1506,7 +1589,7 @@
 
 
 /* =========================================================
-   EMPTY STATE - Increased font sizes
+   EMPTY STATE
    ========================================================= */
 
 .rr-col-left .text-center.py-5 {
@@ -1515,7 +1598,6 @@
     font-size: 15px;
 }
 
-/* Load more button */
 #loadMoreBtn {
     font-size: 13px;
 }
@@ -1527,33 +1609,13 @@
 
 @media (min-width: 1500px) {
 
-    .rr-page .container-fluid {
-        max-width: 1800px;
-
-        padding-left: 34px !important;
-        padding-right: 34px !important;
-    }
-
     .rr-row {
         grid-template-columns: 380px minmax(0, 1fr);
-
         gap: 24px;
     }
 
-    .mentor-hero {
-        min-height: 240px;
-
-        padding: 28px 0 32px 0;
-
-        grid-template-columns: minmax(0, 1fr) minmax(400px, 0.7fr);
-    }
-
-    .mentor-hero-content h1 {
-        font-size: 44px;
-    }
-
-    .mentor-hero-illustration img {
-        max-height: 440px;
+    .rr-hero-title {
+        font-size: 40px;
     }
 }
 
@@ -1564,29 +1626,26 @@
 
 @media (max-width: 1200px) {
 
-    .rr-page .container-fluid {
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+    .rr-page {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 
     .rr-row {
         grid-template-columns: 300px minmax(0, 1fr);
-
         gap: 16px;
     }
 
-    .mentor-hero {
-        grid-template-columns: minmax(0, 1fr) 300px;
-
-        padding: 16px 0 24px 0;
+    .rr-hero-title {
+        font-size: 30px;
     }
 
-    .mentor-hero-content h1 {
-        font-size: 34px;
+    .rr-hero-content {
+        width: 62%;
     }
 
-    .mentor-hero-illustration img {
-        max-height: 340px;
+    .rr-hero-visual {
+        width: 38%;
     }
 
     .rr-profile-row {
@@ -1617,34 +1676,33 @@
         order: 2;
     }
 
-    .mentor-hero {
-        grid-template-columns: 1fr;
-
+    .rr-hero {
+        flex-direction: column;
         min-height: auto;
-
-        padding: 12px 0 20px 0;
+        padding: 26px 24px;
     }
 
-    .mentor-hero-content {
+    .rr-hero-content {
+        width: 100%;
         text-align: center;
-        padding-right: 0;
     }
 
-    .mentor-hero-content p {
+    .rr-hero-description {
         max-width: 100%;
     }
 
-    .mentor-header-actions {
+    .rr-hero-actions {
+        display: flex;
         justify-content: center;
     }
 
-    .mentor-hero-illustration {
-        min-height: 160px;
-        margin-top: 16px;
+    .rr-hero-stats {
+        justify-content: center;
     }
 
-    .mentor-hero-illustration img {
-        max-height: 300px;
+    .rr-hero-visual {
+        opacity: .25;
+        width: 70%;
     }
 
     .rr-scroll {
@@ -1654,57 +1712,45 @@
 
 
 /* =========================================================
-   MOBILE - Increased font adjustments
+   MOBILE
    ========================================================= */
 
 @media (max-width: 767px) {
 
     .rr-page {
-        font-size: 15px;
+        font-size: 14px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
-    .rr-page .container-fluid {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
+    .rr-hero {
+        padding: 22px 18px;
     }
 
-    .mentor-hero {
-        padding: 8px 0 16px 0;
+    .rr-hero-title {
+        font-size: 26px;
     }
 
-    .mentor-hero-content {
-        text-align: center;
-        padding-right: 0;
-    }
-
-    .mentor-hero-content h1 {
-        font-size: 28px;
-
-        letter-spacing: -.6px;
-    }
-
-    .mentor-hero-content h1 span {
-        display: block;
-    }
-
-    .mentor-hero-content p {
+    .rr-hero-description {
         font-size: 13px;
-        max-width: 100%;
     }
 
-    .mentor-header-actions {
-        justify-content: center;
+    .rr-hero-stats {
+        flex-direction: column;
+        width: 100%;
     }
 
-    .mentor-hero-illustration {
+    .rr-mini-stat {
+        min-width: 100%;
+    }
+
+    .rr-hero-visual {
         display: none;
     }
 
     .rr-tabbar {
         gap: 18px;
-
         overflow-x: auto;
-
         scrollbar-width: none;
     }
 
@@ -1751,13 +1797,11 @@
 
     .rr-profile-panel {
         min-height: auto;
-
         padding: 22px !important;
     }
 
     .rr-ratings-grid {
         grid-template-columns: 1fr;
-
         gap: 14px;
     }
 
@@ -1787,18 +1831,18 @@
 @media (max-width: 480px) {
 
     .rr-page {
-        font-size: 14px;
+        font-size: 13px;
     }
 
-    .mentor-hero-content h1 {
-        font-size: 24px;
+    .rr-hero-title {
+        font-size: 22px;
     }
 
-    .mentor-hero-content p {
+    .rr-hero-description {
         font-size: 12px;
     }
 
-    .btn-mentor-hero {
+    .rr-hero-btn {
         width: 100%;
     }
 
