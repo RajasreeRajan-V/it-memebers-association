@@ -206,4 +206,8 @@ class JobPost extends Model
         'user_id'
     );
 }
+public function invitations()
+{
+    return $this->hasMany(JobInvitation::class, 'job_id');
+}
 }

@@ -38,9 +38,9 @@
         position: relative;
         z-index: 1;
         border: 1px solid #e8edf5 !important;
-        border-radius: 15px !important;
-        padding: 17px 18px !important;
-        margin-bottom: 12px !important;
+        border-radius: 17px !important;
+        padding: 21px 22px !important;
+        margin-bottom: 16px !important;
         background: #fff;
         box-shadow: 0 2px 10px rgba(15, 23, 42, .025) !important;
         transition:
@@ -63,7 +63,7 @@
     .internship-card-inner {
         display: flex;
         align-items: flex-start;
-        gap: 13px !important;
+        gap: 16px !important;
     }
 
 
@@ -73,10 +73,10 @@
 
     .internship-type-icon {
         position: relative;
-        width: 48px !important;
-        height: 48px !important;
-        min-width: 48px;
-        border-radius: 12px !important;
+        width: 55px !important;
+        height: 55px !important;
+        min-width: 55px;
+        border-radius: 14px !important;
         overflow: hidden;
         background: #eef4ff;
         border: 1px solid #e7ecf4;
@@ -85,7 +85,7 @@
         justify-content: center;
         color: #3376f2;
         font-weight: 700;
-        font-size: 17px;
+        font-size: 19px;
         box-shadow: 0 3px 9px rgba(15, 23, 42, .035);
     }
 
@@ -114,7 +114,7 @@
     }
 
     .internship-title {
-        font-size: 15px !important;
+        font-size: 16.5px !important;
         line-height: 1.35 !important;
         font-weight: 700;
         color: #172033;
@@ -123,9 +123,9 @@
     }
 
     .internship-type-tag {
-        margin-top: 2px !important;
+        margin-top: 3px !important;
         display: inline-block;
-        font-size: 11.5px !important;
+        font-size: 12.5px !important;
         line-height: 1.4;
         font-weight: 600;
         color: #3376f2;
@@ -139,7 +139,7 @@
     .internship-actions {
         display: flex;
         align-items: flex-start !important;
-        gap: 9px !important;
+        gap: 10px !important;
         flex-shrink: 0;
     }
 
@@ -148,7 +148,7 @@
     }
 
     .posted-text {
-        font-size: 10px !important;
+        font-size: 11px !important;
         color: #9aa3b2;
         font-weight: 500;
         line-height: 1.4;
@@ -157,10 +157,10 @@
 
     .status-badge {
         display: inline-block;
-        margin-top: 3px;
-        padding: 2px 8px;
+        margin-top: 4px;
+        padding: 3px 9px;
         border-radius: 999px;
-        font-size: 9px !important;
+        font-size: 10px !important;
         line-height: 1.4;
         font-weight: 600;
     }
@@ -186,8 +186,8 @@
     }
 
     .internship-menu > summary {
-        width: 32px !important;
-        height: 32px !important;
+        width: 34px !important;
+        height: 34px !important;
         list-style: none;
         border: 1px solid #e6ebf3;
         border-radius: 8px;
@@ -262,22 +262,22 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 12px !important;
-        margin-top: 8px !important;
+        gap: 14px !important;
+        margin-top: 11px !important;
     }
 
     .internship-meta-item {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        font-size: 11.5px !important;
+        gap: 6px;
+        font-size: 12.5px !important;
         color: #7b8498;
         line-height: 1.5;
     }
 
     .internship-meta-item svg {
-        width: 13px !important;
-        height: 13px !important;
+        width: 14px !important;
+        height: 14px !important;
         color: #9aa4b3;
         flex-shrink: 0;
     }
@@ -362,24 +362,24 @@
     @media (max-width: 767px) {
 
         .internship-card {
-            padding: 14px !important;
-            border-radius: 14px !important;
+            padding: 17px !important;
+            border-radius: 15px !important;
         }
 
         .internship-card-inner {
-            gap: 10px !important;
+            gap: 12px !important;
         }
 
         .internship-type-icon {
-            width: 43px !important;
-            height: 43px !important;
-            min-width: 43px !important;
+            width: 49px !important;
+            height: 49px !important;
+            min-width: 49px !important;
         }
 
         .internship-top-row {
             flex-direction: column;
             align-items: stretch !important;
-            gap: 8px !important;
+            gap: 9px !important;
         }
 
         .internship-actions {
@@ -402,7 +402,7 @@
         }
 
         .internship-title {
-            font-size: 14px !important;
+            font-size: 15.5px !important;
         }
 
         .hero-title {
@@ -423,7 +423,7 @@
         }
 
         .internship-meta {
-            gap: 8px !important;
+            gap: 9px !important;
         }
 
         .internship-menu-panel {
@@ -530,9 +530,9 @@
             class="relative flex justify-center md:justify-end">
 
             <img
-                src="{{ asset('assets/img/mm.png') }}"
+                src="{{ asset('assets/img/ppp.png') }}"
                 alt="Discover emerging talent"
-                class="w-full max-w-sm lg:max-w-[370px] h-auto rounded-xl object-contain drop-shadow-[0_18px_35px_rgba(51,118,242,0.10)]"
+                class="w-full max-w-sm lg:max-w-[420px] h-auto rounded-xl object-contain drop-shadow-[0_18px_35px_rgba(51,118,242,0.10)]"
                 onerror="this.style.display='none'"
             >
 

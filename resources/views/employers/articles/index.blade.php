@@ -3,17 +3,235 @@
 @section('content')
 
 @push('styles')
-
 <script src="https://cdn.tailwindcss.com"></script>
-<style>
-    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    .modal-body-text{white-space:pre-line}
-</style>
 @endpush
 
+<style>
+    /* ============================================================
+       ARTICLES PAGE — same design system as the Job Posts page
+    ============================================================ */
+
+    :root {
+        --blue: #3376f2;
+        --blue-dark: #245fd0;
+        --blue-light: #eef4ff;
+        --text: #172033;
+        --muted: #7b8498;
+        --border: #e8edf5;
+        --bg: #f8fafc;
+        --green: #059669;
+        --green-light: #ecfdf5;
+        --amber: #b45309;
+        --amber-light: #fff7ed;
+    }
+
+    .articles-page {
+        font-family:
+            Inter, Poppins, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .modal-body-text { white-space: pre-line; }
+
+    /* ============================================================
+       ARTICLE CARD  (same anatomy as .job-card)
+    ============================================================ */
+
+    .article-card {
+        position: relative;
+        border: 1px solid var(--border) !important;
+        border-radius: 16px !important;
+        padding: 18px 20px !important;
+        margin-bottom: 14px !important;
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, .025) !important;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .article-card:hover {
+        transform: translateY(-1px);
+        border-color: #d5e1f7 !important;
+        box-shadow: 0 10px 24px rgba(37, 99, 235, .07) !important;
+    }
+
+    .article-card-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px !important;
+    }
+
+    /* ---- thumbnail (same shape/size language as .job-company-logo) ---- */
+
+    .article-thumb {
+        position: relative;
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px;
+        border-radius: 12px !important;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e7ecf4;
+        box-shadow: 0 3px 9px rgba(15, 23, 42, .035);
+    }
+
+    .article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ---- row 1: title + category badge | views + menu ---- */
+
+    .article-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px !important; }
+    .article-row + .article-row { margin-top: 4px !important; }
+
+    .article-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+
+    .article-title {
+        font-size: 15.5px !important;
+        line-height: 1.35 !important;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -.01em;
+        margin: 0;
+    }
+
+    .article-title:hover { color: var(--blue); }
+
+    .article-category-badge {
+        flex-shrink: 0;
+        font-size: 9.5px !important;
+        font-weight: 700;
+        letter-spacing: .03em;
+        text-transform: uppercase;
+        padding: 3px 9px !important;
+        border-radius: 999px;
+        background: var(--amber-light);
+        color: var(--amber);
+        white-space: nowrap;
+    }
+
+    .article-views {
+        flex-shrink: 0;
+        font-size: 13.5px !important;
+        font-weight: 700;
+        color: var(--green);
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* ---- row 2: author / read time | posted date ---- */
+
+    .article-subline { font-size: 11.5px !important; color: var(--muted); line-height: 1.5; min-width: 0; }
+    .article-subline strong { color: var(--text); font-weight: 600; }
+    .article-subline .dot { margin: 0 5px; color: #c7cedb; }
+
+    .posted-text { flex-shrink: 0; font-size: 10.5px !important; color: #9aa3b2; font-weight: 500; white-space: nowrap; }
+
+    /* ---- row 3: tags | like / comment footer ---- */
+
+    .article-tags-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px !important;
+        margin-top: 11px !important;
+    }
+
+    .tag-pill {
+        font-size: 11px !important;
+        font-weight: 600;
+        line-height: 1.5;
+        padding: 4px 11px !important;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .tag-pill.tag-mode { background: var(--blue-light); color: var(--blue); }
+
+    .article-footer-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+
+    .footer-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12.5px !important;
+        font-weight: 600;
+        color: #9aa3b2;
+        transition: color .16s ease;
+    }
+
+    .footer-action-btn:hover { color: var(--blue); }
+    .footer-action-btn.is-liked { color: #ef4444; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+
+    .hero-title { letter-spacing: -.035em !important; }
+
+    .hero-search-bar {
+        box-shadow: 0 9px 22px rgba(51, 118, 242, .10) !important;
+    }
+
+    .hero-image {
+        border: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    .hero-float-card {
+        box-shadow: 0 12px 26px rgba(15, 23, 42, .10);
+    }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+
+    .listing-sidebar-card {
+        border-color: var(--border) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 3px 13px rgba(15, 23, 42, .03) !important;
+    }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+
+    .empty-state { border-color: var(--border) !important; border-radius: 16px !important; }
+
+    /* ============================================================
+       COMMENT PANEL
+    ============================================================ */
+
+    .comment-textarea:focus { outline: none; }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+
+    @media (max-width: 767px) {
+        .article-card { padding: 14px !important; border-radius: 14px !important; }
+        .article-card-inner { gap: 10px !important; }
+        .article-thumb { width: 43px !important; height: 43px !important; min-width: 43px !important; }
+        .article-row { flex-wrap: wrap; }
+        .article-views { font-size: 12.5px !important; }
+        .article-title { font-size: 14px !important; }
+        .article-subline { width: 100%; }
+        .posted-text { width: 100%; margin-top: 2px; }
+        .hero-title { font-size: 34px !important; }
+    }
+
+    @media (max-width: 575px) {
+        .article-tags-row { gap: 6px !important; }
+    }
+
+    @media (max-width: 1023px) {
+        .articles-page .hero-title { font-size: 42px !important; }
+    }
+</style>
 
 @php
-    
     $categories = $categories ?? [
         ['slug' => null, 'label' => 'All Articles', 'count' => 0],
         ['slug' => 'software-development', 'label' => 'Software Development', 'count' => 0],
@@ -90,31 +308,34 @@
     $sort = $sort ?? 'latest';
 @endphp
 
-<div class="bg-white min-h-screen">
+<div class="articles-page bg-slate-50 min-h-screen">
 
-    {{-- ============ HERO (content left, image right) ============ --}}
-    <div class="bg-gradient-to-b from-[#F5F8FF] to-white border-b border-slate-100">
-        <div class="max-w-6xl mx-auto px-6 py-14 grid md:grid-cols-2 gap-10 items-center">
+    {{-- =========================================================
+        HERO SECTION
+    ========================================================== --}}
+    <div class="bg-gradient-to-b from-[#F5F8FF] via-[#F5F8FF] to-white border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-11 md:py-13 grid md:grid-cols-2 gap-7 lg:gap-9 items-center">
 
-            {{-- Left: text content --}}
+            {{-- LEFT HERO CONTENT --}}
             <div class="flex flex-col items-start text-left">
-                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100/70 px-3.5 py-1.5 rounded-full mb-5">
+
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100/70 px-3.5 py-1.5 rounded-full mb-4">
                     <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z"/></svg>
                     {{ ($categories[0]['count'] ?? 48) }}+ NEW ARTICLES THIS WEEK
                 </span>
 
-                <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
-                    Discover.<br>
-                    <span class="text-blue-600">Learn. Grow.</span>
+                <h1 class="hero-title text-4xl sm:text-5xl font-bold text-slate-900 leading-[1.12] tracking-tight mb-4 max-w-lg">
+                    Discover. Learn.
+                    <span class="text-blue-600 block">Grow.</span>
                 </h1>
 
-                <p class="text-slate-500 text-base mb-7 max-w-md">
+                <p class="text-slate-500 text-base mb-6 max-w-md leading-relaxed">
                     Explore expert insights, tutorials, career advice & industry trends
                     published by employers & professionals like you.
                 </p>
 
                 <form action="{{ route('employee.articles.index') }}" method="GET"
-                      class="w-full flex items-stretch bg-white rounded-xl shadow-lg shadow-blue-900/5 border border-slate-100 p-1.5 mb-6 gap-1">
+                      class="hero-search-bar w-full flex items-stretch bg-white rounded-xl border border-slate-100 p-1.5 mb-6 gap-1">
                     <div class="relative flex-[1.4]">
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
@@ -148,7 +369,7 @@
                     </button>
                 </form>
 
-                {{-- Popular tags — exactly 5, single row --}}
+                {{-- Popular tags --}}
                 <div class="flex flex-nowrap items-center justify-start gap-2 text-sm w-full overflow-x-auto">
                     <span class="text-slate-400 font-medium mr-1 shrink-0">Popular:</span>
                     @foreach (['Career Advice', 'Web Dev', 'AIML', 'Productivity'] as $tag)
@@ -160,188 +381,193 @@
                 </div>
             </div>
 
-            {{-- Right: hero image with floating badge cards --}}
+            {{-- RIGHT HERO IMAGE --}}
             <div class="relative flex justify-center md:justify-end">
+
+                {{--
+                    ⬇️ YOUR OWN IMAGE GOES HERE ⬇️
+                    Drop your file into: public/assets/img/
+                    then update the filename below (currently "articles-hero.png").
+                --}}
                 <img
-                    src="{{ asset('assets/img/ttt.png') }}"
+                    src="{{ asset('assets/img/www.png') }}"
                     alt="Articles hero"
-                    class="w-full max-w-md h-auto rounded-xl object-cover"
+                    class="hero-image w-full max-w-sm lg:max-w-[420px] h-auto object-contain"
                     onerror="this.style.display='none'"
                 >
 
-                <div class="absolute top-6 left-0 md:left-4 flex items-center gap-2 bg-white rounded-xl shadow-lg shadow-blue-900/10 px-4 py-2.5">
-                    <span class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center shrink-0">
-                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                {{-- TUTORIALS --}}
+                <div class="hero-float-card absolute top-4 left-0 md:-left-4 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
                     </span>
-                    <span class="text-sm font-semibold text-slate-800 whitespace-nowrap">Tutorials</span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Tutorials</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Guides & how-tos</p>
+                    </div>
                 </div>
 
-                <div class="absolute bottom-6 left-0 md:-left-6 flex items-center gap-2 bg-white rounded-xl shadow-lg shadow-blue-900/10 px-4 py-2.5">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                {{-- BROWSE ARTICLES --}}
+                <div class="hero-float-card absolute top-24 right-0 md:right-4 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center shrink-0 text-violet-600 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                     </span>
-                    <span class="text-sm font-semibold text-slate-800 whitespace-nowrap">Browse Articles</span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Browse Articles</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Curated for you</p>
+                    </div>
+                </div>
+
+                {{-- TRENDING NOW --}}
+                <div class="hero-float-card absolute bottom-6 left-0 md:-left-6 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600 text-sm">⚡</span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Trending Now</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">What people are reading</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- ============ BODY ============ --}}
-    <div class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-[280px_1fr_300px] gap-6">
+    {{-- =========================================================
+        MAIN CONTENT
+    ========================================================== --}}
+    <div class="max-w-7xl mx-auto px-4 py-7 md:py-8">
 
-        {{-- ---------- LEFT: Filters ---------- --}}
-        <aside class="bg-white rounded-xl border border-slate-200 shadow-sm p-5 h-fit lg:sticky lg:top-6">
+        <div class="grid lg:grid-cols-[260px_minmax(0,1fr)_290px] gap-5 lg:gap-6">
 
-            {{-- Header --}}
-            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-                <h3 class="flex items-center gap-2 text-base font-semibold text-slate-800">
-                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 6h16M7 12h10M10 18h4"/>
-                    </svg>
-                    Filters
-                </h3>
-                <a href="{{ route('employee.articles.index') }}" class="text-sm font-medium text-blue-600 hover:underline">Clear all</a>
-            </div>
+            {{-- ---------- LEFT: Filters ---------- --}}
+            <aside class="listing-sidebar-card bg-white border p-5 h-fit lg:sticky lg:top-6">
 
-            {{-- Categories --}}
-            <div class="py-4 border-b border-slate-100">
-                <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Categories</h4>
-                <ul class="space-y-1 max-h-72 overflow-y-auto pr-1">
-                    @foreach ($categories as $cat)
-                        @php
-                            $isActive = $activeCategory === $cat['slug'];
-                            $catUrl = route('employee.articles.index', array_filter(['category' => $cat['slug']])) . '#browse-articles';
-                        @endphp
-                        <li>
-                            <a href="{{ $catUrl }}"
-                               class="flex items-center justify-between px-2.5 py-1.5 rounded-md text-sm transition
-                                      {{ $isActive ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
-                                <span>{{ $cat['label'] }}</span>
-                                <span class="text-xs {{ $isActive ? 'text-blue-500' : 'text-slate-400' }}">{{ $cat['count'] }}</span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            <form action="{{ route('employee.articles.index') }}#browse-articles" method="GET">
-                <input type="hidden" name="category" value="{{ $activeCategory }}">
-
-                {{-- Sort By --}}
-                <div class="py-4">
-                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Sort By</h4>
-                    <select name="sort" class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
-                        <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
-                        <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
-                        <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
-                    </select>
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-slate-800">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M7 12h10M10 18h4"/>
+                        </svg>
+                        Filters
+                    </h3>
+                    <a href="{{ route('employee.articles.index') }}" class="text-sm font-medium text-blue-600 hover:underline">Clear all</a>
                 </div>
 
-                <button type="submit" class="w-full rounded-lg bg-blue-600 text-white text-sm font-medium py-2 hover:bg-blue-700 transition">
-                    Apply Filters
-                </button>
-            </form>
-        </aside>
-
-        {{-- ---------- CENTER: Tabs + Article list ---------- --}}
-        <main id="browse-articles">
-            <div class="flex items-center justify-between gap-4 mb-5">
-                <h2 class="text-[13px] font-bold text-slate-500 uppercase tracking-[0.12em]">Browse Articles</h2>
-
-                {{-- Employees can submit articles for admin review — links to ArticleController@create --}}
-                
-            </div>
-
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-2 mb-5">
-                <div class="flex items-center gap-6 text-[15px]">
-                    @php
-                        $tabs = [
-                            'all' => 'All Articles',
-                        ];
-                    @endphp
-                    @foreach ($tabs as $key => $label)
-                        <a href="{{ route('employee.articles.index', array_filter(['tab' => $key, 'category' => $activeCategory])) }}#browse-articles"
-                           class="pb-2 -mb-[9px] border-b-2 font-semibold tracking-tight transition
-                                  {{ $activeTab === $key ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700' }}">
-                            {{ $label }}
-                        </a>
-                    @endforeach
+                <div class="py-4 border-b border-slate-100">
+                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Categories</h4>
+                    <ul class="space-y-1 max-h-72 overflow-y-auto pr-1">
+                        @foreach ($categories as $cat)
+                            @php
+                                $isActive = $activeCategory === $cat['slug'];
+                                $catUrl = route('employee.articles.index', array_filter(['category' => $cat['slug']])) . '#browse-articles';
+                            @endphp
+                            <li>
+                                <a href="{{ $catUrl }}"
+                                   class="flex items-center justify-between px-2.5 py-1.5 rounded-md text-sm transition
+                                          {{ $isActive ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                    <span>{{ $cat['label'] }}</span>
+                                    <span class="text-xs {{ $isActive ? 'text-blue-500' : 'text-slate-400' }}">{{ $cat['count'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
 
-                <label class="flex items-center gap-2 text-sm font-medium text-slate-500">
-                    Sort by:
-                    <select name="sort" onchange="updateSort(this.value)" class="border border-slate-200 rounded-md text-sm font-medium py-1.5 px-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
-                        <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
-                        <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
-                        <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
-                    </select>
-                </label>
-            </div>
+                <form action="{{ route('employee.articles.index') }}#browse-articles" method="GET">
+                    <input type="hidden" name="category" value="{{ $activeCategory }}">
 
-            <div class="space-y-3">
+                    <div class="py-4">
+                        <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Sort By</h4>
+                        <select name="sort" class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                            <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
+                            <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
+                            <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full rounded-xl bg-blue-600 text-white text-sm font-semibold py-2.5 hover:bg-blue-700 transition">
+                        Apply Filters
+                    </button>
+                </form>
+            </aside>
+
+            {{-- ---------- CENTER: Article list ---------- --}}
+            <section id="browse-articles" class="min-w-0">
+
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-2 mb-5">
+                    <h2 class="pb-2 -mb-[9px] border-b-2 border-blue-600 text-blue-600 font-semibold tracking-tight text-[15px]">
+                        All Articles
+                    </h2>
+
+                    <label class="flex items-center gap-2 text-sm font-medium text-slate-500">
+                        Sort by:
+                        <select name="sort" onchange="updateSort(this.value)" class="border border-slate-200 rounded-md text-sm font-medium py-1.5 px-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                            <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
+                            <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
+                            <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
+                        </select>
+                    </label>
+                </div>
+
                 @forelse ($articles as $article)
-                    <article class="bg-white border border-slate-200 rounded-xl px-4 py-3.5 hover:shadow-sm hover:border-slate-300 transition">
-                        <div class="flex items-start gap-3">
-                            <button type="button" class="article-open-btn shrink-0" data-article-id="{{ $article->id }}">
-                                <img src="{{ $article->image }}" alt="{{ $article->title }}"
-                                     class="w-11 h-11 sm:w-12 sm:h-12 object-cover rounded-lg bg-slate-100">
+                    @php
+                        $authorName = is_string($article->author ?? null)
+                            ? $article->author
+                            : ($article->author->name ?? 'Unknown Author');
+                        $isLiked = in_array($article->id, $likedArticleIds ?? []);
+                    @endphp
+
+                    <article class="article-card">
+                        <div class="article-card-inner">
+
+                            <button type="button" class="article-open-btn article-thumb shrink-0" data-article-id="{{ $article->id }}">
+                                <img src="{{ $article->image }}" alt="{{ $article->title }}">
                             </button>
 
                             <div class="flex-1 min-w-0">
-                                <div class="flex items-start justify-between gap-3">
-                                    <div class="min-w-0">
-                                        <div class="flex items-center flex-wrap gap-2">
-                                            <button type="button" class="article-open-btn text-left" data-article-id="{{ $article->id }}">
-                                                <h2 class="text-[14.5px] font-bold text-slate-900 hover:text-blue-600 transition leading-snug tracking-tight">
-                                                    {{ $article->title }}
-                                                </h2>
-                                            </button>
-                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-wide text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full uppercase shrink-0">
-                                                {{ $article->category }}
-                                            </span>
-                                        </div>
 
-                                        @php
-                                            $authorName = is_string($article->author ?? null)
-                                                ? $article->author
-                                                : ($article->author->name ?? 'Unknown Author');
-                                        @endphp
-                                        <p class="text-[12.5px] text-slate-500 font-medium mt-1 truncate">
-                                            {{ $authorName }} · {{ $article->read_minutes ?? 5 }} min read
-                                        </p>
+                                {{-- row 1: title + badge | views --}}
+                                <div class="article-row">
+                                    <div class="article-title-line">
+                                        <button type="button" class="article-open-btn text-left" data-article-id="{{ $article->id }}">
+                                            <h2 class="article-title">{{ $article->title }}</h2>
+                                        </button>
+                                        <span class="article-category-badge">{{ $article->category }}</span>
                                     </div>
 
-                                    <div class="text-right shrink-0">
-                                        <p class="text-emerald-600 font-bold text-[13.5px] flex items-center justify-end gap-1">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                                            {{ number_format($article->views_count) }}
-                                        </p>
-                                        <p class="text-[11.5px] text-slate-400 font-medium mt-1">
-                                            {{ optional($article->published_at)->diffForHumans() ?? 'Draft' }}
-                                        </p>
-                                    </div>
+                                    <span class="article-views">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        {{ number_format($article->views_count) }}
+                                    </span>
                                 </div>
 
-                                <div class="flex items-center gap-2 mt-2.5">
-                                
+                                {{-- row 2: author / read time | posted date --}}
+                                <div class="article-row">
+                                    <p class="article-subline">
+                                        <strong>{{ $authorName }}</strong>
+                                        <span class="dot">·</span>{{ $article->read_minutes ?? 5 }} min read
+                                    </p>
+                                    <span class="posted-text">
+                                        {{ optional($article->published_at)->diffForHumans() ?? 'Draft' }}
+                                    </span>
+                                </div>
 
-                                    <span class="ml-auto flex items-center gap-3">
+                                {{-- row 3: tag | like / comment footer --}}
+                                <div class="article-tags-row">
+                                    <span class="tag-pill tag-mode">{{ $article->category }}</span>
+
+                                    <span class="article-footer-right">
                                         <button
                                             type="button"
-                                            class="like-btn flex items-center gap-1 text-[12.5px] font-medium transition {{ in_array($article->id, $likedArticleIds ?? []) ? 'text-red-500' : 'text-slate-400 hover:text-red-400' }}"
+                                            class="like-btn footer-action-btn {{ $isLiked ? 'is-liked' : '' }}"
                                             data-article-id="{{ $article->id }}"
-                                            data-liked="{{ in_array($article->id, $likedArticleIds ?? []) ? '1' : '0' }}"
+                                            data-liked="{{ $isLiked ? '1' : '0' }}"
                                         >
                                             <svg class="like-icon w-3.5 h-3.5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                                                 fill="{{ in_array($article->id, $likedArticleIds ?? []) ? 'currentColor' : 'none' }}">
+                                                 fill="{{ $isLiked ? 'currentColor' : 'none' }}">
                                                 <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
                                             </svg>
                                             <span class="like-count">{{ $article->likes_count }}</span>
                                         </button>
 
-                                        <button type="button"
-                                                class="comment-toggle-btn flex items-center gap-1 text-[12.5px] font-medium text-slate-400 hover:text-blue-600"
-                                                data-article-id="{{ $article->id }}">
+                                        <button type="button" class="comment-toggle-btn footer-action-btn" data-article-id="{{ $article->id }}">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
                                             <span class="comment-count">{{ $article->comments_count }}</span>
                                         </button>
@@ -350,135 +576,122 @@
                             </div>
                         </div>
 
-                            {{-- Inline comment panel — hidden until the comment icon is clicked --}}
-                            <div id="comments-panel-{{ $article->id }}" class="hidden mt-4 pt-4 border-t border-slate-100">
-                                <form class="comment-form flex items-start gap-2 mb-4" data-article-id="{{ $article->id }}">
-                                    @csrf
-                                    <div class="relative flex-1">
-                                        <textarea
-                                            name="body" rows="2" required maxlength="1000"
-                                            placeholder="Write a comment..."
-                                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
-                                        ></textarea>
-                                        <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
-                                        </button>
-                                        <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
-                                            @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
-                                                <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
-                                            @endforeach
+                        {{-- Inline comment panel — hidden until the comment icon is clicked --}}
+                        <div id="comments-panel-{{ $article->id }}" class="hidden mt-4 pt-4 border-t border-slate-100">
+                            <form class="comment-form flex items-start gap-2 mb-4" data-article-id="{{ $article->id }}">
+                                @csrf
+                                <div class="relative flex-1">
+                                    <textarea
+                                        name="body" rows="2" required maxlength="1000"
+                                        placeholder="Write a comment..."
+                                        class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                                    ></textarea>
+                                    <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
+                                    </button>
+                                    <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
+                                        @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
+                                            <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-semibold px-4 py-2 hover:bg-blue-700 transition shrink-0">
+                                    Post
+                                </button>
+                            </form>
+
+                            <div class="comment-list space-y-3">
+                                @foreach ($article->comments as $comment)
+                                    <div class="flex gap-2.5" data-comment-id="{{ $comment->id }}">
+                                        <span class="w-7 h-7 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">
+                                            {{ strtoupper(substr($comment->user->name ?? 'U', 0, 1)) }}
+                                        </span>
+                                        <div class="min-w-0">
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm font-semibold text-slate-700">{{ $comment->user->name ?? 'Unknown User' }}</p>
+                                                <p class="text-xs font-medium text-slate-400">{{ $comment->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <p class="text-sm text-slate-600 mt-0.5 leading-relaxed">{{ $comment->body }}</p>
                                         </div>
                                     </div>
-                                    <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-semibold px-4 py-2 hover:bg-blue-700 transition shrink-0">
-                                        Post
-                                    </button>
-                                </form>
-
-                                <div class="comment-list space-y-3">
-                                    @foreach ($article->comments as $comment)
-                                        <div class="flex gap-2.5" data-comment-id="{{ $comment->id }}">
-                                            <span class="w-7 h-7 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">
-                                                {{ strtoupper(substr($comment->user->name ?? 'U', 0, 1)) }}
-                                            </span>
-                                            <div class="min-w-0">
-                                                <div class="flex items-center gap-2">
-                                                    <p class="text-sm font-semibold text-slate-700">{{ $comment->user->name ?? 'Unknown User' }}</p>
-                                                    <p class="text-xs font-medium text-slate-400">{{ $comment->created_at->diffForHumans() }}</p>
-                                                </div>
-                                                <p class="text-sm text-slate-600 mt-0.5 leading-relaxed">{{ $comment->body }}</p>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                    @if ($article->comments->isEmpty())
-                                        <p class="no-comments-msg text-sm text-slate-400">No comments yet — be the first to share your thoughts.</p>
-                                    @endif
-                                </div>
+                                @endforeach
+                                @if ($article->comments->isEmpty())
+                                    <p class="no-comments-msg text-sm text-slate-400">No comments yet — be the first to share your thoughts.</p>
+                                @endif
                             </div>
+                        </div>
                     </article>
                 @empty
-                    <div class="text-center text-slate-400 py-14 text-base font-medium">
-                        No articles found. Try a different search or filter.
+                    <div class="empty-state bg-white border border-slate-200 py-14 px-6 text-center">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                <path d="M8 10h8M8 14h5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-1.5">No articles found</h3>
+                        <p class="text-sm text-slate-400">Try a different search or filter.</p>
                     </div>
                 @endforelse
-            </div>
 
-            {{-- Pagination --}}
-            @if (isset($articles) && method_exists($articles, 'links'))
-                <div class="mt-6">{{ $articles->links() }}</div>
-            @endif
-        </main>
+                @if (isset($articles) && method_exists($articles, 'links'))
+                    <div class="mt-6">{{ $articles->links() }}</div>
+                @endif
+            </section>
 
-        {{-- ---------- RIGHT: Trending + Newsletter ---------- --}}
-        <aside class="space-y-6">
-            <div>
-                <div class="flex items-center justify-between mb-3">
-                    <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase">Trending Articles</h3>
-                    <a href="{{ route('employee.articles.index', ['tab' => 'trending']) }}#browse-articles" class="text-sm font-medium text-blue-600 hover:underline"></a>
+            {{-- ---------- RIGHT: Trending + Promo ---------- --}}
+            <aside class="space-y-4">
+
+                <div class="listing-sidebar-card bg-white border p-5">
+                    <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Trending Articles</h3>
+                    <ul class="space-y-4">
+                        @foreach ($trendingArticles->take(4) as $t)
+                            <li>
+                                <button type="button" class="article-open-btn flex gap-3 group text-left w-full" data-article-id="{{ $t->id }}">
+                                    <img src="{{ $t->image }}" alt="{{ $t->title }}" class="w-14 h-14 rounded-md object-cover shrink-0 bg-slate-100">
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-medium text-slate-800 group-hover:text-blue-600 leading-snug line-clamp-2">
+                                            {{ $t->title }}
+                                        </p>
+                                        <p class="text-xs text-slate-400 mt-1">{{ $t->read_minutes }} min read</p>
+                                    </div>
+                                </button>
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="space-y-4">
-                    @foreach ($trendingArticles->take(4) as $t)
-                        <li>
-                            <button type="button" class="article-open-btn flex gap-3 group text-left w-full" data-article-id="{{ $t->id }}">
-                                <img src="{{ $t->image }}" alt="{{ $t->title }}" class="w-14 h-14 rounded-md object-cover shrink-0 bg-slate-100">
-                                <div class="min-w-0">
-                                    <p class="text-sm font-medium text-slate-800 group-hover:text-blue-600 leading-snug line-clamp-2">
-                                        {{ $t->title }}
-                                    </p>
-                                    <p class="text-xs text-slate-400 mt-1">{{ $t->read_minutes }} min read</p>
-                                </div>
-                            </button>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
 
-            <div class="rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 p-6 text-white">
-                <h3 class="font-semibold text-lg mb-3">Explore the Latest Tech Insights</h3>
+                <div class="listing-sidebar-card relative overflow-hidden bg-gradient-to-br from-blue-600 to-violet-600 text-white p-5">
+                    <div class="absolute w-28 h-28 rounded-full bg-white/10 -right-8 -bottom-8"></div>
+                    <div class="absolute w-16 h-16 rounded-full bg-white/10 right-10 -top-6"></div>
 
-                <p class="text-sm text-blue-100 leading-6 mb-5">
-                    Discover expert-written articles on software development, AI, cybersecurity,
-                    cloud computing, data science, DevOps, mobile development, UI/UX, and many
-                    more IT topics. Stay informed with practical guides, industry trends, and
-                    best practices to grow your technical knowledge and career.
-                </p>
+                    <h3 class="relative font-bold text-[16px] mb-2">Explore the Latest Tech Insights</h3>
+                    <p class="relative text-[13px] text-white/85 leading-relaxed mb-4">
+                        Expert-written guides on development, AI, cybersecurity, cloud, and more —
+                        stay sharp and grow your career.
+                    </p>
 
-                <div class="space-y-2 text-sm">
-                    <div class="flex items-center gap-2">
-                        <span>📘</span>
-                        <span>Expert Technical Articles</span>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <span>💡</span>
-                        <span>Programming Tips & Tutorials</span>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <span>🚀</span>
-                        <span>Latest Technology Trends</span>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <span>🎯</span>
-                        <span>Career Growth & Best Practices</span>
-                    </div>
+                    <ul class="relative space-y-2 text-[13px]">
+                        <li class="flex items-center gap-2"><span>📘</span>Expert Technical Articles</li>
+                        <li class="flex items-center gap-2"><span>💡</span>Programming Tips & Tutorials</li>
+                        <li class="flex items-center gap-2"><span>🚀</span>Latest Technology Trends</li>
+                        <li class="flex items-center gap-2"><span>🎯</span>Career Growth & Best Practices</li>
+                    </ul>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </div>
     </div>
 </div>
 
 {{-- ============ ARTICLE POPUP MODAL ============ --}}
 <div id="article-modal-overlay" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-20 overflow-y-auto">
-    <div class="bg-white rounded-xl max-w-2xl w-full my-8 relative shadow-2xl max-h-[90vh] flex flex-col">
+    <div class="bg-white rounded-2xl max-w-2xl w-full my-8 relative shadow-2xl max-h-[90vh] flex flex-col">
         <button id="modal-close-btn" type="button"
                 class="absolute top-5 right-5 w-9 h-9 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-slate-800 shadow-sm z-20">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
 
-        <div id="modal-loading" class="p-16 text-center text-slate-400 text-sm">
-            Loading article...
-        </div>
+        <div id="modal-loading" class="p-16 text-center text-slate-400 text-sm">Loading article...</div>
 
         <div id="modal-content" class="hidden p-8 overflow-y-auto">
             <span id="modal-category" class="inline-block text-xs font-semibold tracking-wide text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full mb-2 uppercase"></span>
@@ -507,7 +720,7 @@
 
                     <span class="flex items-center gap-1.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
-                        <span class="comment-count" id="modal-comments-count"></span>
+                        <span id="modal-comments-count"></span>
                     </span>
                 </span>
             </div>
@@ -516,7 +729,6 @@
 
             <div id="modal-body" class="modal-body-text text-base text-slate-700 leading-relaxed mb-6"></div>
 
-            {{-- Comments — reuses the same .comment-form / .comment-list pattern as the cards --}}
             <div class="border-t border-slate-100 pt-5">
                 <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Comments</h3>
 
@@ -526,7 +738,7 @@
                         <textarea
                             name="body" rows="2" required maxlength="1000"
                             placeholder="Write a comment..."
-                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
                         ></textarea>
                         <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
@@ -581,20 +793,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return el;
     }
 
-    /* ---------- SORT BY (toolbar dropdown — not inside a <form>, so we build the URL ourselves) ---------- */
     window.updateSort = function (value) {
         const url = new URL(window.location.href);
         url.searchParams.set('sort', value);
-        url.hash = 'browse-articles'; // land back on the article list, not the hero section
+        url.hash = 'browse-articles';
         window.location.href = url.toString();
     };
 
-    // If the page loaded with #browse-articles in the URL (e.g. after changing
-    // sort/category/tab), scroll straight to that section instead of the top.
-    // We wait for the full "load" event (not just DOMContentLoaded) and add a
-    // short delay, because the Tailwind CDN script injects styles after the
-    // initial paint and reflows the page — scrolling too early lands in the
-    // wrong spot once that reflow happens.
     function scrollToBrowseArticles() {
         if (window.location.hash === '#browse-articles') {
             const target = document.getElementById('browse-articles');
@@ -609,7 +814,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* ---------- ARTICLE MODAL ---------- */
     const overlay = document.getElementById('article-modal-overlay');
     const loadingEl = document.getElementById('modal-loading');
     const contentEl = document.getElementById('modal-content');
@@ -622,7 +826,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.style.overflow = 'hidden';
 
         try {
-            // NOTE: employee-scoped endpoint — only ever returns approved articles.
             const response = await fetch(`/employee/articles/${articleId}`, {
                 headers: { 'Accept': 'application/json' },
             });
@@ -698,7 +901,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeArticleModal();
     });
 
-    /* ---------- LIKE BUTTONS (event delegation — works for cards AND modal) ---------- */
     document.addEventListener('click', async function (e) {
         const btn = e.target.closest('.like-btn');
         if (!btn) return;
@@ -729,10 +931,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 const c = b.querySelector('.like-count');
                 c.textContent = data.likes_count;
                 if (data.liked) {
+                    b.classList.add('is-liked');
                     b.classList.remove('text-slate-400', 'hover:text-red-400');
                     b.classList.add('text-red-500');
                     i.setAttribute('fill', 'currentColor');
                 } else {
+                    b.classList.remove('is-liked');
                     b.classList.remove('text-red-500');
                     b.classList.add('text-slate-400', 'hover:text-red-400');
                     i.setAttribute('fill', 'none');
@@ -743,7 +947,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    /* ---------- COMMENT TOGGLE (cards only — modal comments are always visible) ---------- */
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.comment-toggle-btn');
         if (!btn) return;
@@ -751,7 +954,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (panel) panel.classList.toggle('hidden');
     });
 
-    /* ---------- COMMENT SUBMIT (event delegation — works for cards AND modal) ---------- */
     document.addEventListener('submit', async function (e) {
         const form = e.target.closest('.comment-form');
         if (!form) return;
@@ -829,12 +1031,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    /* ---------- EMOJI PICKER (event delegation — works for cards AND modal) ---------- */
     document.addEventListener('click', function (e) {
         const toggleBtn = e.target.closest('.emoji-toggle-btn');
         if (toggleBtn) {
             const picker = toggleBtn.parentElement.querySelector('.emoji-picker');
-            // close any other open pickers first
             document.querySelectorAll('.emoji-picker').forEach(function (p) {
                 if (p !== picker) p.classList.add('hidden');
             });
@@ -859,7 +1059,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // clicking anywhere else closes any open picker
         if (!e.target.closest('.emoji-picker')) {
             document.querySelectorAll('.emoji-picker').forEach(function (p) {
                 p.classList.add('hidden');
@@ -867,7 +1066,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    /* ---------- AUTO-OPEN MODAL if ?article=ID is present (e.g. from dashboard links) ---------- */
     const params = new URLSearchParams(window.location.search);
     const openId = params.get('article');
     if (openId) openArticleModal(openId);
