@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Employer;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; 
 use App\Mail\ApplicationStatusMail;
 use App\Models\Interview;
 use App\Models\JobApplication;
@@ -10,10 +10,11 @@ use App\Models\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
 
 class ApplicantController extends Controller
 {
-    protected int $perPage = 5;
+    protected int $perPage = 4;
 
     public function index(Request $request)
     {
@@ -43,6 +44,31 @@ class ApplicantController extends Controller
             ->pluck('total', 'status');
 
         return view('employers.applicants.index', compact('applications', 'jobs', 'counts'));
+    }
+
+    /**
+     * Display a single candidate's profile.
+     *
+     * Route: GET /employer/applicants/{applicant}
+     * Name:  employer.applicants.show
+     */
+    public function show(User $applicant)
+    {
+        $applicant->load('employeeRegistration');
+
+        // This candidate's application history with the logged-in employer.
+        $applications = JobApplication::where('user_id', $applicant->id)
+            ->whereHas('jobPost', function ($query) {
+                $query->where('employer_id', Auth::id());
+            })
+            ->with('jobPost')
+            ->latest()
+            ->get();
+
+        return view('employers.applicants.show', [
+            'applicant'    => $applicant,
+            'applications' => $applications,
+        ]);
     }
 
     /**

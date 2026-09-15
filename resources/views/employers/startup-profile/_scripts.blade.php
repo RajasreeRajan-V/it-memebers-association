@@ -1,7 +1,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form[action*="startup-profile"]');
-    const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+    /* ============================================================
+       FORM SUBMIT STATE
+    ============================================================ */
+
+    const form = document.querySelector('.sp-profile-form');
+    const submitBtn = form ? form.querySelector('.sp-submit-btn') : null;
 
     if (form && submitBtn) {
         form.addEventListener('submit', function () {
@@ -11,8 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Clear invalid state on focus
-    document.querySelectorAll('.sp-form-group input, .sp-form-group textarea').forEach(input => {
+    /* ============================================================
+       CLEAR INVALID STATE ON FOCUS
+    ============================================================ */
+
+    document.querySelectorAll('.sp-form-field input, .sp-form-field textarea').forEach(input => {
         input.addEventListener('focus', function () {
             this.classList.remove('is-invalid');
             const feedback = this.parentNode.querySelector('.js-live-feedback');
@@ -20,7 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Live character filtering per field
+    /* ============================================================
+       LIVE CHARACTER FILTERING PER FIELD
+    ============================================================ */
+
     function attachFilter(id, disallowedPattern, message) {
         const input = document.getElementById(id);
         if (!input) return;
@@ -35,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 let feedback = this.parentNode.querySelector('.js-live-feedback');
                 if (!feedback) {
-                    feedback = document.createElement('span');
-                    feedback.className = 'sp-error js-live-feedback';
+                    feedback = document.createElement('p');
+                    feedback.className = 'sp-field-error js-live-feedback';
                     this.parentNode.insertBefore(feedback, this.nextSibling);
                 }
                 feedback.textContent = message;
@@ -58,5 +69,65 @@ document.addEventListener('DOMContentLoaded', function () {
     attachFilter('state',            /[^A-Za-z\s]/g,            'Only letters are allowed.');
     attachFilter('district',         /[^A-Za-z\s]/g,            'Only letters are allowed.');
     attachFilter('city',             /[^A-Za-z\s]/g,            'Only letters are allowed.');
+
+
+    /* ============================================================
+       DELETE BUTTON (index summary card menu)
+    ============================================================ */
+
+    const deleteBtn = document.getElementById('spDeleteBtn');
+    const deleteForm = document.getElementById('spDeleteForm');
+
+    if (deleteBtn && deleteForm) {
+        deleteBtn.addEventListener('click', function () {
+            if (confirm('Delete this startup profile? This action cannot be undone.')) {
+                deleteForm.submit();
+            }
+        });
+    }
+
+
+    /* ============================================================
+       3-DOT MENU: CLOSE ON OUTSIDE CLICK / STOP PROPAGATION
+    ============================================================ */
+
+    const menus = document.querySelectorAll('.sp-menu');
+
+    function closeOtherMenus(currentMenu) {
+        menus.forEach(function (menu) {
+            if (menu !== currentMenu) {
+                menu.removeAttribute('open');
+                const card = menu.closest('.sp-summary-card');
+                if (card) card.classList.remove('menu-active');
+            }
+        });
+    }
+
+    menus.forEach(function (menu) {
+        menu.addEventListener('toggle', function () {
+            const card = menu.closest('.sp-summary-card');
+            if (menu.open) {
+                closeOtherMenus(menu);
+                if (card) card.classList.add('menu-active');
+            } else if (card) {
+                card.classList.remove('menu-active');
+            }
+        });
+
+        menu.addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    });
+
+    document.addEventListener('click', function (event) {
+        menus.forEach(function (menu) {
+            if (!menu.contains(event.target)) {
+                menu.removeAttribute('open');
+                const card = menu.closest('.sp-summary-card');
+                if (card) card.classList.remove('menu-active');
+            }
+        });
+    });
+
 });
 </script>

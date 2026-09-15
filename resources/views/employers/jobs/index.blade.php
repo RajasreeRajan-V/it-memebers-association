@@ -15,6 +15,10 @@
         --muted: #7b8498;
         --border: #e8edf5;
         --bg: #f8fafc;
+        --green: #059669;
+        --green-light: #ecfdf5;
+        --amber: #b45309;
+        --amber-light: #fff7ed;
     }
 
     .job-posts-page {
@@ -37,10 +41,10 @@
     .job-card {
         position: relative;
         z-index: 1;
-        border: 1px solid #e8edf5 !important;
-        border-radius: 15px !important;
-        padding: 17px 18px !important;
-        margin-bottom: 12px !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 18px !important;
+        padding: 22px 24px !important;
+        margin-bottom: 18px !important;
         background: #fff;
         box-shadow: 0 2px 10px rgba(15, 23, 42, .025) !important;
         transition:
@@ -53,7 +57,7 @@
         transform: translateY(-1px);
         border-color: #d5e1f7 !important;
         box-shadow:
-            0 8px 22px rgba(37, 99, 235, .065) !important;
+            0 10px 24px rgba(37, 99, 235, .07) !important;
     }
 
     .job-card.menu-active {
@@ -63,7 +67,7 @@
     .job-card-inner {
         display: flex;
         align-items: flex-start;
-        gap: 13px !important;
+        gap: 17px !important;
     }
 
 
@@ -73,12 +77,12 @@
 
     .job-company-logo {
         position: relative;
-        width: 48px !important;
-        height: 48px !important;
-        min-width: 48px;
-        border-radius: 12px !important;
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px;
+        border-radius: 14px !important;
         overflow: hidden;
-        background: #f8fafc;
+        background: #fff;
         border: 1px solid #e7ecf4;
         display: flex;
         align-items: center;
@@ -102,7 +106,7 @@
         background: #eef4ff;
         color: #3376f2;
         font-weight: 700;
-        font-size: 17px;
+        font-size: 19px;
     }
 
 
@@ -115,87 +119,135 @@
         min-width: 0;
     }
 
-    .job-top-row {
+    /* ---- row 1: title + type badge  |  salary + menu ---- */
+
+    .job-row {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        gap: 12px !important;
+        gap: 10px !important;
     }
 
-    .job-title-row {
+    .job-row + .job-row {
+        margin-top: 6px !important;
+    }
+
+    .job-title-line {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 9px;
+        min-width: 0;
     }
 
     .job-title {
-        font-size: 15px !important;
+        font-size: 17px !important;
         line-height: 1.35 !important;
         font-weight: 700;
-        color: #172033;
+        color: var(--text);
         letter-spacing: -.01em;
         margin: 0;
     }
 
-    .verified-badge {
-        width: 14px;
-        height: 14px;
-        border-radius: 50%;
-        background: #3b82f6;
-        color: #fff;
-        font-size: 8px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+    .job-type-badge {
         flex-shrink: 0;
-    }
-
-    .company-name {
-        margin-top: 2px !important;
-        font-size: 11.5px !important;
-        line-height: 1.4;
-        font-weight: 600;
-        color: #3376f2;
-    }
-
-
-    /* ============================================================
-       ACTION AREA
-    ============================================================ */
-
-    .job-actions {
-        display: flex;
-        align-items: flex-start !important;
-        gap: 9px !important;
-        flex-shrink: 0;
-    }
-
-    .job-posted-info {
-        text-align: right;
-    }
-
-    .posted-text {
-        font-size: 10px !important;
-        color: #9aa3b2;
-        font-weight: 500;
-        line-height: 1.4;
+        font-size: 10.5px !important;
+        font-weight: 700;
+        letter-spacing: .03em;
+        text-transform: uppercase;
+        padding: 4px 10px !important;
+        border-radius: 999px;
+        background: var(--amber-light);
+        color: var(--amber);
         white-space: nowrap;
     }
 
-    .status-badge {
-        display: inline-block;
-        margin-top: 3px;
-        padding: 2px 8px;
-        border-radius: 999px;
-        font-size: 9px !important;
-        line-height: 1.4;
+    .job-salary {
+        flex-shrink: 0;
+        font-size: 16px !important;
+        font-weight: 700;
+        color: var(--green);
+        white-space: nowrap;
+    }
+
+    /* ---- row 2: company / location / experience  |  posted date ---- */
+
+    .job-subline {
+        font-size: 12.5px !important;
+        color: var(--muted);
+        line-height: 1.55;
+        min-width: 0;
+    }
+
+    .job-subline strong {
+        color: var(--text);
         font-weight: 600;
     }
 
+    .job-subline .dot {
+        margin: 0 5px;
+        color: #c7cedb;
+    }
+
+    .posted-text {
+        flex-shrink: 0;
+        font-size: 11.5px !important;
+        color: #9aa3b2;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    /* ---- row 3: tags  |  status ---- */
+
+    .job-tags-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px !important;
+        margin-top: 14px !important;
+    }
+
+    .tag-pill {
+        font-size: 12px !important;
+        font-weight: 600;
+        line-height: 1.5;
+        padding: 5px 12px !important;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .tag-pill.tag-mode {
+        background: var(--blue-light);
+        color: var(--blue);
+    }
+
+    .tag-pill.tag-skill {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        color: #5b6472;
+    }
+
+    .job-footer-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 5px 12px !important;
+        border-radius: 999px;
+        font-size: 12px !important;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
     .status-active {
-        background: #ecfdf5;
-        color: #059669;
+        background: var(--green-light);
+        color: var(--green);
     }
 
     .status-inactive {
@@ -211,16 +263,17 @@
     .job-menu {
         position: relative;
         z-index: 60;
+        flex-shrink: 0;
     }
 
     .job-menu > summary {
-        width: 32px !important;
-        height: 32px !important;
+        width: 30px !important;
+        height: 30px !important;
         list-style: none;
-        border: 1px solid #e6ebf3;
+        border: 1px solid transparent;
         border-radius: 8px;
-        color: #94a0b2;
-        background: #fff;
+        color: #b3bac8;
+        background: transparent;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -283,81 +336,6 @@
 
 
     /* ============================================================
-       JOB META
-    ============================================================ */
-
-    .job-meta {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 12px !important;
-        margin-top: 8px !important;
-    }
-
-    .job-meta-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 11.5px !important;
-        color: #7b8498;
-        line-height: 1.5;
-    }
-
-    .job-meta-item svg {
-        width: 13px !important;
-        height: 13px !important;
-        color: #9aa4b3;
-        flex-shrink: 0;
-    }
-
-    .job-meta-salary {
-        color: #059669 !important;
-        font-weight: 600;
-    }
-
-
-    /* ============================================================
-       DESCRIPTION
-    ============================================================ */
-
-    .job-description {
-        margin-top: 7px !important;
-        font-size: 11.5px !important;
-        line-height: 1.6 !important;
-        color: #7b8498;
-    }
-
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-
-    /* ============================================================
-       SKILLS
-    ============================================================ */
-
-    .job-skills {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px !important;
-        margin-top: 9px !important;
-    }
-
-    .job-skill {
-        padding: 3px 8px !important;
-        border-radius: 999px;
-        background: #f0f5ff;
-        color: #3376f2;
-        font-size: 9.5px !important;
-        line-height: 1.5;
-        font-weight: 600;
-    }
-
-
-    /* ============================================================
        HERO
     ============================================================ */
 
@@ -373,13 +351,20 @@
         box-shadow: 0 9px 22px rgba(51, 118, 242, .20);
     }
 
+    .hero-image {
+        border: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
 
     /* ============================================================
        SIDEBAR
     ============================================================ */
 
     .listing-sidebar-card {
-        border-color: #e8edf5 !important;
+        border-color: var(--border) !important;
         border-radius: 16px !important;
         box-shadow: 0 3px 13px rgba(15, 23, 42, .03) !important;
     }
@@ -390,7 +375,7 @@
     ============================================================ */
 
     .empty-state {
-        border-color: #e8edf5 !important;
+        border-color: var(--border) !important;
         border-radius: 16px !important;
     }
 
@@ -402,47 +387,44 @@
     @media (max-width: 767px) {
 
         .job-card {
-            padding: 14px !important;
-            border-radius: 14px !important;
+            padding: 17px !important;
+            border-radius: 15px !important;
         }
 
         .job-card-inner {
-            gap: 10px !important;
+            gap: 12px !important;
         }
 
         .job-company-logo {
-            width: 43px !important;
-            height: 43px !important;
-            min-width: 43px !important;
+            width: 49px !important;
+            height: 49px !important;
+            min-width: 49px !important;
         }
 
-        .job-top-row {
-            flex-direction: column;
-            align-items: stretch !important;
-            gap: 8px !important;
+        .job-row {
+            flex-wrap: wrap;
         }
 
-        .job-actions {
+        .job-salary {
+            font-size: 14.5px !important;
+        }
+
+        .job-title {
+            font-size: 15.5px !important;
+        }
+
+        .job-subline {
             width: 100%;
-            justify-content: space-between;
-            align-items: center !important;
         }
 
-        .job-posted-info {
-            text-align: left !important;
-        }
-
-        .job-menu {
-            margin-left: auto;
+        .posted-text {
+            width: 100%;
+            margin-top: 2px;
         }
 
         .job-menu-panel {
             right: 0;
             width: 180px;
-        }
-
-        .job-title {
-            font-size: 14px !important;
         }
 
         .hero-title {
@@ -462,12 +444,8 @@
             justify-content: center;
         }
 
-        .job-meta {
-            gap: 8px !important;
-        }
-
-        .job-description {
-            font-size: 11px !important;
+        .job-tags-row {
+            gap: 7px !important;
         }
 
         .job-menu-panel {
@@ -544,7 +522,7 @@
 
                 <a
                     href="{{ route('employer.jobs.create') }}"
-                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-6 py-3 rounded-xl transition hover:-translate-y-0.5">
+                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-[15px] font-semibold px-9 py-3.5 rounded-lg transition hover:-translate-y-0.5">
 
                     <span class="text-base leading-none">
                         ＋
@@ -557,7 +535,7 @@
 
                 <a
                     href="#job-list"
-                    class="inline-flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 text-sm font-semibold px-6 py-3 rounded-xl transition">
+                    class="inline-flex items-center gap-2 bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 text-[15px] font-semibold px-9 py-3.5 rounded-lg transition">
 
                     Browse Jobs
 
@@ -576,7 +554,7 @@
             <img
                 src="{{ asset('assets/img/jjj.png') }}"
                 alt="Find the right talent"
-                class="w-full max-w-sm lg:max-w-[370px] h-auto rounded-xl object-contain drop-shadow-[0_18px_35px_rgba(51,118,242,0.10)]"
+                class="hero-image w-full max-w-sm lg:max-w-[420px] h-auto object-contain"
                 onerror="this.style.display='none'"
             >
 
@@ -722,27 +700,6 @@
             class="min-w-0">
 
 
-            @php
-
-                $logoPalette = [
-
-                    'bg-teal-50 text-teal-600',
-
-                    'bg-amber-50 text-amber-600',
-
-                    'bg-rose-50 text-rose-600',
-
-                    'bg-emerald-50 text-emerald-600',
-
-                    'bg-blue-50 text-blue-600',
-
-                    'bg-violet-50 text-violet-600',
-
-                ];
-
-            @endphp
-
-
             @forelse ($jobs as $job)
 
                 @php
@@ -784,6 +741,12 @@
                     );
 
 
+                    $workMode =
+                        $job->work_mode
+                        ?? $job->location_type
+                        ?? null;
+
+
                     /* ------------------------------------------------
                        COMPANY PROFILE
                     ------------------------------------------------ */
@@ -802,16 +765,6 @@
                     $companyProfilePhoto =
                         optional($employerRegistration)->profile_photo
                         ?? null;
-
-
-                    /* ------------------------------------------------
-                       DESCRIPTION
-                    ------------------------------------------------ */
-
-                    $description =
-                        $job->description
-                        ?? $job->job_description
-                        ?? 'No job description available.';
 
 
                     /* ------------------------------------------------
@@ -858,14 +811,6 @@
                     /* ------------------------------------------------
                        LOGO FALLBACK
                     ------------------------------------------------ */
-
-                    $avatarClass =
-                        $logoPalette[
-                            $loop->index
-                            %
-                            count($logoPalette)
-                        ];
-
 
                     $companyInitial =
                         strtoupper(
@@ -927,8 +872,6 @@
                                 >
 
 
-                                {{-- IMAGE FALLBACK --}}
-
                                 <span
                                     class="job-company-logo-fallback"
                                     style="display:none;">
@@ -938,8 +881,6 @@
                                 </span>
 
                             @else
-
-                                {{-- NO PHOTO FALLBACK --}}
 
                                 <span
                                     class="job-company-logo-fallback">
@@ -961,91 +902,44 @@
                             class="job-content">
 
 
-                            {{-- =================================================
-                                TOP ROW
-                            ================================================== --}}
+                            {{-- ---- ROW 1 : title + type  |  salary + menu ---- --}}
 
-                            <div
-                                class="job-top-row">
+                            <div class="job-row">
 
+                                <div class="job-title-line">
 
-                                {{-- JOB TITLE / COMPANY --}}
+                                    <h2 class="job-title">
+                                        {{ $jobTitle }}
+                                    </h2>
 
-                                <div class="min-w-0">
-
-                                    <div
-                                        class="job-title-row">
-
-                                        <h2
-                                            class="job-title">
-
-                                            {{ $jobTitle }}
-
-                                        </h2>
-
-
-                                        <span
-                                            class="verified-badge"
-                                            title="Verified">
-
-                                            ✓
-
-                                        </span>
-
-                                    </div>
-
-
-                                    <p
-                                        class="company-name">
-
-                                        {{ $companyName }}
-
-                                    </p>
+                                    <span class="job-type-badge">
+                                        {{ ucfirst(str_replace('-', ' ', $employmentType)) }}
+                                    </span>
 
                                 </div>
 
+                                <div class="flex items-center gap-2">
 
-                                {{-- ACTION AREA --}}
+                                    @if (!empty($job->salary))
 
-                                <div
-                                    class="job-actions">
-
-
-                                    {{-- POSTED / STATUS --}}
-
-                                    <div
-                                        class="job-posted-info">
-
-                                        <p
-                                            class="posted-text">
-
-                                            Posted
-                                            {{ optional($job->created_at)->diffForHumans() }}
-
-                                        </p>
-
-
-                                        <span
-                                            class="status-badge
-                                            {{ $isActive
-                                                ? 'status-active'
-                                                : 'status-inactive'
-                                            }}">
-
-                                            {{ $isActive ? 'Active' : 'Inactive' }}
-
+                                        <span class="job-salary">
+                                            {{ $job->salary }}
                                         </span>
 
-                                    </div>
+                                    @elseif (!empty($job->salary_range))
+
+                                        <span class="job-salary">
+                                            {{ $job->salary_range }}
+                                        </span>
+
+                                    @endif
 
 
                                     {{-- =================================================
                                         3 DOT MENU
                                     ================================================== --}}
 
-                                    <details
-                                        class="job-menu">
-
+                                    <details class="job-menu">
 
                                         <summary>
 
@@ -1054,54 +948,25 @@
                                                 viewBox="0 0 24 24"
                                                 fill="currentColor">
 
-                                                <circle
-                                                    cx="12"
-                                                    cy="5"
-                                                    r="1.8">
-                                                </circle>
-
-                                                <circle
-                                                    cx="12"
-                                                    cy="12"
-                                                    r="1.8">
-                                                </circle>
-
-                                                <circle
-                                                    cx="12"
-                                                    cy="19"
-                                                    r="1.8">
-                                                </circle>
+                                                <circle cx="12" cy="5" r="1.8"></circle>
+                                                <circle cx="12" cy="12" r="1.8"></circle>
+                                                <circle cx="12" cy="19" r="1.8"></circle>
 
                                             </svg>
 
                                         </summary>
 
 
-                                        {{-- MENU PANEL --}}
+                                        <div class="job-menu-panel">
 
-                                        <div
-                                            class="job-menu-panel">
-
-
-                                            {{-- EDIT --}}
 
                                             <a
                                                 href="{{ route('employer.jobs.edit', $job) }}"
                                                 class="flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition">
 
-                                                <svg
-                                                    class="w-4 h-4 shrink-0"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2">
-
+                                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                     <path d="M12 20h9"></path>
-
-                                                    <path
-                                                        d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z">
-                                                    </path>
-
+                                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
                                                 </svg>
 
                                                 Edit Job
@@ -1109,51 +974,23 @@
                                             </a>
 
 
-                                            {{-- APPLICANTS --}}
-
                                             <a
                                                 href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
                                                 class="flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition">
 
-                                                <svg
-                                                    class="w-4 h-4 shrink-0"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2">
-
-                                                    <path
-                                                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2">
-                                                    </path>
-
-                                                    <circle
-                                                        cx="9"
-                                                        cy="7"
-                                                        r="4">
-                                                    </circle>
-
-                                                    <path
-                                                        d="M23 21v-2a4 4 0 0 0-3-3.87">
-                                                    </path>
-
-                                                    <path
-                                                        d="M16 3.13a4 4 0 0 1 0 7.75">
-                                                    </path>
-
+                                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                                 </svg>
 
-                                                <span>
-                                                    Applicants
-                                                </span>
-
+                                                <span>Applicants</span>
 
                                                 @if (!is_null($applicantsForJob))
 
-                                                    <span
-                                                        class="ml-auto text-[10px] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">
-
+                                                    <span class="ml-auto text-[10px] font-semibold text-blue-600 bg-blue-50 rounded-full px-1.5 py-0.5">
                                                         {{ $applicantsForJob }}
-
                                                     </span>
 
                                                 @endif
@@ -1161,29 +998,13 @@
                                             </a>
 
 
-                                            {{-- VIEW --}}
-
                                             <a
                                                 href="{{ route('employer.jobs.show', $job) }}"
                                                 class="flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition">
 
-                                                <svg
-                                                    class="w-4 h-4 shrink-0"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2">
-
-                                                    <path
-                                                        d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z">
-                                                    </path>
-
-                                                    <circle
-                                                        cx="12"
-                                                        cy="12"
-                                                        r="3">
-                                                    </circle>
-
+                                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
                                                 </svg>
 
                                                 View Job
@@ -1191,14 +1012,8 @@
                                             </a>
 
 
-                                            {{-- DIVIDER --}}
+                                            <div class="my-1 border-t border-slate-100"></div>
 
-                                            <div
-                                                class="my-1 border-t border-slate-100">
-                                            </div>
-
-
-                                            {{-- DELETE --}}
 
                                             <form
                                                 action="{{ route('employer.jobs.destroy', $job) }}"
@@ -1206,31 +1021,16 @@
                                                 onsubmit="return confirm('Delete this job posting? This action cannot be undone.');">
 
                                                 @csrf
-
                                                 @method('DELETE')
-
 
                                                 <button
                                                     type="submit"
                                                     class="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[12px] font-medium text-rose-600 hover:bg-rose-50 transition text-left">
 
-                                                    <svg
-                                                        class="w-4 h-4 shrink-0"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        stroke-width="2">
-
+                                                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                         <path d="M3 6h18"></path>
-
-                                                        <path
-                                                            d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14Z">
-                                                        </path>
-
-                                                        <path
-                                                            d="M10 11v6M14 11v6">
-                                                        </path>
-
+                                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14Z"></path>
+                                                        <path d="M10 11v6M14 11v6"></path>
                                                     </svg>
 
                                                     Delete
@@ -1248,219 +1048,65 @@
                             </div>
 
 
-                            {{-- =================================================
-                                JOB META
-                            ================================================== --}}
+                            {{-- ---- ROW 2 : company / location / experience  |  posted ---- --}}
 
-                            <div
-                                class="job-meta">
+                            <div class="job-row">
 
+                                <p class="job-subline">
 
-                                {{-- EMPLOYMENT TYPE --}}
+                                    <strong>{{ $companyName }}</strong>
 
-                                <span
-                                    class="job-meta-item">
+                                    @if ($location)
+                                        <span class="dot">·</span>{{ $location }}
+                                    @endif
 
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2">
+                                    @if (!empty($job->experience))
+                                        <span class="dot">·</span>{{ $job->experience }}
+                                    @elseif (!empty($job->experience_level))
+                                        <span class="dot">·</span>{{ $job->experience_level }}
+                                    @endif
 
-                                        <rect
-                                            x="3"
-                                            y="7"
-                                            width="18"
-                                            height="13"
-                                            rx="2">
-                                        </rect>
+                                </p>
 
-                                        <path
-                                            d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                        </path>
-
-                                    </svg>
-
-                                    {{ ucfirst(str_replace('-', ' ', $employmentType)) }}
-
+                                <span class="posted-text">
+                                    Posted {{ optional($job->created_at)->diffForHumans() }}
                                 </span>
-
-
-                                {{-- LOCATION --}}
-
-                                @if ($location)
-
-                                    <span
-                                        class="job-meta-item">
-
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2">
-
-                                            <path
-                                                d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z">
-                                            </path>
-
-                                            <circle
-                                                cx="12"
-                                                cy="10"
-                                                r="2.5">
-                                            </circle>
-
-                                        </svg>
-
-                                        {{ $location }}
-
-                                    </span>
-
-                                @endif
-
-
-                                {{-- EXPERIENCE --}}
-
-                                @if (!empty($job->experience))
-
-                                    <span
-                                        class="job-meta-item">
-
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2">
-
-                                            <circle
-                                                cx="12"
-                                                cy="12"
-                                                r="9">
-                                            </circle>
-
-                                            <path
-                                                d="M12 7v5l3 3">
-                                            </path>
-
-                                        </svg>
-
-                                        {{ $job->experience }}
-
-                                    </span>
-
-                                @elseif (!empty($job->experience_level))
-
-                                    <span
-                                        class="job-meta-item">
-
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2">
-
-                                            <circle
-                                                cx="12"
-                                                cy="12"
-                                                r="9">
-                                            </circle>
-
-                                            <path
-                                                d="M12 7v5l3 3">
-                                            </path>
-
-                                        </svg>
-
-                                        {{ $job->experience_level }}
-
-                                    </span>
-
-                                @endif
-
-
-                                {{-- SALARY --}}
-
-                                @if (!empty($job->salary))
-
-                                    <span
-                                        class="job-meta-item job-meta-salary">
-
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2">
-
-                                            <path
-                                                d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6">
-                                            </path>
-
-                                        </svg>
-
-                                        {{ $job->salary }}
-
-                                    </span>
-
-                                @elseif (!empty($job->salary_range))
-
-                                    <span
-                                        class="job-meta-item job-meta-salary">
-
-                                        <svg
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2">
-
-                                            <path
-                                                d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7H14a3.5 3.5 0 0 1 0 7H6">
-                                            </path>
-
-                                        </svg>
-
-                                        {{ $job->salary_range }}
-
-                                    </span>
-
-                                @endif
 
                             </div>
 
 
-                            {{-- =================================================
-                                DESCRIPTION
-                            ================================================== --}}
+                            {{-- ---- ROW 3 : tags  |  status ---- --}}
 
-                            <p
-                                class="job-description line-clamp-2">
+                            <div class="job-tags-row">
 
-                                {{ $description }}
+                                @if ($workMode)
 
-                            </p>
+                                    <span class="tag-pill tag-mode">
+                                        {{ ucfirst($workMode) }}
+                                    </span>
 
+                                @endif
 
-                            {{-- =================================================
-                                SKILLS
-                            ================================================== --}}
+                                @foreach (array_slice($skills, 0, 4) as $skill)
 
-                            @if (count($skills))
+                                    <span class="tag-pill tag-skill">
+                                        {{ $skill }}
+                                    </span>
 
-                                <div
-                                    class="job-skills">
+                                @endforeach
 
-                                    @foreach (array_slice($skills, 0, 5) as $skill)
+                                <span class="job-footer-right">
 
-                                        <span
-                                            class="job-skill">
+                                    <span
+                                        class="status-badge {{ $isActive ? 'status-active' : 'status-inactive' }}">
 
-                                            {{ $skill }}
+                                        {{ $isActive ? 'Active' : 'Inactive' }}
 
-                                        </span>
+                                    </span>
 
-                                    @endforeach
+                                </span>
 
-                                </div>
-
-                            @endif
+                            </div>
 
                         </div>
 
@@ -1483,43 +1129,21 @@
                     <div
                         class="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
 
-                        <svg
-                            class="w-6 h-6"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2">
-
-                            <rect
-                                x="3"
-                                y="5"
-                                width="18"
-                                height="14"
-                                rx="2">
-                            </rect>
-
-                            <path
-                                d="M8 10h8M8 14h5">
-                            </path>
-
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                            <path d="M8 10h8M8 14h5"></path>
                         </svg>
 
                     </div>
 
 
-                    <h3
-                        class="text-lg font-semibold text-slate-800 mb-1.5">
-
+                    <h3 class="text-lg font-semibold text-slate-800 mb-1.5">
                         No jobs posted yet
-
                     </h3>
 
 
-                    <p
-                        class="text-sm text-slate-400 mb-5">
-
+                    <p class="text-sm text-slate-400 mb-5">
                         Start attracting great talent by posting your first job.
-
                     </p>
 
 
@@ -1569,30 +1193,18 @@
                 class="listing-sidebar-card relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white p-5 shadow-lg shadow-blue-900/15">
 
 
-                <div
-                    class="absolute w-28 h-28 rounded-full bg-white/10 -right-8 -bottom-8">
-                </div>
+                <div class="absolute w-28 h-28 rounded-full bg-white/10 -right-8 -bottom-8"></div>
+                <div class="absolute w-16 h-16 rounded-full bg-white/10 right-10 -top-6"></div>
 
 
-                <div
-                    class="absolute w-16 h-16 rounded-full bg-white/10 right-10 -top-6">
-                </div>
-
-
-                <h3
-                    class="relative font-bold text-[16px] mb-2">
-
+                <h3 class="relative font-bold text-[16px] mb-2">
                     Need to hire faster?
-
                 </h3>
 
 
-                <p
-                    class="relative text-[13px] text-white/85 leading-relaxed mb-4">
-
+                <p class="relative text-[13px] text-white/85 leading-relaxed mb-4">
                     Post your job and connect with talented professionals
                     looking for their next opportunity.
-
                 </p>
 
 
@@ -1613,36 +1225,18 @@
                 class="listing-sidebar-card bg-white border border-slate-200 rounded-2xl shadow-sm p-5">
 
 
-                <h3
-                    class="text-sm font-bold text-slate-800 mb-3">
-
+                <h3 class="text-sm font-bold text-slate-800 mb-3">
                     Job Tips
-
                 </h3>
 
 
-                <ul
-                    class="text-[12px] text-slate-500 leading-7">
+                <ul class="text-[12px] text-slate-500 leading-7">
 
-                    <li>
-                        ✓ Keep your job title clear
-                    </li>
-
-                    <li>
-                        ✓ Add relevant skills
-                    </li>
-
-                    <li>
-                        ✓ Mention experience requirements
-                    </li>
-
-                    <li>
-                        ✓ Include salary information
-                    </li>
-
-                    <li>
-                        ✓ Keep your description concise
-                    </li>
+                    <li>✓ Keep your job title clear</li>
+                    <li>✓ Add relevant skills</li>
+                    <li>✓ Mention experience requirements</li>
+                    <li>✓ Include salary information</li>
+                    <li>✓ Keep your description concise</li>
 
                 </ul>
 
@@ -1678,10 +1272,6 @@
         document.querySelectorAll('.job-menu');
 
 
-    /* ============================================================
-       CLOSE OTHER MENUS
-    ============================================================ */
-
     function closeOtherMenus(currentMenu) {
 
         menus.forEach(function (menu) {
@@ -1705,10 +1295,6 @@
 
     }
 
-
-    /* ============================================================
-       MENU TOGGLE
-    ============================================================ */
 
     menus.forEach(function (menu) {
 
@@ -1744,10 +1330,6 @@
     });
 
 
-    /* ============================================================
-       CLICK OUTSIDE
-    ============================================================ */
-
     document.addEventListener('click', function (event) {
 
         menus.forEach(function (menu) {
@@ -1773,10 +1355,6 @@
     });
 
 
-    /* ============================================================
-       CLICK INSIDE
-    ============================================================ */
-
     menus.forEach(function (menu) {
 
         menu.addEventListener('click', function (event) {
@@ -1793,5 +1371,3 @@
 </script>
 
 @endsection
-
-

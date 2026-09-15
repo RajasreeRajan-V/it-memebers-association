@@ -7,7 +7,7 @@ use App\Models\MentorRegistration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -135,5 +135,33 @@ class User extends Authenticatable
     public function trainings()
 {
     return $this->hasMany(\App\Models\Training::class, 'mentor_id');
+}
+
+
+public function sentJobInvitations()
+{
+    return $this->hasMany(JobInvitation::class, 'employer_id');
+}
+
+public function receivedJobInvitations()
+{
+    return $this->hasMany(JobInvitation::class, 'candidate_id');
+}
+
+
+public function employerPortalNotifications(): HasMany
+{
+    return $this->hasMany(
+        EmployerPortalNotification::class,
+        'employer_id'
+    );
+}
+
+public function unreadEmployerPortalNotifications(): HasMany
+{
+    return $this->hasMany(
+        EmployerPortalNotification::class,
+        'employer_id'
+    )->where('is_read', false);
 }
 }

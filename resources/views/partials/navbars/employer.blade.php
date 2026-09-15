@@ -1,7 +1,7 @@
 <header class="site-header">
 
     {{-- =====================================================
-         ROW 1: LOGO / ACTIONS
+         ROW 1: LOGO / ACTION ICONS
     ====================================================== --}}
     <div class="container header-top">
 
@@ -15,39 +15,65 @@
             </span>
         </a>
 
-        {{-- Header Actions --}}
+
+        {{-- =================================================
+             HEADER ACTIONS
+        ================================================== --}}
         <div class="header-actions">
 
-            {{-- Notifications --}}
-            <a href="#" class="action-item">
+            {{-- =================================================
+                 NOTIFICATIONS - ICON ONLY
+            ================================================== --}}
+            <a
+                href="{{ route('employer.notifications.index') }}"
+                class="action-item notification-btn"
+                aria-label="Notifications"
+                title="Notifications"
+            >
                 <i class="fa-regular fa-bell"></i>
-                <span>Notifications</span>
-                <span class="pill-badge">12</span>
+
+                @auth
+                    @php
+                        $unreadNotificationsCount =
+                            \App\Models\EmployerPortalNotification::where(
+                                'employer_id',
+                                auth()->id()
+                            )
+                            ->where('is_read', false)
+                            ->count();
+                    @endphp
+
+                    @if($unreadNotificationsCount > 0)
+                        <span class="pill-badge">
+                            {{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}
+                        </span>
+                    @endif
+                @endauth
             </a>
 
-            {{-- Settings --}}
+
+            {{-- =================================================
+                 SETTINGS - ICON ONLY + DROPDOWN
+            ================================================== --}}
             <div class="settings-menu-wrap">
 
                 <button
                     class="settings-top-btn"
                     id="settingsTopBtn"
                     type="button"
+                    aria-label="Settings"
+                    title="Settings"
+                    aria-expanded="false"
                 >
                     <span class="settings-icon-circle">
                         <i class="fa-solid fa-gear"></i>
                     </span>
-
-                    <span class="settings-top-label">
-                        Settings
-                    </span>
-
-                    <i
-                        class="fa-solid fa-chevron-down arrow"
-                        id="settingsTopArrow"
-                    ></i>
                 </button>
 
-                {{-- Settings Dropdown --}}
+
+                {{-- =================================================
+                     SETTINGS DROPDOWN
+                ================================================== --}}
                 <div
                     class="settings-top-dropdown"
                     id="settingsTopDropdown"
@@ -61,6 +87,7 @@
                         <i class="fa-solid fa-user"></i>
                         <span>My Profile</span>
                     </a>
+
 
                     {{-- Logout --}}
                     <form
@@ -79,9 +106,13 @@
                     </form>
 
                 </div>
+
             </div>
 
-            {{-- Mobile Menu --}}
+
+            {{-- =================================================
+                 MOBILE MENU BUTTON
+            ================================================== --}}
             <button
                 class="nav-toggle"
                 id="navToggle"
@@ -95,12 +126,13 @@
             </button>
 
         </div>
+
     </div>
 
 
     {{-- =====================================================
          ROW 2: BLUE NAVIGATION BAR
-         Employer Navigation
+         EMPLOYER NAVIGATION
     ====================================================== --}}
     <div class="header-bottom">
 
@@ -126,7 +158,6 @@
 
                 {{-- =================================================
                      JOBS
-                     Plain Link
                 ================================================== --}}
                 <a
                     href="{{ route('employer.jobs.index') }}"
@@ -139,7 +170,6 @@
 
                 {{-- =================================================
                      INTERNSHIPS
-                     Plain Link
                 ================================================== --}}
                 <a
                     href="{{ route('employer.internships.index') }}"
@@ -152,7 +182,6 @@
 
                 {{-- =================================================
                      PROJECTS
-                     Plain Link
                 ================================================== --}}
                 <a
                     href="{{ route('employer.projects.index') }}"
@@ -165,7 +194,6 @@
 
                 {{-- =================================================
                      STARTUP
-                     Plain Link - SAME AS JOBS
                 ================================================== --}}
                 <a
                     href="{{ route('employer.startup-profile.index') }}"
@@ -188,10 +216,13 @@
                 </a>
 
             </nav>
+
         </div>
+
     </div>
 
 </header>
+
 
 
 <style>
@@ -278,34 +309,37 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 34px;
+    gap: 18px;
     flex-shrink: 0;
     margin-left: auto;
 }
 
 
 /* =========================================================
-   ACTION ITEMS
+   NOTIFICATION ICON
 ========================================================= */
 
 .action-item {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 9px;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
     text-decoration: none;
     color: #374151;
-    font-size: .87rem;
-    font-weight: 500;
+    transition: all .2s ease;
 }
 
 .action-item i {
-    font-size: 17px;
+    font-size: 18px;
     color: #4b5563;
+    transition: color .2s ease;
 }
 
 .action-item:hover {
-    color: #3364d7;
+    background: rgba(51, 100, 215, .08);
 }
 
 .action-item:hover i {
@@ -319,19 +353,20 @@
 
 .pill-badge {
     position: absolute;
-    top: -8px;
-    right: -14px;
+    top: 0;
+    right: 0;
     background: #3364d7;
     color: #fff;
     font-size: .65rem;
     font-weight: 700;
-    min-width: 16px;
-    height: 16px;
-    border-radius: 50px;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 4px;
+    border: 2px solid #F7F9FF;
 }
 
 
@@ -343,16 +378,22 @@
     position: relative;
 }
 
+
+/* Settings button */
+
 .settings-top-btn {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: center;
     border: none;
     background: transparent;
     cursor: pointer;
-    padding: 4px;
+    padding: 0;
     font-family: inherit;
 }
+
+
+/* Settings icon circle */
 
 .settings-icon-circle {
     width: 42px;
@@ -365,24 +406,29 @@
     color: #fff;
     font-size: 16px;
     flex-shrink: 0;
+    transition: all .2s ease;
 }
+
+
+/* Settings hover */
+
+.settings-top-btn:hover .settings-icon-circle {
+    background: #2456c5;
+    transform: translateY(-1px);
+}
+
+
+/* Remove settings text */
 
 .settings-top-label {
-    font-weight: 600;
-    font-size: .9rem;
-    color: #111827;
-    white-space: nowrap;
+    display: none !important;
 }
+
+
+/* Remove arrow */
 
 .settings-top-btn .arrow {
-    font-size: 11px;
-    color: #9ca3af;
-    margin-left: 2px;
-    transition: transform .25s ease;
-}
-
-.settings-top-btn.open .arrow {
-    transform: rotate(180deg);
+    display: none !important;
 }
 
 
@@ -405,7 +451,9 @@
     animation: slideDown .25s ease;
 }
 
+
 @keyframes slideDown {
+
     from {
         opacity: 0;
         transform: translateY(-8px);
@@ -415,7 +463,11 @@
         opacity: 1;
         transform: translateY(0);
     }
+
 }
+
+
+/* Show dropdown */
 
 .settings-top-dropdown.show {
     display: block;
@@ -423,7 +475,7 @@
 
 
 /* =========================================================
-   SETTINGS ITEMS
+   SETTINGS MENU ITEMS
 ========================================================= */
 
 .settings-menu-item {
@@ -442,7 +494,9 @@
     font-weight: 500;
     font-family: inherit;
     transition: background .2s ease;
+    box-sizing: border-box;
 }
+
 
 .settings-menu-item i {
     width: 16px;
@@ -450,6 +504,7 @@
     color: #6b7280;
     font-size: 14px;
 }
+
 
 .settings-menu-item:hover {
     background: rgba(0, 0, 0, .04);
@@ -532,7 +587,6 @@
 
 /* =========================================================
    NORMAL NAV LINKS
-   Home / Jobs / Internships / Projects / Startup / Applicants
 ========================================================= */
 
 .main-nav > a {
@@ -548,6 +602,7 @@
     white-space: nowrap;
     position: relative;
     border-radius: 8px;
+
     transition:
         background .2s ease,
         color .2s ease;
@@ -622,16 +677,8 @@
 
 @media (max-width: 900px) {
 
-    .action-item span:not(.pill-badge) {
-        display: none;
-    }
-
     .header-actions {
-        gap: 16px;
-    }
-
-    .settings-top-label {
-        display: none;
+        gap: 14px;
     }
 
     .logo-mark {
@@ -641,6 +688,7 @@
     .logo-mark img {
         width: 150px;
     }
+
 }
 
 
@@ -654,6 +702,7 @@
         padding-left: 32px;
         padding-right: 32px;
     }
+
 
     .header-top {
         height: 70px;
@@ -728,6 +777,15 @@
         justify-content: flex-start;
         box-sizing: border-box;
     }
+
+
+    /* SETTINGS DROPDOWN */
+
+    .settings-top-dropdown {
+        right: 0;
+        top: calc(100% + 8px);
+    }
+
 }
 
 
@@ -742,35 +800,53 @@
         padding-right: 16px;
     }
 
+
     .header-top {
         height: 64px;
         padding: 8px 16px;
         gap: 12px;
     }
 
+
     .logo {
         height: 50px;
     }
+
 
     .logo-mark {
         width: 125px;
         height: 50px;
     }
 
+
     .logo-mark img {
         width: 125px;
         height: 62px;
     }
 
+
     .header-actions {
-        gap: 12px;
+        gap: 10px;
     }
+
 
     .settings-icon-circle {
         width: 38px;
         height: 38px;
         font-size: 14px;
     }
+
+
+    .action-item {
+        width: 38px;
+        height: 38px;
+    }
+
+
+    .action-item i {
+        font-size: 17px;
+    }
+
 }
 
 
@@ -789,16 +865,31 @@
     }
 
     .header-actions {
-        gap: 8px;
+        gap: 7px;
     }
+
+}
+
+
+/* =========================================================
+   OPTIONAL: PREVENT BUTTON FOCUS OUTLINE LOOK
+========================================================= */
+
+.settings-top-btn:focus-visible,
+.nav-toggle:focus-visible,
+.action-item:focus-visible {
+    outline: 2px solid #3364d7;
+    outline-offset: 3px;
 }
 
 </style>
 
 
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
+
 
     /* =====================================================
        SETTINGS DROPDOWN
@@ -817,16 +908,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             e.stopPropagation();
 
-            settingsTopDropdown.classList.toggle('show');
+            const isOpen =
+                settingsTopDropdown.classList.toggle('show');
 
-            settingsTopBtn.classList.toggle('open');
+            settingsTopBtn.setAttribute(
+                'aria-expanded',
+                isOpen ? 'true' : 'false'
+            );
 
         });
+
     }
 
 
     /* =====================================================
-       CLOSE SETTINGS OUTSIDE CLICK
+       CLOSE SETTINGS WHEN CLICKING OUTSIDE
     ===================================================== */
 
     document.addEventListener('click', function (e) {
@@ -838,8 +934,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             settingsTopDropdown?.classList.remove('show');
 
-            settingsTopBtn?.classList.remove('open');
+            settingsTopBtn?.setAttribute(
+                'aria-expanded',
+                'false'
+            );
+
         }
+
     });
 
 
@@ -867,18 +968,12 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
         });
+
     }
 
 
     /* =====================================================
-       CLOSE MOBILE NAV AFTER NORMAL LINK CLICK
-
-       Home
-       Jobs
-       Internships
-       Projects
-       Startup
-       Applicants
+       CLOSE MOBILE NAV AFTER LINK CLICK
     ===================================================== */
 
     document

@@ -1,2507 +1,4477 @@
 @extends('layouts.app')
 
+@section('title', 'Employer Dashboard')
+
 @section('content')
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-{{-- ============ HERO / WELCOME ============ --}}
-<section class="hero ed-hero">
-    <div class="container">
-
-        <div class="ed-hero-card">
-
-            <div class="hero-inner ed-hero-inner">
-
-                <div class="hero-copy reveal">
-                    <h1>
-                        One Hub.<br>
-                        <span class="accent-text">Endless Opportunities.</span>
-                    </h1>
-
-                    <p class="ed-hero-tagline">Post. Match. Hire. Grow.</p>
-
-                    <p class="hero-sub">
-                        Tech Leaders Network helps employers discover skilled professionals, interns,
-                        freelancers, and startups to drive your business forward.
-                    </p>
-
-                    <div class="hero-actions">
-                        <div class="ed-dropdown">
-                            <button type="button" class="btn btn-primary btn-lg" id="edPostToggle">Post Opportunity</button>
-                            <div class="ed-dropdown-menu" id="edPostMenu">
-                                <a href="{{ route('employer.jobs.create') }}">Job</a>
-                                <a href="{{ route('employer.internships.create') }}">Internship</a>
-                                <a href="{{ route('employer.projects.create') }}">Project</a>
-                            </div>
-                        </div>
-                        <a href="{{ route('employer.jobs.index') }}" class="btn btn-outline-invert btn-lg">View Candidates</a>
-                    </div>
-                </div>
-
-                <div class="hero-visual ed-hero-visual reveal reveal-delay-1">
-
-                    <div class="ed-illo-frame">
-                        <img src="{{ asset('assets/img/employer1.png') }}"
-                            alt="Employer and colleague reviewing candidates on a laptop" class="ed-illo-img"
-                            onerror="this.closest('.ed-illo-frame').classList.add('ed-illo-empty')">
-                        <div class="ed-illo-placeholder">
-                            <svg viewBox="0 0 24 24" fill="none" width="36" height="36">
-                                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6" />
-                                <circle cx="8.5" cy="8.5" r="1.6" stroke="currentColor" stroke-width="1.6" />
-                                <path d="M21 15.5 16 10.5 5 21.5" stroke="currentColor" stroke-width="1.6"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            <p>Add your image at<br><code>public/images/employer-hero.png</code></p>
-                        </div>
-                    </div>
-
-                    <div class="ed-float-badge ed-float-badge-top">
-                        <span class="ed-float-badge-icon ed-float-badge-icon-accent">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"
-                                    stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                        <span class="ed-float-badge-text">3 new applicants</span>
-                    </div>
-
-                    <div class="ed-float-badge ed-float-badge-bottom">
-                        <span class="ed-float-badge-icon">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M9 12.5l2 2 4-4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
-                            </svg>
-                        </span>
-                        <span class="ed-float-badge-text">Verified Employer</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="ed-trust-row reveal reveal-delay-1">
-                <div class="ed-trust-item">
-                    <span class="ed-trust-icon ed-trust-blue">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <span class="ed-trust-text">
-                        <span class="ed-trust-num">{{ $jobsCount ?? '10,000+' }}</span>
-                        <span class="ed-trust-label">Opportunities Posted</span>
-                    </span>
-                </div>
-                <div class="ed-trust-item">
-                    <span class="ed-trust-icon ed-trust-green">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
-                            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" />
-                        </svg>
-                    </span>
-                    <span class="ed-trust-text">
-                        <span class="ed-trust-num">2M+</span>
-                        <span class="ed-trust-label">Skilled Candidates</span>
-                    </span>
-                </div>
-                <div class="ed-trust-item">
-                    <span class="ed-trust-icon ed-trust-purple">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <span class="ed-trust-text">
-                        <span class="ed-trust-num">{{ $hiredCount ?? '3,200+' }}</span>
-                        <span class="ed-trust-label">Successful Hires</span>
-                    </span>
-                </div>
-                <div class="ed-trust-item">
-                    <span class="ed-trust-icon ed-trust-amber">
-                        <svg viewBox="0 0 24 24" fill="none">
-                            <path d="M4 21c0-4 2-6 2-6M12 3c3 2 5 6 5 10a5 5 0 0 1-10 0c0-4 2-8 5-10Z" stroke="currentColor"
-                                stroke-width="1.8" stroke-linejoin="round" />
-                        </svg>
-                    </span>
-                    <span class="ed-trust-text">
-                        <span class="ed-trust-num">850+</span>
-                        <span class="ed-trust-label">Startups Funded</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-
-{{-- ============ LATEST TECHNICAL ARTICLES ============ --}}
-<section class="ed-articles-section">
-    <div class="container">
-        <div class="ed-feed-head reveal">
-            <h2>Latest Technical Articles</h2>
-            <a href="{{ route('employer.articles.index') }}" class="ed-feed-viewall">View All Articles <span aria-hidden="true">→</span></a>
-        </div>
-        <p class="ed-articles-sub reveal">Insights, tutorials and industry trends published by employees.</p>
-
-        <div class="ed-articles-grid reveal">
-            @forelse (($latestArticles ?? collect()) as $article)
-            <div class="ed-article-card">
-                <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-thumb-link">
-                    <div class="ed-article-thumb">
-                        <img src="{{ $article->image ?: asset('assets/img/article-placeholder.png') }}"
-                            alt="{{ $article->title }}"
-                            onerror="this.onerror=null;this.src='{{ asset('assets/img/article-placeholder.png') }}'">
-                        <span class="ed-article-cat">{{ $article->category }}</span>
-                    </div>
-                </a>
-
-                <div class="ed-article-body">
-                    <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-title-link">
-                        <h3>{{ $article->title }}</h3>
-                    </a>
-                    <p>{{ Str::limit($article->excerpt, 90) }}</p>
-                </div>
-
-                <div class="ed-article-author-row">
-                    <span class="ed-article-avatar">{{ strtoupper(substr($article->author->name ?? 'A', 0, 1)) }}</span>
-                    <span class="ed-article-author-meta">
-                        <span class="ed-article-author-name">{{ $article->author->name ?? 'Unknown' }}</span>
-                        <span class="ed-article-date">
-                            {{ optional($article->published_at)->format('M d, Y') }}
-                            &middot; {{ $article->read_minutes }} min read
-                        </span>
-                    </span>
-                </div>
-
-                <div class="ed-article-footer">
-                    <button
-                        type="button"
-                        class="ed-article-like-btn {{ in_array($article->id, $likedArticleIds ?? []) ? 'is-liked' : '' }}"
-                        data-article-id="{{ $article->id }}"
-                    >
-                        <svg class="ed-like-icon" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                             fill="{{ in_array($article->id, $likedArticleIds ?? []) ? 'currentColor' : 'none' }}">
-                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
-                        </svg>
-                        <span class="ed-like-count">{{ $article->likes_count }}</span>
-                    </button>
-
-                    <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-article-stat ed-article-comment-link">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/>
-                            <path d="M8 10h8M8 14h5" stroke-linecap="round"/>
-                        </svg>
-                        {{ $article->comments_count }}
-                    </a>
-
-                    <span class="ed-article-stat">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
-                            <circle cx="12" cy="12" r="3"/>
-                        </svg>
-                        {{ $article->views_count }}
-                    </span>
-                </div>
-            </div>
-            @empty
-            <p class="empty-state">No articles published yet.</p>
-            @endforelse
-        </div>
-    </div>
-</section>
-
-{{-- ============ ABOUT US ============ --}}
-<section class="ed-about-section">
-    <div class="container">
-        <div class="ed-about-grid reveal">
-
-            <div class="ed-about-copy">
-                <p class="ed-about-eyebrow">Employer Dashboard</p>
-
-                <h2>Manage Hiring, Internships<br>and Startup Growth</h2>
-
-                <p class="ed-about-description">
-                    Connect with talented professionals, post opportunities, manage startup profiles,
-                    and discover the right candidates for your organization—all from one powerful platform.
-                </p>
-
-                <div class="ed-about-list">
-
-                    <div class="ed-about-item">
-                        <span class="ed-about-check">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7"
-                                    stroke="currentColor"
-                                    stroke-width="2.2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                        <div>
-                            <h4>Post Jobs & Internships</h4>
-                            <p>Create job openings and internship programs to attract skilled candidates.</p>
-                        </div>
-                    </div>
-
-                    <div class="ed-about-item">
-                        <span class="ed-about-check">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7"
-                                    stroke="currentColor"
-                                    stroke-width="2.2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                        <div>
-                            <h4>Review Applications</h4>
-                            <p>Browse candidate profiles, evaluate applications, and shortlist talent.</p>
-                        </div>
-                    </div>
-
-                    <div class="ed-about-item">
-                        <span class="ed-about-check">
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7"
-                                    stroke="currentColor"
-                                    stroke-width="2.2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </span>
-                        <div>
-                            <h4>Manage Projects & Startups</h4>
-                            <p>Showcase your startup, publish projects, and collaborate with professionals.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <a href="#" class="btn btn-primary ed-about-btn">
-                    Explore Employer Features
-                </a>
-            </div>
-
-            <div class="ed-about-image">
-                <img src="{{ asset('assets/img/uvu.png') }}"
-                    alt="Employer dashboard">
-            </div>
-
-            <div class="ed-about-features">
-
-              <div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-briefcase"></i>
-    </span>
-    <span class="ed-about-feature-label">Job Posting</span>
-</div>
-
-<div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-graduation-cap"></i>
-    </span>
-    <span class="ed-about-feature-label">Internships</span>
-</div>
-
-<div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-users"></i>
-    </span>
-    <span class="ed-about-feature-label">View Candidates</span>
-</div>
-
-<div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-rocket"></i>
-    </span>
-    <span class="ed-about-feature-label">Startup Profile</span>
-</div>
-
-<div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-folder-open"></i>
-    </span>
-    <span class="ed-about-feature-label">Projects</span>
-</div>
-
-<div class="ed-about-feature">
-    <span class="ed-about-feature-icon">
-        <i class="fas fa-chart-line"></i>
-    </span>
-    <span class="ed-about-feature-label">Application Tracking</span>
-</div>
-
-            </div>
-
-        </div>
-    </div>
-</section>
-
-@if (session('success'))
-<div class="container">
-    <div class="alert alert-success ed-alert-inline">{{ session('success') }}</div>
-</div>
-@endif
-
-
-{{-- ============ WHY Tech Leaders Network ============ --}}
-<section class="ed-why-section">
-    <div class="container">
-        <div class="ed-why-card reveal">
-            <div class="ed-why-copy">
-                <p class="ed-why-eyebrow">Why Tech Leaders Network</p>
-                <h2>Building a Stronger<br>Hiring Community Together</h2>
-                <p class="ed-why-sub">Our employer tools and matching technology help you connect with the right talent
-                    quickly and efficiently.</p>
-
-                <div class="ed-why-grid">
-                    <div class="ed-why-item">
-                        <span class="ed-why-icon ed-why-blue"><svg viewBox="0 0 24 24" fill="none">
-                                <path
-                                    d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"
-                                    stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7" />
-                            </svg></span>
-                        <div>
-                            <h3>Smart Matching</h3>
-                            <p>Our AI matches you with the most relevant candidates.</p>
-                        </div>
-                    </div>
-                    <div class="ed-why-item">
-                        <span class="ed-why-icon ed-why-green"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" />
-                            </svg></span>
-                        <div>
-                            <h3>Quality Applications</h3>
-                            <p>Get applications from verified, skilled professionals.</p>
-                        </div>
-                    </div>
-                    <div class="ed-why-item">
-                        <span class="ed-why-icon ed-why-purple"><svg viewBox="0 0 24 24" fill="none">
-                                <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7" />
-                                <circle cx="17" cy="9" r="2.4" stroke="currentColor" stroke-width="1.7" />
-                                <path d="M3.5 20c.4-3.3 2.7-5.5 5.5-5.5s5.1 2.2 5.5 5.5M14.5 15.2c2 .2 3.6 1.9 3.9 4.3"
-                                    stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
-                            </svg></span>
-                        <div>
-                            <h3>Easy Collaboration</h3>
-                            <p>Manage your hiring process with your team seamlessly.</p>
-                        </div>
-                    </div>
-                    <div class="ed-why-item">
-                        <span class="ed-why-icon ed-why-amber"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" stroke="currentColor"
-                                    stroke-width="1.7" stroke-linejoin="round" />
-                                <path d="M9.5 12l1.8 1.8L15 10" stroke="currentColor" stroke-width="1.7"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></span>
-                        <div>
-                            <h3>Secure &amp; Reliable</h3>
-                            <p>Your data and hiring process are safe with us.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="ed-why-stats">
-                <div class="ed-why-stat">
-                    <span class="ed-why-stat-icon ed-why-stat-blue"><svg viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
-                            <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" />
-                        </svg></span>
-                    <span class="ed-why-stat-num">10,000+</span>
-                    <span class="ed-why-stat-label">Companies</span>
-                </div>
-                <div class="ed-why-stat">
-                    <span class="ed-why-stat-icon ed-why-stat-green"><svg viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M17 20h5v-1a4 4 0 0 0-3-3.9M9 20H4v-1a4 4 0 0 1 3-3.9m5-2.1a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
-                                stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
-                        </svg></span>
-                    <span class="ed-why-stat-num">2M+</span>
-                    <span class="ed-why-stat-label">Candidates</span>
-                </div>
-                <div class="ed-why-stat">
-                    <span class="ed-why-stat-icon ed-why-stat-amber"><svg viewBox="0 0 24 24" fill="none">
-                            <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.7"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg></span>
-                    <span class="ed-why-stat-num">{{ $jobsCount ?? '100K+' }}</span>
-                    <span class="ed-why-stat-label">Jobs Posted</span>
-                </div>
-                <div class="ed-why-stat">
-                    <span class="ed-why-stat-icon ed-why-stat-purple"><svg viewBox="0 0 24 24" fill="none">
-                            <path d="M9 12.5l2 2 4-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" />
-                        </svg></span>
-                    <span class="ed-why-stat-num">{{ $hiredCount ?? '50K+' }}</span>
-                    <span class="ed-why-stat-label">Hires Made</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-{{-- ============ EXCLUSIVE BENEFITS BANNER ============ --}}
-<section class="ed-benefits-section">
-    <div class="container">
-        <div class="ed-benefits-card reveal">
-            <div class="ed-benefits-copy">
-                <!-- <span class="ed-benefits-badge">For Employers</span> -->
-                <h2>Exclusive Benefits for Our Members</h2>
-                <ul class="ed-benefits-list">
-                    <li>
-                        <span class="ed-benefits-check"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></span>
-                        Priority placement across job, internship &amp; project listings
-                    </li>
-                    <li>
-                        <span class="ed-benefits-check"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></span>
-                        Access to a fully verified candidate pool
-                    </li>
-                    <li>
-                        <span class="ed-benefits-check"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></span>
-                        Dedicated support for your hiring team
-                    </li>
-                    <li>
-                        <span class="ed-benefits-check"><svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg></span>
-                        Advanced filtering &amp; applicant analytics
-                    </li>
-                </ul>
-            </div>
-            <div class="ed-benefits-cta-card">
-                <h3>Ready to Get Started?</h3>
-                <p>Post your first opportunity and start meeting qualified candidates today.</p>
-                <a href="{{ route('employer.jobs.create') }}" class="btn btn-primary btn-lg ed-benefits-btn">Post an
-                    Opportunity</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-{{-- ============ COMPREHENSIVE SERVICES / QUICK ACTIONS ============ --}}
-<section class="ed-quickstrip-section">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>Comprehensive Services For Your Growth</h2>
-            <p>Everything you need to hire, manage and grow your team in one place.</p>
-        </div>
-
-        <div class="ed-quickstrip reveal">
-
-            <a href="{{ route('employer.jobs.create') }}" class="ed-quickstrip-item">
-                <span class="ed-quickstrip-icon ed-quickstrip-blue">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 21V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M9 21V13h6v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span class="ed-quickstrip-title">Post a Job</span>
-                <span class="ed-quickstrip-sub">Find the perfect full-time talent.</span>
-                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="{{ route('employer.internships.create') }}" class="ed-quickstrip-item">
-                <span class="ed-quickstrip-icon ed-quickstrip-green">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M22 10 12 5 2 10l10 5 10-5Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
-                        <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span class="ed-quickstrip-title">Post an Internship</span>
-                <span class="ed-quickstrip-sub">Hire enthusiastic interns.</span>
-                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="{{ route('employer.projects.create') }}" class="ed-quickstrip-item">
-                <span class="ed-quickstrip-icon ed-quickstrip-purple">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.8"
-                            stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span class="ed-quickstrip-title">Post a Project</span>
-                <span class="ed-quickstrip-sub">Find skilled freelancers for your projects.</span>
-                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="{{ route('employer.startup-profile.create') }}" class="ed-quickstrip-item">
-                <span class="ed-quickstrip-icon ed-quickstrip-amber">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 21c0-4 2-6 2-6M12 3c3 2 5 6 5 10a5 5 0 0 1-10 0c0-4 2-8 5-10Z" stroke="currentColor"
-                            stroke-width="1.8" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                <span class="ed-quickstrip-title">Startup Profile</span>
-                <span class="ed-quickstrip-sub">Showcase your startup to the right people.</span>
-                <span class="ed-quickstrip-cta">Get Started <span aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="{{ route('employer.jobs.index') }}" class="ed-quickstrip-item">
-                <span class="ed-quickstrip-icon ed-quickstrip-cyan">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8" />
-                        <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" />
-                    </svg>
-                </span>
-                <span class="ed-quickstrip-title">Search Candidates</span>
-                <span class="ed-quickstrip-sub">Search from millions of verified profiles.</span>
-                <span class="ed-quickstrip-cta">Search Now <span aria-hidden="true">→</span></span>
-            </a>
-
-        </div>
-    </div>
-</section>
-
-
-{{-- ============ STARTUP SPOTLIGHT ============ --}}
-<section class="ed-startup-section">
-    <div class="container">
-        <div class="ed-startup-card reveal">
-            <div class="ed-startup-copy">
-                <!-- <span class="ed-startup-badge">🚀 For Startups</span> -->
-                <h2>Fundraising too? Get in front of investors.</h2>
-                <p>List your startup on Tech Leaders Network's Investor Portal alongside your job postings, and reach backers
-                    actively looking for companies like yours.</p>
-            </div>
-            <div class="ed-startup-actions">
-                <a href="#" class="btn btn-lg">List Your Startup</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- ============ RECENT POSTINGS ============ --}}
-<section class="ed-recent-section" id="recent-postings">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>Recent Postings</h2>
-            <p>The latest jobs, internships and projects from your company.</p>
-        </div>
-
-        @php
-        // Jobs go through admin approval — only show approved jobs here.
-        // Internships/projects (no approval workflow) pass through unchanged.
-        $visiblePostings = ($recentPostings ?? collect())->filter(function ($posting) {
-        if ($posting->posting_type === 'job') {
-        return $posting->status === 'approved';
-        }
-        return true;
-        })->values();
-        @endphp
-
-        <div class="listing-table-wrap reveal">
-            <table class="listing-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Location</th>
-                        <th>Status</th>
-                        <th>Posted</th>
-                        <th class="text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($visiblePostings as $posting)
-                    <tr>
-                        <td class="cell-title">{{ $posting->title }}</td>
-                        <td><span
-                                class="ed-type-pill ed-type-{{ $posting->posting_type }}">{{ ucfirst($posting->posting_type) }}</span>
-                        </td>
-                        <td>{{ $posting->city }}, {{ $posting->state }}</td>
-                        <td>
-                            <span
-                                class="badge badge-{{ in_array($posting->status, ['active','open','approved']) ? 'green' : 'gray' }}">
-                                {{ ucfirst($posting->status) }}
-                            </span>
-                        </td>
-                        <td>{{ $posting->created_at->diffForHumans() }}</td>
-                        <td class="text-right actions-cell">
-                            <a href="{{ route('employer.' . $posting->posting_type . 's.show', $posting) }}"
-                                class="action-link">View</a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            Nothing posted yet. Use "New Posting" above to publish your first job, internship or
-                            project.
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-            <div class="pagination-wrapper">
-               {{ $recentPostings->fragment('recent-postings')->links() }}
-            </div>
-        </div>
-    </div>
-</section>
-
-{{-- ============ LATEST OPPORTUNITIES & UPCOMING EVENTS ============ --}}
-<section class="ed-feed-section">
-    <div class="container">
-        <div class="ed-feed-grid">
-
-            {{-- Latest Job Opportunities --}}
-            <div class="ed-feed-card reveal">
-                <div class="ed-feed-head">
-                    <h2>Latest Job Opportunities</h2>
-                    <a href="{{ route('employer.jobs.index') }}" class="ed-feed-viewall">View All Jobs <span
-                            aria-hidden="true">→</span></a>
-                </div>
-
-                <div class="ed-feed-list">
-                    @forelse (($latestJobs ?? collect()) as $job)
-                    <div class="ed-job-row">
-                        <span class="ed-job-logo"
-                            style="background:{{ $job->logo_color ?? '#eeeafd' }}; color:{{ $job->logo_text_color ?? '#4338ca' }};">{{ strtoupper(substr($job->company_name ?? $job->title, 0, 1)) }}</span>
-                        <div class="ed-job-info">
-                            <p class="ed-job-title">{{ $job->title }}</p>
-                            <p class="ed-job-meta">{{ $job->company_name ?? '—' }} &middot; {{ $job->city }},
-                                {{ $job->state }}</p>
-                        </div>
-                        <div class="ed-job-side">
-                            <span class="ed-job-salary">{{ $job->salary_range ?? '—' }}</span>
-                            <span class="ed-job-type">{{ $job->employment_type ?? 'Full time' }}</span>
-                        </div>
-                        <a href="{{ route('employer.jobs.show', $job) }}" class="btn btn-outline ed-feed-btn">Apply
-                            Now</a>
-                    </div>
-                    @empty
-                    {{-- Sample rows shown until live data is wired up --}}
-                    <div class="ed-job-row">
-                        <span class="ed-job-logo" style="background:#eeeafd; color:#4338ca;">G</span>
-                        <div class="ed-job-info">
-                            <p class="ed-job-title">Senior Software Engineer</p>
-                            <p class="ed-job-meta">Google &middot; Bangalore, India</p>
-                        </div>
-                        <div class="ed-job-side">
-                            <span class="ed-job-salary">₹15L - 25L</span>
-                            <span class="ed-job-type">Full time</span>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Apply Now</a>
-                    </div>
-                    <div class="ed-job-row">
-                        <span class="ed-job-logo" style="background:#ecfeff; color:#0e7490;">M</span>
-                        <div class="ed-job-info">
-                            <p class="ed-job-title">Frontend Developer</p>
-                            <p class="ed-job-meta">Microsoft &middot; Remote</p>
-                        </div>
-                        <div class="ed-job-side">
-                            <span class="ed-job-salary">₹8L - 15L</span>
-                            <span class="ed-job-type">Full time</span>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Apply Now</a>
-                    </div>
-                    <div class="ed-job-row">
-                        <span class="ed-job-logo" style="background:#fff1e8; color:#c2410c;">A</span>
-                        <div class="ed-job-info">
-                            <p class="ed-job-title">DevOps Engineer</p>
-                            <p class="ed-job-meta">Amazon &middot; Hyderabad, India</p>
-                        </div>
-                        <div class="ed-job-side">
-                            <span class="ed-job-salary">₹10L - 18L</span>
-                            <span class="ed-job-type">Full time</span>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Apply Now</a>
-                    </div>
-                    <div class="ed-job-row">
-                        <span class="ed-job-logo" style="background:#f4f0ff; color:#7c3aed;">R</span>
-                        <div class="ed-job-info">
-                            <p class="ed-job-title">React Developer</p>
-                            <p class="ed-job-meta">Meta &middot; Bangalore, India</p>
-                        </div>
-                        <div class="ed-job-side">
-                            <span class="ed-job-salary">₹12L - 20L</span>
-                            <span class="ed-job-type">Full time</span>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Apply Now</a>
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-            {{-- Upcoming Events --}}
-            <div class="ed-feed-card reveal reveal-delay-1">
-                <div class="ed-feed-head">
-                    <h2>Upcoming Events</h2>
-                    <a href="#" class="ed-feed-viewall">View All Events <span aria-hidden="true">→</span></a>
-                </div>
-
-                <div class="ed-feed-list">
-                    @forelse (($upcomingEvents ?? collect()) as $event)
-                    <div class="ed-event-row">
-                        <span class="ed-event-date">
-                            <span class="ed-event-month">{{ $event->starts_at->format('M') }}</span>
-                            <span class="ed-event-day">{{ $event->starts_at->format('d') }}</span>
-                        </span>
-                        <div class="ed-event-info">
-                            <p class="ed-event-title">{{ $event->title }}</p>
-                            <p class="ed-event-meta">{{ $event->starts_at->format('g:i A') }} &middot;
-                                {{ $event->location }}</p>
-                        </div>
-                        <a href="{{ $event->url ?? '#' }}" class="btn btn-outline ed-feed-btn">Register</a>
-                    </div>
-                    @empty
-                    {{-- Sample rows shown until live data is wired up --}}
-                    <div class="ed-event-row">
-                        <span class="ed-event-date"><span class="ed-event-month">Jan</span><span
-                                class="ed-event-day">15</span></span>
-                        <div class="ed-event-info">
-                            <p class="ed-event-title">AI &amp; Future of Technology Conference 2024</p>
-                            <p class="ed-event-meta">10:00 AM - 5:00 PM &middot; Bangalore, India</p>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Register</a>
-                    </div>
-                    <div class="ed-event-row">
-                        <span class="ed-event-date"><span class="ed-event-month">Jan</span><span
-                                class="ed-event-day">22</span></span>
-                        <div class="ed-event-info">
-                            <p class="ed-event-title">Web Development Workshop</p>
-                            <p class="ed-event-meta">1:00 PM - 4:00 PM &middot; Online</p>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Register</a>
-                    </div>
-                    <div class="ed-event-row">
-                        <span class="ed-event-date"><span class="ed-event-month">Jan</span><span
-                                class="ed-event-day">28</span></span>
-                        <div class="ed-event-info">
-                            <p class="ed-event-title">Cybersecurity Seminar</p>
-                            <p class="ed-event-meta">9:00 AM - 12:00 PM &middot; Delhi, India</p>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Register</a>
-                    </div>
-                    <div class="ed-event-row">
-                        <span class="ed-event-date"><span class="ed-event-month">Feb</span><span
-                                class="ed-event-day">05</span></span>
-                        <div class="ed-event-info">
-                            <p class="ed-event-title">Startup Networking Meetup</p>
-                            <p class="ed-event-meta">5:00 PM - 8:00 PM &middot; Mumbai, India</p>
-                        </div>
-                        <a href="#" class="btn btn-outline ed-feed-btn">Register</a>
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-{{-- ============ TIPS ============ --}}
-<section class="ed-tips-section">
-    <div class="container">
-        <div class="section-head reveal">
-            <h2>Tips to Get Noticed Faster</h2>
-            <p>Small changes that make a big difference in applicant quality.</p>
-        </div>
-
-        <div class="ed-tips-grid">
-            <div class="ed-tip-card reveal">
-                <div class="ed-tip-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.7"
-                            stroke-linejoin="round" />
-                        <path d="M13 6l4 4" stroke="currentColor" stroke-width="1.7" />
-                    </svg>
-                </div>
-                <h3>Write clear titles</h3>
-                <p>Specific job titles attract noticeably more qualified applicants than vague ones.</p>
-            </div>
-            <div class="ed-tip-card reveal reveal-delay-1">
-                <div class="ed-tip-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7" />
-                        <path d="M9.5 15c.5 1 1.4 1.5 2.5 1.5s2-.5 2.5-1.5M9.5 9h.01M14.5 9h.01" stroke="currentColor"
-                            stroke-width="1.7" stroke-linecap="round" />
-                    </svg>
-                </div>
-                <h3>Share a salary range</h3>
-                <p>Postings with a visible pay range get opened more often and close faster.</p>
-            </div>
-            <div class="ed-tip-card reveal reveal-delay-2">
-                <div class="ed-tip-icon">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z" stroke="currentColor" stroke-width="1.7"
-                            stroke-linejoin="round" />
-                    </svg>
-                </div>
-                <h3>Reply within 48 hours</h3>
-                <p>Fast responses keep strong candidates from accepting offers elsewhere.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-
 <style>
-/* ============================================================
-   Tech Leaders Network · Employer Hub
-   Palette: deep indigo + warm coral signature accent
-   Type: Sora (display) / Inter (body & data)
-   ============================================================ */
-:root {
-    --ed-ink: #15172E;
-    --ed-ink-soft: #3D4066;
-    --ed-muted: #6C7089;
-    --ed-line: #E7E8F3;
-    --ed-primary: #3760d1;
-    --ed-primary-dark: #1E52E3;
-    --ed-primary-soft: #EEEAFD;
-    --ed-accent: #3760d1;
-    --ed-accent-dark:#3760d1;
-    --ed-accent-soft: #f0e1ff;
-    --ed-surface: #ffffff;
-    --ed-surface-soft: #F7F7FC;
-    --ed-radius-lg: 22px;
-    --ed-radius-md: 15px;
-    --ed-shadow-sm: 0 2px 10px rgba(21, 23, 46, 0.06);
-    --ed-shadow-md: 0 16px 34px rgba(30, 26, 90, 0.10);
-    --font-display: 'Sora', 'Inter', system-ui, sans-serif;
-    --font-body: 'Inter', system-ui, sans-serif;
-}
-
-.ed-hero, .ed-why-section, .ed-benefits-section, .ed-quickstrip-section,
-.ed-startup-section, .ed-recent-section, .ed-feed-section, .ed-tips-section {
-    font-family: var(--font-body);
-}
-
-.ed-hero h1, .ed-hero h2, .ed-why-card h2, .ed-why-item h3, .ed-benefits-copy h2,
-.ed-benefits-cta-card h3, .ed-startup-copy h2, .section-head h2,
-.ed-quickstrip-title, .ed-job-title, .ed-event-title, .ed-tip-card h3,
-.ed-why-stat-num, .ed-trust-num {
-    font-family: var(--font-display);
-}
-
-/* ---------- Hero ---------- */
-.ed-hero {
-    padding-top: 44px;
-    padding-bottom: 8px;
-    overflow: visible !important;
-    position: relative;
-    z-index: 100;
-}
-
-/* Plain hero panel — no card styling, just a flat container */
-.ed-hero-card {
-    position: relative;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    overflow: visible;
-    box-shadow: none;
-}
-
-.ed-hero-inner {
-    align-items: center;
-    overflow: visible;
-    position: relative;
-    z-index: 1;
-    padding: 20px 0 36px;
-}
-
-.ed-hero .hero-sub {
-    max-width: 440px;
-    color: var(--ed-muted);
-    font-size: 1rem;
-    line-height: 1.65;
-    margin-top: 16px;
-}
-
-.ed-hero-tagline {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.01em;
-    color: var(--ed-primary);
-    margin-top: 10px;
-}
-
-.ed-hero h1 {
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.14;
-    color: var(--ed-ink);
-    font-size: 2.65rem;
-}
-
-.ed-hero h1 .accent-text {
-    color: var(--ed-primary);
-}
-
-.hero-copy.reveal {
-    overflow: visible !important;
-    position: relative;
-    z-index: 1;
-}
-
-.ed-hero-inner.container,
-.ed-hero .container {
-    overflow: visible !important;
-}
-
-.hero-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 30px;
-}
-
-.btn-lg {
-    padding: 13px 24px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    font-family: var(--font-body);
-}
-
-/* Primary CTA: confident indigo gradient */
-.btn-primary {
-    background: linear-gradient(135deg, var(--ed-primary) 0%, var(--ed-primary-dark) 100%);
-    border: 1px solid var(--ed-primary-dark);
-    color: #fff;
-    box-shadow: 0 10px 22px rgba(67, 56, 202, 0.28);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #4c40e0 0%, var(--ed-primary-dark) 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 14px 26px rgba(67, 56, 202, 0.34);
-}
-
-.btn-primary:active {
-    transform: scale(0.97);
-}
-
-.btn-outline {
-    border: 1.5px solid var(--ed-line);
-    color: var(--ed-ink);
-    background: #fff;
-    transition: border-color 0.15s ease, transform 0.15s ease, color 0.15s ease;
-}
-
-.btn-outline:hover {
-    border-color: var(--ed-primary);
-    color: var(--ed-primary);
-    transform: translateY(-2px);
-}
-
-.btn-outline:active {
-    transform: scale(0.97);
-}
-
-/* Outline button variant (kept for compatibility, resolves to the same light look) */
-.btn-outline-invert {
-    border: 1.5px solid var(--ed-line);
-    color: var(--ed-ink);
-    background: #ffffff;
-    transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
-}
-
-.btn-outline-invert:hover {
-    border-color: var(--ed-primary);
-    color: var(--ed-primary);
-    transform: translateY(-2px);
-}
-
-.btn-outline-invert:active { transform: scale(0.97); }
-
-.ed-dropdown {
-    position: relative;
-    display: inline-block;
-    z-index: 50;
-}
-
-.ed-dropdown-menu {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: calc(100% + 10px);
-    background: #ffffff;
-    opacity: 1;
-    border: 1px solid var(--ed-line);
-    border-radius: 14px;
-    box-shadow: var(--ed-shadow-md);
-    min-width: 190px;
-    z-index: 99999;
-    pointer-events: auto;
-    overflow: hidden;
-}
-
-.ed-dropdown-menu.is-open {
-    display: block;
-    animation: edMenuIn 0.16s ease;
-}
-
-@keyframes edMenuIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.ed-dropdown-menu a {
-    display: block;
-    padding: 13px 18px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--ed-ink-soft);
-    text-decoration: none;
-    position: relative;
-    z-index: 1;
-    pointer-events: auto;
-    background: #fff;
-    border-left: 3px solid transparent;
-    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease, padding-left 0.12s ease;
-}
-
-.ed-dropdown-menu a:hover {
-    background: var(--ed-surface-soft);
-    color: var(--ed-primary);
-    border-left-color: var(--ed-accent);
-    padding-left: 22px;
-}
-
-.ed-alert-inline {
-    margin: 24px auto 0;
-    max-width: 1100px;
-    border-radius: 14px;
-}
-
-/* Stat pills — sit inline below the hero content */
-.ed-trust-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    gap: 14px;
-    position: relative;
-    z-index: 1;
-    padding: 0 0 40px;
-}
-
-.ed-trust-item {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    background: #ffffff;
-    border: 1px solid #ECEEFA;
-    border-radius: 14px;
-    padding: 12px 18px;
-    box-shadow: 0 8px 20px rgba(67, 56, 202, 0.07);
-    flex: 1 1 200px;
-}
-
-.ed-trust-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-}
-
-.ed-trust-divider { display: none; }
-
-.ed-trust-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.ed-trust-icon svg {
-    width: 17px;
-    height: 17px;
-}
-
-.ed-trust-blue { background: var(--ed-primary-soft); color: var(--ed-primary-dark); }
-.ed-trust-green { background: #E9FBF2; color: #0E8A5E; }
-.ed-trust-purple { background: #F5EEFF; color: #8A3FE0; }
-.ed-trust-amber { background: var(--ed-accent-soft); color: var(--ed-accent-dark); }
-
-.ed-trust-num {
-    font-size: 1.08rem;
-    font-weight: 800;
-    color: var(--ed-ink);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
-}
-
-.ed-trust-label {
-    font-size: 0.74rem;
-    color: var(--ed-muted);
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-@media (max-width: 900px) {
-    .ed-trust-row { padding: 0 0 30px; }
-    .ed-trust-item { flex: 1 1 40%; }
-}
-
-@media (max-width: 560px) {
-    .ed-trust-item { flex: 1 1 100%; }
-}
-
-/* Hero visual */
-.ed-hero-visual {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-}
-
-.ed-illo-frame {
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    padding: 0;
-    overflow: visible;
-    max-width: 420px;
-    margin: 0 auto;
-}
-
-.ed-illo-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: none;
-    box-shadow: none;
-}
-
-.ed-illo-placeholder {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: #94a3b8;
-    text-align: center;
-    padding: 30px 20px;
-    font-size: 0.8rem;
-    line-height: 1.5;
-    background: rgba(67, 56, 202, 0.04);
-    border: 1px dashed #DAD8F7;
-    border-radius: 20px;
-}
-
-.ed-illo-placeholder code {
-    background: #fff;
-    padding: 2px 6px;
-    border-radius: 6px;
-    color: var(--ed-primary);
-    font-size: 0.75rem;
-}
-
-.ed-illo-frame.ed-illo-empty .ed-illo-img { display: none; }
-.ed-illo-frame.ed-illo-empty .ed-illo-placeholder { display: flex; }
-
-@media (max-width: 900px) {
-    .ed-hero-visual { order: -1; min-height: 260px; }
-    .ed-illo-frame { max-width: 320px; }
-}
 
-/* Floating badges over the illustration */
-.ed-float-badge {
-    position: absolute;
-    z-index: 5;
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    background: #ffffff;
-    border-radius: 999px;
-    box-shadow: 0 12px 26px rgba(67, 56, 202, 0.16);
-    padding: 10px 18px 10px 11px;
-}
-
-.ed-float-badge-top {
-    top: 6%;
-    right: 2%;
-}
-
-.ed-float-badge-bottom {
-    bottom: 6%;
-    left: 0;
-}
-
-.ed-float-badge-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #E9FBF2;
-    color: #0E8A5E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.ed-float-badge-icon-accent {
-    background: var(--ed-accent-soft);
-    color: var(--ed-accent-dark);
-}
-
-.ed-float-badge-icon svg { width: 14px; height: 14px; }
-
-.ed-float-badge-text {
-    font-size: 0.81rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    white-space: nowrap;
-}
-
-@media (max-width: 640px) {
-    .ed-float-badge-text { display: none; }
-    .ed-float-badge { padding: 10px; }
-}
-
-/* ---------- About Us ---------- */
-.ed-about-section { padding: 12px 0 44px; }
-
-.ed-about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 30px;
-    align-items: center;
-}
-
-.ed-about-eyebrow {
-    font-size: 0.76rem;
-    font-weight: 700;
-    color: var(--ed-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-}
-
-.ed-about-copy h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.25;
-    margin-bottom: 22px;
-    color: var(--ed-ink);
-}
-
-.ed-about-list {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-bottom: 26px;
-}
-
-.ed-about-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.ed-about-check {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--ed-primary-soft);
-    color: var(--ed-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 2px;
-}
-
-.ed-about-check svg { width: 12px; height: 12px; }
-
-.ed-about-item h4 {
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    margin-bottom: 3px;
-}
+/* =========================================================
+   EMPLOYER DASHBOARD — PREMIUM THEME
+========================================================= */
+
+.employer-dashboard{
+    --ed-primary:#3363D6;
+    --ed-primary-2:#5b82e8;
+    --ed-primary-dark:#284ea8;
+    --ed-primary-soft:#eaf0ff;
+    --ed-ink:#151a2e;
+    --ed-ink-soft:#5b6478;
+    --ed-ink-faint:#98a2b8;
+    --ed-line:#e7e9f4;
+    --ed-line-soft:#f0f1f9;
+    --ed-bg:#f6f7fc;
+    --ed-surface:#ffffff;
+    --ed-teal:#0d9488;
+    --ed-teal-soft:#e5f7f4;
+    --ed-violet:#7c3aed;
+    --ed-violet-soft:#f3edff;
+    --ed-amber:#d97706;
+    --ed-amber-soft:#fef3e2;
+    --ed-rose:#e11d5e;
+    --ed-rose-soft:#feecf2;
+    --ed-emerald:#059669;
+    --ed-emerald-soft:#e7f8f1;
+    --ed-r-sm:10px;
+    --ed-r-md:14px;
+    --ed-r-lg:20px;
+    --ed-r-xl:26px;
+    --ed-shadow-xs:0 1px 2px rgba(21,26,46,.05);
+    --ed-shadow-sm:0 2px 8px rgba(21,26,46,.05),0 1px 2px rgba(21,26,46,.04);
+    --ed-shadow-md:0 8px 24px rgba(30,32,80,.07),0 2px 6px rgba(30,32,80,.04);
+    --ed-shadow-lg:0 20px 48px rgba(30,32,80,.14),0 6px 16px rgba(30,32,80,.06);
+    --ed-shadow-glow:0 14px 30px rgba(67,56,202,.22);
+
+    width:100%;
+    font-family:Inter,Poppins,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ed-ink);
+    background:var(--ed-bg);
+    padding:0 0 45px;
+}
+
+.employer-dashboard *,
+.employer-dashboard *::before,
+.employer-dashboard *::after{
+    box-sizing:border-box;
+}
+
+.ed-container{
+    width:min(1180px,calc(100% - 40px));
+    margin:0 auto;
+}
+
+.ed-link{
+    text-decoration:none;
+    color:var(--ed-primary);
+    font-weight:600;
+}
+
+.ed-link:hover{
+    color:var(--ed-primary-dark);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.ed-hero{
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(760px 420px at 14% -10%,rgba(109,91,245,.16),transparent 60%),
+        radial-gradient(620px 380px at 92% 10%,rgba(13,148,136,.13),transparent 55%),
+        linear-gradient(180deg,#f3f2ff 0%,#f6f7fc 62%,#ffffff 100%);
+    border-bottom:1px solid var(--ed-line-soft);
+}
+
+.ed-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(21,26,46,.028) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(21,26,46,.028) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.6),transparent 75%);
+    mask-image:linear-gradient(180deg,rgba(0,0,0,.6),transparent 75%);
+    pointer-events:none;
+}
+
+.ed-hero-inner{
+    position:relative;
+    width:min(1152px,calc(100% - 40px));
+    min-height:390px;
+    margin:0 auto;
+    padding:48px 0 46px;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    align-items:center;
+    gap:35px;
+}
+
+.ed-hero-content{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    text-align:left;
+    width:100%;
+}
+
+.ed-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:7px 14px 7px 12px;
+    margin-bottom:19px;
+    border-radius:999px;
+    background:#fff;
+    border:1px solid #e2e0ff;
+    color:var(--ed-primary);
+    font-size:11.5px;
+    font-weight:800;
+    letter-spacing:.06em;
+    box-shadow:var(--ed-shadow-xs);
+}
+
+.ed-eyebrow::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--ed-primary-2),var(--ed-teal));
+}
+
+.ed-hero h1{
+    margin:0;
+    max-width:570px;
+    font-family:inherit;
+    font-size:47px;
+    line-height:1.1;
+    letter-spacing:-.035em;
+    font-weight:800;
+    color:var(--ed-ink);
+}
+
+.ed-hero h1 span{
+    display:block;
+    background:linear-gradient(100deg,var(--ed-primary) 10%,var(--ed-primary-2) 55%,var(--ed-teal) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.ed-hero-description{
+    max-width:500px;
+    margin:18px 0 27px;
+    color:var(--ed-ink-soft);
+    font-size:15.5px;
+    line-height:1.75;
+    font-weight:400;
+}
+
+.ed-hero-buttons{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.ed-btn{
+    min-height:49px;
+    padding:0 26px;
+    border-radius:11px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:700;
+    transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+.ed-btn-primary{
+    color:#fff;
+    background:linear-gradient(135deg,var(--ed-primary) 0%,var(--ed-primary-2) 100%);
+    box-shadow:var(--ed-shadow-glow);
+    border:1px solid transparent;
+}
+
+.ed-btn-primary:hover{
+    color:#fff;
+    background:linear-gradient(135deg,var(--ed-primary-dark) 0%,var(--ed-primary) 100%);
+    transform:translateY(-2px);
+    box-shadow:0 18px 36px rgba(67,56,202,.28);
+}
+
+.ed-btn-light{
+    color:var(--ed-ink);
+    background:#fff;
+    border:1px solid var(--ed-line);
+    box-shadow:var(--ed-shadow-xs);
+}
+
+.ed-btn-light:hover{
+    color:var(--ed-primary);
+    background:#fff;
+    border-color:#c9c4ff;
+    transform:translateY(-2px);
+    box-shadow:var(--ed-shadow-sm);
+}
+
+.ed-hero-visual{
+    position:relative;
+    width:100%;
+    min-height:335px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
 
-.ed-about-item p {
-    font-size: 0.83rem;
-    color: var(--ed-muted);
-    line-height: 1.55;
+.ed-hero-image{
+    width:100%;
+    max-width:440px;
+    height:auto;
+    display:block;
+    object-fit:contain;
+    border:0!important;
+    margin:0!important;
+    box-shadow:none!important;
+    filter:none!important;
 }
 
-.ed-about-btn { display: inline-flex; }
-
-.ed-about-image {
-    position: relative;
-    border-radius: var(--ed-radius-lg);
-    overflow: hidden;
-    box-shadow: var(--ed-shadow-md);
-    aspect-ratio: 4 / 3;
-    background: var(--ed-surface-soft);
-}
-
-.ed-about-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.ed-about-image-placeholder {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #94a3b8;
-    text-align: center;
-    padding: 30px 20px;
-    font-size: 0.8rem;
-    line-height: 1.5;
-    height: 100%;
-    background: rgba(67, 56, 202, 0.04);
-    border: 1px dashed #DAD8F7;
+.ed-hero-feature{
+    position:absolute;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(255,255,255,.9);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.7);
+    border-radius:14px;
+    padding:10px 14px;
+    box-shadow:var(--ed-shadow-lg);
+    white-space:nowrap;
+    z-index:3;
+}
+
+.ed-hero-feature-icon{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:13px;
+    font-weight:700;
 }
 
-.ed-about-image-placeholder code {
-    background: #fff;
-    padding: 2px 6px;
-    border-radius: 6px;
-    color: var(--ed-primary);
-    font-size: 0.75rem;
+.ed-hero-feature-text{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
 }
 
-.ed-about-image.ed-about-image-empty img { display: none; }
-.ed-about-image.ed-about-image-empty .ed-about-image-placeholder { display: flex; }
-
-.ed-about-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+.ed-hero-feature-title{
+    color:var(--ed-ink);
+    font-size:11px;
+    line-height:1.2;
+    font-weight:800;
 }
 
-.ed-about-feature {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-md);
-    padding: 18px 16px;
-    box-shadow: var(--ed-shadow-sm);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+.ed-hero-feature-subtitle{
+    color:var(--ed-ink-faint);
+    font-size:9px;
+    line-height:1.2;
+    font-weight:600;
 }
 
-.ed-about-feature:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--ed-shadow-md);
-    border-color: #DAD8F7;
+.ed-feature-verified{
+    top:28px;
+    left:-2px;
 }
 
-.ed-about-feature-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--ed-primary-soft);
-    color: var(--ed-primary-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.ed-feature-verified .ed-hero-feature-icon{
+    background:linear-gradient(135deg,#dfe6ff,#eef0ff);
+    color:var(--ed-primary);
 }
-
-.ed-about-feature-icon svg { width: 16px; height: 16px; }
 
-.ed-about-feature-label {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    line-height: 1.35;
+.ed-feature-matching{
+    top:105px;
+    right:-2px;
 }
 
-@media (max-width: 1100px) {
-    .ed-about-grid { grid-template-columns: 1fr 1fr; }
-    .ed-about-features { grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); }
+.ed-feature-matching .ed-hero-feature-icon{
+    background:linear-gradient(135deg,#ece2ff,var(--ed-violet-soft));
+    color:var(--ed-violet);
 }
 
-@media (max-width: 720px) {
-    .ed-about-grid { grid-template-columns: 1fr; }
-    .ed-about-features { grid-template-columns: 1fr 1fr; }
+.ed-feature-hiring{
+    bottom:28px;
+    left:-18px;
 }
 
-/* ---------- Section head (shared) ---------- */
-.section-head h2 {
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    font-size: 1.55rem;
-    color: var(--ed-ink);
+.ed-feature-hiring .ed-hero-feature-icon{
+    background:linear-gradient(135deg,#d7f5ea,var(--ed-emerald-soft));
+    color:var(--ed-emerald);
 }
 
-.section-head p { color: var(--ed-muted); margin-top: 6px; }
-
-/* ---------- Comprehensive Services ---------- */
-.ed-quickstrip-section { padding: 40px 0 10px; }
-.ed-quickstrip-section .section-head { margin-bottom: 26px; }
-
-.ed-quickstrip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-}
+/* =========================================================
+   RECOMMENDED CANDIDATES
+========================================================= */
 
-.ed-quickstrip-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
-    padding: 26px 22px;
-    text-decoration: none;
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-md);
-    box-shadow: var(--ed-shadow-sm);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-    position: relative;
-    overflow: hidden;
+.ed-recommended-section{
+    width:100%;
+    margin-top:32px;
 }
 
-.ed-quickstrip-item::after {
-    content: "";
-    position: absolute;
-    inset: auto -30px -30px auto;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: var(--ed-accent-soft);
-    opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform: scale(0.6);
-}
 
-.ed-quickstrip-item:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--ed-shadow-md);
-    border-color: #DAD8F7;
+.ed-section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:20px;
 }
 
-.ed-quickstrip-item:hover::after {
-    opacity: 1;
-    transform: scale(1);
-}
 
-.ed-quickstrip-icon {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-    position: relative;
-    z-index: 1;
+.ed-section-kicker{
+    display:inline-block;
+    margin-bottom:7px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1.4px;
+    color:var(--ed-primary);
+    text-transform:uppercase;
 }
 
-.ed-quickstrip-icon svg { width: 19px; height: 19px; }
 
-.ed-quickstrip-blue { background: var(--ed-primary-soft); color: var(--ed-primary); }
-.ed-quickstrip-green { background: #E9FBF2; color: #0E8A5E; }
-.ed-quickstrip-purple { background: #F5EEFF; color: #8A3FE0; }
-.ed-quickstrip-amber { background: var(--ed-accent-soft); color: var(--ed-accent-dark); }
-.ed-quickstrip-cyan { background: #E7FAFC; color: #0E7C90; }
-
-.ed-quickstrip-title {
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    letter-spacing: -0.01em;
-    position: relative;
-    z-index: 1;
+.ed-section-head h2{
+    margin:0;
+    color:var(--ed-ink);
+    font-size:24px;
+    line-height:1.25;
+    font-weight:800;
+    letter-spacing:-.01em;
 }
 
-.ed-quickstrip-sub {
-    font-size: 0.81rem;
-    color: var(--ed-muted);
-    line-height: 1.5;
-    margin-bottom: 10px;
-    position: relative;
-    z-index: 1;
-}
 
-.ed-quickstrip-cta {
-    font-size: 0.79rem;
-    font-weight: 700;
-    color: var(--ed-primary);
-    margin-top: auto;
-    position: relative;
-    z-index: 1;
-    transition: gap 0.15s ease;
+.ed-section-head p{
+    margin:6px 0 0;
+    color:var(--ed-ink-soft);
+    font-size:13px;
 }
-
-.ed-quickstrip-item:hover .ed-quickstrip-cta { color: var(--ed-accent-dark); }
 
-@media (max-width: 1000px) { .ed-quickstrip { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 640px) { .ed-quickstrip { grid-template-columns: 1fr 1fr; } }
 
-/* ---------- Why section ---------- */
-.ed-why-section { padding: 12px 0 44px; }
-
-.ed-why-card {
-    display: grid;
-    grid-template-columns: 1fr 270px;
-    gap: 32px;
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-lg);
-    padding: 44px;
-    box-shadow: var(--ed-shadow-sm);
+.ed-view-all{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    text-decoration:none;
+    color:var(--ed-primary);
+    font-size:13px;
+    font-weight:700;
+    white-space:nowrap;
+    padding:9px 15px;
+    border-radius:999px;
+    background:var(--ed-primary-soft);
+    transition:.2s ease;
 }
 
-.ed-why-eyebrow {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--ed-accent-dark);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-}
 
-.ed-why-copy h2 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 12px;
-    color: var(--ed-ink);
+.ed-view-all:hover{
+    color:#fff;
+    background:var(--ed-primary);
+    transform:translateX(2px);
 }
 
-.ed-why-sub {
-    color: var(--ed-muted);
-    max-width: 460px;
-    line-height: 1.65;
-    margin-bottom: 28px;
-}
 
-.ed-why-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-bottom: 28px;
+.ed-recommended-grid{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:18px;
 }
 
-.ed-why-item {
-    display: flex;
-    gap: 13px;
-    align-items: flex-start;
-}
 
-.ed-why-icon {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.ed-recommended-card{
+    position:relative;
+    background:var(--ed-surface);
+    border:1px solid var(--ed-line);
+    border-radius:var(--ed-r-lg);
+    padding:20px;
+    box-shadow:var(--ed-shadow-sm);
+    transition:
+        transform .25s cubic-bezier(.22,1,.36,1),
+        box-shadow .25s ease,
+        border-color .25s ease;
+    overflow:hidden;
 }
-
-.ed-why-icon svg { width: 18px; height: 18px; }
 
-.ed-why-blue { background: var(--ed-primary-soft); color: var(--ed-primary-dark); }
-.ed-why-green { background: #E9FBF2; color: #0E8A5E; }
-.ed-why-purple { background: #F5EEFF; color: #8A3FE0; }
-.ed-why-amber { background: var(--ed-accent-soft); color: var(--ed-accent-dark); }
-
-.ed-why-item h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 3px; color: var(--ed-ink); }
-.ed-why-item p { font-size: 0.83rem; color: var(--ed-muted); line-height: 1.55; }
-
-.ed-why-stats {
-    background: linear-gradient(165deg, var(--ed-surface-soft) 0%, var(--ed-primary-soft) 160%);
-    border-radius: var(--ed-radius-md);
-    padding: 28px 22px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-    align-content: center;
+.ed-recommended-card::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:3px;
+    background:linear-gradient(90deg,var(--ed-primary),var(--ed-primary-2),var(--ed-teal));
+    opacity:0;
+    transition:opacity .25s ease;
 }
 
-.ed-why-stat { display: flex; flex-direction: column; gap: 4px; }
 
-.ed-why-stat-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 4px;
-    background: #fff;
+.ed-recommended-card:hover{
+    transform:translateY(-5px);
+    border-color:#dcdcff;
+    box-shadow:var(--ed-shadow-lg);
 }
 
-.ed-why-stat-icon svg { width: 15px; height: 15px; }
-
-.ed-why-stat-blue { color: var(--ed-primary-dark); }
-.ed-why-stat-green { color: #0E8A5E; }
-.ed-why-stat-amber { color: var(--ed-accent-dark); }
-.ed-why-stat-purple { color: #8A3FE0; }
-
-.ed-why-stat-num {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--ed-ink);
-    letter-spacing: -0.02em;
+.ed-recommended-card:hover::before{
+    opacity:1;
 }
 
-.ed-why-stat-label { font-size: 0.77rem; color: var(--ed-muted); font-weight: 500; }
 
-@media (max-width: 900px) {
-    .ed-why-card { grid-template-columns: 1fr; }
-    .ed-why-grid { grid-template-columns: 1fr; }
+.ed-recommended-top{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
-
-/* ---------- Exclusive Benefits banner ---------- */
-.ed-benefits-section { padding: 12px 0 44px; }
 
-.ed-benefits-card {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    align-items: center;
-    gap: 0;
 
-    background: #34659a; /* Light blue */
-
-    border: 1px solid #D6E8FF;
-    border-radius: var(--ed-radius-lg);
-    padding: 48px;
-    box-shadow: 0 12px 30px rgba(31, 104, 225, 0.12);
-
-    position: relative;
-    overflow: hidden;
+.ed-candidate-avatar{
+    width:50px;
+    height:50px;
+    min-width:50px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e3e6ff);
+    color:var(--ed-primary);
+    font-size:15px;
+    font-weight:800;
+    overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(67,56,202,.08);
 }
 
-.ed-benefits-badge {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.76rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: #FFE3D0;
-    background: rgba(251, 122, 60, 0.22);
-    padding: 6px 13px;
-    border-radius: 999px;
-    margin-bottom: 16px;
-}
-
-.ed-benefits-copy h2 {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: #fff;
-    margin-bottom: 22px;
-    max-width: 380px;
-    line-height: 1.25;
-}
 
-.ed-benefits-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 420px;
+.ed-candidate-avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.ed-benefits-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 0.89rem;
-    color: #E4E3FA;
-    line-height: 1.55;
-}
 
-.ed-benefits-check {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--ed-accent);
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
+.ed-candidate-info{
+    min-width:0;
+    flex:1;
 }
 
-.ed-benefits-check svg { width: 12px; height: 12px; }
 
-.ed-benefits-cta-card {
-    background: #fff;
-    border-radius: var(--ed-radius-md);
-    padding: 32px 28px;
-    margin-left: 38px;
-    box-shadow: 0 24px 46px rgba(15, 12, 60, 0.24);
-    position: relative;
-    z-index: 1;
+.ed-candidate-info h3{
+    margin:0;
+    color:var(--ed-ink);
+    font-size:15px;
+    font-weight:800;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.ed-benefits-cta-card h3 {
-    font-size: 1.18rem;
-    font-weight: 800;
-    color: var(--ed-ink);
-    margin-bottom: 8px;
-}
 
-.ed-benefits-cta-card p {
-    font-size: 0.86rem;
-    color: var(--ed-muted);
-    line-height: 1.55;
-    margin-bottom: 22px;
+.ed-candidate-info p{
+    margin:4px 0 0;
+    color:var(--ed-ink-soft);
+    font-size:12px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.ed-benefits-btn { display: inline-flex; width: 100%; justify-content: center; }
 
-@media (max-width: 900px) {
-    .ed-benefits-card { grid-template-columns: 1fr; padding: 34px 28px; }
-    .ed-benefits-cta-card { margin-left: 0; margin-top: 30px; }
+.ed-match-score{
+    min-width:58px;
+    text-align:right;
 }
 
-/* ---------- Startup Spotlight ---------- */
-.ed-startup-section { padding: 12px 0 54px; }
 
-.ed-startup-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    background: var(--ed-ink);
-    background-image: radial-gradient(300px 180px at 0% 100%, rgba(251, 122, 60, 0.20), transparent 70%);
-    border: 1px solid var(--ed-ink);
-    border-radius: var(--ed-radius-lg);
-    padding: 34px 36px;
-    box-shadow: var(--ed-shadow-md);
+.ed-match-score strong{
+    display:block;
+    background:linear-gradient(135deg,var(--ed-primary),var(--ed-teal));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-size:19px;
+    line-height:1;
+    font-weight:800;
 }
 
-.ed-startup-copy h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-    color: #fff;
-}
-
-.ed-startup-copy p {
-    font-size: 0.92rem;
-    color: #C7C8DE;
-    max-width: 480px;
-    line-height: 1.6;
-}
 
-.ed-startup-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.76rem;
-    font-weight: 700;
-    color: var(--ed-accent);
-    background: rgba(251, 122, 60, 0.16);
-    padding: 6px 13px;
-    border-radius: 999px;
-    margin-bottom: 14px;
+.ed-match-score span{
+    display:block;
+    margin-top:4px;
+    color:var(--ed-ink-faint);
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.04em;
 }
 
-.ed-startup-actions { flex-shrink: 0; }
 
-.ed-startup-actions .btn {
-    background: var(--ed-accent);
-    color: #fff;
-    border: none;
-    font-weight: 700;
-    padding: 13px 26px;
-    border-radius: 12px;
-    box-shadow: 0 10px 22px rgba(251, 122, 60, 0.32);
+.ed-match-reasons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:16px;
 }
 
-.ed-startup-actions .btn:hover {
-    background: var(--ed-accent-dark);
-    transform: translateY(-2px);
-}
 
-@media (max-width: 720px) {
-    .ed-startup-card { flex-direction: column; align-items: flex-start; text-align: left; }
+.ed-match-reasons span{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:5px 9px;
+    border-radius:20px;
+    background:var(--ed-teal-soft);
+    color:var(--ed-teal);
+    font-size:10px;
+    font-weight:700;
 }
 
-/* ---------- Recent postings ---------- */
-.ed-recent-section { padding: 34px 0 64px; }
-.ed-recent-section .section-head { margin-bottom: 24px; }
 
-.ed-type-pill {
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 4px 11px;
-    border-radius: 999px;
-    text-transform: capitalize;
+.ed-match-reasons i{
+    font-size:8px;
 }
-
-.ed-type-job { background: var(--ed-primary-soft); color: var(--ed-primary-dark); }
-.ed-type-internship { background: #E7FAFC; color: #0E7C90; }
-.ed-type-project { background: var(--ed-accent-soft); color: var(--ed-accent-dark); }
 
-.listing-table-wrap {
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-lg);
-    overflow-x: auto;
-    box-shadow: var(--ed-shadow-sm);
-}
 
-.listing-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.87rem;
+.ed-candidate-skills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:14px;
+    min-height:27px;
 }
 
-.listing-table th {
-    text-align: left;
-    padding: 14px 20px;
-    background: var(--ed-surface-soft);
-    color: var(--ed-primary-dark);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--ed-line);
-}
 
-.listing-table td {
-    padding: 16px 20px;
-    border-bottom: 1px solid #F1F1F9;
-    color: var(--ed-ink-soft);
+.ed-candidate-skills span{
+    padding:5px 10px;
+    border-radius:7px;
+    background:var(--ed-line-soft);
+    color:#4a5468;
+    border:1px solid var(--ed-line);
+    font-size:10px;
+    font-weight:700;
 }
-
-.listing-table tr:last-child td { border-bottom: none; }
-.listing-table tbody tr { transition: background 0.15s ease; }
-.listing-table tbody tr:hover { background: var(--ed-surface-soft); }
 
-.cell-title { font-weight: 700; color: var(--ed-ink); }
 
-.badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
+.ed-recommended-actions{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:18px;
 }
 
-.badge-green { background: #DEFBEA; color: #0E7C4C; }
-.badge-gray { background: #F1F1F6; color: #6B7089; }
 
-.text-right { text-align: right; }
-.actions-cell { white-space: nowrap; }
-
-.action-link {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    margin-left: 14px;
-    font-size: 0.82rem;
-    padding: 8px 16px;
-    border-radius: 9px;
-    background: var(--ed-primary);
-    transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.action-link:hover {
-    text-decoration: none;
-    background: var(--ed-primary-dark);
-    transform: translateY(-1px);
+.ed-profile-btn,
+.ed-invite-btn{
+    flex:1;
+    min-height:39px;
+    border-radius:9px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-family:inherit;
+    font-size:11px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.22s ease;
 }
 
-.empty-state { text-align: center; padding: 48px 16px; color: #9ca3af; }
 
-/* ---------- Latest Opportunities & Upcoming Events feed ---------- */
-.ed-feed-section { padding: 12px 0 54px; }
-
-.ed-feed-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
+.ed-profile-btn{
+    text-decoration:none;
+    background:var(--ed-line-soft);
+    color:#3a4256;
+    border:1px solid var(--ed-line);
 }
 
-.ed-feed-card {
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-lg);
-    box-shadow: var(--ed-shadow-sm);
-    padding: 24px 24px 8px;
-}
 
-.ed-feed-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+.ed-profile-btn:hover{
+    background:#eceffb;
+    border-color:#d6dcf2;
 }
 
-.ed-feed-head h2 {
-    font-size: 1.08rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--ed-ink);
-}
 
-.ed-feed-viewall {
-    font-size: 0.79rem;
-    font-weight: 700;
-    color: var(--ed-primary);
-    text-decoration: none;
-    white-space: nowrap;
+.ed-invite-btn{
+    background:linear-gradient(135deg,var(--ed-primary),var(--ed-primary-2));
+    color:#fff;
+    border:1px solid transparent;
+    box-shadow:0 6px 16px rgba(67,56,202,.20);
 }
 
-.ed-feed-viewall:hover { color: var(--ed-accent-dark); }
 
-.ed-feed-list { display: flex; flex-direction: column; }
-
-/* Job rows */
-.ed-job-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 17px 0;
-    border-bottom: 1px solid #F1F1F9;
+.ed-invite-btn:hover{
+    background:linear-gradient(135deg,var(--ed-primary-dark),var(--ed-primary));
+    transform:translateY(-1px);
+    box-shadow:0 10px 20px rgba(67,56,202,.26);
 }
 
-.ed-feed-list .ed-job-row:last-child,
-.ed-feed-list .ed-event-row:last-child { border-bottom: none; }
 
-.ed-job-logo {
-    flex-shrink: 0;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 0.92rem;
-    font-family: var(--font-display);
+.ed-empty-recommendations{
+    background:var(--ed-surface);
+    border:1.5px dashed #d9dcf0;
+    border-radius:var(--ed-r-lg);
+    padding:44px 20px;
+    text-align:center;
 }
 
-.ed-job-info { flex: 1; min-width: 0; }
 
-.ed-job-title {
-    font-size: 0.89rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    margin: 0 0 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.ed-empty-icon{
+    width:54px;
+    height:54px;
+    margin:0 auto 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
+    font-size:19px;
 }
 
-.ed-job-meta {
-    font-size: 0.78rem;
-    color: var(--ed-muted);
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-.ed-job-side {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 2px;
-    margin-right: 4px;
+.ed-empty-recommendations h3{
+    margin:0;
+    font-size:16px;
+    color:var(--ed-ink);
+    font-weight:800;
 }
 
-.ed-job-salary { font-size: 0.82rem; font-weight: 700; color: var(--ed-ink); white-space: nowrap; }
-.ed-job-type { font-size: 0.72rem; color: var(--ed-muted); white-space: nowrap; }
 
-/* Event rows */
-.ed-event-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 17px 0;
-    border-bottom: 1px solid #F1F1F9;
+.ed-empty-recommendations p{
+    max-width:440px;
+    margin:8px auto 18px;
+    color:var(--ed-ink-soft);
+    font-size:13px;
+    line-height:1.6;
 }
 
-.ed-event-date {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--ed-ink);
-    background-image: linear-gradient(160deg, var(--ed-primary) 0%, var(--ed-ink) 120%);
-    color: #fff;
-    line-height: 1.1;
-}
 
-.ed-event-month {
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    opacity: 0.8;
+.ed-primary-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:11px 18px;
+    border-radius:9px;
+    background:linear-gradient(135deg,var(--ed-primary),var(--ed-primary-2));
+    color:#fff;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:800;
+    box-shadow:0 8px 18px rgba(67,56,202,.22);
+    transition:.2s ease;
 }
 
-.ed-event-day { font-size: 1.05rem; font-weight: 800; font-family: var(--font-display); }
 
-.ed-event-info { flex: 1; min-width: 0; }
-
-.ed-event-title {
-    font-size: 0.89rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    margin: 0 0 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.ed-primary-btn:hover{
+    transform:translateY(-1px);
+    box-shadow:0 12px 22px rgba(67,56,202,.28);
 }
 
-.ed-event-meta {
-    font-size: 0.78rem;
-    color: var(--ed-muted);
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-.ed-feed-btn { flex-shrink: 0; padding: 8px 17px; font-size: 0.79rem; border-radius: 10px; }
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-@media (max-width: 900px) { .ed-feed-grid { grid-template-columns: 1fr; } }
+@media(max-width:1100px){
 
-@media (max-width: 560px) {
-    .ed-job-row, .ed-event-row { flex-wrap: wrap; }
-    .ed-job-side {
-        order: 3;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        margin-left: 56px;
-        margin-right: 0;
+    .ed-recommended-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
     }
-    .ed-feed-btn { order: 4; margin-left: auto; }
+
 }
 
-/* ---------- Tips ---------- */
-.ed-tips-section { padding: 12px 0 64px; }
-.ed-tips-section .section-head { margin-bottom: 4px; }
 
-.ed-tips-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-    margin-top: 24px;
+@media(max-width:700px){
+
+    .ed-section-head{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .ed-recommended-grid{
+        grid-template-columns:1fr;
+    }
+
 }
 
-.ed-tip-card {
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-lg);
-    padding: 26px 24px;
-    box-shadow: var(--ed-shadow-sm);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+@media(max-width:480px){
+
+    .ed-recommended-card{
+        padding:16px;
+    }
+
+    .ed-candidate-avatar{
+        width:44px;
+        height:44px;
+        min-width:44px;
+    }
+
+    .ed-candidate-info h3{
+        font-size:14px;
+    }
+
+    .ed-recommended-actions{
+        flex-direction:column;
+    }
+
+    .ed-profile-btn,
+    .ed-invite-btn{
+        width:100%;
+    }
+
+}
+/* =========================================================
+   JOB INVITATION MODAL
+========================================================= */
+
+.ed-invite-modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:rgba(15,17,35,.6);
+    backdrop-filter:blur(6px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.ed-tip-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--ed-shadow-md);
-    border-color: #DAD8F7;
+.ed-invite-modal-overlay.is-open{
+    display:flex;
 }
 
-.ed-tip-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 13px;
-    background: var(--ed-surface-soft);
-    color: var(--ed-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 14px;
-    transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+.ed-invite-modal{
+    width:min(520px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(15,17,35,.28);
+    animation:edInviteModalIn .22s ease;
 }
 
-.ed-tip-card:hover .ed-tip-icon {
-    transform: scale(1.08) rotate(-4deg);
-    background: var(--ed-accent-soft);
-    color: var(--ed-accent-dark);
+@keyframes edInviteModalIn{
+    from{
+        opacity:0;
+        transform:translateY(10px) scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
 }
 
-.ed-tip-icon svg { width: 21px; height: 21px; }
-
-.ed-tip-card h3 {
-    font-weight: 700;
-    font-size: 1.02rem;
-    margin-bottom: 7px;
-    letter-spacing: -0.01em;
-    color: var(--ed-ink);
+.ed-invite-modal-header{
+    padding:22px 24px;
+    border-bottom:1px solid var(--ed-line-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    background:linear-gradient(180deg,#faf9ff,#fff);
 }
 
-.ed-tip-card p { color: var(--ed-muted); font-size: 0.88rem; line-height: 1.6; }
-
-@media (max-width: 900px) { .ed-tips-grid { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 640px) {
-    .ed-tips-grid { grid-template-columns: 1fr; }
-    .hero-actions { flex-direction: column; align-items: stretch; }
+.ed-invite-modal-heading{
+    min-width:0;
 }
 
-/* ---------- Trusted by / Partners (kept for compatibility) ---------- */
-.ed-partners-section { padding: 12px 0 74px; }
-.ed-partners-head { text-align: center; margin-bottom: 26px; }
-.ed-partners-head p {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--ed-muted);
-}
-.ed-partners-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
-.ed-partner-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: 999px;
-    padding: 8px 16px 8px 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ed-ink);
-    box-shadow: var(--ed-shadow-sm);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.ed-partner-chip:hover { transform: translateY(-2px); box-shadow: var(--ed-shadow-md); }
-.ed-partner-dot {
-    width: 26px; height: 26px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem; font-weight: 800; color: #fff; flex-shrink: 0;
-}
-.ed-partner-blue { background: var(--ed-primary); }
-.ed-partner-green { background: #0E8A5E; }
-.ed-partner-amber { background: var(--ed-accent); }
-.ed-partner-purple { background: #8A3FE0; }
-.ed-partner-cyan { background: #0E7C90; }
-
-.pagination-wrapper { margin-top: 26px; display: flex; justify-content: center; }
-
-/* ---------- Reveal animation ---------- */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1.is-visible { transition-delay: 0.08s; }
-.reveal-delay-2.is-visible { transition-delay: 0.16s; }
-
-
-
-/* ---------- Latest Technical Articles ---------- */
-.ed-articles-section { padding: 12px 0 54px; }
-.ed-articles-section .ed-feed-head { margin-bottom: 4px; }
-.ed-articles-sub { color: var(--ed-muted); font-size: 0.88rem; margin-bottom: 24px; }
-
-.ed-articles-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+.ed-invite-modal-title{
+    color:var(--ed-ink);
+    font-size:17px;
+    font-weight:800;
 }
 
-.ed-article-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--ed-surface);
-    border: 1px solid var(--ed-line);
-    border-radius: var(--ed-radius-lg);
-    overflow: hidden;
-    box-shadow: var(--ed-shadow-sm);
-    text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+.ed-invite-modal-subtitle{
+    margin-top:5px;
+    color:var(--ed-ink-faint);
+    font-size:11.5px;
+    line-height:1.5;
 }
 
-.ed-article-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--ed-shadow-md);
-    border-color: #DAD8F7;
-    text-decoration: none;
+.ed-invite-modal-subtitle strong{
+    color:var(--ed-primary);
 }
 
-.ed-article-thumb {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: var(--ed-surface-soft);
-    overflow: hidden;
+.ed-invite-modal-close{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    border:0;
+    border-radius:9px;
+    background:var(--ed-line-soft);
+    color:#6b7488;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.2s ease;
 }
 
-.ed-article-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.ed-invite-modal-close:hover{
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
 }
 
-.ed-article-cat {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: rgba(21, 23, 46, 0.72);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: capitalize;
-    padding: 5px 11px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
+.ed-invite-modal-body{
+    padding:20px 24px 24px;
 }
 
-.ed-article-body {
-    padding: 16px 16px 4px;
-    flex: 1;
+.ed-job-select-heading{
+    color:#59627a;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.06em;
+    margin-bottom:10px;
 }
 
-.ed-article-body h3 {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    line-height: 1.35;
-    margin-bottom: 6px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.ed-job-select-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
-.ed-article-body p {
-    font-size: 0.8rem;
-    color: var(--ed-muted);
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+.ed-job-select-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:14px 15px;
+    border:1px solid var(--ed-line);
+    border-radius:13px;
+    background:#fff;
+    transition:.2s ease;
 }
 
-.ed-article-author-row {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 14px 16px 0;
+.ed-job-select-item:hover{
+    border-color:#cfd1f7;
+    background:#faf9ff;
 }
 
-.ed-article-avatar {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--ed-primary-soft);
-    color: var(--ed-primary-dark);
-    font-size: 0.72rem;
-    font-weight: 800;
-    font-family: var(--font-display);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.ed-job-select-info{
+    min-width:0;
+    flex:1;
 }
 
-.ed-article-author-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
+.ed-job-select-title{
+    color:var(--ed-ink);
+    font-size:13.5px;
+    font-weight:800;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.ed-article-author-name {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--ed-ink);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.ed-job-select-meta{
+    margin-top:4px;
+    color:var(--ed-ink-faint);
+    font-size:10.5px;
+    line-height:1.5;
 }
 
-.ed-article-date {
-    font-size: 0.7rem;
-    color: var(--ed-muted);
-    white-space: nowrap;
+.ed-job-select-button{
+    flex-shrink:0;
+    border:0;
+    border-radius:9px;
+    padding:9px 14px;
+    background:linear-gradient(135deg,var(--ed-primary),var(--ed-primary-2));
+    color:#fff;
+    font-size:10.5px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s ease;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    white-space:nowrap;
+    box-shadow:0 6px 14px rgba(67,56,202,.2);
 }
 
-.ed-article-footer {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 16px 16px;
-    margin-top: auto;
+.ed-job-select-button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 18px rgba(67,56,202,.26);
 }
 
-.ed-article-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.74rem;
-    color: var(--ed-muted);
-    font-weight: 600;
+.ed-job-select-button.is-invited{
+    background:var(--ed-emerald-soft);
+    color:#0e9464;
+    cursor:not-allowed;
+    border:1px solid #c9eadb;
+    box-shadow:none;
 }
 
-.ed-article-like-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.74rem;
-    font-weight: 600;
-    color: var(--ed-muted);
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: color 0.15s ease;
+.ed-job-select-button.is-invited:hover{
+    background:var(--ed-emerald-soft);
+    color:#0e9464;
+    transform:none;
 }
 
-.ed-article-like-btn:hover { color: #ef4444; }
-.ed-article-like-btn.is-liked { color: #ef4444; }
-.ed-like-icon { width: 14px; height: 14px; }
-
-.ed-article-comment-link {
-    text-decoration: none;
+.ed-job-select-button.is-loading{
+    background:#dbe0fb;
+    color:#5d6c90;
+    box-shadow:none;
+    cursor:wait;
 }
 
-.ed-article-comment-link:hover { color: var(--ed-primary); }
-.ed-article-stat i { font-size: 0.72rem; color: var(--ed-primary); }
-
-@media (max-width: 1100px) { .ed-articles-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .ed-articles-grid { grid-template-columns: 1fr; } }
-
-@keyframes edPulse {
-    0% { box-shadow: 0 0 0 0 rgba(251, 122, 60, 0.55); }
-    70% { box-shadow: 0 0 0 8px rgba(251, 122, 60, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(251, 122, 60, 0); }
+.ed-job-select-form{
+    margin:0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .ed-illo-frame, .ed-eyebrow-dot, .reveal { animation: none !important; transition: none !important; opacity: 1; transform: none; }
+.ed-no-jobs{
+    padding:25px 15px;
+    text-align:center;
+    color:var(--ed-ink-faint);
+    font-size:12px;
 }
+
+.ed-no-jobs i{
+    display:block;
+    font-size:25px;
+    margin-bottom:9px;
+    color:#c1c6dc;
+}
+
+.ed-invite-note{
+    margin-top:15px;
+    padding:12px 13px;
+    border-radius:10px;
+    background:var(--ed-primary-soft);
+    border:1px solid #e2e0ff;
+    color:#5f6786;
+    font-size:10.5px;
+    line-height:1.55;
+}
+
+.ed-invite-note i{
+    color:var(--ed-primary);
+    margin-right:5px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.ed-stats{
+    margin-top:18px;
+    margin-bottom:20px;
+}
+
+.ed-stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.ed-stat-card{
+    position:relative;
+    min-height:82px;
+    background:var(--ed-surface);
+    border:1px solid var(--ed-line);
+    border-radius:var(--ed-r-md);
+    padding:16px 18px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    box-shadow:var(--ed-shadow-xs);
+    transition:.22s ease;
+    overflow:hidden;
+}
+
+.ed-stat-card::after{
+    content:"";
+    position:absolute;
+    right:-24px;
+    bottom:-24px;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(67,56,202,.06),transparent 70%);
+}
+
+.ed-stat-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--ed-shadow-md);
+    border-color:#e1e2f6;
+}
+
+.ed-stat-icon{
+    width:42px;
+    height:42px;
+    min-width:42px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e2e5ff);
+    color:var(--ed-primary);
+    z-index:1;
+}
+
+.ed-stat-card:nth-child(2) .ed-stat-icon{
+    color:var(--ed-emerald);
+    background:linear-gradient(135deg,var(--ed-emerald-soft),#d6f3e6);
+}
+
+.ed-stat-card:nth-child(3) .ed-stat-icon{
+    color:var(--ed-violet);
+    background:linear-gradient(135deg,var(--ed-violet-soft),#eae0ff);
+}
+
+.ed-stat-card:nth-child(4) .ed-stat-icon{
+    color:var(--ed-amber);
+    background:linear-gradient(135deg,var(--ed-amber-soft),#fde8c8);
+}
+
+.ed-stat-info{
+    flex:1;
+    min-width:0;
+    z-index:1;
+}
+
+.ed-stat-number{
+    display:block;
+    color:var(--ed-ink);
+    font-size:22px;
+    line-height:1;
+    font-weight:800;
+    margin-bottom:5px;
+    letter-spacing:-.02em;
+}
+
+.ed-stat-label{
+    display:block;
+    color:var(--ed-ink-soft);
+    font-size:13px;
+    font-weight:600;
+}
+
+.ed-stat-link{
+    font-size:11px;
+    white-space:nowrap;
+    color:var(--ed-primary);
+    text-decoration:none;
+    font-weight:700;
+    z-index:1;
+}
+
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.ed-main-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+    align-items:start;
+    margin-top:14px;
+}
+
+.ed-panel{
+    background:var(--ed-surface);
+    border:1px solid var(--ed-line);
+    border-radius:var(--ed-r-md);
+    overflow:hidden;
+    box-shadow:var(--ed-shadow-xs);
+}
+
+.ed-panel-header{
+    min-height:52px;
+    padding:0 16px;
+    border-bottom:1px solid var(--ed-line-soft);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:linear-gradient(180deg,#fbfbff,#fff);
+}
+
+.ed-panel-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--ed-ink);
+    font-size:15px;
+    font-weight:800;
+}
+
+.ed-panel-title i{
+    color:var(--ed-primary);
+    font-size:13px;
+    width:26px;
+    height:26px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    background:var(--ed-primary-soft);
+}
+
+.ed-panel-action{
+    font-size:11px;
+    color:var(--ed-primary);
+    text-decoration:none;
+    font-weight:700;
+}
+
+.ed-panel-action:hover{
+    color:var(--ed-primary-dark);
+}
+
+.ed-panel-body{
+    padding:0;
+}
+
+.ed-main-grid>.ed-panel{
+    height:324px;
+}
+
+.ed-main-grid>.ed-panel .ed-panel-body{
+    height:calc(324px - 52px);
+    overflow:hidden;
+}
+
+
+/* =========================================================
+   PIPELINE
+========================================================= */
+
+.ed-pipeline-list{
+    height:100%;
+    padding:15px 17px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:10px;
+}
+
+/* .ed-pipeline-item is an <a> — keep the flex row layout
+   and add link / hover affordances. */
+.ed-pipeline-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
+    color:inherit;
+    cursor:pointer;
+    border-radius:10px;
+    padding:6px 8px;
+    margin:-6px -8px;
+    transition:background .18s ease,transform .18s ease;
+}
+
+.ed-pipeline-item:hover{
+    background:var(--ed-primary-soft);
+    transform:translateX(2px);
+    text-decoration:none;
+    color:inherit;
+}
+
+.ed-pipeline-item:hover .ed-pipeline-item-label{
+    color:var(--ed-primary);
+}
+
+.ed-pipeline-item:hover .ed-pipeline-item-number{
+    color:var(--ed-primary);
+}
+
+.ed-pipeline-item:focus-visible{
+    outline:2px solid #c7c9fb;
+    outline-offset:1px;
+}
+
+.ed-pipeline-icon{
+    width:39px;
+    height:39px;
+    min-width:39px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e2e5ff);
+    color:var(--ed-primary);
+}
+
+.ed-pipeline-item:nth-child(2) .ed-pipeline-icon{
+    background:linear-gradient(135deg,var(--ed-emerald-soft),#d6f3e6);
+    color:var(--ed-emerald);
+}
+
+.ed-pipeline-item:nth-child(3) .ed-pipeline-icon{
+    background:linear-gradient(135deg,var(--ed-violet-soft),#eae0ff);
+    color:var(--ed-violet);
+}
+
+.ed-pipeline-item:nth-child(4) .ed-pipeline-icon{
+    background:linear-gradient(135deg,#d7f5ea,var(--ed-emerald-soft));
+    color:#059669;
+}
+
+.ed-pipeline-body{
+    flex:1;
+    min-width:0;
+}
+
+.ed-pipeline-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:6px;
+}
+
+.ed-pipeline-item-label{
+    color:var(--ed-ink-soft);
+    font-size:11.5px;
+    font-weight:700;
+    transition:color .18s ease;
+}
+
+.ed-pipeline-item-number{
+    color:var(--ed-ink);
+    font-size:16px;
+    font-weight:800;
+    transition:color .18s ease;
+}
+
+.ed-pipeline-track{
+    height:7px;
+    border-radius:999px;
+    background:var(--ed-line-soft);
+    overflow:hidden;
+}
+
+.ed-pipeline-fill{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--ed-primary),var(--ed-primary-2));
+    transition:width 1s cubic-bezier(.22,1,.36,1);
+}
+
+.ed-pipeline-item:nth-child(2) .ed-pipeline-fill{
+    background:linear-gradient(90deg,var(--ed-emerald),#34d399);
+}
+
+.ed-pipeline-item:nth-child(3) .ed-pipeline-fill{
+    background:linear-gradient(90deg,var(--ed-violet),#a683f7);
+}
+
+.ed-pipeline-item:nth-child(4) .ed-pipeline-fill{
+    background:linear-gradient(90deg,#059669,#2fc79a);
+}
+
+
+/* =========================================================
+   JOB / APPLICANT ROWS
+========================================================= */
+
+.ed-job-row{
+    min-height:68px;
+    padding:11px 14px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    border-bottom:1px solid var(--ed-line-soft);
+    transition:background .18s ease;
+}
+
+.ed-job-row:hover{
+    background:#fbfbff;
+}
+
+.ed-job-row:last-child{
+    border-bottom:0;
+}
+
+.ed-job-icon{
+    width:30px;
+    height:30px;
+    min-width:30px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e2e5ff);
+    color:var(--ed-primary);
+    font-size:12px;
+}
+
+.ed-job-info{
+    flex:1;
+    min-width:0;
+}
+
+.ed-job-title{
+    color:#2c3450;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-job-meta{
+    color:var(--ed-ink-faint);
+    font-size:11px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-job-side{
+    text-align:right;
+}
+
+.ed-status{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
+    font-weight:700;
+    color:var(--ed-emerald);
+    margin-bottom:4px;
+}
+
+.ed-status::before{
+    content:"";
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:currentColor;
+}
+
+.ed-small-link{
+    display:block;
+    font-size:10px;
+    color:var(--ed-primary);
+    text-decoration:none;
+    font-weight:700;
+}
+
+.ed-avatar{
+    width:37px;
+    height:37px;
+    min-width:37px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e2e5ff);
+    color:var(--ed-primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    font-weight:800;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.ed-empty{
+    min-height:200px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:25px;
+}
+
+.ed-empty-icon{
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    background:var(--ed-line-soft);
+    color:#a6adc4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 10px;
+    font-size:17px;
+}
+
+.ed-empty strong{
+    display:block;
+    color:#4a5268;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.ed-empty span{
+    color:var(--ed-ink-faint);
+    font-size:11px;
+}
+
+
+/* =========================================================
+   HIRING ACTIVITY
+========================================================= */
+
+.ed-activity{
+    margin-top:14px;
+}
+
+.ed-activity-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.ed-activity-grid .ed-panel{
+    overflow:visible;
+}
+
+@keyframes edPulseDot{
+    0%{
+        box-shadow:0 0 0 0 rgba(225,29,94,.45);
+    }
+
+    70%{
+        box-shadow:0 0 0 7px rgba(225,29,94,0);
+    }
+
+    100%{
+        box-shadow:0 0 0 0 rgba(225,29,94,0);
+    }
+}
+
+@keyframes edFadeUp{
+    from{
+        opacity:0;
+        transform:translateY(6px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes edFloatBtn{
+    0%,100%{
+        transform:translateX(0);
+    }
+
+    50%{
+        transform:translateX(3px);
+    }
+}
+
+
+/* =========================================================
+   UPCOMING INTERVIEWS
+========================================================= */
+
+.ed-interview-list{
+    padding:6px 0;
+    max-height:420px;
+    overflow-y:auto;
+}
+
+.ed-interview-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 17px;
+    border-bottom:1px solid var(--ed-line-soft);
+    transition:background .2s ease,transform .2s ease;
+    animation:edFadeUp .35s ease both;
+}
+
+.ed-interview-row:last-child{
+    border-bottom:0;
+}
+
+.ed-interview-row:hover{
+    background:#fbfbff;
+    transform:translateX(2px);
+}
+
+.ed-interview-avatar{
+    width:41px;
+    height:41px;
+    min-width:41px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#dbdeff);
+    color:var(--ed-primary-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    font-weight:800;
+}
+
+.ed-interview-info{
+    flex:1;
+    min-width:0;
+}
+
+.ed-interview-name{
+    color:var(--ed-ink);
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-interview-role{
+    color:var(--ed-ink-faint);
+    font-size:11px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-interview-when{
+    text-align:right;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:5px;
+}
+
+.ed-interview-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:5px 11px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.02em;
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
+    white-space:nowrap;
+}
+
+.ed-interview-badge.is-today{
+    background:var(--ed-rose-soft);
+    color:var(--ed-rose);
+}
+
+.ed-interview-badge.is-today::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--ed-rose);
+    animation:edPulseDot 1.6s infinite;
+}
+
+.ed-interview-actions{
+    display:flex;
+    gap:9px;
+}
+
+.ed-interview-actions a,
+.ed-interview-actions button{
+    font-size:10px;
+    font-weight:700;
+    text-decoration:none;
+    border:0;
+    background:none;
+    cursor:pointer;
+    padding:0;
+}
+
+.ed-interview-view{
+    color:var(--ed-primary);
+}
+
+.ed-interview-cancel{
+    color:var(--ed-rose);
+}
+
+
+/* =========================================================
+   INVITE CANDIDATES
+========================================================= */
+
+.ed-invite-list{
+    padding:13px 17px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    max-height:420px;
+    overflow-y:auto;
+}
+
+.ed-invite-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    border:1px solid var(--ed-line);
+    border-radius:13px;
+    background:#fff;
+    transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease;
+    animation:edFadeUp .35s ease both;
+}
+
+.ed-invite-card:hover{
+    border-color:#cfd1f7;
+    box-shadow:0 12px 26px rgba(67,56,202,.10);
+    transform:translateY(-2px);
+}
+
+.ed-invite-avatar{
+    width:39px;
+    height:39px;
+    min-width:39px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#dbdeff);
+    color:var(--ed-primary-dark);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    font-weight:800;
+}
+
+.ed-invite-info{
+    flex:1;
+    min-width:0;
+}
+
+.ed-invite-name{
+    color:#232c47;
+    font-size:12.5px;
+    font-weight:800;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-invite-role{
+    color:var(--ed-ink-faint);
+    font-size:10.5px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-invite-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:8px 14px;
+    border-radius:9px;
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
+    font-size:10.5px;
+    font-weight:800;
+    text-decoration:none;
+    border:1px solid transparent;
+    cursor:pointer;
+    transition:.22s ease;
+    white-space:nowrap;
+}
+
+.ed-invite-btn i{
+    transition:transform .25s ease;
+}
+
+.ed-invite-btn:hover{
+    background:linear-gradient(135deg,var(--ed-primary),var(--ed-primary-2));
+    color:#fff;
+    box-shadow:0 10px 20px rgba(67,56,202,.28);
+}
+
+.ed-invite-btn:hover i{
+    animation:edFloatBtn .6s ease infinite;
+}
+
+.ed-invite-form{
+    margin:0;
+}
+
+
+/* =========================================================
+   ARTICLES
+========================================================= */
+
+.ed-articles{
+    margin-top:18px;
+    margin-bottom:4px;
+}
+
+.ed-article-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    padding:16px;
+}
+
+.ed-article-card{
+    position:relative;
+    min-height:340px;
+    border:1px solid var(--ed-line);
+    border-radius:16px;
+    overflow:hidden;
+    background:#fff;
+    box-shadow:var(--ed-shadow-xs);
+    transition:transform .25s ease,box-shadow .25s ease;
+    display:flex;
+    flex-direction:column;
+}
+
+.ed-article-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--ed-shadow-lg);
+    border-color:#dcdcff;
+}
+
+.ed-article-image{
+    position:relative;
+    height:170px;
+    overflow:hidden;
+    background:linear-gradient(135deg,var(--ed-primary-soft),#e2e5ff);
+}
+
+.ed-article-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:transform .45s ease;
+}
+
+.ed-article-card:hover .ed-article-image img{
+    transform:scale(1.08);
+}
+
+.ed-article-image-fallback{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ed-primary);
+    opacity:.55;
+    font-size:30px;
+}
+
+.ed-article-badge{
+    position:absolute;
+    top:12px;
+    left:12px;
+    padding:5px 12px;
+    border-radius:999px;
+    background:rgba(21,17,50,.55);
+    backdrop-filter:blur(6px);
+    color:#fff;
+    font-size:9.5px;
+    font-weight:800;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+}
+
+.ed-article-content{
+    padding:17px 17px 15px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+}
+
+.ed-article-content h3{
+    margin:0 0 8px;
+    color:var(--ed-ink);
+    font-size:14.5px;
+    font-weight:800;
+    line-height:1.35;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.ed-article-content p{
+    margin:0;
+    color:var(--ed-ink-soft);
+    font-size:11.5px;
+    line-height:1.6;
+    flex:1;
+}
+
+.ed-article-footer{
+    margin-top:13px;
+    padding-top:12px;
+    border-top:1px solid var(--ed-line-soft);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.ed-article-author{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    min-width:0;
+}
+
+.ed-article-author-avatar{
+    width:23px;
+    height:23px;
+    min-width:23px;
+    border-radius:50%;
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+}
+
+.ed-article-meta{
+    color:var(--ed-ink-faint);
+    font-size:10px;
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.ed-article-actions{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.ed-like-form{
+    margin:0;
+}
+
+.ed-like-button,
+.ed-comment-button{
+    border:0;
+    background:var(--ed-line-soft);
+    padding:6px 10px;
+    border-radius:20px;
+    cursor:pointer;
+    color:#79839a;
+    font-size:11px;
+    font-weight:700;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    transition:.2s ease;
+    text-decoration:none;
+}
+
+.ed-like-button:hover,
+.ed-comment-button:hover{
+    background:var(--ed-primary-soft);
+    color:var(--ed-primary);
+}
+
+.ed-like-button.liked{
+    color:var(--ed-rose);
+    background:var(--ed-rose-soft);
+}
+
+.ed-read-more{
+    color:var(--ed-primary);
+    text-decoration:none;
+    font-size:11px;
+    font-weight:800;
+    white-space:nowrap;
+    cursor:pointer;
+}
+
+.ed-read-more:hover{
+    color:var(--ed-primary-dark);
+}
+
+
+/* =========================================================
+   LIKE LOADING
+========================================================= */
+
+.ed-like-button.is-loading{
+    opacity:.55;
+    pointer-events:none;
+}
+
+.ed-like-button .like-spinner{
+    display:none;
+}
+
+.ed-like-button.is-loading .like-heart{
+    display:none;
+}
+
+.ed-like-button.is-loading .like-spinner{
+    display:inline-block;
+}
+
+
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+.ed-final-cta{
+    position:relative;
+    margin-top:16px;
+    background:linear-gradient(120deg,var(--ed-primary-dark) 0%,var(--ed-primary) 45%,var(--ed-primary-2) 100%);
+    border-radius:var(--ed-r-lg);
+    padding:28px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    color:#fff;
+    box-shadow:0 18px 40px rgba(67,56,202,.28);
+    overflow:hidden;
+}
+
+.ed-final-cta::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(320px 200px at 90% 0%,rgba(255,255,255,.16),transparent 60%);
+    pointer-events:none;
+}
+
+.ed-final-cta h2{
+    margin:0 0 6px;
+    font-family:inherit;
+    font-size:23px;
+    font-weight:800;
+    letter-spacing:-.01em;
+}
+
+.ed-final-cta p{
+    margin:0;
+    font-size:12px;
+    color:rgba(255,255,255,.85);
+}
+
+.ed-final-cta .ed-btn{
+    background:#fff;
+    color:var(--ed-primary);
+    white-space:nowrap;
+    box-shadow:0 10px 22px rgba(15,17,35,.18);
+}
+
+.ed-final-cta .ed-btn:hover{
+    background:#fff;
+    color:var(--ed-primary-dark);
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width:1050px){
+
+    .ed-main-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .ed-main-grid>.ed-panel:nth-child(3){
+        grid-column:span 2;
+        height:260px;
+    }
+
+    .ed-main-grid>.ed-panel:nth-child(3) .ed-panel-body{
+        height:calc(260px - 52px);
+    }
+
+    .ed-activity-grid{
+        grid-template-columns:1fr;
+    }
+
+    .ed-hero-inner{
+        width:min(100% - 40px,1000px);
+        gap:25px;
+    }
+
+    .ed-hero h1{
+        font-size:42px;
+    }
+
+    .ed-hero-image{
+        max-width:400px;
+    }
+
+    .ed-feature-verified{
+        left:0;
+    }
+
+    .ed-feature-hiring{
+        left:-5px;
+    }
+
+    .ed-feature-matching{
+        right:0;
+    }
+}
+
+@media (max-width:800px){
+
+    .ed-container{
+        width:min(100% - 24px,700px);
+    }
+
+    .ed-hero-inner{
+        width:min(100% - 30px,700px);
+        grid-template-columns:1fr;
+        padding:38px 0 35px;
+        gap:20px;
+    }
+
+    .ed-hero-content{
+        align-items:flex-start;
+    }
+
+    .ed-hero h1{
+        font-size:38px;
+    }
+
+    .ed-hero-description{
+        font-size:14px;
+        max-width:600px;
+    }
+
+    .ed-hero-visual{
+        min-height:300px;
+    }
+
+    .ed-hero-image{
+        max-width:410px;
+    }
+
+    .ed-feature-verified{
+        top:15px;
+        left:2%;
+    }
+
+    .ed-feature-matching{
+        top:85px;
+        right:2%;
+    }
+
+    .ed-feature-hiring{
+        bottom:12px;
+        left:4%;
+    }
+
+    .ed-stat-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .ed-main-grid{
+        grid-template-columns:1fr;
+    }
+
+    .ed-main-grid>.ed-panel:nth-child(3){
+        grid-column:auto;
+    }
+
+    .ed-main-grid>.ed-panel{
+        height:auto;
+    }
+
+    .ed-main-grid>.ed-panel .ed-panel-body{
+        height:auto;
+        overflow:visible;
+    }
+
+    .ed-pipeline-list{
+        gap:16px;
+    }
+
+    .ed-article-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media (max-width:575px){
+
+    .ed-hero-inner{
+        width:calc(100% - 24px);
+        padding:32px 0 28px;
+    }
+
+    .ed-hero h1{
+        font-size:33px;
+        letter-spacing:-.025em;
+    }
+
+    .ed-hero-description{
+        font-size:13px;
+        line-height:1.65;
+        margin:14px 0 21px;
+    }
+
+    .ed-hero-buttons{
+        width:100%;
+    }
+
+    .ed-hero-buttons .ed-btn{
+        flex:1;
+        min-width:0;
+        padding:0 15px;
+    }
+
+    .ed-hero-visual{
+        min-height:245px;
+    }
+
+    .ed-hero-image{
+        max-width:340px;
+    }
+
+    .ed-hero-feature{
+        padding:7px 9px;
+        gap:7px;
+        border-radius:10px;
+    }
+
+    .ed-hero-feature-icon{
+        width:27px;
+        height:27px;
+        min-width:27px;
+    }
+
+    .ed-hero-feature-title{
+        font-size:9px;
+    }
+
+    .ed-hero-feature-subtitle{
+        font-size:7.5px;
+    }
+
+    .ed-feature-verified{
+        top:7px;
+        left:0;
+    }
+
+    .ed-feature-matching{
+        top:66px;
+        right:0;
+    }
+
+    .ed-feature-hiring{
+        bottom:4px;
+        left:0;
+    }
+
+    .ed-stat-grid{
+        grid-template-columns:1fr;
+    }
+
+    .ed-final-cta{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .ed-article-footer{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .ed-article-actions{
+        width:100%;
+        justify-content:flex-end;
+    }
+
+    .ed-invite-modal{
+        border-radius:13px;
+    }
+
+    .ed-invite-modal-header{
+        padding:17px;
+    }
+
+    .ed-invite-modal-body{
+        padding:17px;
+    }
+
+    .ed-job-select-item{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .ed-job-select-button,
+    .ed-job-select-form{
+        width:100%;
+    }
+
+    .ed-job-select-button{
+        justify-content:center;
+    }
+}
+
 </style>
 
+
+<div class="employer-dashboard">
+
+
+{{-- =========================================================
+     HERO
+========================================================= --}}
+
+<section class="ed-hero">
+
+    <div class="ed-hero-inner">
+
+        <div class="ed-hero-content">
+
+            <div class="ed-eyebrow">
+                GROW YOUR TEAM
+            </div>
+
+            <h1>
+                Find the Right Talent,
+                <span>Build Your Team</span>
+            </h1>
+
+            <p class="ed-hero-description">
+                Post jobs, review applications, and hire skilled professionals
+                who are ready to grow with your company.
+            </p>
+
+            <div class="ed-hero-buttons">
+
+                <a href="{{ route('employer.jobs.create') }}" class="ed-btn ed-btn-primary">
+                    <span style="font-size:18px;line-height:1;">＋</span>
+                    Create Job
+                </a>
+
+                <a href="{{ route('employer.applicants.index') }}" class="ed-btn ed-btn-light">
+                    Browse Talent
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="ed-hero-visual">
+
+            <img
+                src="{{ asset('assets/img/ccc.png') }}"
+                alt="Employer hiring and recruitment"
+                class="ed-hero-image"
+                onerror="this.style.display='none'"
+            >
+
+            <div class="ed-hero-feature ed-feature-verified">
+
+                <div class="ed-hero-feature-icon">
+                    ✓
+                </div>
+
+                <div class="ed-hero-feature-text">
+
+                    <div class="ed-hero-feature-title">
+                        Verified Candidates
+                    </div>
+
+                    <div class="ed-hero-feature-subtitle">
+                        Genuine professional profiles
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="ed-hero-feature ed-feature-matching">
+
+                <div class="ed-hero-feature-icon">
+                    ◈
+                </div>
+
+                <div class="ed-hero-feature-text">
+
+                    <div class="ed-hero-feature-title">
+                        Smart Matching
+                    </div>
+
+                    <div class="ed-hero-feature-subtitle">
+                        Find relevant talent faster
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="ed-hero-feature ed-feature-hiring">
+
+                <div class="ed-hero-feature-icon">
+                    ⚡
+                </div>
+
+                <div class="ed-hero-feature-text">
+
+                    <div class="ed-hero-feature-title">
+                        Faster Hiring
+                    </div>
+
+                    <div class="ed-hero-feature-subtitle">
+                        Connect with talent quickly
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{{-- =========================================================
+     STATISTICS
+========================================================= --}}
+
+<section class="ed-stats">
+
+    <div class="ed-container">
+
+        <div class="ed-stat-grid">
+
+            {{-- ACTIVE JOBS --}}
+            <div class="ed-stat-card">
+
+                <div class="ed-stat-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+
+                <div class="ed-stat-info">
+
+                    <span class="ed-stat-number">
+                        {{ $jobsCount ?? 0 }}
+                    </span>
+
+                    <span class="ed-stat-label">
+                        Active Jobs
+                    </span>
+
+                </div>
+
+                <a href="{{ route('employer.jobs.index') }}" class="ed-stat-link">
+                    View Jobs →
+                </a>
+
+            </div>
+
+
+            {{-- APPLICANTS --}}
+            <div class="ed-stat-card">
+
+                <div class="ed-stat-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+
+                <div class="ed-stat-info">
+
+                    <span class="ed-stat-number">
+                        {{ $applicationsCount ?? 0 }}
+                    </span>
+
+                    <span class="ed-stat-label">
+                        Total Applicants
+                    </span>
+
+                </div>
+
+                <a href="{{ route('employer.applicants.index') }}" class="ed-stat-link">
+                    View Applicants →
+                </a>
+
+            </div>
+
+
+            {{-- INTERNSHIPS --}}
+            <div class="ed-stat-card">
+
+                <div class="ed-stat-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+
+                <div class="ed-stat-info">
+
+                    <span class="ed-stat-number">
+                        {{ $internshipsCount ?? 0 }}
+                    </span>
+
+                    <span class="ed-stat-label">
+                        Internships
+                    </span>
+
+                </div>
+
+                <a href="{{ route('employer.internships.index') }}" class="ed-stat-link">
+                    View Internships →
+                </a>
+
+            </div>
+
+
+            {{-- PROJECTS --}}
+            <div class="ed-stat-card">
+
+                <div class="ed-stat-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+
+                <div class="ed-stat-info">
+
+                    <span class="ed-stat-number">
+                        {{ $projectsCount ?? 0 }}
+                    </span>
+
+                    <span class="ed-stat-label">
+                        Projects
+                    </span>
+
+                </div>
+
+                <a href="{{ route('employer.projects.index') }}" class="ed-stat-link">
+                    View Projects →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="ed-container">
+
+
+{{-- =========================================================
+     LATEST ARTICLES
+========================================================= --}}
+
+<section class="ed-panel ed-articles">
+
+    <div class="ed-panel-header">
+
+        <div class="ed-panel-title">
+            <i class="fas fa-newspaper"></i>
+            Latest Articles
+        </div>
+
+        <a href="{{ route('employer.articles.index') }}" class="ed-panel-action">
+            View All →
+        </a>
+
+    </div>
+
+
+    @if(($latestArticles ?? collect())->count())
+
+        <div class="ed-article-grid">
+
+            @foreach($latestArticles->take(3) as $article)
+
+                @php
+
+                    $articleImage = $article->image ?? '';
+
+                    $authorName =
+                        optional($article->author ?? null)->name
+                        ?? 'Admin';
+
+                    $articleDescription =
+                        $article->body
+                        ?? $article->content
+                        ?? $article->description
+                        ?? '';
+
+                    $articleLikeCount =
+                        $articleLikeCounts[$article->id]
+                        ?? $article->likes_count
+                        ?? 0;
+
+                    $articleCommentCount =
+                        $article->comments_count
+                        ?? 0;
+
+                    $isArticleLiked =
+                        in_array(
+                            $article->id,
+                            $likedArticleIds ?? []
+                        );
+
+                @endphp
+
+
+                <article
+                    class="ed-article-card"
+                    data-article-id="{{ $article->id }}"
+                >
+
+                    <div class="ed-article-image">
+
+                        @if(!empty($articleImage))
+
+                            <img
+                                src="{{ $articleImage }}"
+                                alt="{{ $article->title }}"
+                                loading="lazy"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+
+                            <div
+                                class="ed-article-image-fallback"
+                                style="display:none;"
+                            >
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+
+                        @else
+
+                            <div class="ed-article-image-fallback">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+
+                        @endif
+
+                        <span class="ed-article-badge">
+                            Article
+                        </span>
+
+                    </div>
+
+
+                    <div class="ed-article-content">
+
+                        <h3>
+                            {{ $article->title }}
+                        </h3>
+
+                        <p>
+                            {{
+                                \Illuminate\Support\Str::limit(
+                                    strip_tags($articleDescription),
+                                    90
+                                )
+                            }}
+                        </p>
+
+
+                        <div class="ed-article-footer">
+
+                            <div class="ed-article-author">
+
+                                <div class="ed-article-author-avatar">
+                                    {{ strtoupper(substr($authorName, 0, 1)) }}
+                                </div>
+
+                                <span class="ed-article-meta">
+
+                                    {{
+                                        optional($article->published_at)
+                                            ->format('d M Y')
+                                    }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="ed-article-actions">
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('employer.articles.like', $article) }}"
+                                    class="ed-like-form"
+                                    data-like-url="{{ route('employer.articles.like', $article) }}"
+                                >
+
+                                    @csrf
+
+                                    <button
+                                        type="submit"
+                                        class="ed-like-button {{ $isArticleLiked ? 'liked' : '' }}"
+                                        data-article-id="{{ $article->id }}"
+                                        data-liked="{{ $isArticleLiked ? '1' : '0' }}"
+                                        aria-label="Like article"
+                                    >
+
+                                        <i class="fas fa-spinner fa-spin like-spinner"></i>
+
+                                        <i class="fas fa-heart like-heart"></i>
+
+                                        <span class="like-count">
+                                            {{ $articleLikeCount }}
+                                        </span>
+
+                                    </button>
+
+                                </form>
+
+
+                                <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-comment-button" title="View comments">
+
+                                    <i class="far fa-comment"></i>
+
+                                    <span class="comment-count">
+                                        {{ $articleCommentCount }}
+                                    </span>
+
+                                </a>
+
+
+                                <a href="{{ route('employer.articles.index', ['article' => $article->id]) }}" class="ed-read-more">
+                                    Read More
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            @endforeach
+
+        </div>
+
+    @else
+
+        <div class="ed-empty" style="min-height:150px;">
+
+            <div>
+
+                <div class="ed-empty-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+
+                <strong>
+                    No articles available
+                </strong>
+
+                <span>
+                    Latest articles will appear here.
+                </span>
+
+            </div>
+
+        </div>
+
+    @endif
+
+</section>
+
+
+{{-- =========================================================
+     MAIN GRID
+========================================================= --}}
+
+<div class="ed-main-grid">
+
+
+{{-- =====================================================
+     RECENT JOBS
+===================================================== --}}
+
+<div class="ed-panel">
+
+    <div class="ed-panel-header">
+
+        <div class="ed-panel-title">
+            <i class="fas fa-briefcase"></i>
+            Recent Jobs
+        </div>
+
+        <a href="{{ route('employer.jobs.index') }}" class="ed-panel-action">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="ed-panel-body">
+
+        @forelse($latestJobs ?? collect() as $job)
+
+            <div class="ed-job-row">
+
+                <div class="ed-job-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+
+
+                <div class="ed-job-info">
+
+                    <div class="ed-job-title">
+                        {{ $job->title ?? 'Job Post' }}
+                    </div>
+
+                    <div class="ed-job-meta">
+
+                        {{ $job->employment_type ?? 'Full-time' }}
+
+                        @if(!empty($job->location))
+                            · {{ $job->location }}
+                        @endif
+
+                        @if(!empty($job->created_at))
+                            · {{ $job->created_at->diffForHumans() }}
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+                <div class="ed-job-side">
+
+                    @if((int) ($job->is_active ?? 0) === 1)
+
+                        <div class="ed-status">
+                            Active
+                        </div>
+
+                    @else
+
+                        <div
+                            class="ed-status"
+                            style="color:#f59e0b;"
+                        >
+                            Pending
+                        </div>
+
+                    @endif
+
+
+                    <a href="{{ route('employer.jobs.show', $job) }}" class="ed-small-link">
+                        View Job →
+                    </a>
+
+                </div>
+
+            </div>
+
+        @empty
+
+            <div
+                class="ed-empty"
+                style="min-height:267px;"
+            >
+
+                <div>
+
+                    <div class="ed-empty-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+
+                    <strong>
+                        No jobs posted yet
+                    </strong>
+
+                    <span>
+                        Create your first job to attract talent.
+                    </span>
+
+                </div>
+
+            </div>
+
+        @endforelse
+
+    </div>
+
+</div>
+
+
+{{-- =====================================================
+     RECENT APPLICANTS
+===================================================== --}}
+
+<div class="ed-panel">
+
+    <div class="ed-panel-header">
+
+        <div class="ed-panel-title">
+            <i class="fas fa-users"></i>
+            Recent Applicants
+        </div>
+
+        <a href="{{ route('employer.applicants.index') }}" class="ed-panel-action">
+            View All →
+        </a>
+
+    </div>
+
+
+    @if(($recentApplicants ?? collect())->count() > 0)
+
+        <div class="ed-panel-body">
+
+            @foreach($recentApplicants->take(4) as $applicant)
+
+                @php
+
+                    $applicantName =
+                        optional($applicant->user)->name
+                        ?? 'Applicant';
+
+                @endphp
+
+
+                <div class="ed-job-row">
+
+                    <div class="ed-avatar">
+                        {{ strtoupper(substr($applicantName, 0, 1)) }}
+                    </div>
+
+
+                    <div class="ed-job-info">
+
+                        <div class="ed-job-title">
+                            {{ $applicantName }}
+                        </div>
+
+                        <div class="ed-job-meta">
+
+                            {{
+                                \Illuminate\Support\Str::title(
+                                    str_replace(
+                                        '_',
+                                        ' ',
+                                        $applicant->status ?? 'applied'
+                                    )
+                                )
+                            }}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="ed-job-side">
+
+                        <a href="{{ route('employer.applicants.index') }}" class="ed-small-link">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @else
+
+        <div
+            class="ed-empty"
+            style="min-height:267px;"
+        >
+
+            <div>
+
+                <div class="ed-empty-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+
+                <strong>
+                    No recent applicants
+                </strong>
+
+                <span>
+                    New job applications will appear here.
+                </span>
+
+            </div>
+
+        </div>
+
+    @endif
+
+</div>
+
+
+{{-- =====================================================
+     HIRING PIPELINE  (each row links to filtered applicants)
+===================================================== --}}
+
+<div class="ed-panel">
+
+    <div class="ed-panel-header">
+
+        <div class="ed-panel-title">
+            <i class="fas fa-arrow-right"></i>
+            Hiring Pipeline
+        </div>
+
+        <a href="{{ route('employer.applicants.index') }}" class="ed-panel-action">
+            View Details →
+        </a>
+
+    </div>
+
+
+    <div class="ed-panel-body">
+
+        @php
+
+            $edPipelineTotal = max(
+                (
+                    ($newApplicantsCount ?? 0)
+                    + ($shortlistedCount ?? 0)
+                    + ($interviewsCount ?? 0)
+                    + ($hiredCount ?? 0)
+                ),
+                1
+            );
+
+        @endphp
+
+
+        <div class="ed-pipeline-list">
+
+            {{-- NEW APPLICATIONS --}}
+
+            <a href="{{ route('employer.applicants.index', ['status' => 'applied']) }}" class="ed-pipeline-item" title="View new applications">
+
+                <div class="ed-pipeline-icon">
+                    <i class="fas fa-inbox"></i>
+                </div>
+
+                <div class="ed-pipeline-body">
+
+                    <div class="ed-pipeline-top">
+
+                        <span class="ed-pipeline-item-label">
+                            New Applications
+                        </span>
+
+                        <span class="ed-pipeline-item-number">
+                            {{ $newApplicantsCount ?? 0 }}
+                        </span>
+
+                    </div>
+
+                    <div class="ed-pipeline-track">
+
+                        <div
+                            class="ed-pipeline-fill"
+                            style="width:{{ round((($newApplicantsCount ?? 0) / $edPipelineTotal) * 100) }}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            {{-- SHORTLISTED --}}
+
+            <a href="{{ route('employer.applicants.index', ['status' => 'shortlisted']) }}" class="ed-pipeline-item" title="View shortlisted applicants">
+
+                <div class="ed-pipeline-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+
+                <div class="ed-pipeline-body">
+
+                    <div class="ed-pipeline-top">
+
+                        <span class="ed-pipeline-item-label">
+                            Shortlisted
+                        </span>
+
+                        <span class="ed-pipeline-item-number">
+                            {{ $shortlistedCount ?? 0 }}
+                        </span>
+
+                    </div>
+
+                    <div class="ed-pipeline-track">
+
+                        <div
+                            class="ed-pipeline-fill"
+                            style="width:{{ round((($shortlistedCount ?? 0) / $edPipelineTotal) * 100) }}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            {{-- INTERVIEWS --}}
+
+            <a href="{{ route('employer.applicants.index', ['status' => 'interview']) }}" class="ed-pipeline-item" title="View applicants in interview stage">
+
+                <div class="ed-pipeline-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+
+                <div class="ed-pipeline-body">
+
+                    <div class="ed-pipeline-top">
+
+                        <span class="ed-pipeline-item-label">
+                            Interviews
+                        </span>
+
+                        <span class="ed-pipeline-item-number">
+                            {{ $interviewsCount ?? 0 }}
+                        </span>
+
+                    </div>
+
+                    <div class="ed-pipeline-track">
+
+                        <div
+                            class="ed-pipeline-fill"
+                            style="width:{{ round((($interviewsCount ?? 0) / $edPipelineTotal) * 100) }}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            {{-- SELECTED --}}
+
+            <a href="{{ route('employer.applicants.index', ['status' => 'hired']) }}" class="ed-pipeline-item" title="View selected candidates">
+
+                <div class="ed-pipeline-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+
+                <div class="ed-pipeline-body">
+
+                    <div class="ed-pipeline-top">
+
+                        <span class="ed-pipeline-item-label">
+                            Selected
+                        </span>
+
+                        <span class="ed-pipeline-item-number">
+                            {{ $hiredCount ?? 0 }}
+                        </span>
+
+                    </div>
+
+                    <div class="ed-pipeline-track">
+
+                        <div
+                            class="ed-pipeline-fill"
+                            style="width:{{ round((($hiredCount ?? 0) / $edPipelineTotal) * 100) }}%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+{{-- END MAIN GRID --}}
+
+
+{{-- =========================================================
+     RECOMMENDED CANDIDATES
+========================================================= --}}
+
+<section class="ed-section ed-recommended-section">
+
+    <div class="ed-section-head">
+
+        <div>
+            <span class="ed-section-kicker">
+                TALENT MATCH
+            </span>
+
+            <h2>
+                Recommended Candidates
+            </h2>
+
+            <p>
+                Candidates matching your recent job postings
+            </p>
+        </div>
+
+        <a href="{{ route('employer.applicants.index') }}" class="ed-view-all">
+            View Candidates
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    @if(($recommendedCandidates ?? collect())->count())
+
+        <div class="ed-recommended-grid">
+
+            @foreach($recommendedCandidates as $candidate)
+
+                @php
+
+                    $name = $candidate->name
+                        ?? 'Candidate';
+
+                    $initials = collect(
+                        preg_split(
+                            '/\s+/',
+                            trim($name)
+                        )
+                    )
+                    ->filter()
+                    ->take(2)
+                    ->map(
+                        fn($word) => strtoupper(
+                            substr($word, 0, 1)
+                        )
+                    )
+                    ->implode('');
+
+                    $score = $candidate->recommendation_score ?? 0;
+
+                    $registration =
+                        $candidate->employeeRegistration;
+
+                    $designation =
+                        $registration->designation
+                        ?? $registration->job_title
+                        ?? $registration->current_position
+                        ?? 'Job Seeker';
+
+                    $skills =
+                        $registration->skills
+                        ?? $registration->skill
+                        ?? '';
+
+                    if (is_string($skills)) {
+                        $skillsArray = preg_split(
+                            '/[,|;\n]+/',
+                            $skills
+                        );
+                    } else {
+                        $skillsArray = is_array($skills)
+                            ? $skills
+                            : [];
+                    }
+
+                    $skillsArray = collect($skillsArray)
+                        ->filter()
+                        ->map(
+                            fn($skill) => trim($skill)
+                        )
+                        ->take(3)
+                        ->values();
+
+                @endphp
+
+
+                <div class="ed-recommended-card">
+
+                    <div class="ed-recommended-top">
+
+                        <div class="ed-candidate-avatar">
+
+                            @if(!empty($candidate->profile_image))
+
+                                <img
+                                    src="{{ asset('storage/' . $candidate->profile_image) }}"
+                                    alt="{{ $name }}"
+                                >
+
+                            @else
+
+                                {{ $initials ?: 'C' }}
+
+                            @endif
+
+                        </div>
+
+
+                        <div class="ed-candidate-info">
+
+                            <h3>
+                                {{ $name }}
+                            </h3>
+
+                            <p>
+                                {{ $designation }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="ed-match-score">
+
+                            <strong>
+                                {{ $score }}%
+                            </strong>
+
+                            <span>
+                                Match
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- MATCH REASONS --}}
+
+                    @if(!empty($candidate->recommendation_reasons))
+
+                        <div class="ed-match-reasons">
+
+                            @foreach(
+                                array_slice(
+                                    $candidate->recommendation_reasons,
+                                    0,
+                                    3
+                                )
+                                as $reason
+                            )
+
+                                <span>
+                                    <i class="fa-solid fa-check"></i>
+                                    {{ $reason }}
+                                </span>
+
+                            @endforeach
+
+                        </div>
+
+                    @endif
+
+
+                    {{-- SKILLS --}}
+
+                    @if($skillsArray->count())
+
+                        <div class="ed-candidate-skills">
+
+                            @foreach($skillsArray as $skill)
+
+                                <span>
+                                    {{ $skill }}
+                                </span>
+
+                            @endforeach
+
+                        </div>
+
+                    @endif
+
+
+                    <div class="ed-recommended-actions">
+
+                        <a href="{{ route('employer.applicants.show', $candidate->id) }}" class="ed-profile-btn">
+                            View Profile
+                        </a>
+
+
+                        @php
+                            $candidateId = $candidate->id;
+
+                            $isInvited = isset(
+                                $invitedCandidateJobIds[$candidateId]
+                            );
+                        @endphp
+
+
+                        <button
+                            type="button"
+                            class="ed-invite-btn js-open-invite-modal"
+                            data-candidate-id="{{ $candidate->id }}"
+                            data-candidate-name="{{ $name }}"
+                        >
+                            <i class="fa-regular fa-paper-plane"></i>
+                            Invite
+                        </button>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @else
+
+        <div class="ed-empty-recommendations">
+
+            <div class="ed-empty-icon">
+                <i class="fa-solid fa-user-group"></i>
+            </div>
+
+            <h3>
+                No recommendations yet
+            </h3>
+
+            <p>
+                Post an active job to start finding candidates
+                who match your requirements.
+            </p>
+
+            <a href="{{ route('employer.jobs.create') }}" class="ed-primary-btn">
+                <i class="fa-solid fa-plus"></i>
+                Create Job
+            </a>
+
+        </div>
+
+    @endif
+
+</section>
+
+
+{{-- =========================================================
+     UPCOMING INTERVIEWS + INVITE CANDIDATES
+========================================================= --}}
+
+<section class="ed-activity">
+
+    <div class="ed-activity-grid">
+
+
+        {{-- =================================================
+             UPCOMING INTERVIEWS
+        ================================================= --}}
+
+        <div class="ed-panel">
+
+            <div class="ed-panel-header">
+
+                <div class="ed-panel-title">
+
+                    <i class="fas fa-calendar-check"></i>
+
+                    Upcoming Interviews
+
+                </div>
+
+                <a href="{{ route('employer.applicants.index', ['status' => 'interview']) }}" class="ed-panel-action">
+                    View All →
+                </a>
+
+            </div>
+
+
+            @if(($upcomingInterviews ?? collect())->count())
+
+                <div class="ed-interview-list">
+
+                    @foreach($upcomingInterviews as $i => $interview)
+
+                        @php
+
+                            $icApplication =
+                                $interview->application
+                                ?? null;
+
+                            $icName =
+                                optional(
+                                    optional($icApplication)->user
+                                )->name
+                                ?? 'Candidate';
+
+                            $icJob =
+                                optional(
+                                    optional($icApplication)->jobPost
+                                )->title
+                                ?? 'Open Role';
+
+                            $icDate =
+                                $interview->scheduled_at
+                                ?? null;
+
+                            $icIsToday =
+                                $icDate &&
+                                \Illuminate\Support\Carbon::parse($icDate)->isToday();
+
+                        @endphp
+
+
+                        <div
+                            class="ed-interview-row"
+                            style="animation-delay:{{ $i * 60 }}ms"
+                        >
+
+                            <div class="ed-interview-avatar">
+
+                                {{ strtoupper(substr($icName, 0, 1)) }}
+
+                            </div>
+
+
+                            <div class="ed-interview-info">
+
+                                <div class="ed-interview-name">
+                                    {{ $icName }}
+                                </div>
+
+                                <div class="ed-interview-role">
+                                    {{ $icJob }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="ed-interview-when">
+
+                                <span
+                                    class="ed-interview-badge {{ $icIsToday ? 'is-today' : '' }}"
+                                >
+
+                                    {{
+                                        $icDate
+                                            ? \Illuminate\Support\Carbon::parse($icDate)->format('d M, h:i A')
+                                            : 'Scheduled'
+                                    }}
+
+                                </span>
+
+
+                                <div class="ed-interview-actions">
+
+                                    <a href="{{ route('employer.applicants.index', ['status' => 'interview']) }}" class="ed-interview-view">
+                                        View
+                                    </a>
+
+
+                                    @if(
+                                        Route::has('employer.applicants.cancelInterview')
+                                        && $icApplication
+                                    )
+
+                                        <form
+                                            method="POST"
+                                            action="{{ route('employer.applicants.cancelInterview', $icApplication->id) }}"
+                                            style="margin:0;"
+                                        >
+
+                                            @csrf
+
+                                            <button
+                                                type="submit"
+                                                class="ed-interview-cancel"
+                                            >
+                                                Cancel
+                                            </button>
+
+                                        </form>
+
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            @else
+
+                <div
+                    class="ed-empty"
+                    style="min-height:230px;"
+                >
+
+                    <div>
+
+                        <div class="ed-empty-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+
+                        <strong>
+                            No upcoming interviews
+                        </strong>
+
+                        <span>
+                            Scheduled interviews will appear here.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+        </div>
+
+
+        {{-- =================================================
+             INVITE CANDIDATES
+        ================================================= --}}
+
+        <div class="ed-panel">
+
+            <div class="ed-panel-header">
+
+                <div class="ed-panel-title">
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    Invite Candidates to Apply
+
+                </div>
+
+                <a href="{{ route('employer.applicants.index') }}" class="ed-panel-action">
+                    Browse All →
+                </a>
+
+            </div>
+
+
+            @if(($recommendedCandidates ?? collect())->count())
+
+                <div class="ed-invite-list">
+
+                    @foreach($recommendedCandidates as $i => $candidate)
+
+                        @php
+
+                            $candidateProfile =
+                                $candidate->employeeRegistration
+                                ?? null;
+
+                            $candidateName =
+                                $candidate->name
+                                ?? 'Employee';
+
+                            $candidateDesignation =
+                                $candidateProfile->designation
+                                ?? 'Software Professional';
+
+                        @endphp
+
+
+                        <div
+                            class="ed-invite-card"
+                            style="animation-delay:{{ $i * 60 }}ms"
+                        >
+
+                            <div class="ed-invite-avatar">
+
+                                {{ strtoupper(substr($candidateName, 0, 1)) }}
+
+                            </div>
+
+
+                            <div class="ed-invite-info">
+
+                                <div class="ed-invite-name">
+                                    {{ $candidateName }}
+                                </div>
+
+                                <div class="ed-invite-role">
+                                    {{ $candidateDesignation }}
+                                </div>
+
+                            </div>
+
+
+                            {{-- OPEN JOB SELECTION MODAL --}}
+
+                            <button
+                                type="button"
+                                class="ed-invite-btn js-open-invite-modal"
+                                data-candidate-id="{{ $candidate->id }}"
+                                data-candidate-name="{{ $candidateName }}"
+                            >
+
+                                <i class="fas fa-paper-plane"></i>
+
+                                Invite
+
+                            </button>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+            @else
+
+                <div
+                    class="ed-empty"
+                    style="min-height:230px;"
+                >
+
+                    <div>
+
+                        <div class="ed-empty-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+
+                        <strong>
+                            No candidates to invite
+                        </strong>
+
+                        <span>
+                            Matching employee profiles will appear here.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{{-- =========================================================
+     FINAL CTA
+========================================================= --}}
+
+<section class="ed-final-cta">
+
+    <div>
+
+        <h2>
+            Ready to build your team?
+        </h2>
+
+        <p>
+            Create a job and connect with skilled professionals.
+        </p>
+
+    </div>
+
+
+    <a href="{{ route('employer.jobs.create') }}" class="ed-btn">
+
+        <i class="fas fa-plus"></i>
+
+        Create a Job
+
+    </a>
+
+</section>
+
+
+</div>
+{{-- END ed-container --}}
+
+</div>
+{{-- END employer-dashboard --}}
+
+
+{{-- =============================================================
+     JOB INVITATION MODAL
+============================================================= --}}
+
+<div
+    class="ed-invite-modal-overlay"
+    id="inviteCandidateModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="ed-invite-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="inviteCandidateModalTitle"
+    >
+
+
+        {{-- MODAL HEADER --}}
+
+        <div class="ed-invite-modal-header">
+
+            <div class="ed-invite-modal-heading">
+
+                <div
+                    class="ed-invite-modal-title"
+                    id="inviteCandidateModalTitle"
+                >
+                    Invite Candidate
+                </div>
+
+                <div class="ed-invite-modal-subtitle">
+
+                    Select a job to invite
+
+                    <strong id="inviteCandidateName">
+                        candidate
+                    </strong>
+
+                    to apply.
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="ed-invite-modal-close"
+                id="closeInviteCandidateModal"
+                aria-label="Close"
+            >
+
+                <i class="fas fa-times"></i>
+
+            </button>
+
+        </div>
+
+
+        {{-- MODAL BODY --}}
+
+        <div class="ed-invite-modal-body">
+
+            <div class="ed-job-select-heading">
+                SELECT JOB
+            </div>
+
+
+            @if(($employerJobs ?? collect())->count())
+
+                <div class="ed-job-select-list">
+
+                    @foreach($employerJobs as $inviteJob)
+
+                        @php
+
+                            $inviteJobId =
+                                (int) $inviteJob->id;
+
+                            /*
+                             * We DO NOT use $candidate here.
+                             *
+                             * The selected candidate is controlled
+                             * by JavaScript when the modal opens.
+                             *
+                             * Therefore the initial button state
+                             * is "Invite", and JavaScript changes
+                             * it to "Invited" when necessary.
+                             */
+
+                        @endphp
+
+
+                        <div
+                            class="ed-job-select-item"
+                            data-job-id="{{ $inviteJobId }}"
+                        >
+
+                            <div class="ed-job-select-info">
+
+                                <div class="ed-job-select-title">
+
+                                    {{ $inviteJob->title ?? 'Job Opportunity' }}
+
+                                </div>
+
+                                <div class="ed-job-select-meta">
+
+                                    {{ $inviteJob->employment_type ?? 'Full-time' }}
+
+                                    @if(!empty($inviteJob->location))
+                                        · {{ $inviteJob->location }}
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+
+                            <form
+                                method="POST"
+                                action="{{ route(
+                                    'employer.candidates.invite',
+                                    [
+                                        'candidate' => '__CANDIDATE_ID__'
+                                    ]
+                                ) }}"
+                                class="ed-job-select-form"
+                                data-invite-form
+                                data-job-id="{{ $inviteJobId }}"
+                                data-action-template="{{ route(
+                                    'employer.candidates.invite',
+                                    [
+                                        'candidate' => '__CANDIDATE_ID__'
+                                    ]
+                                ) }}"
+                            >
+
+                                @csrf
+
+                                <input
+                                    type="hidden"
+                                    name="job_id"
+                                    value="{{ $inviteJobId }}"
+                                >
+
+
+                                <button
+                                    type="submit"
+                                    class="ed-job-select-button"
+                                    data-invite-button
+                                >
+
+                                    <i class="fas fa-paper-plane"></i>
+
+                                    Invite
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    @endforeach
+
+                </div>
+
+
+                <div class="ed-invite-note">
+
+                    <i class="fas fa-info-circle"></i>
+
+                    The candidate will receive an email containing
+                    the selected job details and an option to apply.
+
+                </div>
+
+            @else
+
+                <div class="ed-no-jobs">
+
+                    <i class="fas fa-briefcase"></i>
+
+                    <strong
+                        style="display:block;color:#536d89;margin-bottom:5px;"
+                    >
+                        No active jobs available
+                    </strong>
+
+                    <span>
+                        Create an active job before inviting candidates.
+                    </span>
+
+                    <div style="margin-top:15px;">
+
+                        <a href="{{ route('employer.jobs.create') }}" class="ed-btn ed-btn-primary" style="min-height:40px;padding:0 16px;font-size:11px;">
+
+                            <i class="fas fa-plus"></i>
+
+                            Create Job
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- =============================================================
+     JAVASCRIPT
+============================================================= --}}
+
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Reveal-on-scroll
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.15 });
-    revealEls.forEach(el => observer.observe(el));
-
-    // New Posting dropdown
-    const toggle = document.getElementById('edPostToggle');
-    const menu = document.getElementById('edPostMenu');
-    if (toggle && menu) {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            menu.classList.toggle('is-open');
-        });
-        document.addEventListener('click', function(e) {
-            if (!menu.contains(e.target) && e.target !== toggle) {
-                menu.classList.remove('is-open');
-            }
-        });
-    } else {
-        console.warn('Dropdown elements not found', toggle, menu);
-    }
-});
-
-
-
-
-
-
 
 document.addEventListener('DOMContentLoaded', function () {
-    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
-    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : null;
 
-    document.querySelectorAll('.ed-article-like-btn').forEach(function (btn) {
-        btn.addEventListener('click', async function () {
-            const articleId = btn.dataset.articleId;
-            if (!articleId) return;
 
-            if (!csrfToken) {
-                alert('Missing <meta name="csrf-token"> tag in your layout <head> — likes can\'t be saved without it.');
+    /* =========================================================
+       CSRF TOKEN
+    ========================================================= */
+
+    const csrfToken =
+        document.querySelector('meta[name="csrf-token"]')
+            ?.getAttribute('content');
+
+
+    /* =========================================================
+       ARTICLE LIKE AJAX
+    ========================================================= */
+
+    document.querySelectorAll('.ed-like-form')
+        .forEach(function (form) {
+
+            form.addEventListener('submit', async function (event) {
+
+                event.preventDefault();
+
+                const button =
+                    form.querySelector('.ed-like-button');
+
+                if (!button) {
+                    return;
+                }
+
+                if (
+                    button.classList.contains('is-loading')
+                ) {
+                    return;
+                }
+
+                const likeUrl =
+                    form.dataset.likeUrl ||
+                    form.action;
+
+                const countElement =
+                    button.querySelector('.like-count');
+
+                button.classList.add('is-loading');
+
+                try {
+
+                    const response = await fetch(
+                        likeUrl,
+                        {
+                            method:'POST',
+
+                            headers:{
+                                'X-CSRF-TOKEN':csrfToken,
+                                'Accept':'application/json',
+                                'X-Requested-With':'XMLHttpRequest'
+                            },
+
+                            credentials:'same-origin'
+                        }
+                    );
+
+
+                    if (!response.ok) {
+
+                        if (response.status === 419) {
+
+                            alert(
+                                'Your session has expired. Please refresh the page and try again.'
+                            );
+
+                        } else if (response.status === 401) {
+
+                            alert(
+                                'Please login to like this article.'
+                            );
+
+                        } else {
+
+                            alert(
+                                'Unable to update like. Please try again.'
+                            );
+
+                        }
+
+                        return;
+                    }
+
+
+                    const result =
+                        await response.json();
+
+
+                    if (result.liked) {
+
+                        button.classList.add('liked');
+
+                        button.dataset.liked = '1';
+
+                    } else {
+
+                        button.classList.remove('liked');
+
+                        button.dataset.liked = '0';
+
+                    }
+
+
+                    if (
+                        countElement &&
+                        result.likes_count !== undefined
+                    ) {
+
+                        countElement.textContent =
+                            result.likes_count;
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        'Article like error:',
+                        error
+                    );
+
+                    alert(
+                        'Something went wrong. Please try again.'
+                    );
+
+                } finally {
+
+                    button.classList.remove(
+                        'is-loading'
+                    );
+
+                }
+
+            });
+
+        });
+
+
+    /* =========================================================
+       INVITE CANDIDATE MODAL
+    ========================================================= */
+
+    const inviteModal =
+        document.getElementById(
+            'inviteCandidateModal'
+        );
+
+    const closeInviteModal =
+        document.getElementById(
+            'closeInviteCandidateModal'
+        );
+
+    const inviteCandidateName =
+        document.getElementById(
+            'inviteCandidateName'
+        );
+
+
+    /*
+     * This comes from the EmployerDashboardController:
+     *
+     * [
+     *     candidate_id => [
+     *         job_id,
+     *         job_id
+     *     ]
+     * ]
+     */
+
+    const invitedCandidateJobIds =
+        @json($invitedCandidateJobIds ?? []);
+
+
+    /* =========================================================
+       NORMALIZE INVITATION DATA
+    ========================================================= */
+
+    function getInvitedJobIds(candidateId) {
+
+        candidateId =
+            String(candidateId);
+
+        const jobs =
+            invitedCandidateJobIds[candidateId]
+            || [];
+
+        return jobs.map(function (jobId) {
+
+            return parseInt(
+                jobId,
+                10
+            );
+
+        });
+
+    }
+
+
+    /* =========================================================
+       UPDATE MODAL JOB BUTTONS
+    ========================================================= */
+
+    function updateInviteJobButtons(candidateId) {
+
+        const invitedJobIds =
+            getInvitedJobIds(candidateId);
+
+
+        document.querySelectorAll(
+            '[data-invite-form]'
+        ).forEach(function (form) {
+
+            const jobId =
+                parseInt(
+                    form.dataset.jobId,
+                    10
+                );
+
+            const button =
+                form.querySelector(
+                    '[data-invite-button]'
+                );
+
+            if (!button) {
                 return;
             }
 
-            btn.disabled = true;
 
-            try {
-                const response = await fetch(`/employer/articles/${articleId}/like`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Accept': 'application/json',
-                    },
+            /*
+             * Candidate has already been invited
+             * for this specific job.
+             */
+
+            if (
+                invitedJobIds.includes(jobId)
+            ) {
+
+                button.disabled = true;
+
+                button.classList.remove(
+                    'is-loading'
+                );
+
+                button.classList.add(
+                    'is-invited'
+                );
+
+                button.innerHTML =
+                    '<i class="fas fa-check"></i> Invited';
+
+            } else {
+
+                button.disabled = false;
+
+                button.classList.remove(
+                    'is-loading'
+                );
+
+                button.classList.remove(
+                    'is-invited'
+                );
+
+                button.innerHTML =
+                    '<i class="fas fa-paper-plane"></i> Invite';
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       OPEN MODAL
+    ========================================================= */
+
+    document.querySelectorAll(
+        '.js-open-invite-modal'
+    ).forEach(function (button) {
+
+        button.addEventListener(
+            'click',
+            function () {
+
+                const candidateId =
+                    this.dataset.candidateId;
+
+                const candidateName =
+                    this.dataset.candidateName
+                    || 'candidate';
+
+
+                /*
+                 * Set candidate name.
+                 */
+
+                if (inviteCandidateName) {
+
+                    inviteCandidateName.textContent =
+                        candidateName;
+
+                }
+
+
+                /*
+                 * IMPORTANT:
+                 *
+                 * Always use the original
+                 * data-action-template.
+                 *
+                 * This prevents the old candidate ID
+                 * from remaining in the form action.
+                 */
+
+                document.querySelectorAll(
+                    '[data-invite-form]'
+                ).forEach(function (form) {
+
+                    const actionTemplate =
+                        form.dataset.actionTemplate;
+
+                    if (!actionTemplate) {
+                        return;
+                    }
+
+                    const newAction =
+                        actionTemplate.replace(
+                            '__CANDIDATE_ID__',
+                            candidateId
+                        );
+
+                    form.setAttribute(
+                        'action',
+                        newAction
+                    );
+
                 });
 
-                if (!response.ok) throw new Error('Request failed');
 
-                const data = await response.json();
-                const icon = btn.querySelector('.ed-like-icon');
-                const count = btn.querySelector('.ed-like-count');
+                /*
+                 * Update Invited / Invite buttons
+                 * according to selected candidate.
+                 */
 
-                count.textContent = data.likes_count;
-                btn.classList.toggle('is-liked', data.liked);
-                icon.setAttribute('fill', data.liked ? 'currentColor' : 'none');
-            } catch (err) {
-                console.error('Failed to toggle like:', err);
-            } finally {
-                btn.disabled = false;
+                updateInviteJobButtons(
+                    candidateId
+                );
+
+
+                /*
+                 * Open modal.
+                 */
+
+                if (inviteModal) {
+
+                    inviteModal.classList.add(
+                        'is-open'
+                    );
+
+                    inviteModal.setAttribute(
+                        'aria-hidden',
+                        'false'
+                    );
+
+                    document.body.style.overflow =
+                        'hidden';
+
+                }
+
             }
-        });
+        );
+
     });
+
+
+    /* =========================================================
+       CLOSE MODAL
+    ========================================================= */
+
+    function closeInviteCandidateModal(){
+
+        if (!inviteModal) {
+            return;
+        }
+
+        inviteModal.classList.remove(
+            'is-open'
+        );
+
+        inviteModal.setAttribute(
+            'aria-hidden',
+            'true'
+        );
+
+        document.body.style.overflow =
+            '';
+
+    }
+
+
+    if (closeInviteModal) {
+
+        closeInviteModal.addEventListener(
+            'click',
+            closeInviteCandidateModal
+        );
+
+    }
+
+
+    /* =========================================================
+       CLICK OUTSIDE MODAL
+    ========================================================= */
+
+    if (inviteModal) {
+
+        inviteModal.addEventListener(
+            'click',
+            function (event) {
+
+                if (
+                    event.target ===
+                    inviteModal
+                ) {
+
+                    closeInviteCandidateModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       ESC KEY
+    ========================================================= */
+
+    document.addEventListener(
+        'keydown',
+        function (event) {
+
+            if (
+                event.key === 'Escape' &&
+                inviteModal &&
+                inviteModal.classList.contains(
+                    'is-open'
+                )
+            ) {
+
+                closeInviteCandidateModal();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INVITATION FORM SUBMIT
+    ========================================================= */
+
+    document.querySelectorAll(
+        '[data-invite-form]'
+    ).forEach(function (form) {
+
+        form.addEventListener(
+            'submit',
+            function (event) {
+
+                const button =
+                    form.querySelector(
+                        '[data-invite-button]'
+                    );
+
+                if (!button) {
+                    return;
+                }
+
+
+                /*
+                 * Already invited.
+                 */
+
+                if (
+                    button.disabled &&
+                    button.classList.contains(
+                        'is-invited'
+                    )
+                ) {
+
+                    event.preventDefault();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Prevent double click.
+                 */
+
+                if (
+                    button.classList.contains(
+                        'is-loading'
+                    )
+                ) {
+
+                    event.preventDefault();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Sending state.
+                 */
+
+                button.classList.add(
+                    'is-loading'
+                );
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+            }
+        );
+
+    });
+
+
 });
+
 </script>
 
 @endsection

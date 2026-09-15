@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JobPost;
 use App\Models\JobApplication;
 use App\Models\SavedJob;
+use App\Helpers\EmployerPortalNotificationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +40,8 @@ class JobController extends Controller
             ->toArray();
 
         // Sidebar counts
-        $savedJobsCount   = SavedJob::where('user_id', $userId)->count();
+        $savedJobsCount = SavedJob::where('user_id', $userId)->count();
+
         $appliedJobsCount = JobApplication::where('user_id', $userId)->count();
 
         $interviewsCount = JobApplication::where('user_id', $userId)
@@ -72,12 +74,20 @@ class JobController extends Controller
     }
 
     /**
-     * Apply to a job. Creates the application with status = applied.
+     * Apply to a job.
+     *
+     * Creates the application and sends a notification
+     * to the employer who owns the job.
      */
     public function apply(JobPost $job)
     {
         $userId = Auth::id();
 
+        /*
+        |--------------------------------------------------------------------------
+        | Check if already applied
+        |--------------------------------------------------------------------------
+        */
         $alreadyApplied = JobApplication::where('user_id', $userId)
             ->where('job_post_id', $job->id)
             ->exists();
@@ -88,13 +98,40 @@ class JobController extends Controller
             ], 409);
         }
 
-        JobApplication::create([
+        /*
+        |--------------------------------------------------------------------------
+        | Create application
+        |--------------------------------------------------------------------------
+        */
+        $application = JobApplication::create([
             'user_id'           => $userId,
             'job_post_id'       => $job->id,
             'status'            => JobApplication::STATUS_APPLIED,
             'status_updated_at' => now(),
         ]);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Send notification to employer
+        |--------------------------------------------------------------------------
+        */
+        $student = Auth::user();
+
+        EmployerPortalNotificationHelper::send(
+            employerId: $job->employer_id,
+            type: 'application',
+            title: 'New Job Application',
+            message: ($student->name ?? 'A candidate') . ' applied for your job: ' . $job->title,
+            url: route('employer.applicants.index'),
+            referenceId: $application->id,
+            referenceType: 'application'
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Response
+        |--------------------------------------------------------------------------
+        */
         return response()->json([
             'message' => 'Applied successfully.',
         ]);
@@ -150,7 +187,10 @@ class JobController extends Controller
             ->pluck('job_post_id')
             ->toArray();
 
-        return view('students.jobs.saved', compact('jobs', 'appliedJobIds'));
+        return view('students.jobs.saved', compact(
+            'jobs',
+            'appliedJobIds'
+        ));
     }
 
     /**
@@ -174,7 +214,11 @@ class JobController extends Controller
             ->pluck('job_post_id')
             ->toArray();
 
-        return view('students.jobs.applied', compact('jobs', 'applications', 'savedJobIds'));
+        return view('students.jobs.applied', compact(
+            'jobs',
+            'applications',
+            'savedJobIds'
+        ));
     }
 
     /**
@@ -197,11 +241,14 @@ class JobController extends Controller
 
         $applicationsByJob = $applications;
 
-        return view('students.jobs.interviews', compact('jobs', 'applicationsByJob'));
+        return view('students.jobs.interviews', compact(
+            'jobs',
+            'applicationsByJob'
+        ));
     }
 
     /**
-     * Applications currently in progress (with sub_status detail).
+     * Applications currently in progress.
      */
     public function inProgress(Request $request)
     {
@@ -219,7 +266,10 @@ class JobController extends Controller
 
         $applicationsByJob = $applications;
 
-        return view('students.jobs.in-progress', compact('jobs', 'applicationsByJob'));
+        return view('students.jobs.in-progress', compact(
+            'jobs',
+            'applicationsByJob'
+        ));
     }
 
     /**
@@ -261,7 +311,7 @@ class JobController extends Controller
     }
 
     /**
-     * Standalone job details page (optional deep-link target).
+     * Standalone job details page.
      */
     public function show(JobPost $job)
     {
@@ -275,6 +325,10 @@ class JobController extends Controller
             ->where('job_post_id', $job->id)
             ->exists();
 
-        return view('students.jobs.show', compact('job', 'hasApplied', 'isSaved'));
+        return view('students.jobs.show', compact(
+            'job',
+            'hasApplied',
+            'isSaved'
+        ));
     }
 }
