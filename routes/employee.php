@@ -57,7 +57,11 @@ Route::middleware(['member.auth'])
 
         Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
             ->name('projects.proposals');
+Route::post('/proposals/{proposal}/withdraw', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'withdraw'])
+    ->name('proposals.withdraw');
 
+Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'show'])
+    ->name('proposals.show');
         // Articles — same rule applies: any fixed segment (e.g. /articles/saved,
         // /articles/create) must be declared BEFORE /articles/{article}.
         Route::get('/articles', [ArticleController::class, 'index'])

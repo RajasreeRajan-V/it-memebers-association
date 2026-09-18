@@ -8,9 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    /* ============================================================
+
+    /* =========================================================
        WIZARD ELEMENTS
-    ============================================================ */
+    ========================================================= */
 
     const steps = Array.from(
         document.querySelectorAll('.job-wizard-step')
@@ -25,437 +26,690 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     let currentStep = 1;
-    let submitting = false;
+
+    const totalSteps = steps.length;
 
 
-    /* ============================================================
-       SHOW STEP
-    ============================================================ */
+    /* =========================================================
+       FORM ELEMENTS
+    ========================================================= */
+
+    const workModeField = document.getElementById('work_mode');
+
+    const countryField = document.getElementById('country');
+    const stateField = document.getElementById('state');
+    const districtField = document.getElementById('district');
+    const cityField = document.getElementById('city');
+
+    const stateRequired = document.querySelector('.state-required');
+    const districtRequired = document.querySelector('.district-required');
+    const cityRequired = document.querySelector('.city-required');
+
+    const locationPreview = document.getElementById('locationPreview');
+
+    const titleField = document.getElementById('title');
+    const descriptionField = document.getElementById('description');
+
+    const titleCounter = document.getElementById('titleCounter');
+    const descriptionCounter = document.getElementById('descriptionCounter');
+
+
+    /* =========================================================
+       SHOW WIZARD STEP
+    ========================================================= */
 
     function showStep(stepNumber) {
 
+        if (stepNumber < 1) {
+            stepNumber = 1;
+        }
+
+        if (stepNumber > totalSteps) {
+            stepNumber = totalSteps;
+        }
+
         currentStep = stepNumber;
 
-        /* Show only current section */
 
+        /* Show correct step */
         steps.forEach(function (step) {
 
-            const stepValue = Number(step.dataset.step);
+            const stepValue = Number(
+                step.dataset.step
+            );
 
-            if (stepValue === stepNumber) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active');
-            }
-
+            step.classList.toggle(
+                'active',
+                stepValue === currentStep
+            );
         });
 
 
-        /* ========================================================
-           UPDATE PROGRESS ITEMS
-        ======================================================== */
-
+        /* Update progress */
         progressItems.forEach(function (item) {
 
-            const itemStep = Number(item.dataset.progress);
+            const itemStep = Number(
+                item.dataset.step
+            );
 
-            item.classList.remove('active');
-            item.classList.remove('completed');
+            item.classList.remove(
+                'active',
+                'completed'
+            );
 
-            if (itemStep === stepNumber) {
+            if (itemStep === currentStep) {
+
                 item.classList.add('active');
-            }
 
-            if (itemStep < stepNumber) {
+            } else if (itemStep < currentStep) {
+
                 item.classList.add('completed');
             }
-
         });
 
 
-        /* ========================================================
-           UPDATE PROGRESS LINES
-        ======================================================== */
+        /* Update progress lines */
+        progressLines.forEach(function (line, index) {
 
-        progressLines.forEach(function (line) {
-
-            const lineStep = Number(line.dataset.line);
-
-            if (lineStep < stepNumber) {
-                line.classList.add('completed');
-            } else {
-                line.classList.remove('completed');
-            }
-
+            line.classList.toggle(
+                'completed',
+                index < currentStep - 1
+            );
         });
 
 
         updateNavigation();
-
         updateChecklist();
-
+        updateLocationRequirements();
         updateLocationPreview();
-
-
-        /* Scroll to top */
 
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-
     }
 
 
-    /* ============================================================
-       UPDATE NAVIGATION
-    ============================================================ */
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
 
     function updateNavigation() {
 
-        /* Hide all Next buttons */
+        const nextButtons = document.querySelectorAll(
+            '[data-next-step]'
+        );
 
-        document.querySelectorAll('[data-next-step]').forEach(function (button) {
+        const backButtons = document.querySelectorAll(
+            '[data-prev-step]'
+        );
+
+        const publishButton = document.querySelector(
+            '[data-publish-button]'
+        );
+
+
+        /* Hide all Next buttons */
+        nextButtons.forEach(function (button) {
             button.style.display = 'none';
         });
 
 
         /* Hide all Back buttons */
-
-        document.querySelectorAll('[data-prev-step]').forEach(function (button) {
+        backButtons.forEach(function (button) {
             button.style.display = 'none';
         });
 
 
-        /* Hide Publish */
+        /* Hide publish button */
+        if (publishButton) {
+            publishButton.style.display = 'none';
+        }
 
-        document.querySelectorAll('[data-publish-button]').forEach(function (button) {
-            button.style.display = 'none';
-        });
 
-
-        /* ========================================================
-           STEP 1
-        ======================================================== */
-
-        if (currentStep === 1) {
+        /* Current step -> next step */
+        if (currentStep < totalSteps) {
 
             const nextButton = document.querySelector(
-                '[data-next-step="2"]'
+                `[data-next-step="${currentStep + 1}"]`
             );
 
             if (nextButton) {
                 nextButton.style.display = 'inline-flex';
             }
-
         }
 
 
-        /* ========================================================
-           STEP 2
-        ======================================================== */
-
-        if (currentStep === 2) {
+        /* Current step -> previous step */
+        if (currentStep > 1) {
 
             const backButton = document.querySelector(
-                '[data-prev-step="2"]'
-            );
-
-            const nextButton = document.querySelector(
-                '[data-next-step="3"]'
+                `[data-prev-step="${currentStep - 1}"]`
             );
 
             if (backButton) {
                 backButton.style.display = 'inline-flex';
             }
-
-            if (nextButton) {
-                nextButton.style.display = 'inline-flex';
-            }
-
         }
 
 
-        /* ========================================================
-           STEP 3
-        ======================================================== */
-
-        if (currentStep === 3) {
-
-            const backButton = document.querySelector(
-                '[data-prev-step="3"]'
-            );
-
-            const publishButton = document.querySelector(
-                '[data-publish-button]'
-            );
-
-            if (backButton) {
-                backButton.style.display = 'inline-flex';
-            }
-
-            if (publishButton) {
-                publishButton.style.display = 'inline-flex';
-            }
-
+        /* Final step -> publish */
+        if (
+            currentStep === totalSteps &&
+            publishButton
+        ) {
+            publishButton.style.display = 'inline-flex';
         }
-
     }
 
 
-    /* ============================================================
-       VALIDATE CURRENT STEP
-    ============================================================ */
+    /* =========================================================
+       VALIDATE ONE STEP
+    ========================================================= */
 
-    function validateCurrentStep() {
+    function validateStep(stepNumber) {
 
-        const currentPanel = document.querySelector(
-            `.job-wizard-step[data-step="${currentStep}"]`
+        const step = document.querySelector(
+            `.job-wizard-step[data-step="${stepNumber}"]`
         );
 
-        if (!currentPanel) {
+        if (!step) {
             return true;
         }
 
 
-        const fields = currentPanel.querySelectorAll(
-            'input, select, textarea'
-        );
+        /* Step 3 has dynamic location rules */
+        if (stepNumber === 3) {
+            return validateLocationFields();
+        }
+
 
         let valid = true;
-        let firstInvalid = null;
+
+        const requiredFields = step.querySelectorAll(
+            '[required]'
+        );
 
 
-        fields.forEach(function (field) {
+        requiredFields.forEach(function (field) {
 
-            field.classList.remove('invalid');
-
-
-            /* Only required fields */
-
-            if (!field.required) {
+            if (field.disabled) {
                 return;
             }
 
+            const value = String(
+                field.value || ''
+            ).trim();
 
-            if (!field.value.trim()) {
 
-                field.classList.add('invalid');
+            if (!value) {
+
+                field.classList.add(
+                    'job-invalid'
+                );
+
+                field.setAttribute(
+                    'aria-invalid',
+                    'true'
+                );
 
                 valid = false;
 
-                if (!firstInvalid) {
-                    firstInvalid = field;
-                }
+            } else {
 
+                field.classList.remove(
+                    'job-invalid'
+                );
+
+                field.removeAttribute(
+                    'aria-invalid'
+                );
             }
-
         });
 
 
-        if (firstInvalid) {
+        if (!valid) {
 
-            firstInvalid.focus();
+            const firstInvalid = step.querySelector(
+                '.job-invalid'
+            );
 
-            firstInvalid.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            });
-
+            if (firstInvalid) {
+                firstInvalid.focus();
+            }
         }
 
 
         return valid;
-
     }
 
 
-    /* ============================================================
-       NEXT BUTTONS
-    ============================================================ */
+    /* =========================================================
+       VALIDATE CURRENT STEP
+    ========================================================= */
 
-    document.querySelectorAll('[data-next-step]').forEach(function (button) {
-
-        button.addEventListener('click', function (event) {
-
-            event.preventDefault();
+    function validateCurrentStep() {
+        return validateStep(currentStep);
+    }
 
 
-            /*
-             * Validate current step before moving.
-             */
+    /* =========================================================
+       LOCATION REQUIREMENTS
+    ========================================================= */
 
-            if (!validateCurrentStep()) {
+    function updateLocationRequirements() {
+
+        if (!workModeField) {
+            return;
+        }
+
+        const workMode = String(
+            workModeField.value || ''
+        ).toLowerCase();
+
+
+        /* -----------------------------------------------------
+           REMOTE
+           All location fields optional
+        ----------------------------------------------------- */
+
+        if (workMode === 'remote') {
+
+            if (countryField) {
+                countryField.required = false;
+            }
+
+            if (stateField) {
+                stateField.required = false;
+            }
+
+            if (districtField) {
+                districtField.required = false;
+            }
+
+            if (cityField) {
+                cityField.required = false;
+            }
+
+
+            if (stateRequired) {
+                stateRequired.style.display = 'none';
+            }
+
+            if (districtRequired) {
+                districtRequired.style.display = 'none';
+            }
+
+            if (cityRequired) {
+                cityRequired.style.display = 'none';
+            }
+
+
+            if (stateField) {
+                stateField.placeholder = 'Optional';
+            }
+
+            if (districtField) {
+                districtField.placeholder = 'Optional';
+            }
+
+            if (cityField) {
+                cityField.placeholder = 'Optional';
+            }
+
+
+            return;
+        }
+
+
+        /* -----------------------------------------------------
+           HYBRID / ON-SITE
+           Country optional
+           State required
+           District required
+           City required
+        ----------------------------------------------------- */
+
+        if (countryField) {
+            countryField.required = false;
+        }
+
+        if (stateField) {
+            stateField.required = true;
+        }
+
+        if (districtField) {
+            districtField.required = true;
+        }
+
+        if (cityField) {
+            cityField.required = true;
+        }
+
+
+        if (stateRequired) {
+            stateRequired.style.display = 'inline';
+        }
+
+        if (districtRequired) {
+            districtRequired.style.display = 'inline';
+        }
+
+        if (cityRequired) {
+            cityRequired.style.display = 'inline';
+        }
+
+
+        if (stateField) {
+            stateField.placeholder = 'e.g. Kerala';
+        }
+
+        if (districtField) {
+            districtField.placeholder = 'e.g. Kasaragod';
+        }
+
+        if (cityField) {
+            cityField.placeholder = 'e.g. Kanhangad';
+        }
+    }
+
+
+    /* =========================================================
+       LOCATION VALIDATION
+    ========================================================= */
+
+    function validateLocationFields() {
+
+        if (!workModeField) {
+            return true;
+        }
+
+
+        const workMode = String(
+            workModeField.value || ''
+        ).toLowerCase();
+
+
+        /*
+         * Country is always optional.
+         */
+        if (countryField) {
+
+            countryField.classList.remove(
+                'job-invalid'
+            );
+
+            countryField.removeAttribute(
+                'aria-invalid'
+            );
+        }
+
+
+        /*
+         * Remote:
+         * State, District and City are also optional.
+         */
+        if (workMode === 'remote') {
+
+            [
+                stateField,
+                districtField,
+                cityField
+            ].forEach(function (field) {
+
+                if (!field) {
+                    return;
+                }
+
+                field.classList.remove(
+                    'job-invalid'
+                );
+
+                field.removeAttribute(
+                    'aria-invalid'
+                );
+            });
+
+
+            return true;
+        }
+
+
+        /*
+         * Hybrid / On-site:
+         * State, District and City are required.
+         */
+
+        const requiredLocationFields = [
+            stateField,
+            districtField,
+            cityField
+        ];
+
+        let valid = true;
+
+
+        requiredLocationFields.forEach(function (field) {
+
+            if (!field) {
                 return;
             }
 
-
-            /*
-             * data-next-step contains the TARGET step.
-             *
-             * Step 1 button -> data-next-step="2"
-             * Step 2 button -> data-next-step="3"
-             */
-
-            const targetStep = Number(
-                button.dataset.nextStep
-            );
+            const value = String(
+                field.value || ''
+            ).trim();
 
 
-            if (
-                targetStep >= 1 &&
-                targetStep <= steps.length
-            ) {
+            if (!value) {
 
-                showStep(targetStep);
+                field.classList.add(
+                    'job-invalid'
+                );
 
+                field.setAttribute(
+                    'aria-invalid',
+                    'true'
+                );
+
+                valid = false;
+
+            } else {
+
+                field.classList.remove(
+                    'job-invalid'
+                );
+
+                field.removeAttribute(
+                    'aria-invalid'
+                );
             }
-
         });
 
+
+        if (!valid) {
+
+            const firstInvalid = document.querySelector(
+                '.job-wizard-step[data-step="3"] .job-invalid'
+            );
+
+            if (firstInvalid) {
+                firstInvalid.focus();
+            }
+        }
+
+
+        return valid;
+    }
+
+
+    /* =========================================================
+       NEXT BUTTONS
+    ========================================================= */
+
+    document.querySelectorAll(
+        '[data-next-step]'
+    ).forEach(function (button) {
+
+        button.addEventListener(
+            'click',
+            function () {
+
+                const nextStep = Number(
+                    button.dataset.nextStep
+                );
+
+
+                if (!validateCurrentStep()) {
+                    return;
+                }
+
+
+                if (
+                    nextStep >= 1 &&
+                    nextStep <= totalSteps
+                ) {
+                    showStep(nextStep);
+                }
+            }
+        );
     });
 
 
-    /* ============================================================
+    /* =========================================================
        BACK BUTTONS
-    ============================================================ */
+    ========================================================= */
 
-    document.querySelectorAll('[data-prev-step]').forEach(function (button) {
+    document.querySelectorAll(
+        '[data-prev-step]'
+    ).forEach(function (button) {
 
-        button.addEventListener('click', function (event) {
+        button.addEventListener(
+            'click',
+            function () {
 
-            event.preventDefault();
+                const previousStep = Number(
+                    button.dataset.prevStep
+                );
 
 
-            const targetStep = Number(
-                button.dataset.prevStep
-            );
-
-
-            if (
-                targetStep >= 1 &&
-                targetStep <= steps.length
-            ) {
-
-                showStep(targetStep);
-
+                if (
+                    previousStep >= 1 &&
+                    previousStep <= totalSteps
+                ) {
+                    showStep(previousStep);
+                }
             }
-
-        });
-
+        );
     });
 
 
-    /* ============================================================
+    /* =========================================================
        REMOVE INVALID STATE
-    ============================================================ */
+    ========================================================= */
 
     form.querySelectorAll(
         'input, select, textarea'
     ).forEach(function (field) {
 
-        field.addEventListener('input', function () {
-            field.classList.remove('invalid');
-            updateChecklist();
-        });
+        field.addEventListener(
+            'input',
+            function () {
 
-        field.addEventListener('change', function () {
-            field.classList.remove('invalid');
-            updateChecklist();
-        });
+                if (
+                    String(field.value || '').trim()
+                ) {
+                    field.classList.remove(
+                        'job-invalid'
+                    );
 
+                    field.removeAttribute(
+                        'aria-invalid'
+                    );
+                }
+
+                updateChecklist();
+                updateLocationPreview();
+            }
+        );
+
+
+        field.addEventListener(
+            'change',
+            function () {
+
+                field.classList.remove(
+                    'job-invalid'
+                );
+
+                field.removeAttribute(
+                    'aria-invalid'
+                );
+
+                updateChecklist();
+                updateLocationRequirements();
+                updateLocationPreview();
+            }
+        );
     });
 
 
-    /* ============================================================
+    /* =========================================================
        TITLE COUNTER
-    ============================================================ */
-
-    const titleInput =
-        document.getElementById('title');
-
-    const titleCounter =
-        document.getElementById('titleCounter');
-
+    ========================================================= */
 
     function updateTitleCounter() {
 
-        if (!titleInput || !titleCounter) {
+        if (
+            !titleField ||
+            !titleCounter
+        ) {
             return;
         }
 
         titleCounter.textContent =
-            titleInput.value.length;
-
+            String(titleField.value || '').length;
     }
 
 
-    if (titleInput) {
-
-        titleInput.addEventListener(
-            'input',
-            updateTitleCounter
-        );
-
-        updateTitleCounter();
-
-    }
-
-
-    /* ============================================================
+    /* =========================================================
        DESCRIPTION COUNTER
-    ============================================================ */
-
-    const descriptionInput =
-        document.getElementById('description');
-
-    const descriptionCounter =
-        document.getElementById('descriptionCounter');
-
+    ========================================================= */
 
     function updateDescriptionCounter() {
 
-        if (!descriptionInput || !descriptionCounter) {
+        if (
+            !descriptionField ||
+            !descriptionCounter
+        ) {
             return;
         }
 
         descriptionCounter.textContent =
-            descriptionInput.value.length;
-
+            String(descriptionField.value || '').length;
     }
 
 
-    if (descriptionInput) {
+    if (titleField) {
 
-        descriptionInput.addEventListener(
+        titleField.addEventListener(
+            'input',
+            updateTitleCounter
+        );
+    }
+
+
+    if (descriptionField) {
+
+        descriptionField.addEventListener(
             'input',
             updateDescriptionCounter
         );
-
-        updateDescriptionCounter();
-
     }
 
 
-    /* ============================================================
+    /* =========================================================
        LOCATION PREVIEW
-    ============================================================ */
-
-    const country =
-        document.getElementById('country');
-
-    const state =
-        document.getElementById('state');
-
-    const district =
-        document.getElementById('district');
-
-    const city =
-        document.getElementById('city');
-
-    const locationPreview =
-        document.getElementById('locationPreview');
-
+    ========================================================= */
 
     function updateLocationPreview() {
 
@@ -464,14 +718,45 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        const values = [
+        const values = [];
 
-            city ? city.value.trim() : '',
-            district ? district.value.trim() : '',
-            state ? state.value.trim() : '',
-            country ? country.value.trim() : ''
 
-        ].filter(Boolean);
+        const country = countryField
+            ? String(countryField.value || '').trim()
+            : '';
+
+        const state = stateField
+            ? String(stateField.value || '').trim()
+            : '';
+
+        const district = districtField
+            ? String(districtField.value || '').trim()
+            : '';
+
+        const city = cityField
+            ? String(cityField.value || '').trim()
+            : '';
+
+
+        /*
+         * Display from most specific location
+         * to country.
+         */
+        if (city) {
+            values.push(city);
+        }
+
+        if (district) {
+            values.push(district);
+        }
+
+        if (state) {
+            values.push(state);
+        }
+
+        if (country) {
+            values.push(country);
+        }
 
 
         if (values.length > 0) {
@@ -482,200 +767,274 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
 
             locationPreview.textContent =
-                'Enter the location details above.';
-
+                'Location will appear here';
         }
-
     }
 
 
-    [
-        country,
-        state,
-        district,
-        city
-    ].forEach(function (field) {
-
-        if (field) {
-
-            field.addEventListener(
-                'input',
-                updateLocationPreview
-            );
-
-        }
-
-    });
-
-
-    /* ============================================================
+    /* =========================================================
        CHECKLIST
-    ============================================================ */
+    ========================================================= */
 
     function updateChecklist() {
 
         const titleCheck =
-            document.querySelector('[data-check="title"]');
-
-        const typeCheck =
-            document.querySelector('[data-check="type"]');
-
-        const descriptionCheck =
-            document.querySelector('[data-check="description"]');
-
-        const locationCheck =
-            document.querySelector('[data-check="location"]');
-
-
-        /* Title */
-
-        if (titleCheck) {
-
-            const titleValid =
-                titleInput &&
-                titleInput.value.trim().length > 2;
-
-            titleCheck.classList.toggle(
-                'done',
-                titleValid
+            document.querySelector(
+                '[data-check="title"]'
             );
 
+        const employmentCheck =
+            document.querySelector(
+                '[data-check="employment"]'
+            );
+
+        const descriptionCheck =
+            document.querySelector(
+                '[data-check="description"]'
+            );
+
+        const locationCheck =
+            document.querySelector(
+                '[data-check="location"]'
+            );
+
+
+        /* Job title */
+        if (titleCheck && titleField) {
+
+            const valid =
+                String(titleField.value || '').trim().length > 2;
+
+            titleCheck.classList.toggle(
+                'completed',
+                valid
+            );
         }
 
 
-        /* Employment Type */
-
-        if (typeCheck) {
-
-            const employmentType =
-                document.getElementById('employment_type');
-
-            const typeValid =
-                employmentType &&
-                employmentType.value !== '';
-
-            typeCheck.classList.toggle(
-                'done',
-                typeValid
+        /* Employment type */
+        const employmentField =
+            document.getElementById(
+                'employment_type'
             );
 
+        if (
+            employmentCheck &&
+            employmentField
+        ) {
+
+            employmentCheck.classList.toggle(
+                'completed',
+                Boolean(employmentField.value)
+            );
         }
 
 
         /* Description */
+        if (
+            descriptionCheck &&
+            descriptionField
+        ) {
 
-        if (descriptionCheck) {
-
-            const descriptionValid =
-                descriptionInput &&
-                descriptionInput.value.trim().length > 20;
+            const valid =
+                String(descriptionField.value || '').trim().length > 20;
 
             descriptionCheck.classList.toggle(
-                'done',
-                descriptionValid
+                'completed',
+                valid
             );
-
         }
 
 
         /* Location */
-
         if (locationCheck) {
 
-            const locationValid =
-                state &&
-                district &&
-                city &&
-                state.value.trim() !== '' &&
-                district.value.trim() !== '' &&
-                city.value.trim() !== '';
+            const workMode =
+                workModeField
+                    ? String(workModeField.value || '').toLowerCase()
+                    : '';
 
-            locationCheck.classList.toggle(
-                'done',
-                locationValid
-            );
 
+            /*
+             * Remote:
+             * location requirement is automatically complete.
+             */
+            if (workMode === 'remote') {
+
+                locationCheck.classList.add(
+                    'completed'
+                );
+
+            } else {
+
+                const state =
+                    stateField
+                        ? String(stateField.value || '').trim()
+                        : '';
+
+                const district =
+                    districtField
+                        ? String(districtField.value || '').trim()
+                        : '';
+
+                const city =
+                    cityField
+                        ? String(cityField.value || '').trim()
+                        : '';
+
+
+                const valid =
+                    Boolean(
+                        state &&
+                        district &&
+                        city
+                    );
+
+
+                locationCheck.classList.toggle(
+                    'completed',
+                    valid
+                );
+            }
         }
-
     }
 
 
-    /* ============================================================
+    /* =========================================================
        FORM SUBMIT
-    ============================================================ */
+    ========================================================= */
 
-    form.addEventListener('submit', function (event) {
+    let submitting = false;
 
-        /*
-         * If somehow submitted before Step 3,
-         * don't submit the form.
-         */
 
-        if (currentStep !== 3) {
+    form.addEventListener(
+        'submit',
+        function (event) {
 
-            event.preventDefault();
+            /*
+             * If user submits before final step,
+             * move to next step instead.
+             */
+            if (currentStep < totalSteps) {
 
-            if (validateCurrentStep()) {
+                event.preventDefault();
 
-                showStep(currentStep + 1);
 
+                if (validateCurrentStep()) {
+
+                    showStep(
+                        currentStep + 1
+                    );
+                }
+
+                return;
             }
 
-            return;
 
+            /*
+             * Final step:
+             * validate location.
+             */
+            if (!validateCurrentStep()) {
+
+                event.preventDefault();
+                return;
+            }
+
+
+            /*
+             * Prevent double submission.
+             */
+            if (submitting) {
+
+                event.preventDefault();
+                return;
+            }
+
+
+            submitting = true;
+
+
+            const publishButton =
+                document.querySelector(
+                    '[data-publish-button]'
+                );
+
+
+            if (publishButton) {
+
+                publishButton.disabled = true;
+
+                const originalText =
+                    publishButton.innerHTML;
+
+                publishButton.dataset.originalText =
+                    originalText;
+
+                publishButton.innerHTML =
+                    '<i class="bi bi-hourglass-split"></i> Saving...';
+            }
+        }
+    );
+
+
+    /* =========================================================
+       FIND INITIAL STEP
+       If validation errors exist, open the step
+       containing the first error.
+    ========================================================= */
+
+    function getInitialStep() {
+
+        const errorField =
+            document.querySelector(
+                '.job-wizard-step .job-field-error'
+            );
+
+
+        if (errorField) {
+
+            const errorStep =
+                errorField.closest(
+                    '.job-wizard-step'
+                );
+
+
+            if (errorStep) {
+
+                const stepNumber =
+                    Number(
+                        errorStep.dataset.step
+                    );
+
+
+                if (
+                    stepNumber >= 1 &&
+                    stepNumber <= totalSteps
+                ) {
+                    return stepNumber;
+                }
+            }
         }
 
 
-        /*
-         * Validate final step.
-         */
-
-        if (!validateCurrentStep()) {
-
-            event.preventDefault();
-
-            return;
-
-        }
+        return 1;
+    }
 
 
-        /*
-         * Prevent double submission.
-         */
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
 
-        if (submitting) {
+    updateTitleCounter();
+    updateDescriptionCounter();
+    updateLocationRequirements();
+    updateLocationPreview();
+    updateChecklist();
 
-            event.preventDefault();
-
-            return;
-
-        }
-
-
-        submitting = true;
-
-
-        const publishButton =
-            form.querySelector('[data-publish-button]');
-
-
-        if (publishButton) {
-
-            publishButton.disabled = true;
-
-            publishButton.innerHTML =
-                '<i class="bi bi-arrow-repeat"></i> Publishing...';
-
-        }
-
-    });
-
-
-    /* ============================================================
-       START AT STEP 1
-    ============================================================ */
-
-    showStep(1);
+    showStep(
+        getInitialStep()
+    );
 
 });
 

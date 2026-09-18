@@ -13,10 +13,12 @@ class Project extends Model
     protected $fillable = [
         'employer_id',
         'title',
+        'category',           // new
         'description',
         'project_type',
         'budget',
         'duration',
+        'experience_level',   // was missing from fillable — was being silently dropped on save
         'skills',
         'deadline',
         'status',
@@ -24,6 +26,7 @@ class Project extends Model
         'work_mode',
         'visibility',
         'maximum_bids',
+        'people_required',    // new
         'country',
         'state',
         'district',
@@ -47,10 +50,56 @@ class Project extends Model
 
     public function applications()
     {
-        return $this->hasMany(FreelancerBid::class, 'project_id');
+        return $this->hasMany(ProjectApplication::class, 'project_id');
     }
+
     public function savedJobs()
     {
         return $this->hasMany(SavedJob::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Capacity / team helpers
+    |--------------------------------------------------------------------------
+    | "people_required" is how many accepted proposals this project needs.
+    | These helpers are the single source of truth for that logic so the
+    | controller and the views never calculate it differently in two places.
+    */
+
+    public function acceptedApplications()
+    {
+        return $this->applications()->where('status', 'accepted');
+    }
+
+    public function acceptedCount(): int
+    {
+        return $this->acceptedApplications()->count();
+    }
+
+    public function requiredPeople(): int
+    {
+        return max(1, (int) ($this->people_required ?? 1));
+    }
+
+    public function hasOpenPositions(): bool
+    {
+        return $this->acceptedCount() < $this->requiredPeople();
+    }
+
+    public function isTeamFull(): bool
+    {
+        return !$this->hasOpenPositions();
+    }
+
+    /**
+     * Can this project still receive new proposals from employees?
+     * Closed/completed projects, or projects with no visibility to
+     * employees, should not accept new proposals.
+     */
+    public function isOpenForProposals(): bool
+    {
+        return in_array($this->status, ['active', 'in_progress'], true)
+            && $this->visibility === 'employee';
     }
 }

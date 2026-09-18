@@ -11,12 +11,7 @@ use Illuminate\Support\Facades\Schema;
 
 class ArticleController extends Controller
 {
-    /**
-     * Articles hub for students — shows the SAME pool of admin-approved
-     * articles as the employee hub (including ones employees wrote and
-     * got approved). Students cannot submit articles; there is no
-     * create()/store() here.
-     */
+   
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'all');

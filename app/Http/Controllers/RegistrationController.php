@@ -153,19 +153,23 @@ class RegistrationController extends Controller
             // ===========================
             // EMPLOYEE
             // ===========================
-            'employee' => [
+         'employee' => [
 
-                'company_name'      => ['required', 'string', 'max:255'],
-                'designation'       => ['required', 'string', 'max:255'],
-                'experience_years'  => ['required', 'integer', 'min:0'],
-                'current_ctc'       => ['nullable', 'numeric', 'min:0'],
-                'expected_ctc'      => ['nullable', 'numeric', 'min:0'],
-                'skills'            => ['nullable', 'string'],
-                'resume'            => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
-                'linkedin'          => ['nullable', 'url', 'max:255'],
-                'experience_proof'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:3072'],
+    'company_name'      => ['required', 'string', 'max:255'],
+    'designation'       => ['required', 'string', 'max:255'],
+    'experience_years'  => ['required', 'integer', 'min:0'],
+    'current_ctc'       => ['nullable', 'numeric', 'min:0'],
+    'expected_ctc'      => ['nullable', 'numeric', 'min:0'],
+    'skills'            => ['nullable', 'string'],
+    'resume'            => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
+    'linkedin'          => ['nullable', 'url', 'max:255'],
 
-            ],
+    // Profile photo
+    'profile_photo'     => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
+
+    'experience_proof'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:3072'],
+
+],
 
             // ===========================
             // EMPLOYER
@@ -273,6 +277,9 @@ class RegistrationController extends Controller
                         ? $request->file('resume')->store('employees/resumes', 'public')
                         : null,
                     'linkedin' => $validated['linkedin'] ?? null,
+                    'profile_photo' => $request->hasFile('profile_photo')
+    ? $request->file('profile_photo')->store('avatars', 'public')
+    : null,
                     'experience_proof' => $request->hasFile('experience_proof')
                         ? $request->file('experience_proof')->store('employees/proofs', 'public')
                         : null,
