@@ -174,26 +174,15 @@
                 <input type="hidden" name="q" value="{{ $filters['q'] ?? '' }}">
                 <input type="hidden" name="category" value="{{ $filters['category'] ?? '' }}">
 
-                {{-- Job Type --}}
+                {{-- Job Type: Full Time / Part Time / Remote / Contract --}}
                 <div class="py-4 border-b border-slate-100">
                     <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Job Type</h4>
                     <select name="employment_type" class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
                         <option value="" {{ ($filters['employment_type'] ?? '') === '' ? 'selected' : '' }}>All Job Types</option>
                         <option value="full-time" {{ ($filters['employment_type'] ?? '') === 'full-time' ? 'selected' : '' }}>Full Time</option>
                         <option value="part-time" {{ ($filters['employment_type'] ?? '') === 'part-time' ? 'selected' : '' }}>Part Time</option>
+                        <option value="remote" {{ ($filters['employment_type'] ?? '') === 'remote' ? 'selected' : '' }}>Remote</option>
                         <option value="contract" {{ ($filters['employment_type'] ?? '') === 'contract' ? 'selected' : '' }}>Contract</option>
-                        <option value="freelance" {{ ($filters['employment_type'] ?? '') === 'freelance' ? 'selected' : '' }}>Freelance</option>
-                    </select>
-                </div>
-
-                {{-- Work Mode --}}
-                <div class="py-4 border-b border-slate-100">
-                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Work Mode</h4>
-                    <select name="work_mode" class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
-                        <option value="" {{ ($filters['work_mode'] ?? '') === '' ? 'selected' : '' }}>All Modes</option>
-                        <option value="onsite" {{ ($filters['work_mode'] ?? '') === 'onsite' ? 'selected' : '' }}>Onsite</option>
-                        <option value="hybrid" {{ ($filters['work_mode'] ?? '') === 'hybrid' ? 'selected' : '' }}>Hybrid</option>
-                        <option value="remote" {{ ($filters['work_mode'] ?? '') === 'remote' ? 'selected' : '' }}>Remote</option>
                     </select>
                 </div>
 
@@ -629,7 +618,7 @@
             <div class="rounded-xl border border-slate-200 p-5">
                 <h3 class="font-semibold text-sm text-slate-800 mb-1.5">Work From Anywhere</h3>
                 <p class="text-xs text-slate-500 leading-relaxed mb-4">Explore remote jobs from top companies hiring globally.</p>
-                <a href="{{ route('employee.jobs.index', ['work_mode' => 'remote']) }}"
+                <a href="{{ route('employee.jobs.index', ['employment_type' => 'remote']) }}"
                    class="inline-flex items-center gap-1.5 text-blue-600 text-sm font-semibold hover:underline">
                     Explore Remote Jobs
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>

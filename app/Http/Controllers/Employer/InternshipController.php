@@ -9,21 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class InternshipController extends Controller
 {
-    public function index(Request $request)
-    {
-        $internships = Internship::where('employer_id', Auth::id())
-            ->when($request->search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%");
-            })
-            ->when($request->status, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+   public function index(Request $request)
+{
+    $internships = Internship::where('employer_id', Auth::id())
+        ->with('employer.employerRegistration')   // <-- add this line
+        ->when($request->search, function ($query, $search) {
+            $query->where('title', 'like', "%{$search}%");
+        })
+        ->when($request->status, function ($query, $status) {
+            $query->where('status', $status);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
 
-        return view('employers.internships.index', compact('internships'));
-    }
+    return view('employers.internships.index', compact('internships'));
+}
 
     public function create()
     {

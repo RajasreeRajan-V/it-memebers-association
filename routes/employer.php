@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,9 @@ use App\Http\Controllers\Admin\JobApprovalController;
 |--------------------------------------------------------------------------
 | Employer Dashboard
 |--------------------------------------------------------------------------
+|
+| Dashboard route
+|
 */
 
 Route::middleware(['member.auth'])->group(function () {
@@ -34,61 +38,90 @@ Route::middleware(['member.auth'])->group(function () {
 |--------------------------------------------------------------------------
 | Employer Routes
 |--------------------------------------------------------------------------
+|
+| All employer routes use:
+|
+| Middleware: member.auth
+| URL prefix: /employer
+| Route name prefix: employer.
+|
 */
-
 Route::middleware(['member.auth'])
-    ->prefix('employer')
     ->name('employer.')
     ->group(function () {
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Job Routes
-        |--------------------------------------------------------------------------
-        */
+    /*
+|--------------------------------------------------------------------------
+| Job Routes
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/jobs', [
-            JobController::class,
-            'index'
-        ])->name('jobs.index');
+Route::get('/jobs', [
+    JobController::class,
+    'index'
+])->name('jobs.index');
 
-        Route::get('/jobs/create', [
-            JobController::class,
-            'create'
-        ])->name('jobs.create');
+Route::get('/jobs/create', [
+    JobController::class,
+    'create'
+])->name('jobs.create');
 
-        Route::post('/jobs', [
-            JobController::class,
-            'store'
-        ])->name('jobs.store');
+Route::post('/jobs', [
+    JobController::class,
+    'store'
+])->name('jobs.store');
 
-        Route::get('/jobs/{job}', [
-            JobController::class,
-            'show'
-        ])->name('jobs.show');
+/*
+|--------------------------------------------------------------------------
+| Duplicate Job
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/jobs/{job}/edit', [
-            JobController::class,
-            'edit'
-        ])->name('jobs.edit');
+Route::post('/jobs/{job}/duplicate', [
+    JobController::class,
+    'duplicate'
+])->name('jobs.duplicate');
 
-        Route::put('/jobs/{job}', [
-            JobController::class,
-            'update'
-        ])->name('jobs.update');
+Route::get('/jobs/{job}', [
+    JobController::class,
+    'show'
+])->name('jobs.show');
 
-        Route::delete('/jobs/{job}', [
-            JobController::class,
-            'destroy'
-        ])->name('jobs.destroy');
+Route::get('/jobs/{job}/edit', [
+    JobController::class,
+    'edit'
+])->name('jobs.edit');
 
-        Route::patch(
-            '/jobs/{job}/toggle-active',
-            [JobController::class, 'toggleActive']
-        )->name('jobs.toggle-active');
+Route::put('/jobs/{job}', [
+    JobController::class,
+    'update'
+])->name('jobs.update');
 
+Route::delete('/jobs/{job}', [
+    JobController::class,
+    'destroy'
+])->name('jobs.destroy');
 
+Route::patch('/jobs/{job}/toggle-active', [
+    JobController::class,
+    'toggleActive'
+])->name('jobs.toggle-active');
+
+Route::patch('/jobs/{job}/toggle-active', [
+    JobController::class,
+    'toggleActive'
+])->name('jobs.toggle-active');
+
+Route::patch('/jobs/{job}/close', [
+    JobController::class,
+    'close'
+])->name('jobs.close');
+
+Route::patch('/jobs/{job}/reopen', [
+    JobController::class,
+    'reopen'
+])->name('jobs.reopen');
         /*
         |--------------------------------------------------------------------------
         | Internship Routes
@@ -182,6 +215,12 @@ Route::middleware(['member.auth'])
             [ProjectController::class, 'toggleStatus']
         )->name('projects.toggle-status');
 
+        Route::patch('/projects/{project}/close', [ProjectController::class, 'close'])
+    ->name('projects.close');
+
+Route::patch('/projects/{project}/complete', [ProjectController::class, 'complete'])
+    ->name('projects.complete');
+
 
         /*
         |--------------------------------------------------------------------------
@@ -225,41 +264,46 @@ Route::middleware(['member.auth'])
         ])->name('startup-profile.destroy');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Applicant Routes
-        |--------------------------------------------------------------------------
-        */
+/*
+|--------------------------------------------------------------------------
+| Applicant Routes
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/applicants', [
-            ApplicantController::class,
-            'index'
-        ])->name('applicants.index');
+Route::get('/applicants', [
+    ApplicantController::class,
+    'index'
+])->name('applicants.index');
 
-        // Candidate / applicant profile page (used by "View Profile"
-        // on the Recommended Candidates cards on the dashboard).
-        // {applicant} here is the candidate's User id.
-        Route::get('/applicants/{applicant}', [
-            ApplicantController::class,
-            'show'
-        ])->name('applicants.show');
+Route::get('/applicants/{applicant}/details', [
+    ApplicantController::class,
+    'details'
+])->name('applicants.details');
 
-        Route::post(
-            '/applicants/{application}/status',
-            [ApplicantController::class, 'updateStatus']
-        )->name('applicants.updateStatus');
+Route::get('/applicants/{applicant}/photo', [
+    ApplicantController::class,
+    'photo'
+])->name('applicants.photo');
 
-        Route::post(
-            '/applicants/{application}/interview',
-            [ApplicantController::class, 'scheduleInterview']
-        )->name('applicants.scheduleInterview');
+Route::get('/applicants/{applicant}', [
+    ApplicantController::class,
+    'show'
+])->name('applicants.show');
 
-        Route::post(
-            '/applicants/{application}/interview/cancel',
-            [ApplicantController::class, 'cancelInterview']
-        )->name('applicants.cancelInterview');
+Route::post('/applicants/{application}/status', [
+    ApplicantController::class,
+    'updateStatus'
+])->name('applicants.updateStatus');
 
+Route::post('/applicants/{application}/interview', [
+    ApplicantController::class,
+    'scheduleInterview'
+])->name('applicants.scheduleInterview');
 
+Route::post('/applicants/{application}/interview/cancel', [
+    ApplicantController::class,
+    'cancelInterview'
+])->name('applicants.cancelInterview');
         /*
         |--------------------------------------------------------------------------
         | Project Proposal
@@ -321,6 +365,54 @@ Route::middleware(['member.auth'])
             ]
         )->name('candidates.invite');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Employer Notification Routes
+        |--------------------------------------------------------------------------
+        |
+        | IMPORTANT:
+        | These routes are INSIDE the existing employer group.
+        |
+        | Therefore:
+        |
+        | /notifications
+        | becomes
+        | /employer/notifications
+        |
+        | and:
+        |
+        | notifications.index
+        | becomes
+        | employer.notifications.index
+        |
+        */
+
+        Route::get('/notifications', [
+            EmployerPortalNotificationController::class,
+            'index'
+        ])->name('notifications.index');
+
+        Route::patch('/notifications/{id}/read', [
+            EmployerPortalNotificationController::class,
+            'markAsRead'
+        ])->name('notifications.read');
+
+        Route::patch('/notifications/{id}/unread', [
+            EmployerPortalNotificationController::class,
+            'markAsUnread'
+        ])->name('notifications.unread');
+
+        Route::patch('/notifications/read-all', [
+            EmployerPortalNotificationController::class,
+            'markAllAsRead'
+        ])->name('notifications.readAll');
+
+        Route::delete('/notifications/{id}', [
+            EmployerPortalNotificationController::class,
+            'destroy'
+        ])->name('notifications.destroy');
+
     });
 
 
@@ -338,40 +430,6 @@ Route::get(
     ]
 )->name('job.invitations.open');
 
-
-
-
-
-Route::prefix('employer/notifications')
-    ->name('employer.notifications.')
-    ->middleware('auth')
-    ->group(function () {
-
-        Route::get(
-            '/',
-            [EmployerPortalNotificationController::class, 'index']
-        )->name('index');
-
-        Route::post(
-            '/{id}/read',
-            [EmployerPortalNotificationController::class, 'markAsRead']
-        )->name('read');
-
-        Route::post(
-            '/{id}/unread',
-            [EmployerPortalNotificationController::class, 'markAsUnread']
-        )->name('unread');
-
-        Route::post(
-            '/mark-all-read',
-            [EmployerPortalNotificationController::class, 'markAllAsRead']
-        )->name('mark-all-read');
-
-        Route::delete(
-            '/{id}',
-            [EmployerPortalNotificationController::class, 'destroy']
-        )->name('destroy');
-    });
 
 /*
 |--------------------------------------------------------------------------

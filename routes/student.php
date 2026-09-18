@@ -9,7 +9,8 @@ use App\Http\Controllers\Student\ResumeReviewController;
 use App\Http\Controllers\Student\WebinarController;
 use App\Http\Controllers\Student\RequestController;
 use App\Http\Controllers\Student\SessionController;
-use App\Http\Controllers\Student\SessionSchedulingController;
+
+use App\Http\Controllers\Mentor\SessionSchedulingController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\SupportController;

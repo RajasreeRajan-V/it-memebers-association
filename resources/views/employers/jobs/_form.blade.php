@@ -1,264 +1,602 @@
 @php
-    $job = $job ?? null;
+    $project = $project ?? null;
 
-    $jobSkills = old('skills', $job->skills ?? '');
+    $deadlineValue = '';
 
-    if (is_array($jobSkills)) {
-        $jobSkills = implode(', ', $jobSkills);
+    if (!empty($project?->deadline)) {
+        try {
+            $deadlineValue = \Carbon\Carbon::parse($project->deadline)->format('Y-m-d');
+        } catch (\Throwable $e) {
+            $deadlineValue = $project->deadline;
+        }
     }
 
-    $jobSkills = is_string($jobSkills) ? $jobSkills : '';
+    $skillsValue = '';
+
+    if (!empty($project?->skills)) {
+        if (is_array($project->skills)) {
+            $skillsValue = implode(', ', $project->skills);
+        } else {
+            $skillsValue = $project->skills;
+        }
+    }
 @endphp
 
-{{-- ============================================================
-    STEP 1 — BASIC INFORMATION
-============================================================ --}}
-<div class="job-wizard-step" data-step="1">
 
-    <div class="job-form-card">
+{{-- =========================================================
+     01 BASIC INFORMATION
+========================================================= --}}
 
-        <div class="job-form-card-head">
-            <div class="job-form-card-icon">
-                <i class="bi bi-briefcase"></i>
-            </div>
+<div class="project-section">
 
-            <div>
-                <h2>Basic Information</h2>
-                <p>Start with the basic details of your job opening.</p>
-            </div>
+    <div class="project-section-heading">
+
+        <div class="project-section-number">
+            01
         </div>
 
-        <div class="job-form-tip">
-            <i class="bi bi-lightbulb"></i>
-            <div>
-                <strong>Tip</strong>
-                <span>
-                    Use a clear and specific job title so candidates can easily understand the role.
-                </span>
-            </div>
+        <div>
+
+            <h2>Basic Information</h2>
+
+            <p>
+                Tell professionals what this project is about.
+            </p>
+
         </div>
 
-        <div class="job-form-row">
+    </div>
 
-            {{-- Job Title --}}
-            <div class="job-form-field job-field-full">
-                <label for="title">
-                    Job Title
-                    <span class="job-required">*</span>
-                </label>
+
+    {{-- PROJECT TITLE --}}
+
+    <div class="project-form-group">
+
+        <label
+            for="title"
+            class="project-label"
+        >
+
+            <i class="fas fa-heading"></i>
+
+            Project Title
+
+            <span class="project-required">*</span>
+
+        </label>
+
+
+        <div class="project-input-wrap">
+
+            <i class="fas fa-heading project-input-icon"></i>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                class="project-input has-icon @error('title') is-invalid @enderror"
+                value="{{ old('title', $project->title ?? '') }}"
+                placeholder="e.g. Build a Laravel Job Portal"
+                required
+            >
+
+        </div>
+
+
+        @error('title')
+
+            <div class="project-invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @else
+
+            <div class="project-help-text">
+
+                <i class="fas fa-circle-info"></i>
+
+                Use a clear and specific project title.
+
+            </div>
+
+        @enderror
+
+    </div>
+
+
+    {{-- CATEGORY + PEOPLE REQUIRED --}}
+
+    <div class="project-form-row">
+
+        {{-- CATEGORY --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="category"
+                class="project-label"
+            >
+
+                <i class="fas fa-layer-group"></i>
+
+                Category
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-layer-group project-input-icon"></i>
 
                 <input
                     type="text"
-                    name="title"
-                    id="title"
-                    maxlength="120"
+                    id="category"
+                    name="category"
+                    class="project-input has-icon @error('category') is-invalid @enderror"
+                    value="{{ old('category', $project->category ?? '') }}"
+                    placeholder="e.g. Web Development"
+                >
+
+            </div>
+
+
+            @error('category')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @else
+
+                <div class="project-help-text">
+
+                    <i class="fas fa-circle-info"></i>
+
+                    Helps employees find your project through category filters.
+
+                </div>
+
+            @enderror
+
+        </div>
+
+
+        {{-- PEOPLE REQUIRED --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="people_required"
+                class="project-label"
+            >
+
+                <i class="fas fa-users"></i>
+
+                People Required
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-users project-input-icon"></i>
+
+                <input
+                    type="number"
+                    id="people_required"
+                    name="people_required"
+                    min="1"
+                    step="1"
+                    class="project-input has-icon @error('people_required') is-invalid @enderror"
+                    value="{{ old('people_required', $project->people_required ?? 1) }}"
+                    placeholder="e.g. 2"
                     required
-                    value="{{ old('title', $job->title ?? '') }}"
-                    placeholder="e.g. Senior Backend Developer"
                 >
 
-                <div class="job-field-bottom">
-                    <small>Choose a title that clearly describes the position.</small>
-                    <span class="job-counter">
-                        <span id="titleCounter">0</span>/120
-                    </span>
+            </div>
+
+
+            @error('people_required')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
                 </div>
 
-                @error('title')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
-            </div>
+            @else
 
+                <div class="project-help-text">
 
-            {{-- Employment Type --}}
-            <div class="job-form-field">
+                    <i class="fas fa-circle-info"></i>
 
-                <label for="employment_type">
-                    Employment Type
-                    <span class="job-required">*</span>
-                </label>
+                    How many proposals you plan to accept for this project.
 
-                <div class="job-select-wrap">
-                    <select name="employment_type" id="employment_type" required>
-                        <option value="">Select employment type</option>
-
-                        <option value="full-time"
-                            {{ old('employment_type', $job->employment_type ?? '') === 'full-time' ? 'selected' : '' }}>
-                            Full Time
-                        </option>
-
-                        <option value="part-time"
-                            {{ old('employment_type', $job->employment_type ?? '') === 'part-time' ? 'selected' : '' }}>
-                            Part Time
-                        </option>
-
-                        <option value="contract"
-                            {{ old('employment_type', $job->employment_type ?? '') === 'contract' ? 'selected' : '' }}>
-                            Contract
-                        </option>
-
-                        <option value="freelance"
-                            {{ old('employment_type', $job->employment_type ?? '') === 'freelance' ? 'selected' : '' }}>
-                            Freelance
-                        </option>
-                    </select>
-
-                    <i class="bi bi-chevron-down"></i>
                 </div>
 
-                @error('employment_type')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
+            @enderror
+
+        </div>
+
+    </div>
+
+
+
+    {{-- PROJECT TYPE + WORK MODE --}}
+
+    <div class="project-form-row">
+
+
+        {{-- PROJECT TYPE --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="project_type"
+                class="project-label"
+            >
+
+                <i class="fas fa-tag"></i>
+
+                Project Type
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-tag project-input-icon"></i>
+
+                <select
+                    id="project_type"
+                    name="project_type"
+                    class="project-select has-icon @error('project_type') is-invalid @enderror"
+                    required
+                >
+
+                    <option value="">
+                        Select type
+                    </option>
+
+                    <option
+                        value="fixed"
+                        @selected(old('project_type', $project->project_type ?? '') === 'fixed')
+                    >
+                        Fixed Price
+                    </option>
+
+                    <option
+                        value="hourly"
+                        @selected(old('project_type', $project->project_type ?? '') === 'hourly')
+                    >
+                        Hourly Rate
+                    </option>
+
+                </select>
 
             </div>
 
 
-            {{-- Work Mode --}}
-            <div class="job-form-field">
+            @error('project_type')
 
-                <label for="work_mode">
-                    Work Mode
-                    <span class="job-required">*</span>
-                </label>
-
-                <div class="job-select-wrap">
-                    <select name="work_mode" id="work_mode" required>
-                        <option value="">Select work mode</option>
-
-                        <option value="onsite"
-                            {{ old('work_mode', $job->work_mode ?? '') === 'onsite' ? 'selected' : '' }}>
-                            On-site
-                        </option>
-
-                        <option value="hybrid"
-                            {{ old('work_mode', $job->work_mode ?? '') === 'hybrid' ? 'selected' : '' }}>
-                            Hybrid
-                        </option>
-
-                        <option value="remote"
-                            {{ old('work_mode', $job->work_mode ?? '') === 'remote' ? 'selected' : '' }}>
-                            Remote
-                        </option>
-                    </select>
-
-                    <i class="bi bi-chevron-down"></i>
+                <div class="project-invalid-feedback">
+                    {{ $message }}
                 </div>
 
-                @error('work_mode')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
+            @enderror
 
-            </div>
+        </div>
 
 
-            {{-- Experience --}}
-            <div class="job-form-field">
 
-                <label for="experience">
-                    Experience
-                </label>
+        {{-- WORK MODE --}}
 
-                <input
-                    type="text"
-                    name="experience"
-                    id="experience"
-                    maxlength="80"
-                    value="{{ old('experience', $job->experience ?? '') }}"
-                    placeholder="e.g. 2–4 years"
+        <div class="project-form-group">
+
+            <label
+                for="work_mode"
+                class="project-label"
+            >
+
+                <i class="fas fa-building"></i>
+
+                Work Mode
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-building project-input-icon"></i>
+
+                <select
+                    id="work_mode"
+                    name="work_mode"
+                    class="project-select has-icon @error('work_mode') is-invalid @enderror"
+                    required
                 >
 
-                <small class="job-field-help">
-                    Mention the preferred experience level.
-                </small>
+                    <option value="">
+                        Select mode
+                    </option>
 
-                @error('experience')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
+                    <option
+                        value="remote"
+                        @selected(old('work_mode', $project->work_mode ?? '') === 'remote')
+                    >
+                        Remote
+                    </option>
+
+                    <option
+                        value="onsite"
+                        @selected(old('work_mode', $project->work_mode ?? '') === 'onsite')
+                    >
+                        On-site
+                    </option>
+
+                    <option
+                        value="hybrid"
+                        @selected(old('work_mode', $project->work_mode ?? '') === 'hybrid')
+                    >
+                        Hybrid
+                    </option>
+
+                </select>
 
             </div>
 
 
-            {{-- Salary --}}
-            <div class="job-form-field">
+            @error('work_mode')
 
-                <label for="salary">
-                    Salary
-                </label>
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @enderror
+
+        </div>
+
+    </div>
+
+
+
+    {{-- DURATION + BUDGET --}}
+
+    <div class="project-form-row">
+
+
+        {{-- DURATION --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="duration"
+                class="project-label"
+            >
+
+                <i class="fas fa-clock"></i>
+
+                Duration
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-clock project-input-icon"></i>
 
                 <input
                     type="text"
-                    name="salary"
-                    id="salary"
-                    maxlength="80"
-                    value="{{ old('salary', $job->salary ?? '') }}"
-                    placeholder="e.g. ₹4 LPA – ₹8 LPA"
+                    id="duration"
+                    name="duration"
+                    class="project-input has-icon @error('duration') is-invalid @enderror"
+                    value="{{ old('duration', $project->duration ?? '') }}"
+                    placeholder="e.g. 2-4 weeks"
+                    required
                 >
 
-                <small class="job-field-help">
-                    Add a salary range or compensation details.
-                </small>
-
-                @error('salary')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
-
             </div>
 
 
-            {{-- Qualification --}}
-            <div class="job-form-field job-field-full">
+            @error('duration')
 
-                <label for="qualification">
-                    Qualification
-                </label>
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @enderror
+
+        </div>
+
+
+
+        {{-- BUDGET --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="budget"
+                class="project-label"
+            >
+
+                <i class="fas fa-money-bill-wave"></i>
+
+                Budget
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-money-bill-wave project-input-icon"></i>
 
                 <input
                     type="text"
-                    name="qualification"
-                    id="qualification"
-                    maxlength="150"
-                    value="{{ old('qualification', $job->qualification ?? '') }}"
-                    placeholder="e.g. BCA, B.Tech, MCA or equivalent"
+                    id="budget"
+                    name="budget"
+                    class="project-input has-icon @error('budget') is-invalid @enderror"
+                    value="{{ old('budget', $project->budget ?? '') }}"
+                    placeholder="e.g. ₹25,000 - ₹50,000"
+                    required
                 >
 
-                <small class="job-field-help">
-                    Mention the required educational qualification.
-                </small>
+            </div>
 
-                @error('qualification')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
+
+            @error('budget')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @else
+
+                <div class="project-help-text">
+
+                    <i class="fas fa-circle-info"></i>
+
+                    Enter the expected project budget.
+
+                </div>
+
+            @enderror
+
+        </div>
+
+    </div>
+
+
+
+    {{-- EXPERIENCE + SKILLS --}}
+
+    <div class="project-form-row">
+
+
+        {{-- EXPERIENCE --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="experience_level"
+                class="project-label"
+            >
+
+                <i class="fas fa-chart-line"></i>
+
+                Experience Level
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-chart-line project-input-icon"></i>
+
+                <select
+                    id="experience_level"
+                    name="experience_level"
+                    class="project-select has-icon @error('experience_level') is-invalid @enderror"
+                >
+
+                    <option value="">
+                        Select level
+                    </option>
+
+                    <option
+                        value="entry"
+                        @selected(old('experience_level', $project->experience_level ?? '') === 'entry')
+                    >
+                        Entry Level
+                    </option>
+
+                    <option
+                        value="intermediate"
+                        @selected(old('experience_level', $project->experience_level ?? '') === 'intermediate')
+                    >
+                        Intermediate
+                    </option>
+
+                    <option
+                        value="expert"
+                        @selected(old('experience_level', $project->experience_level ?? '') === 'expert')
+                    >
+                        Expert
+                    </option>
+
+                </select>
 
             </div>
 
 
-            {{-- Skills --}}
-            <div class="job-form-field job-field-full">
+            @error('experience_level')
 
-                <label for="skills">
-                    Skills
-                </label>
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @enderror
+
+        </div>
+
+
+
+        {{-- SKILLS --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="skills"
+                class="project-label"
+            >
+
+                <i class="fas fa-code"></i>
+
+                Required Skills
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-code project-input-icon"></i>
 
                 <input
                     type="text"
-                    name="skills"
                     id="skills"
-                    maxlength="300"
-                    value="{{ $jobSkills }}"
-                    placeholder="e.g. Laravel, PHP, MySQL, REST API, Git"
+                    name="skills"
+                    class="project-input has-icon @error('skills') is-invalid @enderror"
+                    value="{{ old('skills', $skillsValue) }}"
+                    placeholder="e.g. Laravel, MySQL, React"
                 >
 
-                <div class="job-field-bottom">
-                    <small>
-                        Separate multiple skills using commas.
-                    </small>
+            </div>
+
+
+            @error('skills')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
                 </div>
 
-                @error('skills')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
+            @else
 
-            </div>
+                <div class="project-help-text">
+
+                    <i class="fas fa-circle-info"></i>
+
+                    Separate multiple skills with commas.
+
+                </div>
+
+            @enderror
 
         </div>
 
@@ -267,220 +605,519 @@
 </div>
 
 
-{{-- ============================================================
-    STEP 2 — JOB DESCRIPTION
-============================================================ --}}
-<div class="job-wizard-step" data-step="2">
 
-    <div class="job-form-card">
+<div class="project-section-divider"></div>
 
-        <div class="job-form-card-head">
-            <div class="job-form-card-icon job-icon-purple">
-                <i class="bi bi-file-earmark-text"></i>
-            </div>
 
-            <div>
-                <h2>Job Description</h2>
-                <p>Tell candidates what the role is about.</p>
-            </div>
+
+{{-- =========================================================
+     02 PROJECT DETAILS
+========================================================= --}}
+
+<div class="project-section">
+
+    <div class="project-section-heading">
+
+        <div class="project-section-number">
+            02
         </div>
 
-        <div class="job-form-tip">
-            <i class="bi bi-lightbulb"></i>
-            <div>
-                <strong>Tip</strong>
-                <span>
-                    Include responsibilities, expectations and what makes this opportunity valuable.
-                </span>
-            </div>
-        </div>
+        <div>
 
-        <div class="job-form-row">
+            <h2>Project Details</h2>
 
-            <div class="job-form-field job-field-full">
-
-                <label for="description">
-                    Job Description
-                    <span class="job-required">*</span>
-                </label>
-
-                <textarea
-                    name="description"
-                    id="description"
-                    rows="12"
-                    maxlength="5000"
-                    required
-                    placeholder="Describe the role, responsibilities, expectations, team and other important details..."
-                >{{ old('description', $job->description ?? '') }}</textarea>
-
-                <div class="job-field-bottom">
-                    <small>
-                        Write a clear description that helps candidates understand the position.
-                    </small>
-
-                    <span class="job-counter">
-                        <span id="descriptionCounter">0</span>/5000
-                    </span>
-                </div>
-
-                @error('description')
-                    <p class="job-field-error">{{ $message }}</p>
-                @enderror
-
-            </div>
+            <p>
+                Add requirements and publishing preferences.
+            </p>
 
         </div>
 
     </div>
 
-</div>
 
 
-{{-- ============================================================
-    STEP 3 — JOB LOCATION
-============================================================ --}}
-<div class="job-wizard-step" data-step="3">
+    {{-- DEADLINE + VISIBILITY --}}
 
-    <div class="job-form-card">
+    <div class="project-form-row">
 
-        <div class="job-form-card-head">
-            <div class="job-form-card-icon job-icon-green">
-                <i class="bi bi-geo-alt"></i>
-            </div>
 
-            <div>
-                <h2>Job Location</h2>
-                <p>Tell candidates where this opportunity is based.</p>
-            </div>
-        </div>
+        {{-- DEADLINE --}}
 
-        <div class="job-form-tip">
-            <i class="bi bi-info-circle"></i>
-            <div>
-                <strong>Location Details</strong>
-                <span>
-                    Provide an accurate location so candidates can understand where they will work.
-                </span>
-            </div>
-        </div>
+        <div class="project-form-group">
 
-        <div class="job-form-row">
+            <label
+                for="deadline"
+                class="project-label"
+            >
 
-            {{-- Country --}}
-            <div class="job-form-field">
+                <i class="fas fa-calendar-days"></i>
 
-                <label for="country">
-                    Country
-                </label>
+                Submission Deadline
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-calendar-days project-input-icon"></i>
 
                 <input
-                    type="text"
-                    name="country"
-                    id="country"
-                    maxlength="100"
-                    value="{{ old('country', $job->country ?? '') }}"
-                    placeholder="e.g. India"
+                    type="date"
+                    id="deadline"
+                    name="deadline"
+                    class="project-input has-icon @error('deadline') is-invalid @enderror"
+                    value="{{ old('deadline', $deadlineValue) }}"
                 >
+
+            </div>
+
+
+            @error('deadline')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @enderror
+
+        </div>
+
+
+
+        {{-- VISIBILITY --}}
+
+        <div class="project-form-group">
+
+            <label
+                for="visibility"
+                class="project-label"
+            >
+
+                <i class="fas fa-eye"></i>
+
+                Visibility
+
+                <span class="project-required">*</span>
+
+            </label>
+
+
+            <div class="project-input-wrap">
+
+                <i class="fas fa-eye project-input-icon"></i>
+
+              <select
+    id="visibility"
+    name="visibility"
+    class="project-select has-icon @error('visibility') is-invalid @enderror"
+    required
+>
+    <option value="">
+        Select visibility
+    </option>
+
+    <option
+        value="freelancer"
+        @selected(old('visibility', $project->visibility ?? '') === 'freelancer')
+    >
+        Freelancers Only
+    </option>
+
+    <option
+        value="employee"
+        @selected(old('visibility', $project->visibility ?? '') === 'employee')
+    >
+        Employees Only
+    </option>
+</select>
+
+            </div>
+
+
+            @error('visibility')
+
+                <div class="project-invalid-feedback">
+                    {{ $message }}
+                </div>
+
+            @enderror
+
+        </div>
+
+    </div>
+
+
+
+    {{-- MAXIMUM BIDS --}}
+
+    <div class="project-form-group">
+
+        <label
+            for="maximum_bids"
+            class="project-label"
+        >
+
+            <i class="fas fa-gavel"></i>
+
+            Maximum Bids
+
+            <span class="project-required">*</span>
+
+        </label>
+
+
+        <div class="project-input-wrap">
+
+            <i class="fas fa-gavel project-input-icon"></i>
+
+            <input
+                type="number"
+                id="maximum_bids"
+                name="maximum_bids"
+                min="1"
+                step="1"
+                class="project-input has-icon @error('maximum_bids') is-invalid @enderror"
+                value="{{ old('maximum_bids', $project->maximum_bids ?? '') }}"
+                placeholder="e.g. 20"
+                required
+            >
+
+        </div>
+
+
+        @error('maximum_bids')
+
+            <div class="project-invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @else
+
+            <div class="project-help-text">
+
+                <i class="fas fa-circle-info"></i>
+
+                Set the maximum number of proposals you want to receive.
+
+            </div>
+
+        @enderror
+
+    </div>
+
+</div>
+
+
+
+<div class="project-section-divider"></div>
+
+
+
+{{-- =========================================================
+     03 LOCATION
+========================================================= --}}
+
+<div class="project-section">
+
+    <div class="project-section-heading">
+
+        <div class="project-section-number">
+            03
+        </div>
+
+        <div>
+
+            <h2>Location</h2>
+
+            <p>
+                Add location details for onsite or hybrid projects.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div id="locationFields">
+
+        <div class="location-title">
+
+            <div class="location-title-icon">
+
+                <i class="fas fa-location-dot"></i>
+
+            </div>
+
+            <div>
+
+                <h3>Project Location</h3>
+
+                <p>
+                    Location is only required when applicable.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="project-form-row">
+
+
+            {{-- COUNTRY --}}
+
+            <div class="project-form-group">
+
+                <label
+                    for="country"
+                    class="project-label"
+                >
+
+                    <i class="fas fa-globe"></i>
+
+                    Country
+
+                </label>
+
+
+                <div class="project-input-wrap">
+
+                    <i class="fas fa-globe project-input-icon"></i>
+
+                    <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        class="project-input has-icon @error('country') is-invalid @enderror"
+                        value="{{ old('country', $project->country ?? '') }}"
+                        placeholder="e.g. India"
+                    >
+
+                </div>
+
 
                 @error('country')
-                    <p class="job-field-error">{{ $message }}</p>
+
+                    <div class="project-invalid-feedback">
+                        {{ $message }}
+                    </div>
+
                 @enderror
 
             </div>
 
 
-            {{-- State --}}
-            <div class="job-form-field">
 
-                <label for="state">
+            {{-- STATE --}}
+
+            <div class="project-form-group">
+
+                <label
+                    for="state"
+                    class="project-label"
+                >
+
+                    <i class="fas fa-map"></i>
+
                     State
-                    <span class="job-required">*</span>
+
                 </label>
 
-                <input
-                    type="text"
-                    name="state"
-                    id="state"
-                    maxlength="100"
-                    required
-                    value="{{ old('state', $job->state ?? '') }}"
-                    placeholder="e.g. Kerala"
-                >
+
+                <div class="project-input-wrap">
+
+                    <i class="fas fa-map project-input-icon"></i>
+
+                    <input
+                        type="text"
+                        id="state"
+                        name="state"
+                        class="project-input has-icon @error('state') is-invalid @enderror"
+                        value="{{ old('state', $project->state ?? '') }}"
+                        placeholder="e.g. Kerala"
+                    >
+
+                </div>
+
 
                 @error('state')
-                    <p class="job-field-error">{{ $message }}</p>
+
+                    <div class="project-invalid-feedback">
+                        {{ $message }}
+                    </div>
+
                 @enderror
 
             </div>
 
 
-            {{-- District --}}
-            <div class="job-form-field">
 
-                <label for="district">
+            {{-- DISTRICT --}}
+
+            <div class="project-form-group">
+
+                <label
+                    for="district"
+                    class="project-label"
+                >
+
+                    <i class="fas fa-map-location-dot"></i>
+
                     District
-                    <span class="job-required">*</span>
+
                 </label>
 
-                <input
-                    type="text"
-                    name="district"
-                    id="district"
-                    maxlength="100"
-                    required
-                    value="{{ old('district', $job->district ?? '') }}"
-                    placeholder="e.g. Kasaragod"
-                >
+
+                <div class="project-input-wrap">
+
+                    <i class="fas fa-map-location-dot project-input-icon"></i>
+
+                    <input
+                        type="text"
+                        id="district"
+                        name="district"
+                        class="project-input has-icon @error('district') is-invalid @enderror"
+                        value="{{ old('district', $project->district ?? '') }}"
+                        placeholder="e.g. Kasaragod"
+                    >
+
+                </div>
+
 
                 @error('district')
-                    <p class="job-field-error">{{ $message }}</p>
+
+                    <div class="project-invalid-feedback">
+                        {{ $message }}
+                    </div>
+
                 @enderror
 
             </div>
 
 
-            {{-- City --}}
-            <div class="job-form-field">
 
-                <label for="city">
-                    City
-                    <span class="job-required">*</span>
-                </label>
+            {{-- CITY --}}
 
-                <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    maxlength="100"
-                    required
-                    value="{{ old('city', $job->city ?? '') }}"
-                    placeholder="e.g. Kanhangad"
+            <div class="project-form-group">
+
+                <label
+                    for="city"
+                    class="project-label"
                 >
 
+                    <i class="fas fa-city"></i>
+
+                    City
+
+                </label>
+
+
+                <div class="project-input-wrap">
+
+                    <i class="fas fa-city project-input-icon"></i>
+
+                    <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        class="project-input has-icon @error('city') is-invalid @enderror"
+                        value="{{ old('city', $project->city ?? '') }}"
+                        placeholder="e.g. Kanhangad"
+                    >
+
+                </div>
+
+
                 @error('city')
-                    <p class="job-field-error">{{ $message }}</p>
+
+                    <div class="project-invalid-feedback">
+                        {{ $message }}
+                    </div>
+
                 @enderror
-
-            </div>
-
-
-            {{-- Location summary --}}
-            <div class="job-location-preview job-field-full">
-
-                <div class="job-location-preview-icon">
-                    <i class="bi bi-pin-map"></i>
-                </div>
-
-                <div>
-                    <strong>Job location</strong>
-                    <span id="locationPreview">
-                        Enter the location details above.
-                    </span>
-                </div>
 
             </div>
 
         </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="project-section-divider"></div>
+
+
+
+{{-- =========================================================
+     04 DESCRIPTION
+========================================================= --}}
+
+<div class="project-section">
+
+    <div class="project-section-heading">
+
+        <div class="project-section-number">
+            04
+        </div>
+
+        <div>
+
+            <h2>Project Description</h2>
+
+            <p>
+                Explain the work, requirements and expected outcome.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="project-form-group">
+
+        <label
+            for="description"
+            class="project-label"
+        >
+
+            <i class="fas fa-align-left"></i>
+
+            Description
+
+            <span class="project-required">*</span>
+
+        </label>
+
+
+        <textarea
+            id="description"
+            name="description"
+            class="project-textarea @error('description') is-invalid @enderror"
+            rows="6"
+            placeholder="Describe the project, responsibilities, deliverables, requirements and expectations..."
+            required
+        >{{ old('description', $project->description ?? '') }}</textarea>
+
+
+        @error('description')
+
+            <div class="project-invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @else
+
+            <div class="project-help-text">
+
+                <i class="fas fa-circle-info"></i>
+
+                Give enough information so professionals can understand the project before applying.
+
+            </div>
+
+        @enderror
 
     </div>
 

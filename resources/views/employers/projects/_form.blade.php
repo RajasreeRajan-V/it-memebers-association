@@ -589,32 +589,30 @@
 
                 <i class="fas fa-eye project-input-icon"></i>
 
-                <select
-                    id="visibility"
-                    name="visibility"
-                    class="project-select has-icon @error('visibility') is-invalid @enderror"
-                    required
-                >
+              <select
+    id="visibility"
+    name="visibility"
+    class="project-select has-icon @error('visibility') is-invalid @enderror"
+    required
+>
+    <option value="">
+        Select visibility
+    </option>
 
-                    <option value="">
-                        Select visibility
-                    </option>
+    <option
+        value="freelancer"
+        @selected(old('visibility', $project->visibility ?? '') === 'freelancer')
+    >
+        Freelancers Only
+    </option>
 
-                    <option
-                        value="public"
-                        @selected(old('visibility', $project->visibility ?? '') === 'public')
-                    >
-                        Public
-                    </option>
-
-                    <option
-                        value="private"
-                        @selected(old('visibility', $project->visibility ?? '') === 'private')
-                    >
-                        Private
-                    </option>
-
-                </select>
+    <option
+        value="employee"
+        @selected(old('visibility', $project->visibility ?? '') === 'employee')
+    >
+        Employees Only
+    </option>
+</select>
 
             </div>
 

@@ -7,320 +7,856 @@
         <div class="container hero-inner">
             <div class="hero-copy">
                 <p class="eyebrow">Welcome to Our Community</p>
+
                 <h1>
                     Become a <span class="accent-text">Premium Member</span>
                 </h1>
+
                 <p class="hero-sub">
                     Unlock exclusive benefits, connect with industry leaders, and accelerate your
                     professional growth with our premium membership program.
                 </p>
+
                 <div class="hero-badges">
+
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z" fill="currentColor"
-                                stroke="none" />
+                            <path
+                                d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z"
+                                fill="currentColor"
+                                stroke="none"
+                            />
                         </svg>
                         Verified Badge
                     </span>
+
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none" />
+                            <circle
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
+                            <path
+                                d="M12 6v6l4 2"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
                         </svg>
                         24/7 Support
                     </span>
+
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor"
-                                stroke-width="2" fill="none" />
+                            <path
+                                d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
+                            <circle
+                                cx="9"
+                                cy="7"
+                                r="4"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
+                            <path
+                                d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
                         </svg>
                         Exclusive Network
                     </span>
+
                 </div>
             </div>
 
             <div class="hero-membership">
+
                 <div class="membership-card">
+
                     <span class="membership-glow"></span>
+
                     <div class="membership-badge">
                         <svg viewBox="0 0 24 24" width="28" height="28">
                             <path
                                 d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
-                                stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.15)" />
-                            <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="white" stroke-width="1.5"
-                                stroke-linejoin="round" />
+                                stroke="white"
+                                stroke-width="1.5"
+                                fill="rgba(255,255,255,0.15)"
+                            />
+                            <path
+                                d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88"
+                                stroke="white"
+                                stroke-width="1.5"
+                                stroke-linejoin="round"
+                            />
                         </svg>
                     </div>
+
                     <h3>Ready to Get Started?</h3>
-                    <p>Join thousands of professionals who are already part of our growing community.</p>
+
+                    <p>
+                        Join thousands of professionals who are already part of our growing community.
+                    </p>
+
                     <div class="membership-actions">
+
                         <button class="btn btn-primary" id="joinNowBtn">
                             <span>Join Now</span>
+
                             <svg viewBox="0 0 24 24" width="16" height="16">
-                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" />
+                                <path
+                                    d="M5 12h14M13 6l6 6-6 6"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    fill="none"
+                                />
                             </svg>
                         </button>
 
                         @guest
-                            <a href="#" class="btn btn-secondary" id="membershipLoginBtn" data-login-trigger>
+
+                            <a
+                                href="#"
+                                class="btn btn-secondary"
+                                id="membershipLoginBtn"
+                                data-login-trigger
+                            >
                                 <span>Login</span>
                             </a>
+
                         @else
-                            <form method="POST" action="{{ route('member-logout') }}" style="margin:0;">
+
+                            <form
+                                method="POST"
+                                action="{{ route('member-logout') }}"
+                                style="margin:0;"
+                            >
                                 @csrf
-                                <button type="submit" class="btn btn-secondary" id="membershipLogoutBtn">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-secondary"
+                                    id="membershipLogoutBtn"
+                                >
                                     <span>Sign Out</span>
                                 </button>
                             </form>
+
                         @endguest
+
                     </div>
+
                     <p class="membership-note">
+
                         <svg viewBox="0 0 24 24" width="14" height="14">
-                            <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10z" stroke="currentColor" stroke-width="2"
-                                fill="none" />
-                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none" />
+                            <path
+                                d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10z"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
+                            <path
+                                d="M12 6v6l4 2"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                fill="none"
+                            />
                         </svg>
+
                         Free trial available • No credit card required
+
                     </p>
+
                 </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Registration Section - Full Width -->
-    <section class="registration-section" id="registration-section">
+
+    <!-- Registration Section -->
+    <section
+        class="registration-section"
+        id="registration-section"
+    >
+
         <div class="registration-wrapper-full">
+
             @if (session('status'))
+
                 <div class="alert alert-success animate-fadeIn">
+
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" fill="none"
-                            stroke-linecap="round" />
-                        <path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="2" fill="none"
-                            stroke-linecap="round" />
+                        <path
+                            d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                            stroke-linecap="round"
+                        />
+
+                        <path
+                            d="M22 4L12 14.01l-3-3"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                            stroke-linecap="round"
+                        />
                     </svg>
+
                     {{ session('status') }}
+
                 </div>
+
             @endif
 
+
             @if ($errors->any())
+
                 <div class="alert alert-error animate-shake">
+
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <path
+                            d="M12 8v4M12 16h.01"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
                     </svg>
+
                     <div>
-                        <strong>Please fix the following errors:</strong>
+
+                        <strong>
+                            Please fix the following errors:
+                        </strong>
+
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
+
                     </div>
+
                 </div>
+
             @endif
+
 
             @if (session('error'))
+
                 <div class="alert alert-error animate-shake">
+
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <path
+                            d="M12 8v4M12 16h.01"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                        />
+
                     </svg>
+
                     {{ session('error') }}
+
                 </div>
+
             @endif
 
+
             <div class="form-header text-center">
+
                 <h2>Create Your Account</h2>
-                <p>Fill in your details to get started with your professional journey</p>
+
+                <p>
+                    Fill in your details to get started with your professional journey
+                </p>
+
             </div>
 
-            <form method="POST" action="{{ route('do_registration') }}" enctype="multipart/form-data" id="registerForm"
-                novalidate>
+
+            <form
+                method="POST"
+                action="{{ route('do_registration') }}"
+                enctype="multipart/form-data"
+                id="registerForm"
+                novalidate
+            >
+
                 @csrf
+
 
                 <!-- Progress Steps -->
                 <div class="progress-steps">
-                    <div class="step active" data-step="1">
+
+                    <div
+                        class="step active"
+                        data-step="1"
+                    >
+
                         <div class="step-circle">
-                            <span class="step-number">1</span>
-                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
-                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
-                                    stroke-linecap="round" />
+
+                            <span class="step-number">
+                                1
+                            </span>
+
+                            <svg
+                                class="step-check"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                            >
+                                <polyline
+                                    points="20 6 9 17 4 12"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                />
                             </svg>
+
                         </div>
-                        <div class="step-label">Account Info</div>
+
+                        <div class="step-label">
+                            Account Info
+                        </div>
+
                     </div>
-                    <div class="step-connector" id="connector1"></div>
-                    <div class="step" data-step="2">
+
+
+                    <div
+                        class="step-connector"
+                        id="connector1"
+                    ></div>
+
+
+                    <div
+                        class="step"
+                        data-step="2"
+                    >
+
                         <div class="step-circle">
-                            <span class="step-number">2</span>
-                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
-                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
-                                    stroke-linecap="round" />
+
+                            <span class="step-number">
+                                2
+                            </span>
+
+                            <svg
+                                class="step-check"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                            >
+                                <polyline
+                                    points="20 6 9 17 4 12"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                />
                             </svg>
+
                         </div>
-                        <div class="step-label">Choose Role</div>
+
+                        <div class="step-label">
+                            Choose Role
+                        </div>
+
                     </div>
-                    <div class="step-connector" id="connector2"></div>
-                    <div class="step" data-step="3">
+
+
+                    <div
+                        class="step-connector"
+                        id="connector2"
+                    ></div>
+
+
+                    <div
+                        class="step"
+                        data-step="3"
+                    >
+
                         <div class="step-circle">
-                            <span class="step-number">3</span>
-                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
-                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
-                                    stroke-linecap="round" />
+
+                            <span class="step-number">
+                                3
+                            </span>
+
+                            <svg
+                                class="step-check"
+                                viewBox="0 0 24 24"
+                                width="16"
+                                height="16"
+                            >
+                                <polyline
+                                    points="20 6 9 17 4 12"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                />
                             </svg>
+
                         </div>
-                        <div class="step-label">Role Details</div>
+
+                        <div class="step-label">
+                            Role Details
+                        </div>
+
                     </div>
+
                 </div>
 
+
                 <div class="form-sections-grid">
-                    <!-- Step 1: Account Information -->
-                    <div class="form-card" id="step1-section">
+
+
+                    <!-- STEP 1 -->
+                    <div
+                        class="form-card"
+                        id="step1-section"
+                    >
+
                         <div class="card-header">
-                            <div class="card-icon" style="background: linear-gradient(135deg, #2ECC71, #27AE60);">
+
+                            <div
+                                class="card-icon"
+                                style="background: linear-gradient(135deg, #2ECC71, #27AE60);"
+                            >
+
                                 <svg viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"
-                                        fill="none" />
-                                    <circle cx="12" cy="7" r="4" stroke="white" stroke-width="2"
-                                        fill="none" />
+
+                                    <path
+                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="7"
+                                        r="4"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
                                 </svg>
+
                             </div>
+
                             <div>
-                                <h3>Account Information</h3>
-                                <p>Fill in your basic details to create your account.</p>
+
+                                <h3>
+                                    Account Information
+                                </h3>
+
+                                <p>
+                                    Fill in your basic details to create your account.
+                                </p>
+
                             </div>
+
                         </div>
+
 
                         <div class="form-grid">
+
+
+                            <!-- Name -->
                             <div class="form-group full-width">
+
                                 <label class="form-label">
-                                    <span>Full Name</span>
-                                    <span class="required">*</span>
+
+                                    <span>
+                                        Full Name
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
+
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor"
-                                            stroke-width="2" fill="none" />
-                                        <circle cx="12" cy="7" r="4" stroke="currentColor"
-                                            stroke-width="2" fill="none" />
+
+                                    <svg
+                                        class="input-icon"
+                                        viewBox="0 0 24 24"
+                                        width="18"
+                                        height="18"
+                                    >
+
+                                        <path
+                                            d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
+                                        <circle
+                                            cx="12"
+                                            cy="7"
+                                            r="4"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
                                     </svg>
-                                    <input type="text" name="name" value="{{ old('name') }}" required
-                                        placeholder="Enter your full name">
+
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value="{{ old('name') }}"
+                                        required
+                                        placeholder="Enter your full name"
+                                    >
+
                                 </div>
+
                                 @error('name')
-                                    <span class="error-message">{{ $message }}</span>
+                                    <span class="error-message">
+                                        {{ $message }}
+                                    </span>
                                 @enderror
+
                             </div>
 
+
+                            <!-- Email -->
                             <div class="form-group">
+
                                 <label class="form-label">
-                                    <span>Email Address</span>
-                                    <span class="required">*</span>
+
+                                    <span>
+                                        Email Address
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
+
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
+
+                                    <svg
+                                        class="input-icon"
+                                        viewBox="0 0 24 24"
+                                        width="18"
+                                        height="18"
+                                    >
+
                                         <path
                                             d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                                            stroke="currentColor" stroke-width="2" fill="none" />
-                                        <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"
-                                            fill="none" />
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
+                                        <polyline
+                                            points="22,6 12,13 2,6"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
                                     </svg>
-                                    <input type="email" name="email" value="{{ old('email') }}" required
-                                        placeholder="your@email.com">
+
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value="{{ old('email') }}"
+                                        required
+                                        placeholder="your@email.com"
+                                    >
+
                                 </div>
+
                                 @error('email')
-                                    <span class="error-message">{{ $message }}</span>
+                                    <span class="error-message">
+                                        {{ $message }}
+                                    </span>
                                 @enderror
+
                             </div>
 
+
+                            <!-- Phone -->
                             <div class="form-group">
+
                                 <label class="form-label">
-                                    <span>Phone Number</span>
-                                    <span class="required">*</span>
+
+                                    <span>
+                                        Phone Number
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
+
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
+
+                                    <svg
+                                        class="input-icon"
+                                        viewBox="0 0 24 24"
+                                        width="18"
+                                        height="18"
+                                    >
+
                                         <path
                                             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                                            stroke="currentColor" stroke-width="2" fill="none" />
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
                                     </svg>
-                                    <input type="text" name="phone" value="{{ old('phone') }}" required
-                                        placeholder="+91 9XXXXXXXXX">
+
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value="{{ old('phone') }}"
+                                        required
+                                        placeholder="+91 9XXXXXXXXX"
+                                    >
+
                                 </div>
+
                                 @error('phone')
-                                    <span class="error-message">{{ $message }}</span>
+                                    <span class="error-message">
+                                        {{ $message }}
+                                    </span>
                                 @enderror
+
                             </div>
 
-                            <div class="form-group" id="passwordFieldGroup">
+
+                            <!-- Password -->
+                            <div
+                                class="form-group"
+                                id="passwordFieldGroup"
+                            >
+
                                 <label class="form-label">
-                                    <span>Password</span>
-                                    <span class="required">*</span>
+
+                                    <span>
+                                        Password
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
+
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
-                                        <rect x="3" y="11" width="18" height="11" rx="2"
-                                            stroke="currentColor" stroke-width="2" fill="none" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
-                                            fill="none" />
+
+                                    <svg
+                                        class="input-icon"
+                                        viewBox="0 0 24 24"
+                                        width="18"
+                                        height="18"
+                                    >
+
+                                        <rect
+                                            x="3"
+                                            y="11"
+                                            width="18"
+                                            height="11"
+                                            rx="2"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
+                                        <path
+                                            d="M7 11V7a5 5 0 0 1 10 0v4"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
                                     </svg>
-                                    <input type="password" name="password" id="passwordInput" required
-                                        placeholder="Minimum 8 characters">
+
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="passwordInput"
+                                        required
+                                        placeholder="Minimum 8 characters"
+                                    >
+
                                 </div>
+
                                 @error('password')
-                                    <span class="error-message">{{ $message }}</span>
+                                    <span class="error-message">
+                                        {{ $message }}
+                                    </span>
                                 @enderror
+
                             </div>
 
-                            <div class="form-group" id="passwordConfirmFieldGroup">
+
+                            <!-- Confirm Password -->
+                            <div
+                                class="form-group"
+                                id="passwordConfirmFieldGroup"
+                            >
+
                                 <label class="form-label">
-                                    <span>Confirm Password</span>
-                                    <span class="required">*</span>
+
+                                    <span>
+                                        Confirm Password
+                                    </span>
+
+                                    <span class="required">
+                                        *
+                                    </span>
+
                                 </label>
+
                                 <div class="input-wrapper">
-                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
-                                        <rect x="3" y="11" width="18" height="11" rx="2"
-                                            stroke="currentColor" stroke-width="2" fill="none" />
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
-                                            fill="none" />
+
+                                    <svg
+                                        class="input-icon"
+                                        viewBox="0 0 24 24"
+                                        width="18"
+                                        height="18"
+                                    >
+
+                                        <rect
+                                            x="3"
+                                            y="11"
+                                            width="18"
+                                            height="11"
+                                            rx="2"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
+                                        <path
+                                            d="M7 11V7a5 5 0 0 1 10 0v4"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            fill="none"
+                                        />
+
                                     </svg>
-                                    <input type="password" name="password_confirmation" id="passwordConfirmInput"
-                                        required placeholder="Re-enter your password">
+
+                                    <input
+                                        type="password"
+                                        name="password_confirmation"
+                                        id="passwordConfirmInput"
+                                        required
+                                        placeholder="Re-enter your password"
+                                    >
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
 
-                    <!-- Step 2: Role Selection -->
-                    <div class="form-card" id="step2-section">
+
+                    <!-- STEP 2 -->
+                    <div
+                        class="form-card"
+                        id="step2-section"
+                    >
+
                         <div class="card-header">
-                            <div class="card-icon" style="background: linear-gradient(135deg, #4A90D9, #357ABD);">
+
+                            <div
+                                class="card-icon"
+                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);"
+                            >
+
                                 <svg viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"
-                                        fill="none" />
-                                    <circle cx="9" cy="7" r="4" stroke="white" stroke-width="2"
-                                        fill="none" />
-                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="white"
-                                        stroke-width="2" fill="none" />
+
+                                    <path
+                                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
+                                    <circle
+                                        cx="9"
+                                        cy="7"
+                                        r="4"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
+                                    <path
+                                        d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
                                 </svg>
+
                             </div>
+
                             <div>
-                                <h3>Are you a?</h3>
-                                <p>Select the role that best describes you. This will customize your registration
-                                    experience.</p>
+
+                                <h3>
+                                    Are you a?
+                                </h3>
+
+                                <p>
+                                    Select the role that best describes you.
+                                    This will customize your registration experience.
+                                </p>
+
                             </div>
+
                         </div>
 
+
                         <div class="role-radio-grid">
+
                             @php
+
                                 $roles = [
                                     'student' => 'Student',
                                     'employee' => 'Employee',
@@ -329,462 +865,1756 @@
                                     'investor' => 'Investor',
                                     'mentor' => 'Mentor',
                                 ];
+
                                 $selectedRole = old('role', 'student');
+
                             @endphp
 
+
                             @foreach ($roles as $value => $label)
-                                <label class="role-radio-card" data-role="{{ $value }}">
-                                    <input type="radio" name="role" value="{{ $value }}"
-                                        {{ $selectedRole === $value ? 'checked' : '' }} required>
+
+                                <label
+                                    class="role-radio-card"
+                                    data-role="{{ $value }}"
+                                >
+
+                                    <input
+                                        type="radio"
+                                        name="role"
+                                        value="{{ $value }}"
+                                        {{ $selectedRole === $value ? 'checked' : '' }}
+                                        required
+                                    >
+
                                     <span class="radio-circle"></span>
-                                    <span class="radio-label">{{ $label }}</span>
+
+                                    <span class="radio-label">
+                                        {{ $label }}
+                                    </span>
+
                                 </label>
+
                             @endforeach
+
                         </div>
+
                     </div>
 
-                    <!-- Step 3: Role-Specific Details -->
-                    <div class="form-card" id="step3-section">
+
+                    <!-- STEP 3 -->
+                    <div
+                        class="form-card"
+                        id="step3-section"
+                    >
+
                         <div class="card-header">
-                            <div class="card-icon" id="roleDetailIcon"
-                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);">
+
+                            <div
+                                class="card-icon"
+                                id="roleDetailIcon"
+                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);"
+                            >
+
                                 <svg viewBox="0 0 24 24" width="24" height="24">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="white" stroke-width="2" fill="none" />
-                                    <path d="M2 17l10 5 10-5" stroke="white" stroke-width="2" fill="none" />
-                                    <path d="M2 12l10 5 10-5" stroke="white" stroke-width="2" fill="none" />
+
+                                    <path
+                                        d="M12 2L2 7l10 5 10-5-10-5z"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
+                                    <path
+                                        d="M2 17l10 5 10-5"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
+                                    <path
+                                        d="M2 12l10 5 10-5"
+                                        stroke="white"
+                                        stroke-width="2"
+                                        fill="none"
+                                    />
+
                                 </svg>
+
                             </div>
+
                             <div>
-                                <h3 id="roleDetailTitle">Student Details</h3>
-                                <p id="roleDescription">Provide your educational details to get started with internships
-                                    and learning opportunities.</p>
+
+                                <h3 id="roleDetailTitle">
+                                    Student Details
+                                </h3>
+
+                                <p id="roleDescription">
+                                    Provide your educational details to get started
+                                    with internships and learning opportunities.
+                                </p>
+
                             </div>
+
                         </div>
 
-                        <div class="form-grid" id="dynamicFields">
+
+                        <div
+                            class="form-grid"
+                            id="dynamicFields"
+                        >
                             <!-- Dynamic fields injected by JavaScript -->
                         </div>
+
                     </div>
 
-                    <!-- Terms and Submit -->
+
+                    <!-- TERMS -->
                     <div class="form-card submit-card">
+
                         <label class="checkbox-label">
-                            <input type="checkbox" name="terms" required>
+
+                            <input
+                                type="checkbox"
+                                name="terms"
+                                required
+                            >
+
                             <span class="checkbox-custom">
-                                <svg viewBox="0 0 24 24" width="14" height="14">
-                                    <polyline points="20 6 9 17 4 12" stroke="white" stroke-width="3" fill="none"
-                                        stroke-linecap="round" />
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    width="14"
+                                    height="14"
+                                >
+
+                                    <polyline
+                                        points="20 6 9 17 4 12"
+                                        stroke="white"
+                                        stroke-width="3"
+                                        fill="none"
+                                        stroke-linecap="round"
+                                    />
+
                                 </svg>
+
                             </span>
+
                             <span class="checkbox-text">
-                                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
-                                    Policy</a>.
-                                I understand my details will be reviewed as part of membership verification.
+
+                                I agree to the
+                                <a href="#">
+                                    Terms of Service
+                                </a>
+
+                                and
+
+                                <a href="#">
+                                    Privacy Policy
+                                </a>.
+
+                                I understand my details will be reviewed
+                                as part of membership verification.
+
                             </span>
+
                         </label>
 
-                        <button type="submit" class="submit-btn">
-                            <span>Create Account</span>
-                            <svg viewBox="0 0 24 24" width="20" height="20">
-                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"
-                                    stroke-linecap="round" />
+
+                        <button
+                            type="submit"
+                            class="submit-btn"
+                        >
+
+                            <span>
+                                Create Account
+                            </span>
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                width="20"
+                                height="20"
+                            >
+
+                                <path
+                                    d="M5 12h14M13 6l6 6-6 6"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    fill="none"
+                                    stroke-linecap="round"
+                                />
+
                             </svg>
+
                         </button>
 
+
                         <p class="signin-text">
+
                             Already a member?
-                            <a href="{{ route('membership') }}">Sign in to your account</a>
+
+                            <a href="{{ route('membership') }}">
+                                Sign in to your account
+                            </a>
+
                         </p>
+
                     </div>
+
                 </div>
+
             </form>
+
         </div>
+
     </section>
 
-    <!-- Role Templates -->
+
+    <!-- ========================================================= -->
+    <!-- STUDENT TEMPLATE -->
+    <!-- ========================================================= -->
+
     <template id="tpl-student">
+
         <div class="form-group">
-            <label class="form-label"><span>College Name</span><span class="required">*</span></label>
-            <input type="text" name="college_name" value="{{ old('college_name') }}" required
-                placeholder="Enter college name">
+
+            <label class="form-label">
+                <span>College Name</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="college_name"
+                value="{{ old('college_name') }}"
+                required
+                placeholder="Enter college name"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>University</span><span class="required">*</span></label>
-            <input type="text" name="university" value="{{ old('university') }}" required
-                placeholder="Enter university">
+
+            <label class="form-label">
+                <span>University</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="university"
+                value="{{ old('university') }}"
+                required
+                placeholder="Enter university"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Course</span><span class="required">*</span></label>
-            <input type="text" name="course" value="{{ old('course') }}" required placeholder="e.g. B.Tech CSE">
+
+            <label class="form-label">
+                <span>Course</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="course"
+                value="{{ old('course') }}"
+                required
+                placeholder="e.g. B.Tech CSE"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Year of Study</span><span class="required">*</span></label>
+
+            <label class="form-label">
+                <span>Year of Study</span>
+                <span class="required">*</span>
+            </label>
+
             <select name="year" required>
-                <option value="">Select year</option>
-                <option value="1st Year" {{ old('year') == '1st Year' ? 'selected' : '' }}>1st Year</option>
-                <option value="2nd Year" {{ old('year') == '2nd Year' ? 'selected' : '' }}>2nd Year</option>
-                <option value="3rd Year" {{ old('year') == '3rd Year' ? 'selected' : '' }}>3rd Year</option>
-                <option value="4th Year" {{ old('year') == '4th Year' ? 'selected' : '' }}>4th Year</option>
-                <option value="Final Year" {{ old('year') == 'Final Year' ? 'selected' : '' }}>Final Year</option>
-                <option value="Graduated" {{ old('year') == 'Graduated' ? 'selected' : '' }}>Graduated</option>
+
+                <option value="">
+                    Select year
+                </option>
+
+                <option
+                    value="1st Year"
+                    {{ old('year') == '1st Year' ? 'selected' : '' }}
+                >
+                    1st Year
+                </option>
+
+                <option
+                    value="2nd Year"
+                    {{ old('year') == '2nd Year' ? 'selected' : '' }}
+                >
+                    2nd Year
+                </option>
+
+                <option
+                    value="3rd Year"
+                    {{ old('year') == '3rd Year' ? 'selected' : '' }}
+                >
+                    3rd Year
+                </option>
+
+                <option
+                    value="4th Year"
+                    {{ old('year') == '4th Year' ? 'selected' : '' }}
+                >
+                    4th Year
+                </option>
+
+                <option
+                    value="Final Year"
+                    {{ old('year') == 'Final Year' ? 'selected' : '' }}
+                >
+                    Final Year
+                </option>
+
+                <option
+                    value="Graduated"
+                    {{ old('year') == 'Graduated' ? 'selected' : '' }}
+                >
+                    Graduated
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Skills</span></label>
-            <textarea name="skills" rows="3" placeholder="e.g. Python, React, Machine Learning">{{ old('skills') }}</textarea>
+
+            <label class="form-label">
+                <span>Skills</span>
+            </label>
+
+            <textarea
+                name="skills"
+                rows="3"
+                placeholder="e.g. Python, React, Machine Learning"
+            >{{ old('skills') }}</textarea>
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Interested Domain</span></label>
-            <input type="text" name="interested_domain" value="{{ old('interested_domain') }}"
-                placeholder="e.g. Web Development">
+
+            <label class="form-label">
+                <span>Interested Domain</span>
+            </label>
+
+            <input
+                type="text"
+                name="interested_domain"
+                value="{{ old('interested_domain') }}"
+                placeholder="e.g. Web Development"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Resume</span></label>
+
+            <label class="form-label">
+                <span>Resume</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="resume" id="resume-student" accept=".pdf,.doc,.docx">
-                <label for="resume-student" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="resume"
+                    id="resume-student"
+                    accept=".pdf,.doc,.docx"
+                >
+
+                <label
+                    for="resume-student"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Resume</span>
+
+                    <span>
+                        Upload Resume
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>College ID Card</span></label>
+
+            <label class="form-label">
+                <span>College ID Card</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="college_id_card" id="college-id" accept=".pdf,.jpg,.jpeg,.png">
-                <label for="college-id" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="college_id_card"
+                    id="college-id"
+                    accept=".jpg,.jpeg,.png"
+                >
+
+                <label
+                    for="college-id"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload ID Card</span>
+
+                    <span>
+                        Upload ID Card
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
     </template>
+
+
+    <!-- ========================================================= -->
+    <!-- EMPLOYEE TEMPLATE -->
+    <!-- ========================================================= -->
 
     <template id="tpl-employee">
+
         <div class="form-group">
-            <label class="form-label"><span>Company Name</span><span class="required">*</span></label>
-            <input type="text" name="company_name" value="{{ old('company_name') }}" required
-                placeholder="Current company name">
+
+            <label class="form-label">
+                <span>Company Name</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="company_name"
+                value="{{ old('company_name') }}"
+                required
+                placeholder="Current company name"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Designation</span><span class="required">*</span></label>
-            <input type="text" name="designation" value="{{ old('designation') }}" required
-                placeholder="Your job title">
+
+            <label class="form-label">
+                <span>Designation</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="designation"
+                value="{{ old('designation') }}"
+                required
+                placeholder="Your job title"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Years of Experience</span><span class="required">*</span></label>
-            <input type="number" name="experience_years" value="{{ old('experience_years') }}" min="0" required
-                placeholder="e.g. 5">
+
+            <label class="form-label">
+                <span>Years of Experience</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="number"
+                name="experience_years"
+                value="{{ old('experience_years') }}"
+                min="0"
+                required
+                placeholder="e.g. 5"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Current CTC (LPA)</span></label>
-            <input type="number" name="current_ctc" value="{{ old('current_ctc') }}" step="0.01" min="0"
-                placeholder="e.g. 5.5">
+
+            <label class="form-label">
+                <span>Current CTC (LPA)</span>
+            </label>
+
+            <input
+                type="number"
+                name="current_ctc"
+                value="{{ old('current_ctc') }}"
+                step="0.01"
+                min="0"
+                placeholder="e.g. 5.5"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Expected CTC (LPA)</span></label>
-            <input type="number" name="expected_ctc" value="{{ old('expected_ctc') }}" step="0.01" min="0"
-                placeholder="e.g. 8.0">
+
+            <label class="form-label">
+                <span>Expected CTC (LPA)</span>
+            </label>
+
+            <input
+                type="number"
+                name="expected_ctc"
+                value="{{ old('expected_ctc') }}"
+                step="0.01"
+                min="0"
+                placeholder="e.g. 8.0"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>LinkedIn Profile</span></label>
-            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/...">
+
+            <label class="form-label">
+                <span>LinkedIn Profile</span>
+            </label>
+
+            <input
+                type="url"
+                name="linkedin"
+                value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/..."
+            >
+
         </div>
+
+
+        <!-- ===================================================== -->
+        <!-- NEW: EMPLOYEE PROFILE PHOTO -->
+        <!-- ===================================================== -->
+
+        <div class="form-group">
+
+            <label class="form-label">
+
+                <span>
+                    Profile Photo
+                </span>
+
+            </label>
+
+            <div class="file-upload">
+
+                <input
+                    type="file"
+                    name="profile_photo"
+                    id="employee-profile-photo"
+                    accept=".jpg,.jpeg,.png"
+                >
+
+                <label
+                    for="employee-profile-photo"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <rect
+                            x="3"
+                            y="3"
+                            width="18"
+                            height="18"
+                            rx="2"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <circle
+                            cx="8.5"
+                            cy="8.5"
+                            r="1.5"
+                            fill="currentColor"
+                        />
+
+                        <path
+                            d="M21 15l-5-5L5 21"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                    </svg>
+
+                    <span>
+                        Upload Profile Photo
+                    </span>
+
+                </label>
+
+            </div>
+
+            <small style="display:block;margin-top:6px;color:#64748b;">
+                JPG, JPEG or PNG. Maximum 3 MB.
+            </small>
+
+        </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Skills</span></label>
-            <textarea name="skills" rows="3" placeholder="e.g. Java, Spring Boot, AWS">{{ old('skills') }}</textarea>
+
+            <label class="form-label">
+                <span>Skills</span>
+            </label>
+
+            <textarea
+                name="skills"
+                rows="3"
+                placeholder="e.g. Java, Spring Boot, AWS"
+            >{{ old('skills') }}</textarea>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Resume</span></label>
+
+            <label class="form-label">
+                <span>Resume</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="resume" id="resume-employee" accept=".pdf,.doc,.docx">
-                <label for="resume-employee" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="resume"
+                    id="resume-employee"
+                    accept=".pdf,.doc,.docx"
+                >
+
+                <label
+                    for="resume-employee"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Resume</span>
+
+                    <span>
+                        Upload Resume
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Experience Proof</span></label>
+
+            <label class="form-label">
+                <span>Experience Proof</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="experience_proof" id="exp-proof" accept=".pdf,.jpg,.jpeg,.png">
-                <label for="exp-proof" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="experience_proof"
+                    id="exp-proof"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                >
+
+                <label
+                    for="exp-proof"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Proof</span>
+
+                    <span>
+                        Upload Proof
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
     </template>
+
+
+    <!-- ========================================================= -->
+    <!-- EMPLOYER TEMPLATE -->
+    <!-- ========================================================= -->
 
     <template id="tpl-employer">
+
         <div class="form-group">
-            <label class="form-label"><span>Company Name</span><span class="required">*</span></label>
-            <input type="text" name="company_name" value="{{ old('company_name') }}" required
-                placeholder="Company name">
+
+            <label class="form-label">
+                <span>Company Name</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="company_name"
+                value="{{ old('company_name') }}"
+                required
+                placeholder="Company name"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Industry</span></label>
-            <input type="text" name="industry" value="{{ old('industry') }}" placeholder="e.g. Technology, Finance">
+
+            <label class="form-label">
+                <span>Industry</span>
+            </label>
+
+            <input
+                type="text"
+                name="industry"
+                value="{{ old('industry') }}"
+                placeholder="e.g. Technology, Finance"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>GST Number</span></label>
-            <input type="text" name="gst_number" value="{{ old('gst_number') }}" placeholder="GSTIN">
+
+            <label class="form-label">
+                <span>GST Number</span>
+            </label>
+
+            <input
+                type="text"
+                name="gst_number"
+                value="{{ old('gst_number') }}"
+                placeholder="GSTIN"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>PAN Number</span></label>
-            <input type="text" name="pan_number" value="{{ old('pan_number') }}" placeholder="PAN">
+
+            <label class="form-label">
+                <span>PAN Number</span>
+            </label>
+
+            <input
+                type="text"
+                name="pan_number"
+                value="{{ old('pan_number') }}"
+                placeholder="PAN"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Company Size</span></label>
+
+            <label class="form-label">
+                <span>Company Size</span>
+            </label>
+
             <select name="company_size">
-                <option value="">Select range</option>
-                <option value="1-10" {{ old('company_size') == '1-10' ? 'selected' : '' }}>1–10 employees</option>
-                <option value="11-50" {{ old('company_size') == '11-50' ? 'selected' : '' }}>11–50 employees</option>
-                <option value="51-200" {{ old('company_size') == '51-200' ? 'selected' : '' }}>51–200 employees</option>
-                <option value="201-500" {{ old('company_size') == '201-500' ? 'selected' : '' }}>201–500 employees
+
+                <option value="">
+                    Select range
                 </option>
-                <option value="500+" {{ old('company_size') == '500+' ? 'selected' : '' }}>500+ employees</option>
+
+                <option
+                    value="1-10"
+                    {{ old('company_size') == '1-10' ? 'selected' : '' }}
+                >
+                    1–10 employees
+                </option>
+
+                <option
+                    value="11-50"
+                    {{ old('company_size') == '11-50' ? 'selected' : '' }}
+                >
+                    11–50 employees
+                </option>
+
+                <option
+                    value="51-200"
+                    {{ old('company_size') == '51-200' ? 'selected' : '' }}
+                >
+                    51–200 employees
+                </option>
+
+                <option
+                    value="201-500"
+                    {{ old('company_size') == '201-500' ? 'selected' : '' }}
+                >
+                    201–500 employees
+                </option>
+
+                <option
+                    value="500+"
+                    {{ old('company_size') == '500+' ? 'selected' : '' }}
+                >
+                    500+ employees
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Website</span></label>
-            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://...">
+
+            <label class="form-label">
+                <span>Website</span>
+            </label>
+
+            <input
+                type="url"
+                name="website"
+                value="{{ old('website') }}"
+                placeholder="https://..."
+            >
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Company Address</span><span class="required">*</span></label>
-            <textarea name="company_address" rows="3" required placeholder="Full company address">{{ old('company_address') }}</textarea>
+
+            <label class="form-label">
+
+                <span>
+                    Company Address
+                </span>
+
+                <span class="required">
+                    *
+                </span>
+
+            </label>
+
+            <textarea
+                name="company_address"
+                rows="3"
+                required
+                placeholder="Full company address"
+            >{{ old('company_address') }}</textarea>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Company Logo</span></label>
+
+            <label class="form-label">
+                <span>Company Logo</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="company_logo" id="company-logo" accept=".jpg,.jpeg,.png,.svg">
-                <label for="company-logo" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="company_logo"
+                    id="company-logo"
+                    accept=".jpg,.jpeg,.png"
+                >
+
+                <label
+                    for="company-logo"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Logo</span>
+
+                    <span>
+                        Upload Logo
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Company Documents</span></label>
+
+            <label class="form-label">
+                <span>Company Documents</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="company_documents" id="company-docs" accept=".pdf,.doc,.docx">
-                <label for="company-docs" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="company_documents"
+                    id="company-docs"
+                    accept=".pdf,.doc,.docx"
+                >
+
+                <label
+                    for="company-docs"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Documents</span>
+
+                    <span>
+                        Upload Documents
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
     </template>
+
+
+    <!-- ========================================================= -->
+    <!-- FREELANCER TEMPLATE -->
+    <!-- ========================================================= -->
 
     <template id="tpl-freelancer">
+
         <div class="form-group">
-            <label class="form-label"><span>Specialization</span><span class="required">*</span></label>
-            <input type="text" name="specialization" value="{{ old('specialization') }}" required
-                placeholder="e.g. UI/UX Design">
+
+            <label class="form-label">
+                <span>Specialization</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="specialization"
+                value="{{ old('specialization') }}"
+                required
+                placeholder="e.g. UI/UX Design"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Years of Experience</span><span class="required">*</span></label>
-            <input type="number" name="experience" value="{{ old('experience') }}" min="0" required
-                placeholder="e.g. 3">
+
+            <label class="form-label">
+                <span>Years of Experience</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="number"
+                name="experience"
+                value="{{ old('experience') }}"
+                min="0"
+                required
+                placeholder="e.g. 3"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Hourly Rate (₹)</span></label>
-            <input type="number" name="hourly_rate" value="{{ old('hourly_rate') }}" step="0.01" min="0"
-                placeholder="e.g. 500">
+
+            <label class="form-label">
+                <span>Hourly Rate (₹)</span>
+            </label>
+
+            <input
+                type="number"
+                name="hourly_rate"
+                value="{{ old('hourly_rate') }}"
+                step="0.01"
+                min="0"
+                placeholder="e.g. 500"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Availability</span></label>
+
+            <label class="form-label">
+                <span>Availability</span>
+            </label>
+
             <select name="availability">
-                <option value="">Select availability</option>
-                <option value="Full-time" {{ old('availability') == 'Full-time' ? 'selected' : '' }}>Full-time</option>
-                <option value="Part-time" {{ old('availability') == 'Part-time' ? 'selected' : '' }}>Part-time</option>
-                <option value="Weekends" {{ old('availability') == 'Weekends' ? 'selected' : '' }}>Weekends</option>
-                <option value="Not available" {{ old('availability') == 'Not available' ? 'selected' : '' }}>Not available
-                    right now</option>
+
+                <option value="">
+                    Select availability
+                </option>
+
+                <option
+                    value="Full-time"
+                    {{ old('availability') == 'Full-time' ? 'selected' : '' }}
+                >
+                    Full-time
+                </option>
+
+                <option
+                    value="Part-time"
+                    {{ old('availability') == 'Part-time' ? 'selected' : '' }}
+                >
+                    Part-time
+                </option>
+
+                <option
+                    value="Weekends"
+                    {{ old('availability') == 'Weekends' ? 'selected' : '' }}
+                >
+                    Weekends
+                </option>
+
+                <option
+                    value="Not available"
+                    {{ old('availability') == 'Not available' ? 'selected' : '' }}
+                >
+                    Not available right now
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Portfolio Link</span></label>
-            <input type="url" name="portfolio_link" value="{{ old('portfolio_link') }}" placeholder="https://...">
+
+            <label class="form-label">
+                <span>Portfolio Link</span>
+            </label>
+
+            <input
+                type="url"
+                name="portfolio_link"
+                value="{{ old('portfolio_link') }}"
+                placeholder="https://..."
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>GitHub Profile</span></label>
-            <input type="url" name="github" value="{{ old('github') }}" placeholder="https://github.com/...">
+
+            <label class="form-label">
+                <span>GitHub Profile</span>
+            </label>
+
+            <input
+                type="url"
+                name="github"
+                value="{{ old('github') }}"
+                placeholder="https://github.com/..."
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>LinkedIn Profile</span></label>
-            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/...">
+
+            <label class="form-label">
+                <span>LinkedIn Profile</span>
+            </label>
+
+            <input
+                type="url"
+                name="linkedin"
+                value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/..."
+            >
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Skills</span></label>
-            <textarea name="skills" rows="3" placeholder="e.g. Figma, React, WordPress">{{ old('skills') }}</textarea>
+
+            <label class="form-label">
+                <span>Skills</span>
+            </label>
+
+            <textarea
+                name="skills"
+                rows="3"
+                placeholder="e.g. Figma, React, WordPress"
+            >{{ old('skills') }}</textarea>
+
         </div>
+
     </template>
+
+
+    <!-- ========================================================= -->
+    <!-- INVESTOR TEMPLATE -->
+    <!-- ========================================================= -->
 
     <template id="tpl-investor">
+
         <div class="form-group">
-            <label class="form-label"><span>Organization</span><span class="required">*</span></label>
-            <input type="text" name="organization" value="{{ old('organization') }}" required
-                placeholder="Fund, firm, or 'Individual'">
+
+            <label class="form-label">
+                <span>Organization</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="organization"
+                value="{{ old('organization') }}"
+                required
+                placeholder="Fund, firm, or 'Individual'"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Investment Stage</span><span class="required">*</span></label>
+
+            <label class="form-label">
+                <span>Investment Stage</span>
+                <span class="required">*</span>
+            </label>
+
             <select name="investment_stage" required>
-                <option value="">Select stage</option>
-                <option value="Idea" {{ old('investment_stage') == 'Idea' ? 'selected' : '' }}>Idea</option>
-                <option value="Pre-seed" {{ old('investment_stage') == 'Pre-seed' ? 'selected' : '' }}>Pre-seed</option>
-                <option value="Seed" {{ old('investment_stage') == 'Seed' ? 'selected' : '' }}>Seed</option>
-                <option value="Series A" {{ old('investment_stage') == 'Series A' ? 'selected' : '' }}>Series A</option>
-                <option value="Series B+" {{ old('investment_stage') == 'Series B+' ? 'selected' : '' }}>Series B+
+
+                <option value="">
+                    Select stage
                 </option>
-                <option value="Growth" {{ old('investment_stage') == 'Growth' ? 'selected' : '' }}>Growth</option>
+
+                <option
+                    value="Idea"
+                    {{ old('investment_stage') == 'Idea' ? 'selected' : '' }}
+                >
+                    Idea
+                </option>
+
+                <option
+                    value="Pre-seed"
+                    {{ old('investment_stage') == 'Pre-seed' ? 'selected' : '' }}
+                >
+                    Pre-seed
+                </option>
+
+                <option
+                    value="Seed"
+                    {{ old('investment_stage') == 'Seed' ? 'selected' : '' }}
+                >
+                    Seed
+                </option>
+
+                <option
+                    value="Series A"
+                    {{ old('investment_stage') == 'Series A' ? 'selected' : '' }}
+                >
+                    Series A
+                </option>
+
+                <option
+                    value="Series B+"
+                    {{ old('investment_stage') == 'Series B+' ? 'selected' : '' }}
+                >
+                    Series B+
+                </option>
+
+                <option
+                    value="Growth"
+                    {{ old('investment_stage') == 'Growth' ? 'selected' : '' }}
+                >
+                    Growth
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Investment Range</span><span class="required">*</span></label>
+
+            <label class="form-label">
+                <span>Investment Range</span>
+                <span class="required">*</span>
+            </label>
+
             <select name="investment_range" required>
-                <option value="">Select range</option>
-                <option value="Under ₹5L" {{ old('investment_range') == 'Under ₹5L' ? 'selected' : '' }}>Under ₹5L
+
+                <option value="">
+                    Select range
                 </option>
-                <option value="₹5L - ₹25L" {{ old('investment_range') == '₹5L - ₹25L' ? 'selected' : '' }}>₹5L – ₹25L
+
+                <option
+                    value="Under ₹5L"
+                    {{ old('investment_range') == 'Under ₹5L' ? 'selected' : '' }}
+                >
+                    Under ₹5L
                 </option>
-                <option value="₹25L - ₹1Cr" {{ old('investment_range') == '₹25L - ₹1Cr' ? 'selected' : '' }}>₹25L – ₹1Cr
+
+                <option
+                    value="₹5L - ₹25L"
+                    {{ old('investment_range') == '₹5L - ₹25L' ? 'selected' : '' }}
+                >
+                    ₹5L – ₹25L
                 </option>
-                <option value="₹1Cr - ₹5Cr" {{ old('investment_range') == '₹1Cr - ₹5Cr' ? 'selected' : '' }}>₹1Cr – ₹5Cr
+
+                <option
+                    value="₹25L - ₹1Cr"
+                    {{ old('investment_range') == '₹25L - ₹1Cr' ? 'selected' : '' }}
+                >
+                    ₹25L – ₹1Cr
                 </option>
-                <option value="₹5Cr+" {{ old('investment_range') == '₹5Cr+' ? 'selected' : '' }}>₹5Cr+</option>
+
+                <option
+                    value="₹1Cr - ₹5Cr"
+                    {{ old('investment_range') == '₹1Cr - ₹5Cr' ? 'selected' : '' }}
+                >
+                    ₹1Cr – ₹5Cr
+                </option>
+
+                <option
+                    value="₹5Cr+"
+                    {{ old('investment_range') == '₹5Cr+' ? 'selected' : '' }}
+                >
+                    ₹5Cr+
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Preferred Sectors</span><span class="required">*</span></label>
-            <input type="text" name="preferred_sectors" value="{{ old('preferred_sectors') }}" required
-                placeholder="e.g. Fintech, HealthTech">
+
+            <label class="form-label">
+                <span>Preferred Sectors</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="preferred_sectors"
+                value="{{ old('preferred_sectors') }}"
+                required
+                placeholder="e.g. Fintech, HealthTech"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>LinkedIn Profile</span></label>
-            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/...">
+
+            <label class="form-label">
+                <span>LinkedIn Profile</span>
+            </label>
+
+            <input
+                type="url"
+                name="linkedin"
+                value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/..."
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Website</span></label>
-            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://...">
+
+            <label class="form-label">
+                <span>Website</span>
+            </label>
+
+            <input
+                type="url"
+                name="website"
+                value="{{ old('website') }}"
+                placeholder="https://..."
+            >
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Short Bio</span></label>
-            <textarea name="bio" rows="3" placeholder="Tell us about yourself and your investment philosophy...">{{ old('bio') }}</textarea>
+
+            <label class="form-label">
+                <span>Short Bio</span>
+            </label>
+
+            <textarea
+                name="bio"
+                rows="3"
+                placeholder="Tell us about yourself and your investment philosophy..."
+            >{{ old('bio') }}</textarea>
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Verification Document</span></label>
+
+            <label class="form-label">
+                <span>Verification Document</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="verification_document" id="verification-doc" accept=".pdf,.jpg,.jpeg,.png">
-                <label for="verification-doc" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="verification_document"
+                    id="verification-doc"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                >
+
+                <label
+                    for="verification-doc"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Document</span>
+
+                    <span>
+                        Upload Document
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
     </template>
 
+
+    <!-- ========================================================= -->
+    <!-- MENTOR TEMPLATE -->
+    <!-- ========================================================= -->
+
     <template id="tpl-mentor">
+
         <div class="form-group">
-            <label class="form-label"><span>Company</span><span class="required">*</span></label>
-            <input type="text" name="company" value="{{ old('company') }}" required
-                placeholder="Current or most recent company">
+
+            <label class="form-label">
+                <span>Company</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="company"
+                value="{{ old('company') }}"
+                required
+                placeholder="Current or most recent company"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Designation</span><span class="required">*</span></label>
-            <input type="text" name="designation" value="{{ old('designation') }}" required
-                placeholder="Your job title">
+
+            <label class="form-label">
+                <span>Designation</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="designation"
+                value="{{ old('designation') }}"
+                required
+                placeholder="Your job title"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Area of Expertise</span><span class="required">*</span></label>
-            <input type="text" name="expertise" value="{{ old('expertise') }}" required
-                placeholder="e.g. Product Management">
+
+            <label class="form-label">
+                <span>Area of Expertise</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="text"
+                name="expertise"
+                value="{{ old('expertise') }}"
+                required
+                placeholder="e.g. Product Management"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Years of Experience</span><span class="required">*</span></label>
-            <input type="number" name="years_of_experience" value="{{ old('years_of_experience') }}" min="0"
-                required placeholder="e.g. 10">
+
+            <label class="form-label">
+                <span>Years of Experience</span>
+                <span class="required">*</span>
+            </label>
+
+            <input
+                type="number"
+                name="years_of_experience"
+                value="{{ old('years_of_experience') }}"
+                min="0"
+                required
+                placeholder="e.g. 10"
+            >
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Availability</span></label>
+
+            <label class="form-label">
+                <span>Availability</span>
+            </label>
+
             <select name="availability">
-                <option value="">Select availability</option>
-                <option value="Weekdays" {{ old('availability') == 'Weekdays' ? 'selected' : '' }}>Weekdays</option>
-                <option value="Weekends" {{ old('availability') == 'Weekends' ? 'selected' : '' }}>Weekends</option>
-                <option value="Flexible" {{ old('availability') == 'Flexible' ? 'selected' : '' }}>Flexible</option>
+
+                <option value="">
+                    Select availability
+                </option>
+
+                <option
+                    value="Weekdays"
+                    {{ old('availability') == 'Weekdays' ? 'selected' : '' }}
+                >
+                    Weekdays
+                </option>
+
+                <option
+                    value="Weekends"
+                    {{ old('availability') == 'Weekends' ? 'selected' : '' }}
+                >
+                    Weekends
+                </option>
+
+                <option
+                    value="Flexible"
+                    {{ old('availability') == 'Flexible' ? 'selected' : '' }}
+                >
+                    Flexible
+                </option>
+
             </select>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>LinkedIn Profile</span></label>
-            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/...">
+
+            <label class="form-label">
+                <span>LinkedIn Profile</span>
+            </label>
+
+            <input
+                type="url"
+                name="linkedin"
+                value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/..."
+            >
+
         </div>
+
+
         <div class="form-group full-width">
-            <label class="form-label"><span>Short Bio</span></label>
-            <textarea name="bio" rows="3" placeholder="Tell us about your experience and mentoring philosophy...">{{ old('bio') }}</textarea>
+
+            <label class="form-label">
+                <span>Short Bio</span>
+            </label>
+
+            <textarea
+                name="bio"
+                rows="3"
+                placeholder="Tell us about your experience and mentoring philosophy..."
+            >{{ old('bio') }}</textarea>
+
         </div>
+
+
         <div class="form-group">
-            <label class="form-label"><span>Resume</span></label>
+
+            <label class="form-label">
+                <span>Resume</span>
+            </label>
+
             <div class="file-upload">
-                <input type="file" name="resume" id="resume-mentor" accept=".pdf,.doc,.docx">
-                <label for="resume-mentor" class="file-label">
-                    <svg viewBox="0 0 24 24" width="18" height="18">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
-                            fill="none" />
-                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
-                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
-                            stroke-width="2" />
+
+                <input
+                    type="file"
+                    name="resume"
+                    id="resume-mentor"
+                    accept=".pdf,.doc,.docx"
+                >
+
+                <label
+                    for="resume-mentor"
+                    class="file-label"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                    >
+
+                        <path
+                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <polyline
+                            points="17 8 12 3 7 8"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            fill="none"
+                        />
+
+                        <line
+                            x1="12"
+                            y1="3"
+                            x2="12"
+                            y2="15"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        />
+
                     </svg>
-                    <span>Upload Resume</span>
+
+                    <span>
+                        Upload Resume
+                    </span>
+
                 </label>
+
             </div>
+
         </div>
+
     </template>
+
+@endsection
 
     <!-- Styles -->
     <style>

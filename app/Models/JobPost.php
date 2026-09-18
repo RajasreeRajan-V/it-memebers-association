@@ -210,4 +210,6 @@ public function invitations()
 {
     return $this->hasMany(JobInvitation::class, 'job_id');
 }
+
+
 }

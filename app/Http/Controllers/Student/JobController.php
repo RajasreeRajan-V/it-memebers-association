@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\JobPost;
 use App\Models\JobApplication;
 use App\Models\SavedJob;
-use App\Helpers\EmployerPortalNotificationHelper;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Helpers\EmployerPortalNotificationHelper;
 class JobController extends Controller
 {
     /**
@@ -117,15 +117,18 @@ class JobController extends Controller
         */
         $student = Auth::user();
 
-        EmployerPortalNotificationHelper::send(
-            employerId: $job->employer_id,
-            type: 'application',
-            title: 'New Job Application',
-            message: ($student->name ?? 'A candidate') . ' applied for your job: ' . $job->title,
-            url: route('employer.applicants.index'),
-            referenceId: $application->id,
-            referenceType: 'application'
-        );
+   EmployerPortalNotificationHelper::send(
+    employerId: $job->employer_id,
+    type: 'application',
+    title: 'New Applicant',
+    message: ($student->name ?? 'A candidate')
+        . ' has applied for your job "'
+        . $job->title
+        . '".',
+    url: route('employer.applicants.index'),
+    referenceId: $application->id,
+    referenceType: 'application'
+);
 
         /*
         |--------------------------------------------------------------------------

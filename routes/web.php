@@ -41,4 +41,3 @@ Route::view('/terms-and-conditions', 'policies.terms-and-conditions')->name('ter
 
 require __DIR__.'/auth.php';
 
-require __DIR__.'/employer.php';
