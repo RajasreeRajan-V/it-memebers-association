@@ -20,7 +20,8 @@ class StartupProfileRejected extends Mailable
 
     public function build()
     {
-        return $this->subject('Your Account has been rejected')
-            ->view('emails.startup.rejected');
+        return $this->subject('Your startup profile needs changes')
+            ->view('emails.startup-rejected')
+            ->with(['startup' => $this->startup]);
     }
 }

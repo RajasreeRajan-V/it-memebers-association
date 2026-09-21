@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Employer;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobPost;
+use App\Models\StartupProfile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
     /**
-     * Display employer's jobs with search and filters.
+     * =========================================================
+     * JOB INDEX
+     * =========================================================
      */
     public function index(Request $request)
     {
@@ -27,7 +30,11 @@ class JobController extends Controller
 
                 $search = trim($request->search);
 
-                $query->where('title', 'like', '%' . $search . '%');
+                $query->where(
+                    'title',
+                    'like',
+                    '%' . $search . '%'
+                );
             })
 
             /*
@@ -41,23 +48,68 @@ class JobController extends Controller
 
                 $query->where(function ($q) use ($location) {
 
-                    $q->where('country', 'like', '%' . $location . '%')
-                        ->orWhere('state', 'like', '%' . $location . '%')
-                        ->orWhere('district', 'like', '%' . $location . '%')
-                        ->orWhere('city', 'like', '%' . $location . '%');
+                    $q->where(
+                        'country',
+                        'like',
+                        '%' . $location . '%'
+                    )
+                    ->orWhere(
+                        'state',
+                        'like',
+                        '%' . $location . '%'
+                    )
+                    ->orWhere(
+                        'district',
+                        'like',
+                        '%' . $location . '%'
+                    )
+                    ->orWhere(
+                        'city',
+                        'like',
+                        '%' . $location . '%'
+                    );
                 });
             })
 
             /*
             |--------------------------------------------------------------------------
-            | Job Type
+            | Employment Type
             |--------------------------------------------------------------------------
             */
             ->when($request->filled('employment_type'), function ($query) use ($request) {
 
+                $employmentType = strtolower(
+                    trim($request->employment_type)
+                );
+
+                $employmentType = str_replace(
+                    '_',
+                    '-',
+                    $employmentType
+                );
+
+                $employmentType = match ($employmentType) {
+
+                    'full time',
+                    'fulltime',
+                    'full-time' => 'full-time',
+
+                    'part time',
+                    'parttime',
+                    'part-time' => 'part-time',
+
+                    'contract' => 'contract',
+
+                    'internship' => 'internship',
+
+                    'freelance' => 'freelance',
+
+                    default => $employmentType,
+                };
+
                 $query->where(
                     'employment_type',
-                    $request->employment_type
+                    $employmentType
                 );
             })
 
@@ -76,55 +128,155 @@ class JobController extends Controller
 
                         $q->whereNull('experience')
                             ->orWhere('experience', '')
-                            ->orWhere('experience', 'like', '%fresher%')
-                            ->orWhere('experience', 'like', '%0 year%')
-                            ->orWhere('experience', 'like', '%0-year%');
+                            ->orWhere(
+                                'experience',
+                                'like',
+                                '%fresher%'
+                            )
+                            ->orWhere(
+                                'experience',
+                                'like',
+                                '%0 year%'
+                            )
+                            ->orWhere(
+                                'experience',
+                                'like',
+                                '%0-year%'
+                            );
                     });
 
                 } elseif ($experience === '0-1') {
 
                     $query->where(function ($q) {
 
-                        $q->where('experience', 'like', '%0-1%')
-                            ->orWhere('experience', 'like', '%0 to 1%')
-                            ->orWhere('experience', 'like', '%0 - 1%')
-                            ->orWhere('experience', 'like', '%0 year%');
+                        $q->where(
+                            'experience',
+                            'like',
+                            '%0-1%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%0 to 1%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%0 - 1%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%0 year%'
+                        );
                     });
 
                 } elseif ($experience === '1-3') {
 
                     $query->where(function ($q) {
 
-                        $q->where('experience', 'like', '%1-3%')
-                            ->orWhere('experience', 'like', '%1 to 3%')
-                            ->orWhere('experience', 'like', '%1 - 3%');
+                        $q->where(
+                            'experience',
+                            'like',
+                            '%1-3%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%1 to 3%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%1 - 3%'
+                        );
                     });
 
                 } elseif ($experience === '3-5') {
 
                     $query->where(function ($q) {
 
-                        $q->where('experience', 'like', '%3-5%')
-                            ->orWhere('experience', 'like', '%3 to 5%')
-                            ->orWhere('experience', 'like', '%3 - 5%');
+                        $q->where(
+                            'experience',
+                            'like',
+                            '%3-5%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%3 to 5%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%3 - 5%'
+                        );
                     });
 
                 } elseif ($experience === '5+') {
 
                     $query->where(function ($q) {
 
-                        $q->where('experience', 'like', '%5+%')
-                            ->orWhere('experience', 'like', '%5 year%')
-                            ->orWhere('experience', 'like', '%6 year%')
-                            ->orWhere('experience', 'like', '%7 year%')
-                            ->orWhere('experience', 'like', '%8 year%')
-                            ->orWhere('experience', 'like', '%9 year%')
-                            ->orWhere('experience', 'like', '%10 year%')
-                            ->orWhere('experience', 'like', '%11 year%')
-                            ->orWhere('experience', 'like', '%12 year%')
-                            ->orWhere('experience', 'like', '%13 year%')
-                            ->orWhere('experience', 'like', '%14 year%')
-                            ->orWhere('experience', 'like', '%15 year%');
+                        $q->where(
+                            'experience',
+                            'like',
+                            '%5+%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%5 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%6 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%7 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%8 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%9 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%10 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%11 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%12 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%13 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%14 year%'
+                        )
+                        ->orWhere(
+                            'experience',
+                            'like',
+                            '%15 year%'
+                        );
                     });
                 }
             })
@@ -138,17 +290,34 @@ class JobController extends Controller
 
                 if ($request->status === 'active') {
 
-                    $query->where('is_active', true)
-                        ->where('status', '!=', 'closed');
+                    $query->where(
+                        'is_active',
+                        true
+                    )
+                    ->where(
+                        'status',
+                        '!=',
+                        'closed'
+                    );
 
                 } elseif ($request->status === 'inactive') {
 
-                    $query->where('is_active', false)
-                        ->where('status', '!=', 'closed');
+                    $query->where(
+                        'is_active',
+                        false
+                    )
+                    ->where(
+                        'status',
+                        '!=',
+                        'closed'
+                    );
 
                 } elseif ($request->status === 'closed') {
 
-                    $query->where('status', 'closed');
+                    $query->where(
+                        'status',
+                        'closed'
+                    );
                 }
             })
 
@@ -202,18 +371,8 @@ class JobController extends Controller
                 }
             })
 
-            /*
-            |--------------------------------------------------------------------------
-            | Latest Jobs First
-            |--------------------------------------------------------------------------
-            */
             ->latest()
 
-            /*
-            |--------------------------------------------------------------------------
-            | Pagination
-            |--------------------------------------------------------------------------
-            */
             ->paginate(2)
 
             ->withQueryString();
@@ -226,34 +385,81 @@ class JobController extends Controller
 
 
     /**
-     * Show create job page.
+     * =========================================================
+     * CREATE JOB
+     * =========================================================
      */
     public function create()
     {
-        return view('employers.jobs.create');
+        $startupProfiles = StartupProfile::where(
+            'employer_id',
+            Auth::id()
+        )
+        ->orderBy('startup_name')
+        ->get();
+
+        return view(
+            'employers.jobs.create',
+            compact('startupProfiles')
+        );
     }
 
 
     /**
-     * Store a new job.
+     * =========================================================
+     * STORE JOB
+     * =========================================================
      */
     public function store(Request $request)
     {
         $data = $this->validateJob($request);
 
         $data['employer_id'] = Auth::id();
+
         $data['is_active'] = true;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Verify Startup Profile Ownership
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($data['startup_profile_id'])) {
+
+            $startupExists = StartupProfile::where(
+                'id',
+                $data['startup_profile_id']
+            )
+            ->where(
+                'employer_id',
+                Auth::id()
+            )
+            ->exists();
+
+            if (!$startupExists) {
+
+                abort(
+                    403,
+                    'You do not have access to this startup profile.'
+                );
+            }
+        }
 
         JobPost::create($data);
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job posted successfully.');
+            ->with(
+                'success',
+                'Job posted successfully.'
+            );
     }
 
 
     /**
-     * Display a single job.
+     * =========================================================
+     * SHOW JOB
+     * =========================================================
      */
     public function show(JobPost $job)
     {
@@ -267,38 +473,86 @@ class JobController extends Controller
 
 
     /**
-     * Show edit job page.
+     * =========================================================
+     * EDIT JOB
+     * =========================================================
      */
     public function edit(JobPost $job)
     {
         $this->authorizeOwner($job);
 
+        $startupProfiles = StartupProfile::where(
+            'employer_id',
+            Auth::id()
+        )
+        ->orderBy('startup_name')
+        ->get();
+
         return view(
             'employers.jobs.edit',
-            compact('job')
+            compact(
+                'job',
+                'startupProfiles'
+            )
         );
     }
 
 
     /**
-     * Update an existing job.
+     * =========================================================
+     * UPDATE JOB
+     * =========================================================
      */
-    public function update(Request $request, JobPost $job)
-    {
+    public function update(
+        Request $request,
+        JobPost $job
+    ) {
         $this->authorizeOwner($job);
 
         $data = $this->validateJob($request);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Verify Startup Profile Ownership
+        |--------------------------------------------------------------------------
+        */
+
+        if (!empty($data['startup_profile_id'])) {
+
+            $startupExists = StartupProfile::where(
+                'id',
+                $data['startup_profile_id']
+            )
+            ->where(
+                'employer_id',
+                Auth::id()
+            )
+            ->exists();
+
+            if (!$startupExists) {
+
+                abort(
+                    403,
+                    'You do not have access to this startup profile.'
+                );
+            }
+        }
 
         $job->update($data);
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job updated successfully.');
+            ->with(
+                'success',
+                'Job updated successfully.'
+            );
     }
 
 
     /**
-     * Duplicate an existing job.
+     * =========================================================
+     * DUPLICATE JOB
+     * =========================================================
      */
     public function duplicate(JobPost $job)
     {
@@ -311,16 +565,19 @@ class JobController extends Controller
         $duplicate->title = $job->title . ' - Copy';
 
         if ($duplicate->isFillable('status')) {
+
             $duplicate->status = 'pending';
         }
 
         if ($duplicate->isFillable('rejection_reason')) {
+
             $duplicate->rejection_reason = null;
         }
 
         $duplicate->is_active = true;
 
         if ($duplicate->isFillable('expires_at')) {
+
             $duplicate->expires_at = $job->expires_at;
         }
 
@@ -328,19 +585,24 @@ class JobController extends Controller
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job duplicated successfully.');
+            ->with(
+                'success',
+                'Job duplicated successfully.'
+            );
     }
 
 
     /**
-     * Toggle active/inactive status.
+     * =========================================================
+     * TOGGLE ACTIVE / INACTIVE
+     * =========================================================
      */
     public function toggleActive(JobPost $job)
     {
         $this->authorizeOwner($job);
 
         $job->update([
-            'is_active' => ! $job->is_active,
+            'is_active' => !$job->is_active,
         ]);
 
         return back()->with(
@@ -353,7 +615,9 @@ class JobController extends Controller
 
 
     /**
-     * Close a job.
+     * =========================================================
+     * CLOSE JOB
+     * =========================================================
      */
     public function close(JobPost $job)
     {
@@ -366,12 +630,17 @@ class JobController extends Controller
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job closed successfully.');
+            ->with(
+                'success',
+                'Job closed successfully.'
+            );
     }
 
 
     /**
-     * Reopen a closed job.
+     * =========================================================
+     * REOPEN JOB
+     * =========================================================
      */
     public function reopen(JobPost $job)
     {
@@ -384,12 +653,17 @@ class JobController extends Controller
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job reopened successfully.');
+            ->with(
+                'success',
+                'Job reopened successfully.'
+            );
     }
 
 
     /**
-     * Delete a job.
+     * =========================================================
+     * DELETE JOB
+     * =========================================================
      */
     public function destroy(JobPost $job)
     {
@@ -399,19 +673,161 @@ class JobController extends Controller
 
         return redirect()
             ->route('employer.jobs.index')
-            ->with('success', 'Job deleted successfully.');
+            ->with(
+                'success',
+                'Job deleted successfully.'
+            );
     }
 
 
     /**
-     * Validate job data.
+     * =========================================================
+     * VALIDATE JOB
+     * =========================================================
      */
     private function validateJob(Request $request): array
     {
-        $isRemote = $request->work_mode === 'remote';
+        /*
+        |--------------------------------------------------------------------------
+        | NORMALIZE EMPLOYMENT TYPE
+        |--------------------------------------------------------------------------
+        |
+        | The frontend may send:
+        |
+        | full_time
+        | full-time
+        | Full Time
+        | full time
+        | fulltime
+        |
+        | We convert everything to:
+        |
+        | full-time
+        |
+        |--------------------------------------------------------------------------
+        */
+
+        $employmentType = $request->input(
+            'employment_type'
+        );
+
+        if ($employmentType !== null) {
+
+            $employmentType = strtolower(
+                trim($employmentType)
+            );
+
+            /*
+            | Convert underscore to hyphen
+            */
+            $employmentType = str_replace(
+                '_',
+                '-',
+                $employmentType
+            );
+
+            /*
+            | Convert multiple spaces to one space
+            */
+            $employmentType = preg_replace(
+                '/\s+/',
+                ' ',
+                $employmentType
+            );
+
+            /*
+            | Normalize all accepted values
+            */
+            $employmentType = match ($employmentType) {
+
+                'full-time',
+                'full time',
+                'fulltime' => 'full-time',
+
+                'part-time',
+                'part time',
+                'parttime' => 'part-time',
+
+                'contract' => 'contract',
+
+                'internship',
+                'intern' => 'internship',
+
+                'freelance',
+                'freelancer' => 'freelance',
+
+                default => $employmentType,
+            };
+
+            /*
+            | Put normalized value back into request
+            */
+            $request->merge([
+                'employment_type' => $employmentType,
+            ]);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NORMALIZE WORK MODE
+        |--------------------------------------------------------------------------
+        */
+
+        $workMode = $request->input(
+            'work_mode'
+        );
+
+        if ($workMode !== null) {
+
+            $workMode = strtolower(
+                trim($workMode)
+            );
+
+            $workMode = str_replace(
+                '_',
+                '-',
+                $workMode
+            );
+
+            $workMode = preg_replace(
+                '/\s+/',
+                ' ',
+                $workMode
+            );
+
+            $workMode = match ($workMode) {
+
+                'remote' => 'remote',
+
+                'hybrid' => 'hybrid',
+
+                'onsite',
+                'on-site',
+                'on site' => 'onsite',
+
+                default => $workMode,
+            };
+
+            $request->merge([
+                'work_mode' => $workMode,
+            ]);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDATION
+        |--------------------------------------------------------------------------
+        */
 
         return $request->validate([
 
+            /*
+            |--------------------------------------------------------------------------
+            | Job Title
+            |--------------------------------------------------------------------------
+            */
             'title' => [
                 'required',
                 'string',
@@ -419,44 +835,86 @@ class JobController extends Controller
                 'regex:/^[A-Za-z0-9\s\-&().,]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Employment Type
+            |--------------------------------------------------------------------------
+            */
             'employment_type' => [
                 'required',
-                'in:full-time,part-time,contract,freelance',
+                'in:full-time,part-time,contract,internship,freelance',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Work Mode
+            |--------------------------------------------------------------------------
+            */
             'work_mode' => [
                 'required',
                 'in:onsite,hybrid,remote',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Experience
+            |--------------------------------------------------------------------------
+            */
             'experience' => [
                 'nullable',
                 'string',
                 'max:100',
-                'regex:/^[A-Za-z0-9\s-]+$/',
+                'regex:/^[A-Za-z0-9\s\-+.,]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Salary
+            |--------------------------------------------------------------------------
+            */
             'salary' => [
                 'nullable',
                 'string',
                 'max:100',
-                'regex:/^[0-9₹$,.\/\-\s]+$/',
+                'regex:/^[A-Za-z0-9\s₹$€£+\-.,\/]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Qualification
+            |--------------------------------------------------------------------------
+            */
             'qualification' => [
                 'nullable',
                 'string',
                 'max:255',
-                'regex:/^[A-Za-z0-9\s,.\-()&]+$/',
+                'regex:/^[A-Za-z0-9\s\-&().,]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Skills
+            |--------------------------------------------------------------------------
+            */
             'skills' => [
                 'nullable',
                 'string',
                 'max:500',
-                'regex:/^[A-Za-z0-9\s,.\-+#\/&()]+$/',
+                'regex:/^[A-Za-z0-9\s\-+&().,#\/]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Country
+            |--------------------------------------------------------------------------
+            */
             'country' => [
                 'nullable',
                 'string',
@@ -464,81 +922,142 @@ class JobController extends Controller
                 'regex:/^[A-Za-z\s]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | State
+            |--------------------------------------------------------------------------
+            */
             'state' => [
-                $isRemote ? 'nullable' : 'required',
+                'nullable',
                 'string',
                 'max:100',
                 'regex:/^[A-Za-z\s]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | District
+            |--------------------------------------------------------------------------
+            */
             'district' => [
-                $isRemote ? 'nullable' : 'required',
+                'nullable',
                 'string',
                 'max:100',
                 'regex:/^[A-Za-z\s]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | City
+            |--------------------------------------------------------------------------
+            */
             'city' => [
-                $isRemote ? 'nullable' : 'required',
+                'nullable',
                 'string',
                 'max:100',
                 'regex:/^[A-Za-z\s]+$/',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Description
+            |--------------------------------------------------------------------------
+            */
             'description' => [
                 'required',
                 'string',
                 'max:5000',
             ],
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | Startup Profile
+            |--------------------------------------------------------------------------
+            */
+            'startup_profile_id' => [
+                'nullable',
+                'integer',
+                'exists:startup_profiles,id',
+            ],
+
         ], [
 
+            /*
+            |--------------------------------------------------------------------------
+            | Custom Error Messages
+            |--------------------------------------------------------------------------
+            */
+
+            'title.required' =>
+                'Please enter a job title.',
+
             'title.regex' =>
-                'Title can only contain letters, numbers, and & ( ) . , -.',
+                'The job title contains invalid characters.',
+
+
+            'employment_type.required' =>
+                'Please select an employment type.',
+
+            'employment_type.in' =>
+                'Please select a valid employment type.',
+
+
+            'work_mode.required' =>
+                'Please select a work mode.',
+
+            'work_mode.in' =>
+                'Please select a valid work mode.',
+
 
             'experience.regex' =>
-                'Experience can only contain letters, numbers, and -.',
+                'The experience contains invalid characters.',
+
 
             'salary.regex' =>
-                'Salary can only contain numbers and ₹ $ , . - / (no letters).',
+                'The salary contains invalid characters.',
+
 
             'qualification.regex' =>
-                'Qualification can only contain letters, numbers, and , . - ( ) &.',
+                'The qualification contains invalid characters.',
+
 
             'skills.regex' =>
-                'Skills can only contain letters, numbers, and , . - + # / & ( ).',
+                'The skills contain invalid characters.',
+
 
             'country.regex' =>
-                'Country can only contain letters.',
+                'The country contains invalid characters.',
 
-            'state.required' =>
-                'State is required for Hybrid and On-site jobs.',
 
             'state.regex' =>
-                'State can only contain letters.',
+                'The state contains invalid characters.',
 
-            'district.required' =>
-                'District is required for Hybrid and On-site jobs.',
 
             'district.regex' =>
-                'District can only contain letters.',
+                'The district contains invalid characters.',
 
-            'city.required' =>
-                'City is required for Hybrid and On-site jobs.',
 
             'city.regex' =>
-                'City can only contain letters.',
+                'The city contains invalid characters.',
+
         ]);
     }
 
 
     /**
-     * Make sure the job belongs to the logged-in employer.
+     * =========================================================
+     * AUTHORIZE JOB OWNER
+     * =========================================================
      */
     private function authorizeOwner(JobPost $job): void
     {
         abort_if(
-            $job->employer_id !== Auth::id(),
+            (int) $job->employer_id !== (int) Auth::id(),
             403,
             'You do not have access to this job.'
         );

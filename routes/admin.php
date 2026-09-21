@@ -130,20 +130,20 @@ Route::name('admin.')->group(function () {
         |--------------------------------------------------------------------------
         */
 
-        Route::get(
-            'startups',
-            [StartupApprovalController::class, 'index']
-        )->name('startups.index');
+   Route::get(
+    'startups',
+    [StartupApprovalController::class, 'index']
+)->name('startups.index');
 
-        Route::post(
-            'startups/{startup}/approve',
-            [StartupApprovalController::class, 'approve']
-        )->name('startups.approve');
+Route::post(
+    'startups/{startup}/approve',
+    [StartupApprovalController::class, 'approve']
+)->name('startups.approve');
 
-        Route::post(
-            'startups/{startup}/reject',
-            [StartupApprovalController::class, 'reject']
-        )->name('startups.reject');
+Route::post(
+    'startups/{startup}/reject',
+    [StartupApprovalController::class, 'reject']
+)->name('startups.reject');
 
 
         /*
