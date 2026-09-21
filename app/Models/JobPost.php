@@ -13,6 +13,10 @@ class JobPost extends Model
 
     protected $fillable = [
         'employer_id',
+
+        // Startup Profile connection
+        'startup_profile_id',
+
         'title',
         'employment_type',
         'experience',
@@ -38,6 +42,49 @@ class JobPost extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | Startup Profile
+    |--------------------------------------------------------------------------
+    */
+
+    public function startupProfile()
+    {
+        return $this->belongsTo(
+            StartupProfile::class,
+            'startup_profile_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Employer
+    |--------------------------------------------------------------------------
+    */
+
+    public function employer()
+    {
+        return $this->belongsTo(
+            User::class,
+            'employer_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Employer Registration
+    |--------------------------------------------------------------------------
+    */
+
+    public function employerRegistration()
+    {
+        return $this->belongsTo(
+            EmployerRegistration::class,
+            'employer_id',
+            'user_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Skills
     |--------------------------------------------------------------------------
     */
@@ -50,7 +97,10 @@ class JobPost extends Model
 
         $decoded = json_decode($value, true);
 
-        if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+        if (
+            json_last_error() === JSON_ERROR_NONE &&
+            is_array($decoded)
+        ) {
             return array_values(
                 array_filter(
                     array_map('trim', $decoded)
@@ -84,24 +134,16 @@ class JobPost extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Employer
-    |--------------------------------------------------------------------------
-    */
-
-    public function employer()
-    {
-        return $this->belongsTo(User::class, 'employer_id');
-    }
-
-    /*
-    |--------------------------------------------------------------------------
     | Saved Jobs
     |--------------------------------------------------------------------------
     */
 
     public function savedBy()
     {
-        return $this->hasMany(SavedJob::class, 'job_post_id');
+        return $this->hasMany(
+            SavedJob::class,
+            'job_post_id'
+        );
     }
 
     /*
@@ -112,7 +154,24 @@ class JobPost extends Model
 
     public function applications()
     {
-        return $this->hasMany(JobApplication::class, 'job_post_id');
+        return $this->hasMany(
+            JobApplication::class,
+            'job_post_id'
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Invitations
+    |--------------------------------------------------------------------------
+    */
+
+    public function invitations()
+    {
+        return $this->hasMany(
+            JobInvitation::class,
+            'job_id'
+        );
     }
 
     /*
@@ -133,20 +192,16 @@ class JobPost extends Model
 
     public function scopeByEmployer($query, $employerId)
     {
-        return $query->where('employer_id', $employerId);
+        return $query->where(
+            'employer_id',
+            $employerId
+        );
     }
 
     /*
     |--------------------------------------------------------------------------
     | Compatibility Accessors
     |--------------------------------------------------------------------------
-    |
-    | Your older student Blade files use names such as:
-    | job_title, job_description, job_type, experience_level,
-    | salary_range and location.
-    |
-    | These accessors map those names to the actual job_posts columns.
-    |
     */
 
     public function getJobTitleAttribute()
@@ -196,20 +251,4 @@ class JobPost extends Model
 
         return implode(', ', $parts);
     }
-
-
-    public function employerRegistration()
-{
-    return $this->belongsTo(
-        \App\Models\EmployerRegistration::class,
-        'employer_id',
-        'user_id'
-    );
-}
-public function invitations()
-{
-    return $this->hasMany(JobInvitation::class, 'job_id');
-}
-
-
 }

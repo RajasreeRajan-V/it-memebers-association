@@ -28,7 +28,7 @@ class StartupApprovalController extends Controller
             'rejection_reason' => null,
         ]);
 
-        Mail::to($startup->contact_email)->send(new StartupProfileApproved($startup));
+        Mail::to($startup->startup_email)->send(new StartupProfileApproved($startup));
 
         return back()->with('success', 'Startup profile approved.');
     }

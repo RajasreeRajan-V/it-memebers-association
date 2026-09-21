@@ -222,47 +222,122 @@ Route::patch('/projects/{project}/complete', [ProjectController::class, 'complet
     ->name('projects.complete');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Startup Profile Routes
-        |--------------------------------------------------------------------------
-        */
+ /*
+|--------------------------------------------------------------------------
+| Startup Profile Routes
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/startup-profile', [
-            StartupProfileController::class,
-            'index'
-        ])->name('startup-profile.index');
+/*
+|--------------------------------------------------------------------------
+| Startup Profile Index
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/startup-profile/create', [
-            StartupProfileController::class,
-            'create'
-        ])->name('startup-profile.create');
+Route::get('/startup-profile', [
+    StartupProfileController::class,
+    'index'
+])->name('startup-profile.index');
 
-        Route::post('/startup-profile', [
-            StartupProfileController::class,
-            'store'
-        ])->name('startup-profile.store');
 
-        Route::get('/startup-profile/show', [
-            StartupProfileController::class,
-            'show'
-        ])->name('startup-profile.show');
+/*
+|--------------------------------------------------------------------------
+| Create Startup Profile
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/startup-profile/edit', [
-            StartupProfileController::class,
-            'edit'
-        ])->name('startup-profile.edit');
+Route::get('/startup-profile/create', [
+    StartupProfileController::class,
+    'create'
+])->name('startup-profile.create');
 
-        Route::put('/startup-profile', [
-            StartupProfileController::class,
-            'update'
-        ])->name('startup-profile.update');
 
-        Route::delete('/startup-profile', [
-            StartupProfileController::class,
-            'destroy'
-        ])->name('startup-profile.destroy');
+/*
+|--------------------------------------------------------------------------
+| Store Startup Profile
+|--------------------------------------------------------------------------
+*/
 
+Route::post('/startup-profile', [
+    StartupProfileController::class,
+    'store'
+])->name('startup-profile.store');
+
+
+/*
+|--------------------------------------------------------------------------
+| Show Startup Profile
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/startup-profile/show/{startupProfile}', [
+    StartupProfileController::class,
+    'show'
+])->name('startup-profile.show');
+
+
+/*
+|--------------------------------------------------------------------------
+| Edit Startup Profile
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/startup-profile/edit/{startupProfile}', [
+    StartupProfileController::class,
+    'edit'
+])->name('startup-profile.edit');
+
+
+/*
+|--------------------------------------------------------------------------
+| Update Startup Profile
+|--------------------------------------------------------------------------
+*/
+
+Route::put('/startup-profile/{startupProfile}', [
+    StartupProfileController::class,
+    'update'
+])->name('startup-profile.update');
+
+
+/*
+|--------------------------------------------------------------------------
+| Delete Startup Profile
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/startup-profile/{startupProfile}', [
+    StartupProfileController::class,
+    'destroy'
+])->name('startup-profile.destroy');
+
+
+/*
+|--------------------------------------------------------------------------
+| Publish / Unpublish Startup Profile
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/startup-profile/{startupProfile}/toggle', [
+    StartupProfileController::class,
+    'togglePublish'
+])->name('startup-profile.toggle');
+
+
+/*
+|--------------------------------------------------------------------------
+| Startup Profile Jobs
+|--------------------------------------------------------------------------
+|
+| IMPORTANT:
+| Do NOT define this route twice.
+|
+*/
+
+Route::get('/startup-profile/{startupProfile}/jobs', [
+    StartupProfileController::class,
+    'jobs'
+])->name('startup-profile.jobs');
 
 /*
 |--------------------------------------------------------------------------

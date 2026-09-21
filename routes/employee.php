@@ -8,7 +8,11 @@ use App\Http\Controllers\Employee\LegalHelpController;
 use App\Http\Controllers\Employee\WebinarController;
 use App\Http\Controllers\Employee\WebinarFeedbackController;
 use App\Http\Controllers\Employee\CertificateController;
+use App\Http\Controllers\Employee\StartupController;
 use App\Http\Controllers\Employee\TrainingController as EmployeeTrainingController;
+
+
+
 Route::middleware(['member.auth'])
     ->name('employee.')
     ->group(function () {
@@ -133,5 +137,17 @@ Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectAppli
                 Route::post('/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])
                     ->name('documents.store');
             });
+
+
+
+                 Route::get(
+            '/startups',
+            [StartupController::class, 'index']
+        )->name('startups.index');
+
+        Route::get(
+            '/startups/{startupProfile:slug}',
+            [StartupController::class, 'show']
+        )->name('startups.show');
 
     });

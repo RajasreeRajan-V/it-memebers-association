@@ -572,6 +572,26 @@
         color: #475569;
     }
 
+    .startup-job-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        margin-left: 2px;
+        border-radius: 999px;
+        background: #eef4ff;
+        color: #2563eb;
+        border: 1px solid #dbeafe;
+        font-size: 8px;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .startup-job-badge i {
+        color: #2563eb;
+        font-size: 8px;
+    }
+
     .job-separator {
         color: #cbd5e1;
     }
@@ -1573,6 +1593,7 @@
     }
 </style>
 
+
 <div class="jobs-page">
 
 
@@ -1587,27 +1608,41 @@
         <div class="hero-left">
 
             <span class="hero-badge">
+
                 <svg fill="currentColor" viewBox="0 0 24 24">
                     <path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z"/>
                 </svg>
 
                 BUILD YOUR NEXT TEAM
+
             </span>
 
+
             <h1 class="hero-title">
+
                 Find Great Talent,
-                <span>Build Your Team</span>
+
+                <span>
+                    Build Your Team
+                </span>
+
             </h1>
 
+
             <p class="hero-description">
+
                 Create job opportunities, connect with qualified professionals,
                 review applications, and build your team with confidence.
+
             </p>
+
 
             <div class="hero-buttons">
 
-                <a href="{{ route('employer.jobs.create') }}"
-                   class="hero-primary-btn">
+                <a
+                    href="{{ route('employer.jobs.create') }}"
+                    class="hero-primary-btn"
+                >
 
                     <i class="bi bi-plus-lg"></i>
 
@@ -1615,8 +1650,11 @@
 
                 </a>
 
-                <a href="#job-list"
-                   class="hero-secondary-btn">
+
+                <a
+                    href="#job-list"
+                    class="hero-secondary-btn"
+                >
 
                     View My Jobs
 
@@ -1629,17 +1667,22 @@
 
         <div class="hero-image-wrap">
 
-            <img src="{{ asset('assets/img/jjj.png') }}"
-                 alt="Manage employer jobs"
-                 class="hero-image"
-                 onerror="this.style.display='none'">
+            <img
+                src="{{ asset('assets/img/jjj.png') }}"
+                alt="Manage employer jobs"
+                class="hero-image"
+                onerror="this.style.display='none'"
+            >
 
 
             <div class="floating-card floating-card-one">
 
                 <span class="floating-icon floating-icon-blue">
+
                     <i class="bi bi-check-lg"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1659,8 +1702,11 @@
             <div class="floating-card floating-card-two">
 
                 <span class="floating-icon floating-icon-purple">
+
                     <i class="bi bi-stars"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1680,8 +1726,11 @@
             <div class="floating-card floating-card-three">
 
                 <span class="floating-icon floating-icon-green">
+
                     <i class="bi bi-lightning-charge-fill"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1702,6 +1751,7 @@
     </div>
 
 </section>
+
 
 
 {{-- =====================================================
@@ -1733,6 +1783,7 @@
                     </h2>
 
                     <p class="jobs-list-subtitle">
+
                         Manage your vacancies and hiring activity
 
                         @if(request()->hasAny([
@@ -1742,8 +1793,11 @@
                         ]))
 
                             <span class="active-filter-badge">
+
                                 <i class="bi bi-funnel-fill"></i>
+
                                 Filtered Results
+
                             </span>
 
                         @endif
@@ -1760,16 +1814,19 @@
             </div>
 
 
+
             {{-- =================================================
-                 COMPACT SEARCH / FILTER
+                 SEARCH / FILTER
             ================================================== --}}
 
             <div class="jobs-search-card">
 
-                <form action="{{ route('employer.jobs.index') }}"
-                      method="GET"
-                      class="jobs-search-form"
-                      id="jobSearchForm">
+                <form
+                    action="{{ route('employer.jobs.index') }}"
+                    method="GET"
+                    class="jobs-search-form"
+                    id="jobSearchForm"
+                >
 
 
                     {{-- SEARCH --}}
@@ -1778,78 +1835,108 @@
 
                         <i class="bi bi-search"></i>
 
-                        <input type="text"
-                               name="search"
-                               class="jobs-search-input"
-                               value="{{ request('search') }}"
-                               placeholder="Search jobs, skills, location...">
+                        <input
+                            type="text"
+                            name="search"
+                            class="jobs-search-input"
+                            value="{{ request('search') }}"
+                            placeholder="Search jobs, skills, location..."
+                        >
 
                     </div>
 
 
+
                     {{-- EMPLOYMENT TYPE --}}
 
-                    <select name="employment_type"
-                            class="jobs-search-select">
+                    <select
+                        name="employment_type"
+                        class="jobs-search-select"
+                    >
 
                         <option value="">
                             Employment Types
                         </option>
 
-                        <option value="full_time"
-                            {{ request('employment_type') === 'full_time' ? 'selected' : '' }}>
+
+                        <option
+                            value="full-time"
+                            {{ request('employment_type') === 'full-time' ? 'selected' : '' }}
+                        >
                             Full Time
                         </option>
 
-                        <option value="part_time"
-                            {{ request('employment_type') === 'part_time' ? 'selected' : '' }}>
+
+                        <option
+                            value="part-time"
+                            {{ request('employment_type') === 'part-time' ? 'selected' : '' }}
+                        >
                             Part Time
                         </option>
 
-                        <option value="contract"
-                            {{ request('employment_type') === 'contract' ? 'selected' : '' }}>
+
+                        <option
+                            value="contract"
+                            {{ request('employment_type') === 'contract' ? 'selected' : '' }}
+                        >
                             Contract
                         </option>
 
-                        <option value="internship"
-                            {{ request('employment_type') === 'internship' ? 'selected' : '' }}>
+
+                        <option
+                            value="internship"
+                            {{ request('employment_type') === 'internship' ? 'selected' : '' }}
+                        >
                             Internship
                         </option>
 
-                        <option value="freelance"
-                            {{ request('employment_type') === 'freelance' ? 'selected' : '' }}>
+
+                        <option
+                            value="freelance"
+                            {{ request('employment_type') === 'freelance' ? 'selected' : '' }}
+                        >
                             Freelance
                         </option>
 
                     </select>
 
 
+
                     {{-- STATUS --}}
 
-                    <select name="status"
-                            class="jobs-search-select">
+                    <select
+                        name="status"
+                        class="jobs-search-select"
+                    >
 
                         <option value="">
                             All Status
                         </option>
 
-                        <option value="active"
-                            {{ request('status') === 'active' ? 'selected' : '' }}>
+                        <option
+                            value="active"
+                            {{ request('status') === 'active' ? 'selected' : '' }}
+                        >
                             Active
                         </option>
 
-                        <option value="closed"
-                            {{ request('status') === 'closed' ? 'selected' : '' }}>
+                        <option
+                            value="closed"
+                            {{ request('status') === 'closed' ? 'selected' : '' }}
+                        >
                             Closed
                         </option>
 
                     </select>
 
 
+
                     {{-- SEARCH BUTTON --}}
 
-                    <button type="submit"
-                            class="jobs-search-btn">
+                    <button
+                        type="submit"
+                        class="jobs-search-btn"
+                    >
 
                         <i class="bi bi-search"></i>
 
@@ -1858,7 +1945,8 @@
                     </button>
 
 
-                    {{-- CLEAR BUTTON BESIDE SEARCH --}}
+
+                    {{-- CLEAR BUTTON --}}
 
                     @if(request()->hasAny([
                         'search',
@@ -1866,8 +1954,10 @@
                         'status'
                     ]))
 
-                        <a href="{{ route('employer.jobs.index') }}"
-                           class="jobs-clear-btn">
+                        <a
+                            href="{{ route('employer.jobs.index') }}"
+                            class="jobs-clear-btn"
+                        >
 
                             <i class="bi bi-x-lg"></i>
 
@@ -1878,6 +1968,7 @@
                     @endif
 
                 </form>
+
 
 
                 {{-- RESULT TEXT --}}
@@ -1899,16 +1990,28 @@
 
                         @endif
 
+
                         @if(request('employment_type'))
 
                             ·
-                            {{ ucwords(str_replace('_', ' ', request('employment_type'))) }}
+
+                            {{
+                                ucwords(
+                                    str_replace(
+                                        ['-', '_'],
+                                        ' ',
+                                        request('employment_type')
+                                    )
+                                )
+                            }}
 
                         @endif
+
 
                         @if(request('status'))
 
                             ·
+
                             {{ ucfirst(request('status')) }}
 
                         @endif
@@ -1918,6 +2021,7 @@
                 @endif
 
             </div>
+
 
 
             {{-- =================================================
@@ -1947,7 +2051,8 @@
 
                     $employmentType = $job->employment_type
                         ?? $job->job_type
-                        ?? 'full_time';
+                        ?? 'full-time';
+
 
                     $employmentKey = strtolower(
                         str_replace(
@@ -1957,6 +2062,34 @@
                         )
                     );
 
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Handle old values
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $employmentKey = match ($employmentKey) {
+
+                        'full_time' => 'full_time',
+
+                        'part_time' => 'part_time',
+
+                        'contract' => 'contract',
+
+                        'internship',
+                        'intern' => 'internship',
+
+                        'freelance',
+                        'freelancer' => 'freelance',
+
+                        'temporary' => 'temporary',
+
+                        default => $employmentKey,
+
+                    };
+
+
                     $employmentLabel = ucwords(
                         str_replace(
                             '_',
@@ -1965,21 +2098,29 @@
                         )
                     );
 
+
                     $employmentTagClass = match ($employmentKey) {
 
-                        'full_time' => 'job-type-full-time',
+                        'full_time' =>
+                            'job-type-full-time',
 
-                        'part_time' => 'job-type-part-time',
+                        'part_time' =>
+                            'job-type-part-time',
 
-                        'contract' => 'job-type-contract',
+                        'contract' =>
+                            'job-type-contract',
 
-                        'freelance' => 'job-type-freelance',
+                        'freelance' =>
+                            'job-type-freelance',
 
-                        'internship' => 'job-type-internship',
+                        'internship' =>
+                            'job-type-internship',
 
-                        'temporary' => 'job-type-temporary',
+                        'temporary' =>
+                            'job-type-temporary',
 
-                        default => 'job-type-default',
+                        default =>
+                            'job-type-default',
 
                     };
 
@@ -1995,12 +2136,18 @@
                     $district = $job->district ?? '';
                     $country = $job->country ?? '';
 
+
                     $locationParts = array_filter([
                         $city,
                         $state
                     ]);
 
-                    $location = implode(', ', $locationParts);
+
+                    $location = implode(
+                        ', ',
+                        $locationParts
+                    );
+
 
                     $modalLocationParts = array_filter([
                         $city,
@@ -2009,20 +2156,57 @@
                         $country
                     ]);
 
-                    $modalLocation = implode(', ', $modalLocationParts);
+
+                    $modalLocation = implode(
+                        ', ',
+                        $modalLocationParts
+                    );
 
 
                     /*
                     |--------------------------------------------------------------------------
-                    | COMPANY
+                    | COMPANY / STARTUP PROFILE
                     |--------------------------------------------------------------------------
+                    |
+                    | IMPORTANT:
+                    |
+                    | Normal Job:
+                    | startup_profile_id = NULL
+                    | → employer company name
+                    |
+                    | Startup Job:
+                    | startup_profile_id has value
+                    | → startup profile name
+                    |
                     */
 
-                    $employerRegistration = $job->employerRegistration ?? null;
+                    $employerRegistration =
+                        $job->employerRegistration ?? null;
 
-                    $companyName = optional($employerRegistration)->company_name
-                        ?? $job->company_name
-                        ?? 'Your Company';
+
+                    $startupProfile =
+                        $job->startupProfile ?? null;
+
+
+                    $isStartupJob =
+                        !empty($job->startup_profile_id)
+                        && $startupProfile;
+
+
+                    if ($isStartupJob) {
+
+                        $companyName =
+                            $startupProfile->startup_name
+                            ?? 'Startup';
+
+                    } else {
+
+                        $companyName =
+                            optional($employerRegistration)->company_name
+                            ?? $job->company_name
+                            ?? 'Your Company';
+
+                    }
 
 
                     /*
@@ -2035,6 +2219,7 @@
                         ?? $job->location_type
                         ?? '';
 
+
                     $workModeLabel = $workMode
                         ? ucwords(
                             str_replace(
@@ -2044,6 +2229,7 @@
                             )
                         )
                         : 'Not specified';
+
 
 
                     /*
@@ -2056,11 +2242,15 @@
                         ?? $job->experience_level
                         ?? '';
 
+
                     if (is_array($experienceRaw)) {
 
                         $experience = implode(
                             ', ',
-                            array_map('strval', $experienceRaw)
+                            array_map(
+                                'strval',
+                                $experienceRaw
+                            )
                         );
 
                     } else {
@@ -2069,13 +2259,16 @@
 
                     }
 
+
                     $experience = trim($experience);
+
 
                     if ($experience === '') {
 
                         $experience = 'Not specified';
 
                     }
+
 
 
                     /*
@@ -2086,11 +2279,15 @@
 
                     $salaryRaw = $job->salary ?? '';
 
+
                     if (is_array($salaryRaw)) {
 
                         $salary = implode(
                             ', ',
-                            array_map('strval', $salaryRaw)
+                            array_map(
+                                'strval',
+                                $salaryRaw
+                            )
                         );
 
                     } else {
@@ -2099,7 +2296,9 @@
 
                     }
 
+
                     $salary = trim($salary);
+
 
                     if ($salary === '') {
 
@@ -2108,34 +2307,46 @@
                     }
 
 
+
                     /*
                     |--------------------------------------------------------------------------
                     | QUALIFICATION
                     |--------------------------------------------------------------------------
                     */
 
-                    $qualificationRaw = $job->qualification ?? '';
+                    $qualificationRaw =
+                        $job->qualification ?? '';
+
 
                     if (is_array($qualificationRaw)) {
 
                         $qualification = implode(
                             ', ',
-                            array_map('strval', $qualificationRaw)
+                            array_map(
+                                'strval',
+                                $qualificationRaw
+                            )
                         );
 
                     } else {
 
-                        $qualification = (string) $qualificationRaw;
+                        $qualification =
+                            (string) $qualificationRaw;
 
                     }
 
-                    $qualification = trim($qualification);
+
+                    $qualification =
+                        trim($qualification);
+
 
                     if ($qualification === '') {
 
-                        $qualification = 'Not specified';
+                        $qualification =
+                            'Not specified';
 
                     }
+
 
 
                     /*
@@ -2146,76 +2357,105 @@
 
                     $skillsRaw = $job->skills ?? '';
 
+
                     if (is_array($skillsRaw)) {
 
                         $skillsArray = collect($skillsRaw)
+
                             ->flatten()
+
                             ->map(function ($skill) {
 
-                                return trim((string) $skill);
+                                return trim(
+                                    (string) $skill
+                                );
 
                             })
+
                             ->filter()
+
                             ->values()
+
                             ->all();
 
                     } else {
 
-                        $skillsString = (string) $skillsRaw;
+                        $skillsString =
+                            (string) $skillsRaw;
 
-                        $decodedSkills = json_decode(
-                            $skillsString,
-                            true
-                        );
+
+                        $decodedSkills =
+                            json_decode(
+                                $skillsString,
+                                true
+                            );
+
 
                         if (
                             json_last_error() === JSON_ERROR_NONE
                             && is_array($decodedSkills)
                         ) {
 
-                            $skillsArray = collect($decodedSkills)
+                            $skillsArray =
+                                collect($decodedSkills)
+
                                 ->flatten()
+
                                 ->map(function ($skill) {
 
-                                    return trim((string) $skill);
+                                    return trim(
+                                        (string) $skill
+                                    );
 
                                 })
+
                                 ->filter()
+
                                 ->values()
+
                                 ->all();
 
                         } else {
 
-                            $skillsArray = preg_split(
-                                '/[,;\n]+/',
-                                $skillsString,
-                                -1,
-                                PREG_SPLIT_NO_EMPTY
-                            );
+                            $skillsArray =
+                                preg_split(
+                                    '/[,;\n]+/',
+                                    $skillsString,
+                                    -1,
+                                    PREG_SPLIT_NO_EMPTY
+                                );
 
-                            $skillsArray = array_values(
-                                array_filter(
-                                    array_map(
-                                        fn ($skill) => trim((string) $skill),
-                                        $skillsArray
+
+                            $skillsArray =
+                                array_values(
+                                    array_filter(
+                                        array_map(
+                                            fn ($skill) =>
+                                                trim((string) $skill),
+                                            $skillsArray
+                                        )
                                     )
-                                )
-                            );
+                                );
 
                         }
 
                     }
 
-                    $skillsText = implode(
-                        ', ',
-                        $skillsArray
-                    );
+
+                    $skillsText =
+                        implode(
+                            ', ',
+                            $skillsArray
+                        );
+
 
                     if ($skillsText === '') {
 
-                        $skillsText = 'Not specified';
+                        $skillsText =
+                            'Not specified';
 
                     }
+
 
 
                     /*
@@ -2224,31 +2464,40 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $descriptionRaw = $job->description ?? '';
+                    $descriptionRaw =
+                        $job->description ?? '';
+
 
                     if (is_array($descriptionRaw)) {
 
-                        $description = implode(
-                            "\n",
-                            array_map(
-                                'strval',
-                                $descriptionRaw
-                            )
-                        );
+                        $description =
+                            implode(
+                                "\n",
+                                array_map(
+                                    'strval',
+                                    $descriptionRaw
+                                )
+                            );
 
                     } else {
 
-                        $description = (string) $descriptionRaw;
+                        $description =
+                            (string) $descriptionRaw;
 
                     }
 
-                    $description = trim($description);
+
+                    $description =
+                        trim($description);
+
 
                     if ($description === '') {
 
-                        $description = 'No description provided.';
+                        $description =
+                            'No description provided.';
 
                     }
+
 
 
                     /*
@@ -2257,15 +2506,21 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $applicationsCount = $job->applications_count
+                    $applicationsCount =
+                        $job->applications_count
                         ?? $job->applicants_count
                         ?? 0;
 
-                    $shortlistedCount = $job->shortlisted_count
+
+                    $shortlistedCount =
+                        $job->shortlisted_count
                         ?? 0;
 
-                    $interviewsCount = $job->interviews_count
+
+                    $interviewsCount =
+                        $job->interviews_count
                         ?? 0;
+
 
 
                     /*
@@ -2274,24 +2529,36 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $isActive = (bool) ($job->is_active ?? false);
+                    $isActive =
+                        (bool) (
+                            $job->is_active ?? false
+                        );
+
 
                     if (
-                        isset($job->status) &&
-                        strtolower((string) $job->status) === 'closed'
+                        isset($job->status)
+                        &&
+                        strtolower(
+                            (string) $job->status
+                        ) === 'closed'
                     ) {
 
                         $isActive = false;
 
                     }
 
-                    $statusText = $isActive
-                        ? 'Active'
-                        : 'Closed';
 
-                    $jobStatusClass = $isActive
-                        ? 'job-status-active'
-                        : 'job-status-closed';
+                    $statusText =
+                        $isActive
+                            ? 'Active'
+                            : 'Closed';
+
+
+                    $jobStatusClass =
+                        $isActive
+                            ? 'job-status-active'
+                            : 'job-status-closed';
+
 
 
                     /*
@@ -2302,13 +2569,16 @@
 
                     $postedText = 'Recently';
 
+
                     if ($job->created_at) {
 
-                        $postedText = $job->created_at->diffForHumans();
+                        $postedText =
+                            $job->created_at->diffForHumans();
 
                     }
 
                 @endphp
+
 
 
                 {{-- =================================================
@@ -2319,30 +2589,72 @@
 
                     <div class="employer-job-card-inner">
 
+
                         <div class="job-card-top">
+
 
                             <div class="job-main-info">
 
+
                                 <div class="job-title-row">
 
+
                                     <h3 class="job-card-title">
+
                                         {{ $jobTitle }}
+
                                     </h3>
 
+
                                     <span class="job-type {{ $employmentTagClass }}">
+
                                         {{ $employmentLabel }}
+
                                     </span>
 
                                 </div>
 
 
+
+                                {{-- =================================================
+                                     COMPANY / STARTUP
+                                ================================================== --}}
+
                                 <div class="job-company-location">
 
-                                    <i class="bi bi-building"></i>
 
-                                    <span class="job-company-name">
-                                        {{ $companyName }}
-                                    </span>
+                                    @if($isStartupJob)
+
+                                        <i class="bi bi-rocket-takeoff"></i>
+
+                                        <span class="job-company-name">
+
+                                            {{ $companyName }}
+
+                                        </span>
+
+
+                                        <span class="startup-job-badge">
+
+                                            <i class="bi bi-rocket-takeoff"></i>
+
+                                            Startup
+
+                                        </span>
+
+                                    @else
+
+                                        <i class="bi bi-building"></i>
+
+                                        <span class="job-company-name">
+
+                                            {{ $companyName }}
+
+                                        </span>
+
+                                    @endif
+
+
 
                                     @if($location)
 
@@ -2350,10 +2662,14 @@
                                             •
                                         </span>
 
+
                                         <i class="bi bi-geo-alt"></i>
 
+
                                         <span class="job-location">
+
                                             {{ $location }}
+
                                         </span>
 
                                     @endif
@@ -2361,9 +2677,16 @@
                                 </div>
 
 
+
+                                {{-- META --}}
+
                                 <div class="job-meta-row">
 
-                                    @if($workModeLabel !== 'Not specified')
+
+                                    @if(
+                                        $workModeLabel !==
+                                        'Not specified'
+                                    )
 
                                         <span class="job-meta-item">
 
@@ -2389,7 +2712,10 @@
                                     @endif
 
 
-                                    @if($salary !== 'Not specified')
+                                    @if(
+                                        $salary !==
+                                        'Not specified'
+                                    )
 
                                         <span class="job-meta-item">
 
@@ -2406,28 +2732,40 @@
                             </div>
 
 
-                            {{-- THREE DOT MENU --}}
+
+                            {{-- =================================================
+                                 THREE DOT MENU
+                            ================================================== --}}
 
                             <div class="job-menu-wrap">
 
-                                <button type="button"
-                                        class="job-menu-toggle"
-                                        onclick="toggleJobMenu({{ $job->id }})"
-                                        aria-label="Job actions">
+
+                                <button
+                                    type="button"
+                                    class="job-menu-toggle"
+                                    onclick="toggleJobMenu({{ $job->id }})"
+                                    aria-label="Job actions"
+                                >
 
                                     <i class="bi bi-three-dots-vertical"></i>
 
                                 </button>
 
 
-                                <div id="job-menu-{{ $job->id }}"
-                                     class="job-menu">
+
+                                <div
+                                    id="job-menu-{{ $job->id }}"
+                                    class="job-menu"
+                                >
+
 
                                     {{-- VIEW --}}
 
-                                    <button type="button"
-                                            class="job-menu-item"
-                                            onclick="openJobModal({{ $job->id }})">
+                                    <button
+                                        type="button"
+                                        class="job-menu-item"
+                                        onclick="openJobModal({{ $job->id }})"
+                                    >
 
                                         <i class="bi bi-eye"></i>
 
@@ -2438,10 +2776,13 @@
                                     </button>
 
 
+
                                     {{-- EDIT --}}
 
-                                    <a href="{{ route('employer.jobs.edit', $job) }}"
-                                       class="job-menu-item">
+                                    <a
+                                        href="{{ route('employer.jobs.edit', $job) }}"
+                                        class="job-menu-item"
+                                    >
 
                                         <i class="bi bi-pencil"></i>
 
@@ -2452,10 +2793,13 @@
                                     </a>
 
 
+
                                     {{-- APPLICANTS --}}
 
-                                    <a href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
-                                       class="job-menu-item">
+                                    <a
+                                        href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
+                                        class="job-menu-item"
+                                    >
 
                                         <i class="bi bi-people"></i>
 
@@ -2466,16 +2810,21 @@
                                     </a>
 
 
+
                                     {{-- DUPLICATE --}}
 
-                                    <form action="{{ route('employer.jobs.duplicate', $job) }}"
-                                          method="POST"
-                                          style="margin:0;">
+                                    <form
+                                        action="{{ route('employer.jobs.duplicate', $job) }}"
+                                        method="POST"
+                                        style="margin:0;"
+                                    >
 
                                         @csrf
 
-                                        <button type="submit"
-                                                class="job-menu-item">
+                                        <button
+                                            type="submit"
+                                            class="job-menu-item"
+                                        >
 
                                             <i class="bi bi-copy"></i>
 
@@ -2488,23 +2837,29 @@
                                     </form>
 
 
+
                                     <div class="job-menu-divider"></div>
+
 
 
                                     {{-- CLOSE / REOPEN --}}
 
                                     @if($isActive)
 
-                                        <form action="{{ route('employer.jobs.close', $job) }}"
-                                              method="POST"
-                                              style="margin:0;">
+                                        <form
+                                            action="{{ route('employer.jobs.close', $job) }}"
+                                            method="POST"
+                                            style="margin:0;"
+                                        >
 
                                             @csrf
 
                                             @method('PATCH')
 
-                                            <button type="submit"
-                                                    class="job-menu-item">
+                                            <button
+                                                type="submit"
+                                                class="job-menu-item"
+                                            >
 
                                                 <i class="bi bi-pause-circle"></i>
 
@@ -2518,16 +2873,20 @@
 
                                     @else
 
-                                        <form action="{{ route('employer.jobs.reopen', $job) }}"
-                                              method="POST"
-                                              style="margin:0;">
+                                        <form
+                                            action="{{ route('employer.jobs.reopen', $job) }}"
+                                            method="POST"
+                                            style="margin:0;"
+                                        >
 
                                             @csrf
 
                                             @method('PATCH')
 
-                                            <button type="submit"
-                                                    class="job-menu-item">
+                                            <button
+                                                type="submit"
+                                                class="job-menu-item"
+                                            >
 
                                                 <i class="bi bi-play-circle"></i>
 
@@ -2542,22 +2901,28 @@
                                     @endif
 
 
+
                                     <div class="job-menu-divider"></div>
+
 
 
                                     {{-- DELETE --}}
 
-                                    <form action="{{ route('employer.jobs.destroy', $job) }}"
-                                          method="POST"
-                                          style="margin:0;"
-                                          onsubmit="return confirm('Are you sure you want to delete this job posting? This action cannot be undone.');">
+                                    <form
+                                        action="{{ route('employer.jobs.destroy', $job) }}"
+                                        method="POST"
+                                        style="margin:0;"
+                                        onsubmit="return confirm('Are you sure you want to delete this job posting? This action cannot be undone.');"
+                                    >
 
                                         @csrf
 
                                         @method('DELETE')
 
-                                        <button type="submit"
-                                                class="job-menu-item danger">
+                                        <button
+                                            type="submit"
+                                            class="job-menu-item danger"
+                                        >
 
                                             <i class="bi bi-trash3"></i>
 
@@ -2576,15 +2941,22 @@
                         </div>
 
 
-                        {{-- STATS --}}
+
+                        {{-- =================================================
+                             STATS
+                        ================================================== --}}
 
                         <div class="job-stats">
+
 
                             <div class="job-stat job-stat-blue">
 
                                 <span class="job-stat-icon">
+
                                     <i class="bi bi-people"></i>
+
                                 </span>
+
 
                                 <div>
 
@@ -2601,11 +2973,15 @@
                             </div>
 
 
+
                             <div class="job-stat job-stat-green">
 
                                 <span class="job-stat-icon">
+
                                     <i class="bi bi-person-check"></i>
+
                                 </span>
+
 
                                 <div>
 
@@ -2622,11 +2998,15 @@
                             </div>
 
 
+
                             <div class="job-stat job-stat-orange">
 
                                 <span class="job-stat-icon">
+
                                     <i class="bi bi-calendar-check"></i>
+
                                 </span>
+
 
                                 <div>
 
@@ -2645,11 +3025,16 @@
                         </div>
 
 
-                        {{-- FOOTER --}}
+
+                        {{-- =================================================
+                             FOOTER
+                        ================================================== --}}
 
                         <div class="job-card-footer">
 
+
                             <div class="job-status-area">
+
 
                                 <span class="job-status {{ $jobStatusClass }}">
 
@@ -2659,18 +3044,25 @@
 
                                 </span>
 
+
                                 <span class="job-posted-time">
+
                                     Posted {{ $postedText }}
+
                                 </span>
 
                             </div>
 
 
+
                             <div class="job-actions">
 
-                                <button type="button"
-                                        class="job-action-btn job-view-btn"
-                                        onclick="openJobModal({{ $job->id }})">
+
+                                <button
+                                    type="button"
+                                    class="job-action-btn job-view-btn"
+                                    onclick="openJobModal({{ $job->id }})"
+                                >
 
                                     <i class="bi bi-eye"></i>
 
@@ -2679,8 +3071,10 @@
                                 </button>
 
 
-                                <a href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
-                                   class="job-action-btn job-applicants-btn">
+                                <a
+                                    href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
+                                    class="job-action-btn job-applicants-btn"
+                                >
 
                                     <i class="bi bi-people"></i>
 
@@ -2697,37 +3091,49 @@
                 </article>
 
 
+
                 {{-- =================================================
                      JOB MODAL
                 ================================================== --}}
 
-                <div id="jobModal-{{ $job->id }}"
-                     class="job-modal"
-                     aria-hidden="true">
+                <div
+                    id="jobModal-{{ $job->id }}"
+                    class="job-modal"
+                    aria-hidden="true"
+                >
 
-                    <div class="job-modal-overlay"
-                         onclick="closeJobModal({{ $job->id }})">
-                    </div>
+                    <div
+                        class="job-modal-overlay"
+                        onclick="closeJobModal({{ $job->id }})"
+                    ></div>
 
 
-                    <div class="job-modal-card"
-                         role="dialog"
-                         aria-modal="true"
-                         aria-labelledby="job-modal-title-{{ $job->id }}">
 
-                        <button type="button"
-                                class="job-modal-close"
-                                onclick="closeJobModal({{ $job->id }})"
-                                aria-label="Close">
+                    <div
+                        class="job-modal-card"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="job-modal-title-{{ $job->id }}"
+                    >
+
+
+                        <button
+                            type="button"
+                            class="job-modal-close"
+                            onclick="closeJobModal({{ $job->id }})"
+                            aria-label="Close"
+                        >
 
                             <i class="bi bi-x-lg"></i>
 
                         </button>
 
 
-                        {{-- HEADER --}}
+
+                        {{-- MODAL HEADER --}}
 
                         <div class="job-modal-header">
+
 
                             <div class="job-modal-icon">
 
@@ -2736,24 +3142,53 @@
                             </div>
 
 
+
                             <div class="job-modal-header-content">
 
+
                                 <span class="job-type {{ $employmentTagClass }}">
+
                                     {{ $employmentLabel }}
+
                                 </span>
 
-                                <h2 id="job-modal-title-{{ $job->id }}"
-                                    class="job-modal-title">
+
+                                <h2
+                                    id="job-modal-title-{{ $job->id }}"
+                                    class="job-modal-title"
+                                >
 
                                     {{ $jobTitle }}
 
                                 </h2>
 
+
                                 <p class="job-modal-company">
 
-                                    <i class="bi bi-building"></i>
+
+                                    @if($isStartupJob)
+
+                                        <i class="bi bi-rocket-takeoff"></i>
+
+                                    @else
+
+                                        <i class="bi bi-building"></i>
+
+                                    @endif
+
 
                                     {{ $companyName }}
+
+
+                                    @if($isStartupJob)
+
+                                        <span class="startup-job-badge">
+
+                                            Startup
+
+                                        </span>
+
+                                    @endif
 
                                 </p>
 
@@ -2762,11 +3197,16 @@
                         </div>
 
 
-                        {{-- BODY --}}
+
+                        {{-- MODAL BODY --}}
 
                         <div class="job-modal-body">
 
+
                             <div class="job-modal-meta-grid">
+
+
+                                {{-- LOCATION --}}
 
                                 <div class="job-modal-meta">
 
@@ -2787,6 +3227,9 @@
                                 </div>
 
 
+
+                                {{-- WORK MODE --}}
+
                                 <div class="job-modal-meta">
 
                                     <i class="bi bi-laptop"></i>
@@ -2805,6 +3248,9 @@
 
                                 </div>
 
+
+
+                                {{-- EXPERIENCE --}}
 
                                 <div class="job-modal-meta">
 
@@ -2825,6 +3271,9 @@
                                 </div>
 
 
+
+                                {{-- SALARY --}}
+
                                 <div class="job-modal-meta">
 
                                     <i class="bi bi-cash-stack"></i>
@@ -2844,6 +3293,9 @@
                                 </div>
 
 
+
+                                {{-- QUALIFICATION --}}
+
                                 <div class="job-modal-meta">
 
                                     <i class="bi bi-mortarboard"></i>
@@ -2862,6 +3314,9 @@
 
                                 </div>
 
+
+
+                                {{-- STATUS --}}
 
                                 <div class="job-modal-meta">
 
@@ -2884,13 +3339,18 @@
                             </div>
 
 
-                            {{-- SKILLS --}}
+
+                            {{-- =================================================
+                                 SKILLS
+                            ================================================== --}}
 
                             <div class="job-modal-section">
+
 
                                 <h3 class="job-modal-section-title">
                                     Skills
                                 </h3>
+
 
                                 @if(count($skillsArray) > 0)
 
@@ -2899,7 +3359,9 @@
                                         @foreach($skillsArray as $skill)
 
                                             <span class="job-modal-skill">
+
                                                 {{ $skill }}
+
                                             </span>
 
                                         @endforeach
@@ -2917,24 +3379,35 @@
                             </div>
 
 
-                            {{-- DESCRIPTION --}}
+
+                            {{-- =================================================
+                                 DESCRIPTION
+                            ================================================== --}}
 
                             <div class="job-modal-section">
+
 
                                 <h3 class="job-modal-section-title">
                                     Job Description
                                 </h3>
 
+
                                 <div class="job-modal-description">
+
                                     {{ $description }}
+
                                 </div>
 
                             </div>
 
 
-                            {{-- STATS --}}
+
+                            {{-- =================================================
+                                 STATS
+                            ================================================== --}}
 
                             <div class="job-modal-stats">
+
 
                                 <div class="job-modal-stat">
 
@@ -2979,21 +3452,27 @@
                         </div>
 
 
-                        {{-- FOOTER --}}
+
+                        {{-- MODAL FOOTER --}}
 
                         <div class="job-modal-footer">
 
-                            <button type="button"
-                                    class="job-modal-secondary"
-                                    onclick="closeJobModal({{ $job->id }})">
+
+                            <button
+                                type="button"
+                                class="job-modal-secondary"
+                                onclick="closeJobModal({{ $job->id }})"
+                            >
 
                                 Close
 
                             </button>
 
 
-                            <a href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
-                               class="job-modal-primary">
+                            <a
+                                href="{{ route('employer.applicants.index', ['job' => $job->id]) }}"
+                                class="job-modal-primary"
+                            >
 
                                 <i class="bi bi-people"></i>
 
@@ -3007,17 +3486,23 @@
 
                 </div>
 
+
             @empty
 
-                {{-- EMPTY STATE --}}
+
+                {{-- =================================================
+                     EMPTY STATE
+                ================================================== --}}
 
                 <div class="jobs-empty">
+
 
                     <div class="jobs-empty-icon">
 
                         <i class="bi bi-briefcase"></i>
 
                     </div>
+
 
                     <h3>
 
@@ -3036,6 +3521,7 @@
                         @endif
 
                     </h3>
+
 
                     <p>
 
@@ -3058,14 +3544,17 @@
                     </p>
 
 
+
                     @if(request()->hasAny([
                         'search',
                         'employment_type',
                         'status'
                     ]))
 
-                        <a href="{{ route('employer.jobs.index') }}"
-                           class="jobs-primary-btn">
+                        <a
+                            href="{{ route('employer.jobs.index') }}"
+                            class="jobs-primary-btn"
+                        >
 
                             <i class="bi bi-arrow-counterclockwise"></i>
 
@@ -3075,8 +3564,10 @@
 
                     @else
 
-                        <a href="{{ route('employer.jobs.create') }}"
-                           class="jobs-primary-btn">
+                        <a
+                            href="{{ route('employer.jobs.create') }}"
+                            class="jobs-primary-btn"
+                        >
 
                             <i class="bi bi-plus-lg"></i>
 
@@ -3091,19 +3582,28 @@
             @endforelse
 
 
-            {{-- PAGINATION --}}
+
+            {{-- =================================================
+                 PAGINATION
+            ================================================== --}}
 
             @if(method_exists($jobs, 'links'))
 
                 <div class="jobs-pagination">
 
-                    {{ $jobs->withQueryString()->fragment('job-list')->links() }}
+                    {{
+                        $jobs
+                            ->withQueryString()
+                            ->fragment('job-list')
+                            ->links()
+                    }}
 
                 </div>
 
             @endif
 
         </main>
+
 
 
         {{-- =====================================================
@@ -3128,8 +3628,10 @@
                         qualified professionals.
                     </p>
 
-                    <a href="{{ route('employer.jobs.create') }}"
-                       class="sidebar-cta-btn">
+                    <a
+                        href="{{ route('employer.jobs.create') }}"
+                        class="sidebar-cta-btn"
+                    >
 
                         Create Job
 
@@ -3142,6 +3644,7 @@
             </div>
 
 
+
             {{-- JOB MANAGEMENT --}}
 
             <div class="sidebar-card">
@@ -3150,7 +3653,9 @@
                     Job Management
                 </h3>
 
+
                 <div class="sidebar-list">
+
 
                     <div class="sidebar-list-item">
 
@@ -3208,6 +3713,7 @@
             </div>
 
 
+
             {{-- HIRING FLOW --}}
 
             <div class="sidebar-card">
@@ -3216,7 +3722,9 @@
                     Hiring Flow
                 </h3>
 
+
                 <div class="hiring-flow">
+
 
                     <div class="hiring-step">
 
@@ -3292,11 +3800,11 @@
 
 </div>
 
-
 </div>
 
+
 {{-- =============================================================
-JAVASCRIPT
+    JAVASCRIPT
 ============================================================= --}}
 
 <script>
@@ -3305,203 +3813,283 @@ JAVASCRIPT
        THREE DOT MENU
     ========================================================= */
 
-    function toggleJobMenu(jobId) {
-
-        const menu = document.getElementById(
-            'job-menu-' + jobId
-        );
+    function toggleJobMenu(jobId)
+    {
+        const menu =
+            document.getElementById(
+                'job-menu-' + jobId
+            );
 
         if (!menu) {
             return;
         }
 
-        const isOpen = menu.classList.contains('show');
 
-        document.querySelectorAll('.job-menu.show').forEach(function (openMenu) {
+        const isOpen =
+            menu.classList.contains('show');
 
-            openMenu.classList.remove('show');
 
-        });
+        document
+            .querySelectorAll('.job-menu.show')
+            .forEach(function (openMenu) {
+
+                openMenu.classList.remove('show');
+
+            });
+
 
         if (!isOpen) {
 
             menu.classList.add('show');
 
         }
-
     }
+
 
 
     /* =========================================================
        CLOSE MENUS WHEN CLICKING OUTSIDE
     ========================================================= */
 
-    document.addEventListener('click', function (event) {
+    document.addEventListener(
+        'click',
+        function (event) {
 
-        if (!event.target.closest('.job-menu-wrap')) {
+            if (
+                !event.target.closest(
+                    '.job-menu-wrap'
+                )
+            ) {
 
-            document.querySelectorAll('.job-menu.show').forEach(function (menu) {
+                document
+                    .querySelectorAll(
+                        '.job-menu.show'
+                    )
+                    .forEach(function (menu) {
 
-                menu.classList.remove('show');
+                        menu.classList.remove(
+                            'show'
+                        );
 
-            });
+                    });
+
+            }
 
         }
+    );
 
-    });
 
 
     /* =========================================================
        OPEN JOB MODAL
     ========================================================= */
 
-    function openJobModal(jobId) {
-
-        const modal = document.getElementById(
-            'jobModal-' + jobId
-        );
+    function openJobModal(jobId)
+    {
+        const modal =
+            document.getElementById(
+                'jobModal-' + jobId
+            );
 
         if (!modal) {
             return;
         }
 
-        document.querySelectorAll('.job-menu.show').forEach(function (menu) {
 
-            menu.classList.remove('show');
+        document
+            .querySelectorAll('.job-menu.show')
+            .forEach(function (menu) {
 
-        });
+                menu.classList.remove(
+                    'show'
+                );
 
-        modal.classList.add('is-open');
+            });
+
+
+        modal.classList.add(
+            'is-open'
+        );
+
 
         modal.setAttribute(
             'aria-hidden',
             'false'
         );
 
+
         document.body.classList.add(
             'job-modal-open'
         );
-
     }
+
 
 
     /* =========================================================
        CLOSE JOB MODAL
     ========================================================= */
 
-    function closeJobModal(jobId) {
-
-        const modal = document.getElementById(
-            'jobModal-' + jobId
-        );
+    function closeJobModal(jobId)
+    {
+        const modal =
+            document.getElementById(
+                'jobModal-' + jobId
+            );
 
         if (!modal) {
             return;
         }
 
-        modal.classList.remove('is-open');
+
+        modal.classList.remove(
+            'is-open'
+        );
+
 
         modal.setAttribute(
             'aria-hidden',
             'true'
         );
 
+
         document.body.classList.remove(
             'job-modal-open'
         );
-
     }
+
 
 
     /* =========================================================
        ESCAPE KEY CLOSES MODAL
     ========================================================= */
 
-    document.addEventListener('keydown', function (event) {
+    document.addEventListener(
+        'keydown',
+        function (event) {
 
-        if (event.key !== 'Escape') {
-            return;
-        }
+            if (event.key !== 'Escape') {
+                return;
+            }
 
-        document.querySelectorAll('.job-modal.is-open').forEach(function (modal) {
 
-            modal.classList.remove('is-open');
+            document
+                .querySelectorAll(
+                    '.job-modal.is-open'
+                )
+                .forEach(function (modal) {
 
-            modal.setAttribute(
-                'aria-hidden',
-                'true'
+                    modal.classList.remove(
+                        'is-open'
+                    );
+
+
+                    modal.setAttribute(
+                        'aria-hidden',
+                        'true'
+                    );
+
+                });
+
+
+            document.body.classList.remove(
+                'job-modal-open'
             );
 
-        });
+        }
+    );
 
-        document.body.classList.remove(
-            'job-modal-open'
-        );
-
-    });
 
 
     /* =========================================================
        SEARCH / FILTER
-       AFTER SUBMIT, AUTOMATICALLY STAY AT JOB SECTION
     ========================================================= */
 
-    document.addEventListener('DOMContentLoaded', function () {
-
-        const hasFilters =
-            new URLSearchParams(window.location.search).has('search') ||
-            new URLSearchParams(window.location.search).has('employment_type') ||
-            new URLSearchParams(window.location.search).has('status');
-
-        const jobList = document.getElementById('job-list');
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTERED SEARCH
-        |--------------------------------------------------------------------------
-        | If a search/filter was submitted, keep the user at the
-        | job section instead of leaving them at the hero.
-        */
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
 
-        if (hasFilters && jobList) {
 
-            setTimeout(function () {
+            const hasFilters =
+                params.has('search')
+                ||
+                params.has('employment_type')
+                ||
+                params.has('status');
 
-                jobList.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'start'
-                });
 
-            }, 50);
+            const jobList =
+                document.getElementById(
+                    'job-list'
+                );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Keep filtered results at job section
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                hasFilters &&
+                jobList
+            ) {
+
+                setTimeout(
+                    function () {
+
+                        jobList.scrollIntoView({
+
+                            behavior: 'auto',
+
+                            block: 'start'
+
+                        });
+
+                    },
+                    50
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Pagination hash
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                window.location.hash ===
+                '#job-list'
+                &&
+                jobList
+            ) {
+
+                setTimeout(
+                    function () {
+
+                        jobList.scrollIntoView({
+
+                            behavior: 'auto',
+
+                            block: 'start'
+
+                        });
+
+                    },
+                    100
+                );
+
+            }
 
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PAGINATION
-        |--------------------------------------------------------------------------
-        | Pagination already uses #job-list.
-        */
-
-        if (
-            window.location.hash === '#job-list' &&
-            jobList
-        ) {
-
-            setTimeout(function () {
-
-                jobList.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'start'
-                });
-
-            }, 100);
-
-        }
-
-    });
+    );
 
 </script>
 
