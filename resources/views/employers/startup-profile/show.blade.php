@@ -6,39 +6,75 @@
 
 <style>
     :root {
-        --sp-blue: #3376F2;
-        --sp-blue-dark: #245fd0;
-        --sp-blue-light: #EEF4FF;
-        --sp-navy: #0F172A;
-        --sp-text: #172033;
-        --sp-muted: #64748B;
-        --sp-border: #E8EDF5;
-        --sp-bg: #F8FAFC;
-        --sp-green: #047857;
-        --sp-green-bg: #ECFDF5;
-        --sp-orange: #C2410C;
-        --sp-orange-bg: #FFF7ED;
-        --sp-red: #DC2626;
-        --sp-red-bg: #FEF2F2;
+        --sp-primary: #4f8df7;
+        --sp-primary-hover: #3b7bea;
+        --sp-primary-soft: #eff6ff;
+        --sp-primary-soft-2: #f5f9ff;
+
+        --sp-cyan: #22b8cf;
+        --sp-cyan-soft: #ecfeff;
+
+        --sp-purple: #8b7cf6;
+        --sp-purple-soft: #f5f3ff;
+
+        --sp-green: #10b981;
+        --sp-green-soft: #ecfdf5;
+
+        --sp-orange: #f59e0b;
+        --sp-orange-soft: #fff8e7;
+
+        --sp-red: #ef4444;
+        --sp-red-soft: #fef2f2;
+
+        --sp-text: #334155;
+        --sp-heading: #1e293b;
+        --sp-muted: #7b8798;
+        --sp-light-muted: #a0aabd;
+
+        --sp-border: #e7edf5;
+        --sp-border-light: #eef2f7;
+
+        --sp-bg: #f8fafc;
+        --sp-white: #ffffff;
     }
 
     * {
         box-sizing: border-box;
     }
 
+    body {
+        background: var(--sp-bg);
+    }
+
+    /* =========================================================
+       PAGE
+    ========================================================= */
+
     .sp-show-page {
         min-height: 100vh;
-        background: #F8FAFC;
-        padding-bottom: 60px;
+        background:
+            radial-gradient(
+                circle at 10% 0%,
+                rgba(219, 234, 254, .45),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 100% 12%,
+                rgba(224, 231, 255, .35),
+                transparent 24%
+            ),
+            #f8fafc;
+
+        padding-bottom: 65px;
     }
 
     .sp-container {
-        width: min(1150px, calc(100% - 32px));
+        width: min(1180px, calc(100% - 32px));
         margin: 0 auto;
     }
 
     /* =========================================================
-       TOP HEADER
+       TOP BAR
     ========================================================= */
 
     .sp-topbar {
@@ -49,312 +85,658 @@
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: #64748B;
+
+        color: #7b8798;
+
         text-decoration: none;
-        font-size: 13px;
-        font-weight: 600;
-        transition: .2s;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        transition: .2s ease;
     }
 
     .sp-back:hover {
-        color: var(--sp-blue);
+        color: var(--sp-primary);
     }
 
     .sp-back i {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .sp-page-heading {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         gap: 20px;
+
         margin-top: 18px;
+    }
+
+    .sp-page-heading-left {
+        min-width: 0;
     }
 
     .sp-page-heading h1 {
         margin: 0;
-        color: var(--sp-navy);
-        font-size: 28px;
+
+        color: var(--sp-heading);
+
+        font-size: 27px;
+
+        line-height: 1.25;
+
         font-weight: 800;
-        letter-spacing: -.5px;
+
+        letter-spacing: -.03em;
     }
 
     .sp-page-heading p {
         margin: 6px 0 0;
+
         color: var(--sp-muted);
-        font-size: 13px;
+
+        font-size: 12px;
     }
 
     .sp-actions-right {
         display: flex;
+
         align-items: center;
-        gap: 9px;
+
+        gap: 8px;
+
+        flex-wrap: wrap;
+
         flex-shrink: 0;
     }
 
     .sp-btn {
         display: inline-flex;
+
         align-items: center;
         justify-content: center;
+
         gap: 7px;
-        min-height: 40px;
-        padding: 0 15px;
-        border-radius: 9px;
+
+        min-height: 38px;
+
+        padding: 0 14px;
+
+        border-radius: 10px;
+
         text-decoration: none;
+
         border: 1px solid transparent;
-        font-size: 12px;
-        font-weight: 700;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
         cursor: pointer;
-        transition: .2s;
+
+        transition: .2s ease;
+
+        white-space: nowrap;
     }
 
     .sp-btn-primary {
-        background: var(--sp-blue);
+        background: var(--sp-primary);
+
         color: #fff;
-        border-color: var(--sp-blue);
+
+        border-color: var(--sp-primary);
+
+        box-shadow:
+            0 7px 16px rgba(79, 141, 247, .13);
     }
 
     .sp-btn-primary:hover {
-        background: var(--sp-blue-dark);
+        background: var(--sp-primary-hover);
+
+        border-color: var(--sp-primary-hover);
+
         color: #fff;
+
+        transform: translateY(-1px);
+    }
+
+    .sp-btn-soft {
+        background: #fff;
+
+        color: #5f6f84;
+
+        border-color: var(--sp-border);
+    }
+
+    .sp-btn-soft:hover {
+        background: var(--sp-primary-soft);
+
+        color: var(--sp-primary);
+
+        border-color: #cfe0ff;
     }
 
     .sp-btn-danger {
         background: #fff;
+
         color: var(--sp-red);
-        border-color: #FECACA;
+
+        border-color: #fecaca;
     }
 
     .sp-btn-danger:hover {
-        background: var(--sp-red-bg);
+        background: var(--sp-red-soft);
+
+        color: #dc2626;
     }
 
     /* =========================================================
-       ALERT
+       QUICK ACTIONS
+    ========================================================= */
+
+    .sp-quick-actions {
+        display: grid;
+
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+
+        gap: 10px;
+
+        margin-bottom: 17px;
+    }
+
+    .sp-quick-action {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 11px 13px;
+
+        background: rgba(255, 255, 255, .9);
+
+        border: 1px solid var(--sp-border);
+
+        border-radius: 12px;
+
+        text-decoration: none;
+
+        transition: .2s ease;
+    }
+
+    .sp-quick-action:hover {
+        transform: translateY(-1px);
+
+        border-color: #cfe0ff;
+
+        box-shadow:
+            0 8px 20px rgba(67, 97, 143, .06);
+    }
+
+    .sp-quick-icon {
+        width: 31px;
+        height: 31px;
+
+        flex: 0 0 31px;
+
+        border-radius: 9px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        font-size: 11px;
+    }
+
+    .sp-quick-action:nth-child(1) .sp-quick-icon {
+        background: var(--sp-primary-soft);
+        color: var(--sp-primary);
+    }
+
+    .sp-quick-action:nth-child(2) .sp-quick-icon {
+        background: var(--sp-cyan-soft);
+        color: #0891b2;
+    }
+
+    .sp-quick-action:nth-child(3) .sp-quick-icon {
+        background: var(--sp-purple-soft);
+        color: var(--sp-purple);
+    }
+
+    .sp-quick-action:nth-child(4) .sp-quick-icon {
+        background: var(--sp-green-soft);
+        color: var(--sp-green);
+    }
+
+    .sp-quick-action-text {
+        min-width: 0;
+    }
+
+    .sp-quick-action-title {
+        display: block;
+
+        color: var(--sp-heading);
+
+        font-size: 10px;
+
+        line-height: 1.3;
+
+        font-weight: 800;
+    }
+
+    .sp-quick-action-subtitle {
+        display: block;
+
+        margin-top: 2px;
+
+        color: var(--sp-light-muted);
+
+        font-size: 8px;
+
+        line-height: 1.3;
+    }
+
+    /* =========================================================
+       ALERTS
     ========================================================= */
 
     .sp-alert {
         display: flex;
+
         align-items: flex-start;
-        gap: 10px;
-        padding: 13px 15px;
+
+        gap: 9px;
+
+        padding: 12px 14px;
+
         border-radius: 11px;
-        margin-bottom: 18px;
-        font-size: 13px;
+
+        margin-bottom: 15px;
+
+        font-size: 11px;
+
+        line-height: 1.5;
     }
 
     .sp-alert-success {
-        background: var(--sp-green-bg);
-        color: var(--sp-green);
-        border: 1px solid #A7F3D0;
+        background: var(--sp-green-soft);
+
+        color: #047857;
+
+        border: 1px solid #a7f3d0;
     }
 
     .sp-alert-error {
-        background: var(--sp-red-bg);
-        color: #B91C1C;
-        border: 1px solid #FECACA;
+        background: var(--sp-red-soft);
+
+        color: #b91c1c;
+
+        border: 1px solid #fecaca;
     }
 
     /* =========================================================
-       HERO / COVER
+       MAIN PROFILE CARD
     ========================================================= */
 
     .sp-profile-card {
-        background: #fff;
+        background: var(--sp-white);
+
         border: 1px solid var(--sp-border);
+
         border-radius: 22px;
+
         overflow: hidden;
-        box-shadow: 0 8px 35px rgba(15, 23, 42, .05);
+
+        box-shadow:
+            0 12px 40px rgba(67, 97, 143, .055);
     }
 
+    /* =========================================================
+       COVER
+    ========================================================= */
+
     .sp-cover {
-        height: 275px;
+        height: 265px;
+
+        position: relative;
+
         background:
+            radial-gradient(
+                circle at 18% 24%,
+                rgba(255,255,255,.88),
+                transparent 20%
+            ),
+            radial-gradient(
+                circle at 80% 28%,
+                rgba(255,255,255,.42),
+                transparent 22%
+            ),
             linear-gradient(
                 135deg,
-                #3376F2,
-                #0F172A
+                #eaf3ff 0%,
+                #f2f6ff 46%,
+                #eef5fb 100%
             );
+
         background-size: cover;
+
         background-position: center;
-        position: relative;
+
+        overflow: hidden;
+    }
+
+    .sp-cover::before {
+        content: "";
+
+        position: absolute;
+
+        width: 330px;
+        height: 330px;
+
+        right: -100px;
+        top: -165px;
+
+        border-radius: 50%;
+
+        background: rgba(255,255,255,.48);
     }
 
     .sp-cover::after {
         content: "";
+
         position: absolute;
+
+        width: 230px;
+        height: 230px;
+
+        left: 16%;
+        bottom: -165px;
+
+        border-radius: 50%;
+
+        background: rgba(196, 220, 255, .28);
+    }
+
+    .sp-cover.has-image::before,
+    .sp-cover.has-image::after {
+        background: rgba(255,255,255,.09);
+    }
+
+    .sp-cover-image-overlay {
+        position: absolute;
+
         inset: 0;
+
         background:
             linear-gradient(
                 to bottom,
-                rgba(15,23,42,.03),
-                rgba(15,23,42,.35)
+                rgba(255,255,255,.02),
+                rgba(255,255,255,.09)
             );
     }
 
+    /* =========================================================
+       PROFILE MAIN
+    ========================================================= */
+
     .sp-profile-main {
         position: relative;
-        padding: 0 32px 32px;
+
+        padding: 0 30px 30px;
     }
 
     .sp-profile-header {
-        display: flex;
-        align-items: flex-end;
-        gap: 20px;
-        margin-top: -65px;
         position: relative;
-        z-index: 2;
+
+        z-index: 4;
+
+        display: flex;
+
+        align-items: flex-end;
+
+        gap: 18px;
+
+        margin-top: -60px;
     }
 
     .sp-logo {
-        width: 130px;
-        height: 130px;
-        flex: 0 0 130px;
+        width: 124px;
+        height: 124px;
+
+        flex: 0 0 124px;
+
         padding: 7px;
-        border-radius: 25px;
+
+        border-radius: 23px;
+
         background: #fff;
-        box-shadow: 0 12px 35px rgba(15,23,42,.16);
+
+        border: 1px solid #e7edf5;
+
+        box-shadow:
+            0 13px 34px rgba(67, 97, 143, .13);
     }
 
     .sp-logo img {
         width: 100%;
         height: 100%;
+
         object-fit: contain;
-        border-radius: 19px;
-        background: #F8FAFC;
+
+        border-radius: 17px;
+
+        background: #f8fbff;
     }
 
     .sp-logo-placeholder {
         width: 100%;
         height: 100%;
-        border-radius: 19px;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
+
+        border-radius: 17px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #edf5ff,
+                #f4f7ff
+            );
+
+        color: var(--sp-primary);
+
         display: flex;
+
         align-items: center;
         justify-content: center;
-        font-size: 38px;
+
+        font-size: 35px;
     }
 
     .sp-profile-title {
-        padding-bottom: 8px;
         min-width: 0;
+
+        padding-bottom: 7px;
     }
 
     .sp-badges {
         display: flex;
+
         align-items: center;
-        gap: 7px;
+
         flex-wrap: wrap;
+
+        gap: 6px;
+
         margin-bottom: 8px;
     }
 
-    .sp-status {
+    .sp-status,
+    .sp-published {
         display: inline-flex;
+
         align-items: center;
+
         gap: 5px;
-        padding: 6px 10px;
+
+        padding: 6px 9px;
+
         border-radius: 999px;
-        font-size: 10px;
+
+        font-size: 8px;
+
+        line-height: 1;
+
         font-weight: 800;
+
+        white-space: nowrap;
     }
 
     .sp-approved {
-        background: var(--sp-green-bg);
-        color: var(--sp-green);
+        background: var(--sp-green-soft);
+
+        color: #047857;
     }
 
     .sp-pending {
-        background: var(--sp-orange-bg);
-        color: var(--sp-orange);
+        background: var(--sp-orange-soft);
+
+        color: #b45309;
     }
 
     .sp-rejected {
-        background: var(--sp-red-bg);
-        color: var(--sp-red);
+        background: var(--sp-red-soft);
+
+        color: #dc2626;
     }
 
     .sp-draft {
-        background: #F1F5F9;
-        color: #475569;
+        background: #f1f5f9;
+
+        color: #64748b;
     }
 
     .sp-published {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: var(--sp-green-bg);
-        color: var(--sp-green);
-        font-size: 10px;
-        font-weight: 800;
+        background: var(--sp-primary-soft);
+
+        color: #3577dd;
     }
 
     .sp-profile-title h2 {
         margin: 0;
-        color: var(--sp-navy);
-        font-size: 30px;
-        line-height: 1.15;
+
+        color: var(--sp-heading);
+
+        font-size: 29px;
+
+        line-height: 1.2;
+
         font-weight: 800;
+
+        letter-spacing: -.03em;
+
+        word-break: break-word;
     }
 
     .sp-tagline {
         margin: 6px 0 0;
+
         color: var(--sp-muted);
-        font-size: 14px;
-        line-height: 1.6;
+
+        font-size: 12px;
+
+        line-height: 1.7;
+
+        max-width: 760px;
     }
 
     /* =========================================================
-       BASIC META
+       META
     ========================================================= */
 
     .sp-meta-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-        margin-top: 28px;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+
+        gap: 10px;
+
+        margin-top: 26px;
     }
 
     .sp-meta-box {
-        padding: 15px;
-        background: #F8FAFC;
-        border: 1px solid var(--sp-border);
-        border-radius: 13px;
+        min-width: 0;
+
+        padding: 13px 14px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #fbfdff 0%,
+                #f8fafc 100%
+            );
+
+        border: 1px solid var(--sp-border-light);
+
+        border-radius: 12px;
     }
 
     .sp-meta-box-label {
         display: flex;
+
         align-items: center;
+
         gap: 6px;
-        color: #94A3B8;
-        font-size: 10px;
-        font-weight: 600;
+
+        color: #9aa6b6;
+
+        font-size: 8px;
+
+        line-height: 1.2;
+
+        font-weight: 700;
+
         margin-bottom: 5px;
     }
 
     .sp-meta-box-label i {
-        color: var(--sp-blue);
+        color: var(--sp-primary);
+
+        font-size: 9px;
     }
 
     .sp-meta-box-value {
         color: var(--sp-text);
-        font-size: 13px;
-        font-weight: 700;
+
+        font-size: 11px;
+
+        line-height: 1.45;
+
+        font-weight: 800;
+
         word-break: break-word;
     }
 
+    .sp-website-value {
+        color: var(--sp-primary);
+    }
+
     /* =========================================================
-       BODY GRID
+       BODY
     ========================================================= */
 
     .sp-body-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 280px;
-        gap: 20px;
-        margin-top: 20px;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            290px;
+
+        gap: 18px;
+
+        margin-top: 18px;
     }
 
     .sp-main-column {
@@ -363,7 +745,9 @@
 
     .sp-sidebar {
         display: grid;
-        gap: 15px;
+
+        gap: 13px;
+
         align-content: start;
     }
 
@@ -373,10 +757,17 @@
 
     .sp-section {
         background: #fff;
+
         border: 1px solid var(--sp-border);
-        border-radius: 17px;
-        padding: 23px;
-        margin-bottom: 16px;
+
+        border-radius: 16px;
+
+        padding: 21px;
+
+        margin-bottom: 14px;
+
+        box-shadow:
+            0 3px 12px rgba(67, 97, 143, .02);
     }
 
     .sp-section:last-child {
@@ -385,35 +776,54 @@
 
     .sp-section-header {
         display: flex;
+
         align-items: center;
+
         gap: 9px;
-        margin-bottom: 13px;
+
+        margin-bottom: 12px;
     }
 
     .sp-section-header-icon {
         width: 31px;
         height: 31px;
+
+        flex: 0 0 31px;
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
+
         border-radius: 9px;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
-        font-size: 12px;
+
+        background: var(--sp-primary-soft);
+
+        color: var(--sp-primary);
+
+        font-size: 11px;
     }
 
     .sp-section h3 {
         margin: 0;
-        color: var(--sp-navy);
-        font-size: 16px;
+
+        color: var(--sp-heading);
+
+        font-size: 15px;
+
         font-weight: 800;
     }
 
     .sp-section-text {
         margin: 0;
-        color: #64748B;
-        font-size: 13px;
+
+        color: #68778a;
+
+        font-size: 11px;
+
         line-height: 1.85;
+
         white-space: pre-line;
     }
 
@@ -423,37 +833,59 @@
 
     .sp-two-column {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 13px;
+
+        margin-bottom: 14px;
     }
 
     .sp-info-box {
         background: #fff;
+
         border: 1px solid var(--sp-border);
-        border-radius: 17px;
-        padding: 22px;
-        margin-bottom: 16px;
+
+        border-radius: 16px;
+
+        padding: 20px;
+
+        box-shadow:
+            0 3px 12px rgba(67, 97, 143, .02);
     }
 
     .sp-info-box h3 {
         display: flex;
+
         align-items: center;
+
         gap: 8px;
-        margin: 0 0 12px;
-        color: var(--sp-navy);
-        font-size: 15px;
+
+        margin: 0 0 11px;
+
+        color: var(--sp-heading);
+
+        font-size: 14px;
+
         font-weight: 800;
     }
 
     .sp-info-box h3 i {
-        color: var(--sp-blue);
+        color: var(--sp-primary);
+
+        font-size: 12px;
     }
 
     .sp-info-box p {
         margin: 0;
+
         color: var(--sp-muted);
-        font-size: 13px;
+
+        font-size: 11px;
+
         line-height: 1.8;
+
         white-space: pre-line;
     }
 
@@ -463,19 +895,40 @@
 
     .sp-tags {
         display: flex;
+
         flex-wrap: wrap;
-        gap: 8px;
+
+        gap: 7px;
     }
 
     .sp-tag {
         display: inline-flex;
+
         align-items: center;
-        padding: 7px 11px;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
+
+        min-height: 27px;
+
+        padding: 0 10px;
+
+        background: var(--sp-primary-soft);
+
+        border: 1px solid #dbeafe;
+
+        color: #4d7fd4;
+
         border-radius: 999px;
-        font-size: 11px;
-        font-weight: 700;
+
+        font-size: 9px;
+
+        font-weight: 800;
+    }
+
+    .sp-opportunity-tag {
+        background: var(--sp-purple-soft);
+
+        border-color: #e6e0ff;
+
+        color: #7567d8;
     }
 
     /* =========================================================
@@ -484,27 +937,78 @@
 
     .sp-funding-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 10px;
     }
 
     .sp-funding-box {
-        padding: 16px;
-        border-radius: 13px;
-        background: #F8FAFC;
-        border: 1px solid var(--sp-border);
+        padding: 14px;
+
+        border-radius: 12px;
+
+        background:
+            linear-gradient(
+                180deg,
+                #fbfdff,
+                #f8fafc
+            );
+
+        border: 1px solid var(--sp-border-light);
     }
 
     .sp-funding-label {
         display: block;
-        color: #94A3B8;
-        font-size: 10px;
+
+        color: #9ba7b7;
+
+        font-size: 8px;
+
+        line-height: 1.2;
+
         margin-bottom: 5px;
     }
 
     .sp-funding-value {
         color: var(--sp-text);
+
+        font-size: 11px;
+
+        line-height: 1.4;
+
+        font-weight: 800;
+    }
+
+    .sp-raising-yes {
+        color: var(--sp-green) !important;
+    }
+
+    /* =========================================================
+       SIDEBAR CARDS
+    ========================================================= */
+
+    .sp-side-card {
+        background: #fff;
+
+        border: 1px solid var(--sp-border);
+
+        border-radius: 16px;
+
+        padding: 18px;
+
+        box-shadow:
+            0 3px 12px rgba(67, 97, 143, .02);
+    }
+
+    .sp-side-card h3 {
+        margin: 0 0 12px;
+
+        color: var(--sp-heading);
+
         font-size: 14px;
+
         font-weight: 800;
     }
 
@@ -514,76 +1018,96 @@
 
     .sp-contact-list {
         display: grid;
-        gap: 10px;
+
+        gap: 7px;
     }
 
     .sp-contact-item {
+        min-width: 0;
+
         display: flex;
+
         align-items: center;
-        gap: 10px;
-        padding: 11px 12px;
-        background: #F8FAFC;
-        border: 1px solid var(--sp-border);
+
+        gap: 9px;
+
+        padding: 9px;
+
+        background: #f9fbfd;
+
+        border: 1px solid var(--sp-border-light);
+
         border-radius: 10px;
+
         color: var(--sp-text);
+
         text-decoration: none;
-        font-size: 12px;
-        transition: .2s;
+
+        font-size: 9px;
+
+        font-weight: 700;
+
+        transition: .18s ease;
     }
 
     .sp-contact-item:hover {
-        border-color: #CBD9F5;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
+        background: var(--sp-primary-soft);
+
+        border-color: #dbeafe;
+
+        color: var(--sp-primary);
     }
 
     .sp-contact-icon {
-        width: 29px;
-        height: 29px;
-        flex: 0 0 29px;
+        width: 28px;
+        height: 28px;
+
+        flex: 0 0 28px;
+
         border-radius: 8px;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
+
+        background: var(--sp-primary-soft);
+
+        color: var(--sp-primary);
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
-        font-size: 11px;
+
+        font-size: 10px;
     }
 
     .sp-contact-item span {
+        min-width: 0;
+
         overflow: hidden;
+
         text-overflow: ellipsis;
+
         white-space: nowrap;
     }
 
     /* =========================================================
-       SIDEBAR CARDS
+       SIDE ROW
     ========================================================= */
-
-    .sp-side-card {
-        background: #fff;
-        border: 1px solid var(--sp-border);
-        border-radius: 17px;
-        padding: 20px;
-    }
-
-    .sp-side-card h3 {
-        margin: 0 0 13px;
-        color: var(--sp-navy);
-        font-size: 15px;
-        font-weight: 800;
-    }
 
     .sp-side-row {
         display: flex;
+
         align-items: flex-start;
-        gap: 10px;
-        padding: 11px 0;
-        border-bottom: 1px solid #F1F5F9;
+
+        gap: 9px;
+
+        padding: 10px 0;
+
+        border-bottom: 1px solid #f1f5f9;
     }
 
     .sp-side-row:last-child {
         border-bottom: 0;
+
         padding-bottom: 0;
     }
 
@@ -592,30 +1116,98 @@
     }
 
     .sp-side-row-icon {
-        width: 30px;
-        height: 30px;
-        flex: 0 0 30px;
+        width: 29px;
+        height: 29px;
+
+        flex: 0 0 29px;
+
         border-radius: 8px;
-        background: var(--sp-blue-light);
-        color: var(--sp-blue);
+
+        background: var(--sp-primary-soft);
+
+        color: var(--sp-primary);
+
         display: flex;
+
         align-items: center;
+
         justify-content: center;
+
         font-size: 10px;
+    }
+
+    .sp-side-row-content {
+        min-width: 0;
     }
 
     .sp-side-row-content span {
         display: block;
-        color: #94A3B8;
-        font-size: 9px;
-        margin-bottom: 2px;
+
+        color: #9aa6b6;
+
+        font-size: 8px;
+
+        line-height: 1.2;
+
+        margin-bottom: 3px;
     }
 
     .sp-side-row-content strong {
         display: block;
+
         color: var(--sp-text);
-        font-size: 11px;
-        line-height: 1.5;
+
+        font-size: 10px;
+
+        line-height: 1.45;
+
+        font-weight: 800;
+
+        word-break: break-word;
+    }
+
+    /* =========================================================
+       STATUS CARD
+    ========================================================= */
+
+    .sp-status-pill {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 5px 8px;
+
+        border-radius: 999px;
+
+        font-size: 8px;
+
+        font-weight: 800;
+    }
+
+    .sp-status-pill-approved {
+        background: var(--sp-green-soft);
+
+        color: #047857;
+    }
+
+    .sp-status-pill-pending {
+        background: var(--sp-orange-soft);
+
+        color: #b45309;
+    }
+
+    .sp-status-pill-rejected {
+        background: var(--sp-red-soft);
+
+        color: #dc2626;
+    }
+
+    .sp-status-pill-draft {
+        background: #f1f5f9;
+
+        color: #64748b;
     }
 
     /* =========================================================
@@ -623,59 +1215,119 @@
     ========================================================= */
 
     .sp-rejection {
-        padding: 16px;
-        background: var(--sp-red-bg);
-        border: 1px solid #FECACA;
+        padding: 14px;
+
+        background: var(--sp-red-soft);
+
+        border: 1px solid #fecaca;
+
         border-radius: 13px;
-        margin-bottom: 16px;
+
+        margin-bottom: 14px;
     }
 
     .sp-rejection-title {
         display: flex;
+
         align-items: center;
+
         gap: 7px;
+
         color: var(--sp-red);
-        font-size: 13px;
+
+        font-size: 11px;
+
         font-weight: 800;
-        margin-bottom: 7px;
+
+        margin-bottom: 6px;
     }
 
     .sp-rejection-text {
         margin: 0;
-        color: #991B1B;
-        font-size: 12px;
-        line-height: 1.6;
+
+        color: #991b1b;
+
+        font-size: 10px;
+
+        line-height: 1.65;
+
         white-space: pre-line;
+    }
+
+    /* =========================================================
+       CREATED / UPDATED
+    ========================================================= */
+
+    .sp-activity-row {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 12px;
+
+        padding: 8px 0;
+
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .sp-activity-row:last-child {
+        border-bottom: 0;
+
+        padding-bottom: 0;
+    }
+
+    .sp-activity-row:first-child {
+        padding-top: 0;
+    }
+
+    .sp-activity-label {
+        color: #9aa6b6;
+
+        font-size: 8px;
+
+        font-weight: 700;
+    }
+
+    .sp-activity-value {
+        color: var(--sp-text);
+
+        font-size: 9px;
+
+        font-weight: 800;
+
+        text-align: right;
     }
 
     /* =========================================================
        RESPONSIVE
     ========================================================= */
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
 
         .sp-meta-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
         }
 
         .sp-body-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns:
+                minmax(0, 1fr)
+                260px;
         }
 
-        .sp-sidebar {
-            grid-template-columns: repeat(2, 1fr);
+        .sp-quick-actions {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
         }
-
     }
 
-    @media (max-width: 768px) {
-
-        .sp-container {
-            width: calc(100% - 22px);
-        }
+    @media (max-width: 850px) {
 
         .sp-page-heading {
             flex-direction: column;
+
             align-items: flex-start;
         }
 
@@ -687,33 +1339,111 @@
             flex: 1;
         }
 
+        .sp-profile-header {
+            align-items: flex-start;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+            margin-top: -50px;
+        }
+
+        .sp-profile-title {
+            padding-bottom: 0;
+        }
+
+        .sp-meta-grid {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .sp-body-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .sp-sidebar {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .sp-show-page {
+            padding-bottom: 40px;
+        }
+
+        .sp-container {
+            width: calc(100% - 20px);
+        }
+
+        .sp-topbar {
+            padding-top: 18px;
+        }
+
+        .sp-page-heading h1 {
+            font-size: 23px;
+        }
+
+        .sp-page-heading p {
+            font-size: 11px;
+        }
+
+        .sp-actions-right {
+            flex-direction: column;
+        }
+
+        .sp-actions-right .sp-btn {
+            width: 100%;
+            flex: none;
+        }
+
+        .sp-quick-actions {
+            grid-template-columns: 1fr;
+        }
+
         .sp-cover {
             height: 190px;
         }
 
         .sp-profile-main {
-            padding: 0 18px 24px;
+            padding:
+                0
+                17px
+                22px;
         }
 
         .sp-profile-header {
-            align-items: flex-start;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: -45px;
+            margin-top: -43px;
         }
 
         .sp-logo {
-            width: 95px;
-            height: 95px;
-            flex-basis: 95px;
+            width: 92px;
+            height: 92px;
+            flex-basis: 92px;
+            border-radius: 17px;
+        }
+
+        .sp-logo img,
+        .sp-logo-placeholder {
+            border-radius: 12px;
+        }
+
+        .sp-logo-placeholder {
+            font-size: 28px;
         }
 
         .sp-profile-title h2 {
-            font-size: 24px;
+            font-size: 23px;
+        }
+
+        .sp-tagline {
+            font-size: 11px;
         }
 
         .sp-meta-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
         }
 
         .sp-two-column {
@@ -728,22 +1458,29 @@
             grid-template-columns: 1fr;
         }
 
+        .sp-section {
+            padding: 18px;
+        }
+
+        .sp-info-box {
+            padding: 18px;
+        }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 430px) {
 
-        .sp-meta-grid {
-            grid-template-columns: 1fr;
+        .sp-profile-title h2 {
+            font-size: 21px;
+        }
+
+        .sp-section-text,
+        .sp-info-box p {
+            font-size: 10px;
         }
 
         .sp-actions-right {
-            flex-direction: column;
+            gap: 6px;
         }
-
-        .sp-actions-right .sp-btn {
-            width: 100%;
-        }
-
     }
 </style>
 
@@ -752,13 +1489,18 @@
 
     <div class="sp-container">
 
+
         {{-- =====================================================
              TOP BAR
         ====================================================== --}}
+
         <div class="sp-topbar">
 
-            <a href="{{ route('employer.startup-profile.index') }}"
-               class="sp-back">
+
+            <a
+                href="{{ route('employer.startup-profile.index') }}"
+                class="sp-back"
+            >
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -769,7 +1511,8 @@
 
             <div class="sp-page-heading">
 
-                <div>
+
+                <div class="sp-page-heading-left">
 
                     <h1>
                         Startup Profile
@@ -782,14 +1525,16 @@
                 </div>
 
 
-                {{-- =================================================
-                     IMPORTANT:
-                     BOTH ROUTES RECEIVE startupProfile PARAMETER
-                ================================================== --}}
                 <div class="sp-actions-right">
 
-                    <a href="{{ route('employer.startup-profile.edit', ['startupProfile' => $profile->id]) }}"
-                       class="sp-btn sp-btn-primary">
+
+                    <a
+                        href="{{ route(
+                            'employer.startup-profile.edit',
+                            ['startupProfile' => $profile->id]
+                        ) }}"
+                        class="sp-btn sp-btn-primary"
+                    >
 
                         <i class="fa-regular fa-pen-to-square"></i>
 
@@ -798,17 +1543,24 @@
                     </a>
 
 
-                    <form action="{{ route('employer.startup-profile.destroy', ['startupProfile' => $profile->id]) }}"
-                          method="POST"
-                          onsubmit="return confirm('Delete this startup profile? This action cannot be undone.');"
-                          style="margin:0;">
+                    <form
+                        action="{{ route(
+                            'employer.startup-profile.destroy',
+                            ['startupProfile' => $profile->id]
+                        ) }}"
+                        method="POST"
+                        onsubmit="return confirm('Delete this startup profile? This action cannot be undone.');"
+                        style="margin:0;"
+                    >
 
                         @csrf
 
                         @method('DELETE')
 
-                        <button type="submit"
-                                class="sp-btn sp-btn-danger">
+                        <button
+                            type="submit"
+                            class="sp-btn sp-btn-danger"
+                        >
 
                             <i class="fa-regular fa-trash-can"></i>
 
@@ -860,22 +1612,160 @@
 
 
         {{-- =====================================================
-             PROFILE MAIN CARD
+             QUICK ACTIONS
+        ====================================================== --}}
+
+        <div class="sp-quick-actions">
+
+
+            {{-- VIEW / PROFILE LIST --}}
+
+            <a
+                href="{{ route('employer.startup-profile.index') }}"
+                class="sp-quick-action"
+            >
+
+                <span class="sp-quick-icon">
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                </span>
+
+                <span class="sp-quick-action-text">
+
+                    <span class="sp-quick-action-title">
+                        My Profiles
+                    </span>
+
+                    <span class="sp-quick-action-subtitle">
+                        Manage startups
+                    </span>
+
+                </span>
+
+            </a>
+
+
+            {{-- JOBS --}}
+
+            <a
+                href="{{ route(
+                    'employer.startup-profile.jobs',
+                    $profile
+                ) }}"
+                class="sp-quick-action"
+            >
+
+                <span class="sp-quick-icon">
+
+                    <i class="fa-solid fa-briefcase"></i>
+
+                </span>
+
+                <span class="sp-quick-action-text">
+
+                    <span class="sp-quick-action-title">
+                        Startup Jobs
+                    </span>
+
+                    <span class="sp-quick-action-subtitle">
+                        View job openings
+                    </span>
+
+                </span>
+
+            </a>
+
+
+            {{-- INTERNSHIPS --}}
+
+            <a
+                href="{{ route(
+                    'employer.startup-profile.internships',
+                    $profile
+                ) }}"
+                class="sp-quick-action"
+            >
+
+                <span class="sp-quick-icon">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                </span>
+
+                <span class="sp-quick-action-text">
+
+                    <span class="sp-quick-action-title">
+                        Internships
+                    </span>
+
+                    <span class="sp-quick-action-subtitle">
+                        View opportunities
+                    </span>
+
+                </span>
+
+            </a>
+
+
+            {{-- CREATE JOB --}}
+
+            <a
+                href="{{ route('employer.jobs.create', [
+                    'startup_profile_id' => $profile->id
+                ]) }}"
+                class="sp-quick-action"
+            >
+
+                <span class="sp-quick-icon">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                </span>
+
+                <span class="sp-quick-action-text">
+
+                    <span class="sp-quick-action-title">
+                        Create Job
+                    </span>
+
+                    <span class="sp-quick-action-subtitle">
+                        Add a new opening
+                    </span>
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+        {{-- =====================================================
+             PROFILE CARD
         ====================================================== --}}
 
         <div class="sp-profile-card">
 
-            {{-- Cover --}}
+
+            {{-- =================================================
+                 COVER
+            ================================================== --}}
+
             @if($profile->cover_image)
 
-                <div class="sp-cover"
-                     style="background-image:
-                        url('{{ asset('storage/' . $profile->cover_image) }}');">
+                <div
+                    class="sp-cover has-image"
+                    style="background-image: url('{{ asset('storage/' . $profile->cover_image) }}');"
+                >
+
+                    <div class="sp-cover-image-overlay"></div>
+
                 </div>
 
             @else
 
                 <div class="sp-cover">
+
                 </div>
 
             @endif
@@ -883,18 +1773,24 @@
 
             <div class="sp-profile-main">
 
+
                 {{-- =================================================
                      PROFILE HEADER
                 ================================================== --}}
+
                 <div class="sp-profile-header">
 
-                    {{-- Logo --}}
+
+                    {{-- LOGO --}}
+
                     <div class="sp-logo">
 
                         @if($profile->logo)
 
-                            <img src="{{ asset('storage/' . $profile->logo) }}"
-                                 alt="{{ $profile->startup_name }}">
+                            <img
+                                src="{{ asset('storage/' . $profile->logo) }}"
+                                alt="{{ $profile->startup_name }}"
+                            >
 
                         @else
 
@@ -909,13 +1805,20 @@
                     </div>
 
 
-                    {{-- Title --}}
+                    {{-- TITLE --}}
+
                     <div class="sp-profile-title">
+
 
                         <div class="sp-badges">
 
+
                             @php
-                                $status = strtolower($profile->status ?? 'draft');
+
+                                $status = strtolower(
+                                    (string) ($profile->status ?? 'draft')
+                                );
+
                             @endphp
 
 
@@ -1002,9 +1905,11 @@
 
 
                 {{-- =================================================
-                     BASIC META
+                     META GRID
                 ================================================== --}}
+
                 <div class="sp-meta-grid">
+
 
                     @if($profile->category)
 
@@ -1019,9 +1924,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->category }}
-
                             </div>
 
                         </div>
@@ -1042,9 +1945,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->industry }}
-
                             </div>
 
                         </div>
@@ -1065,9 +1966,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->startup_type }}
-
                             </div>
 
                         </div>
@@ -1088,9 +1987,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->startup_stage }}
-
                             </div>
 
                         </div>
@@ -1111,9 +2008,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->founded_year }}
-
                             </div>
 
                         </div>
@@ -1134,9 +2029,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->team_size }}
-
                             </div>
 
                         </div>
@@ -1157,9 +2050,7 @@
                             </div>
 
                             <div class="sp-meta-box-value">
-
                                 {{ $profile->location }}
-
                             </div>
 
                         </div>
@@ -1179,10 +2070,8 @@
 
                             </div>
 
-                            <div class="sp-meta-box-value">
-
+                            <div class="sp-meta-box-value sp-website-value">
                                 Website Available
-
                             </div>
 
                         </div>
@@ -1197,19 +2086,27 @@
 
 
         {{-- =====================================================
-             BODY
+             BODY GRID
         ====================================================== --}}
 
         <div class="sp-body-grid">
 
+
             {{-- =================================================
                  MAIN COLUMN
             ================================================== --}}
+
             <div class="sp-main-column">
 
 
-                {{-- Rejection --}}
-                @if($profile->status === 'rejected' && $profile->rejection_reason)
+                {{-- =================================================
+                     REJECTION
+                ================================================== --}}
+
+                @if(
+                    $status === 'rejected' &&
+                    $profile->rejection_reason
+                )
 
                     <div class="sp-rejection">
 
@@ -1233,6 +2130,7 @@
                 {{-- =================================================
                      SHORT DESCRIPTION
                 ================================================== --}}
+
                 @if($profile->short_description)
 
                     <section class="sp-section">
@@ -1263,6 +2161,7 @@
                 {{-- =================================================
                      ABOUT
                 ================================================== --}}
+
                 @if($profile->about)
 
                     <section class="sp-section">
@@ -1293,9 +2192,11 @@
                 {{-- =================================================
                      MISSION + VISION
                 ================================================== --}}
+
                 @if($profile->mission || $profile->vision)
 
                     <div class="sp-two-column">
+
 
                         @if($profile->mission)
 
@@ -1346,6 +2247,7 @@
                 {{-- =================================================
                      PRODUCTS / SERVICES
                 ================================================== --}}
+
                 @if($profile->products_services)
 
                     <section class="sp-section">
@@ -1376,6 +2278,7 @@
                 {{-- =================================================
                      TECHNOLOGIES
                 ================================================== --}}
+
                 @if($profile->technologies)
 
                     <section class="sp-section">
@@ -1406,11 +2309,16 @@
                 {{-- =================================================
                      LOOKING FOR
                 ================================================== --}}
+
                 @php
+
                     $lookingFor = $profile->looking_for;
 
                     if (is_string($lookingFor)) {
-                        $lookingFor = json_decode($lookingFor, true);
+                        $lookingFor = json_decode(
+                            $lookingFor,
+                            true
+                        );
                     }
 
                     $lookingFor = is_array($lookingFor)
@@ -1425,6 +2333,7 @@
                         'student' => 'Students',
                         'business_partner' => 'Business Partners',
                     ];
+
                 @endphp
 
 
@@ -1469,11 +2378,16 @@
                 {{-- =================================================
                      OPPORTUNITIES
                 ================================================== --}}
+
                 @php
+
                     $opportunities = $profile->opportunities;
 
                     if (is_string($opportunities)) {
-                        $opportunities = json_decode($opportunities, true);
+                        $opportunities = json_decode(
+                            $opportunities,
+                            true
+                        );
                     }
 
                     $opportunities = is_array($opportunities)
@@ -1489,6 +2403,7 @@
                         'business_partnerships' => 'Business Partnerships',
                         'investment' => 'Investment',
                     ];
+
                 @endphp
 
 
@@ -1515,7 +2430,7 @@
 
                             @foreach($opportunities as $item)
 
-                                <span class="sp-tag">
+                                <span class="sp-tag sp-opportunity-tag">
 
                                     {{ $opportunityLabels[$item] ?? $item }}
 
@@ -1533,6 +2448,7 @@
                 {{-- =================================================
                      FUNDING
                 ================================================== --}}
+
                 @if(
                     $profile->funding_stage ||
                     $profile->currently_raising ||
@@ -1558,6 +2474,7 @@
 
                         <div class="sp-funding-grid">
 
+
                             <div class="sp-funding-box">
 
                                 <span class="sp-funding-label">
@@ -1565,9 +2482,7 @@
                                 </span>
 
                                 <strong class="sp-funding-value">
-
                                     {{ $profile->funding_stage ?: 'Not specified' }}
-
                                 </strong>
 
                             </div>
@@ -1579,7 +2494,13 @@
                                     Currently Raising
                                 </span>
 
-                                <strong class="sp-funding-value">
+                                <strong
+                                    class="sp-funding-value {{
+                                        $profile->currently_raising === 'yes'
+                                            ? 'sp-raising-yes'
+                                            : ''
+                                    }}"
+                                >
 
                                     @if($profile->currently_raising === 'yes')
 
@@ -1610,7 +2531,10 @@
 
                                     <strong class="sp-funding-value">
 
-                                        ₹{{ number_format((float) $profile->funding_requirement, 2) }}
+                                        ₹{{ number_format(
+                                            (float) $profile->funding_requirement,
+                                            2
+                                        ) }}
 
                                     </strong>
 
@@ -1630,10 +2554,14 @@
             {{-- =================================================
                  SIDEBAR
             ================================================== --}}
+
             <aside class="sp-sidebar">
 
 
-                {{-- Contact --}}
+                {{-- =================================================
+                     CONTACT
+                ================================================== --}}
+
                 @if(
                     $profile->website ||
                     $profile->linkedin ||
@@ -1650,12 +2578,15 @@
 
                         <div class="sp-contact-list">
 
+
                             @if($profile->website)
 
-                                <a href="{{ $profile->website }}"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="sp-contact-item">
+                                <a
+                                    href="{{ $profile->website }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="sp-contact-item"
+                                >
 
                                     <div class="sp-contact-icon">
 
@@ -1674,10 +2605,12 @@
 
                             @if($profile->linkedin)
 
-                                <a href="{{ $profile->linkedin }}"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="sp-contact-item">
+                                <a
+                                    href="{{ $profile->linkedin }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="sp-contact-item"
+                                >
 
                                     <div class="sp-contact-icon">
 
@@ -1696,8 +2629,10 @@
 
                             @if($profile->startup_email)
 
-                                <a href="mailto:{{ $profile->startup_email }}"
-                                   class="sp-contact-item">
+                                <a
+                                    href="mailto:{{ $profile->startup_email }}"
+                                    class="sp-contact-item"
+                                >
 
                                     <div class="sp-contact-icon">
 
@@ -1716,8 +2651,10 @@
 
                             @if($profile->startup_phone)
 
-                                <a href="tel:{{ $profile->startup_phone }}"
-                                   class="sp-contact-item">
+                                <a
+                                    href="tel:{{ $profile->startup_phone }}"
+                                    class="sp-contact-item"
+                                >
 
                                     <div class="sp-contact-icon">
 
@@ -1740,7 +2677,10 @@
                 @endif
 
 
-                {{-- Startup information --}}
+                {{-- =================================================
+                     STARTUP INFORMATION
+                ================================================== --}}
+
                 <div class="sp-side-card">
 
                     <h3>
@@ -1766,6 +2706,60 @@
 
                                 <strong>
                                     {{ $profile->startup_name }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+
+                    @if($profile->category)
+
+                        <div class="sp-side-row">
+
+                            <div class="sp-side-row-icon">
+
+                                <i class="fa-solid fa-shapes"></i>
+
+                            </div>
+
+                            <div class="sp-side-row-content">
+
+                                <span>
+                                    Category
+                                </span>
+
+                                <strong>
+                                    {{ $profile->category }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    @endif
+
+
+                    @if($profile->industry)
+
+                        <div class="sp-side-row">
+
+                            <div class="sp-side-row-icon">
+
+                                <i class="fa-solid fa-layer-group"></i>
+
+                            </div>
+
+                            <div class="sp-side-row-content">
+
+                                <span>
+                                    Industry
+                                </span>
+
+                                <strong>
+                                    {{ $profile->industry }}
                                 </strong>
 
                             </div>
@@ -1858,7 +2852,10 @@
                 </div>
 
 
-                {{-- Status --}}
+                {{-- =================================================
+                     PROFILE STATUS
+                ================================================== --}}
+
                 <div class="sp-side-card">
 
                     <h3>
@@ -1870,7 +2867,7 @@
 
                         <div class="sp-side-row-icon">
 
-                            <i class="fa-solid fa-circle-check"></i>
+                            <i class="fa-solid fa-shield-check"></i>
 
                         </div>
 
@@ -1882,23 +2879,49 @@
 
                             <strong>
 
-                                @if($profile->status === 'approved')
 
-                                    Approved
+                                @if($status === 'approved')
 
-                                @elseif($profile->status === 'pending')
+                                    <span class="sp-status-pill sp-status-pill-approved">
 
-                                    Pending Approval
+                                        <i class="fa-solid fa-circle-check"></i>
 
-                                @elseif($profile->status === 'rejected')
+                                        Approved
 
-                                    Rejected
+                                    </span>
+
+                                @elseif($status === 'pending')
+
+                                    <span class="sp-status-pill sp-status-pill-pending">
+
+                                        <i class="fa-solid fa-clock"></i>
+
+                                        Pending
+
+                                    </span>
+
+                                @elseif($status === 'rejected')
+
+                                    <span class="sp-status-pill sp-status-pill-rejected">
+
+                                        <i class="fa-solid fa-circle-xmark"></i>
+
+                                        Rejected
+
+                                    </span>
 
                                 @else
 
-                                    Draft
+                                    <span class="sp-status-pill sp-status-pill-draft">
+
+                                        <i class="fa-regular fa-file"></i>
+
+                                        Draft
+
+                                    </span>
 
                                 @endif
+
 
                             </strong>
 
@@ -1942,7 +2965,10 @@
                 </div>
 
 
-                {{-- Dates --}}
+                {{-- =================================================
+                     PROFILE ACTIVITY
+                ================================================== --}}
+
                 <div class="sp-side-card">
 
                     <h3>
@@ -1952,25 +2978,15 @@
 
                     @if($profile->created_at)
 
-                        <div class="sp-side-row">
+                        <div class="sp-activity-row">
 
-                            <div class="sp-side-row-icon">
+                            <span class="sp-activity-label">
+                                Created
+                            </span>
 
-                                <i class="fa-regular fa-calendar-plus"></i>
-
-                            </div>
-
-                            <div class="sp-side-row-content">
-
-                                <span>
-                                    Created
-                                </span>
-
-                                <strong>
-                                    {{ $profile->created_at->format('d M Y') }}
-                                </strong>
-
-                            </div>
+                            <span class="sp-activity-value">
+                                {{ $profile->created_at->format('d M Y') }}
+                            </span>
 
                         </div>
 
@@ -1979,25 +2995,15 @@
 
                     @if($profile->updated_at)
 
-                        <div class="sp-side-row">
+                        <div class="sp-activity-row">
 
-                            <div class="sp-side-row-icon">
+                            <span class="sp-activity-label">
+                                Last Updated
+                            </span>
 
-                                <i class="fa-regular fa-clock"></i>
-
-                            </div>
-
-                            <div class="sp-side-row-content">
-
-                                <span>
-                                    Last Updated
-                                </span>
-
-                                <strong>
-                                    {{ $profile->updated_at->format('d M Y') }}
-                                </strong>
-
-                            </div>
+                            <span class="sp-activity-value">
+                                {{ $profile->updated_at->format('d M Y') }}
+                            </span>
 
                         </div>
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use App\Models\JobPost;
+use App\Models\Internship;
 
 
 class StartupProfileController extends Controller
@@ -92,7 +93,28 @@ class StartupProfileController extends Controller
 
 
 
+/**
+ * =========================================================
+ * STARTUP INTERNSHIPS
+ * =========================================================
+ */
+public function internships(StartupProfile $startupProfile)
+{
+    // Only the owner can access this startup's internships
+    if ((int) $startupProfile->employer_id !== (int) Auth::id()) {
+        abort(403, 'You do not have access to this startup profile.');
+    }
 
+    $internships = Internship::where('employer_id', Auth::id())
+        ->where('startup_profile_id', $startupProfile->id)
+        ->latest()
+        ->paginate(10);
+
+    return view(
+        'employers.startup-profile.internships',
+        compact('startupProfile', 'internships')
+    );
+}
 
     /*
     |--------------------------------------------------------------------------

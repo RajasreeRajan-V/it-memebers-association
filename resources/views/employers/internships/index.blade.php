@@ -445,7 +445,7 @@
     }
 
     /* =========================================================
-       ACTIVE FILTER INFO
+       FILTER BADGE
     ========================================================= */
 
     .active-filter-badge {
@@ -597,6 +597,30 @@
     .internship-company-name {
         font-weight: 600;
         color: #475569;
+    }
+
+    /* =========================================================
+       STARTUP BADGE
+    ========================================================= */
+
+    .startup-internship-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        margin-left: 2px;
+        border-radius: 999px;
+        background: #eef4ff;
+        color: #2563eb;
+        border: 1px solid #dbeafe;
+        font-size: 8px;
+        line-height: 1;
+        font-weight: 800;
+    }
+
+    .startup-internship-badge i {
+        color: #2563eb;
+        font-size: 8px;
     }
 
     .internship-separator {
@@ -987,7 +1011,11 @@
     .sidebar-cta {
         position: relative;
         overflow: hidden;
-        background: linear-gradient(135deg, #3376f2 0%, #5366df 100%);
+        background: linear-gradient(
+            135deg,
+            #3376f2 0%,
+            #5366df 100%
+        );
         border-radius: 18px;
         padding: 23px;
         color: #fff;
@@ -1230,10 +1258,14 @@
         margin: 0;
         color: #64748b;
         font-size: 11px;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
     }
 
     .internship-modal-company i {
-        margin-right: 4px;
+        margin-right: 2px;
     }
 
     .internship-modal-body {
@@ -1596,6 +1628,7 @@
     }
 </style>
 
+
 <div class="internships-page">
 
 
@@ -1607,30 +1640,49 @@
 
     <div class="hero-inner">
 
+
         <div class="hero-left">
 
+
             <span class="hero-badge">
+
                 <svg fill="currentColor" viewBox="0 0 24 24">
+
                     <path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z"/>
+
                 </svg>
 
                 BUILD YOUR NEXT GENERATION
+
             </span>
 
+
             <h1 class="hero-title">
+
                 Discover Talent,
-                <span>Build Your Future</span>
+
+                <span>
+                    Build Your Future
+                </span>
+
             </h1>
 
+
             <p class="hero-description">
+
                 Post internships, connect with emerging talent, review applications,
                 and build a pipeline of future hires with confidence.
+
             </p>
+
 
             <div class="hero-buttons">
 
-                <a href="{{ route('employer.internships.create') }}"
-                   class="hero-primary-btn">
+
+                <a
+                    href="{{ route('employer.internships.create') }}"
+                    class="hero-primary-btn"
+                >
 
                     <i class="bi bi-plus-lg"></i>
 
@@ -1638,8 +1690,11 @@
 
                 </a>
 
-                <a href="#internship-list"
-                   class="hero-secondary-btn">
+
+                <a
+                    href="#internship-list"
+                    class="hero-secondary-btn"
+                >
 
                     Browse Internships
 
@@ -1650,19 +1705,26 @@
         </div>
 
 
+
         <div class="hero-image-wrap">
 
-            <img src="{{ asset('assets/img/ppp.png') }}"
-                 alt="Discover emerging talent"
-                 class="hero-image"
-                 onerror="this.style.display='none'">
+
+            <img
+                src="{{ asset('assets/img/ppp.png') }}"
+                alt="Discover emerging talent"
+                class="hero-image"
+                onerror="this.style.display='none'"
+            >
 
 
             <div class="floating-card floating-card-one">
 
                 <span class="floating-icon floating-icon-blue">
+
                     <i class="bi bi-check-lg"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1679,11 +1741,15 @@
             </div>
 
 
+
             <div class="floating-card floating-card-two">
 
                 <span class="floating-icon floating-icon-purple">
+
                     <i class="bi bi-stars"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1700,11 +1766,15 @@
             </div>
 
 
+
             <div class="floating-card floating-card-three">
 
                 <span class="floating-icon floating-icon-green">
+
                     <i class="bi bi-lightning-charge-fill"></i>
+
                 </span>
+
 
                 <div>
 
@@ -1727,15 +1797,20 @@
 </section>
 
 
+
 {{-- =====================================================
      MAIN
 ====================================================== --}}
 
-<div class="internships-container" id="internship-list">
+<div
+    class="internships-container"
+    id="internship-list"
+>
+
 
     {{-- SUCCESS --}}
 
-    @if (session('success'))
+    @if(session('success'))
 
         <div class="internships-success">
 
@@ -1748,6 +1823,7 @@
     @endif
 
 
+
     <div class="internships-layout">
 
 
@@ -1758,22 +1834,21 @@
         <main class="internships-main">
 
 
-            {{-- =================================================
-                 LIST HEADER
-            ================================================== --}}
+            {{-- HEADER --}}
 
             <div class="internships-list-header">
 
                 <div>
 
-                   
-
                     <h2 class="internships-list-title">
                         My Internships
                     </h2>
 
+
                     <p class="internships-list-subtitle">
+
                         Manage your internship opportunities and applications
+
 
                         @if(request()->hasAny([
                             'search',
@@ -1781,8 +1856,11 @@
                         ]))
 
                             <span class="active-filter-badge">
+
                                 <i class="bi bi-funnel-fill"></i>
+
                                 Filtered Results
+
                             </span>
 
                         @endif
@@ -1793,65 +1871,80 @@
 
 
                 <span class="internships-count">
+
                     {{ $internships->total() ?? $internships->count() }}
+
                 </span>
 
             </div>
 
 
+
             {{-- =================================================
-                 COMPACT SEARCH / FILTER
+                 SEARCH / FILTER
             ================================================== --}}
 
             <div class="internships-search-card">
 
-                <form action="{{ route('employer.internships.index') }}"
-                      method="GET"
-                      class="internships-search-form"
-                      id="internshipSearchForm">
 
+                <form
+                    action="{{ route('employer.internships.index') }}"
+                    method="GET"
+                    class="internships-search-form"
+                    id="internshipSearchForm"
+                >
 
-                    {{-- SEARCH --}}
 
                     <div class="internships-search-input-wrap">
 
                         <i class="bi bi-search"></i>
 
-                        <input type="text"
-                               name="search"
-                               class="internships-search-input"
-                               value="{{ request('search') }}"
-                               placeholder="Search internships by title...">
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="internships-search-input"
+                            value="{{ request('search') }}"
+                            placeholder="Search internships by title..."
+                        >
 
                     </div>
 
 
-                    {{-- STATUS --}}
 
-                    <select name="status"
-                            class="internships-search-select">
+                    <select
+                        name="status"
+                        class="internships-search-select"
+                    >
 
                         <option value="">
                             All Statuses
                         </option>
 
-                        <option value="active"
-                            {{ request('status') === 'active' ? 'selected' : '' }}>
+
+                        <option
+                            value="active"
+                            {{ request('status') === 'active' ? 'selected' : '' }}
+                        >
                             Active
                         </option>
 
-                        <option value="deactive"
-                            {{ request('status') === 'deactive' ? 'selected' : '' }}>
+
+                        <option
+                            value="deactive"
+                            {{ request('status') === 'deactive' ? 'selected' : '' }}
+                        >
                             Deactive
                         </option>
 
                     </select>
 
 
-                    {{-- SEARCH BUTTON --}}
 
-                    <button type="submit"
-                            class="internships-search-btn">
+                    <button
+                        type="submit"
+                        class="internships-search-btn"
+                    >
 
                         <i class="bi bi-search"></i>
 
@@ -1860,15 +1953,16 @@
                     </button>
 
 
-                    {{-- CLEAR BUTTON BESIDE SEARCH --}}
 
                     @if(request()->hasAny([
                         'search',
                         'status'
                     ]))
 
-                        <a href="{{ route('employer.internships.index') }}"
-                           class="internships-clear-btn">
+                        <a
+                            href="{{ route('employer.internships.index') }}"
+                            class="internships-clear-btn"
+                        >
 
                             <i class="bi bi-x-lg"></i>
 
@@ -1881,7 +1975,6 @@
                 </form>
 
 
-                {{-- RESULT TEXT --}}
 
                 @if(request()->hasAny([
                     'search',
@@ -1892,16 +1985,22 @@
 
                         Showing filtered results
 
+
                         @if(request('search'))
 
                             for
-                            "<strong>{{ request('search') }}</strong>"
+
+                            "<strong>
+                                {{ request('search') }}
+                            </strong>"
 
                         @endif
+
 
                         @if(request('status'))
 
                             &middot;
+
                             {{ ucfirst(request('status')) }}
 
                         @endif
@@ -1913,13 +2012,16 @@
             </div>
 
 
+
             {{-- =================================================
                  INTERNSHIP CARDS
             ================================================== --}}
 
-            @forelse ($internships as $internship)
+            @forelse($internships as $internship)
+
 
                 @php
+
 
                     /*
                     |--------------------------------------------------------------------------
@@ -1927,7 +2029,10 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $internshipTitle = $internship->title ?? 'Untitled Internship';
+                    $internshipTitle =
+                        $internship->title
+                        ?? 'Untitled Internship';
+
 
 
                     /*
@@ -1936,41 +2041,63 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $internshipTypeRaw = $internship->internship_type ?? 'internship';
+                    $internshipTypeRaw =
+                        $internship->internship_type
+                        ?? 'internship';
 
-                    $internshipTypeKey = strtolower(
-                        str_replace(
-                            [' ', '-'],
-                            '_',
-                            trim((string) $internshipTypeRaw)
-                        )
-                    );
 
-                    $internshipTypeLabel = ucwords(
-                        str_replace(
-                            '_',
-                            ' ',
-                            $internshipTypeKey
-                        )
-                    );
+                    $internshipTypeKey =
+                        strtolower(
+                            str_replace(
+                                [' ', '-'],
+                                '_',
+                                trim(
+                                    (string)
+                                    $internshipTypeRaw
+                                )
+                            )
+                        );
 
-                    $internshipTypeClass = match ($internshipTypeKey) {
 
-                        'paid' => 'internship-type-paid',
+                    $internshipTypeLabel =
+                        ucwords(
+                            str_replace(
+                                '_',
+                                ' ',
+                                $internshipTypeKey
+                            )
+                        );
 
-                        'unpaid' => 'internship-type-unpaid',
 
-                        'summer' => 'internship-type-summer',
+                    $internshipTypeClass =
+                        match($internshipTypeKey) {
 
-                        'winter' => 'internship-type-winter',
+                            'paid' =>
+                                'internship-type-paid',
 
-                        'full_time' => 'internship-type-full_time',
+                            'unpaid' =>
+                                'internship-type-unpaid',
 
-                        'part_time' => 'internship-type-part_time',
+                            'stipend' =>
+                                'internship-type-summer',
 
-                        default => 'internship-type-default',
+                            'summer' =>
+                                'internship-type-summer',
 
-                    };
+                            'winter' =>
+                                'internship-type-winter',
+
+                            'full_time' =>
+                                'internship-type-full_time',
+
+                            'part_time' =>
+                                'internship-type-part_time',
+
+                            default =>
+                                'internship-type-default',
+
+                        };
+
 
 
                     /*
@@ -1979,39 +2106,107 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $city = $internship->city ?? '';
-                    $state = $internship->state ?? '';
-                    $district = $internship->district ?? '';
-                    $country = $internship->country ?? '';
+                    $city =
+                        $internship->city
+                        ?? '';
 
-                    $locationParts = array_filter([
-                        $city,
-                        $state
-                    ]);
+                    $state =
+                        $internship->state
+                        ?? '';
 
-                    $location = implode(', ', $locationParts);
+                    $district =
+                        $internship->district
+                        ?? '';
 
-                    $modalLocationParts = array_filter([
-                        $city,
-                        $district,
-                        $state,
-                        $country
-                    ]);
+                    $country =
+                        $internship->country
+                        ?? '';
 
-                    $modalLocation = implode(', ', $modalLocationParts);
+
+                    $locationParts =
+                        array_filter([
+                            $city,
+                            $state
+                        ]);
+
+
+                    $location =
+                        implode(
+                            ', ',
+                            $locationParts
+                        );
+
+
+                    $modalLocationParts =
+                        array_filter([
+                            $city,
+                            $district,
+                            $state,
+                            $country
+                        ]);
+
+
+                    $modalLocation =
+                        implode(
+                            ', ',
+                            $modalLocationParts
+                        );
+
 
 
                     /*
                     |--------------------------------------------------------------------------
-                    | COMPANY
+                    | COMPANY / STARTUP
                     |--------------------------------------------------------------------------
+                    |
+                    | Normal internship:
+                    | startup_profile_id = NULL
+                    | → employer company name
+                    |
+                    | Startup internship:
+                    | startup_profile_id has value
+                    | → startup profile name
+                    |
                     */
 
-                 $employerRegistration = optional($internship->employer)->employerRegistration ?? null;
+                    $employerRegistration =
+                        optional(
+                            $internship->employer
+                        )->employerRegistration
+                        ?? null;
 
-$companyName = optional($employerRegistration)->company_name
-    ?? $internship->company_name
-    ?? 'Your Company';
+
+                    $startupProfile =
+                        $internship->startupProfile
+                        ?? null;
+
+
+                    $isStartupInternship =
+                        !empty(
+                            $internship->startup_profile_id
+                        )
+                        && $startupProfile;
+
+
+                    if($isStartupInternship) {
+
+                        $companyName =
+                            $startupProfile->startup_name
+                            ?? 'Startup';
+
+                    } else {
+
+                        $companyName =
+                            optional(
+                                $employerRegistration
+                            )->company_name
+
+                            ?? $internship->company_name
+
+                            ?? 'Your Company';
+
+                    }
+
 
 
                     /*
@@ -2020,17 +2215,25 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $workMode = $internship->work_mode ?? '';
+                    $workMode =
+                        $internship->work_mode
+                        ?? '';
 
-                    $workModeLabel = $workMode
-                        ? ucwords(
-                            str_replace(
-                                ['_', '-'],
-                                ' ',
-                                strtolower((string) $workMode)
+
+                    $workModeLabel =
+                        $workMode
+                            ? ucwords(
+                                str_replace(
+                                    ['_', '-'],
+                                    ' ',
+                                    strtolower(
+                                        (string)
+                                        $workMode
+                                    )
+                                )
                             )
-                        )
-                        : 'Not specified';
+                            : 'Not specified';
+
 
 
                     /*
@@ -2039,13 +2242,23 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $duration = trim((string) ($internship->duration ?? ''));
+                    $duration =
+                        trim(
+                            (string)
+                            (
+                                $internship->duration
+                                ?? ''
+                            )
+                        );
 
-                    if ($duration === '') {
 
-                        $duration = 'Not specified';
+                    if($duration === '') {
+
+                        $duration =
+                            'Not specified';
 
                     }
+
 
 
                     /*
@@ -2054,61 +2267,121 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $stipend = trim((string) ($internship->stipend ?? ''));
+                    $stipend =
+                        trim(
+                            (string)
+                            (
+                                $internship->stipend
+                                ?? ''
+                            )
+                        );
 
-                    if ($stipend === '') {
 
-                        $stipend = 'Unpaid / Not specified';
+                    if($stipend === '') {
+
+                        $stipend =
+                            'Unpaid / Not specified';
 
                     }
+
 
 
                     /*
                     |--------------------------------------------------------------------------
-                    | SKILLS (optional)
+                    | SKILLS
                     |--------------------------------------------------------------------------
                     */
 
-                    $skillsRaw = $internship->skills ?? null;
+                    $skillsRaw =
+                        $internship->skills
+                        ?? null;
+
 
                     $skillsArray = [];
 
-                    if (is_array($skillsRaw)) {
 
-                        $skillsArray = collect($skillsRaw)
+                    if(is_array($skillsRaw)) {
+
+                        $skillsArray =
+                            collect($skillsRaw)
+
                             ->flatten()
-                            ->map(fn ($skill) => trim((string) $skill))
+
+                            ->map(
+                                fn($skill) =>
+                                    trim(
+                                        (string)$skill
+                                    )
+                            )
+
                             ->filter()
+
                             ->values()
+
                             ->all();
 
-                    } elseif (is_string($skillsRaw) && trim($skillsRaw) !== '') {
+                    }
 
-                        $decodedSkills = json_decode($skillsRaw, true);
+                    elseif(
+                        is_string($skillsRaw)
+                        &&
+                        trim($skillsRaw) !== ''
+                    ) {
 
-                        if (json_last_error() === JSON_ERROR_NONE && is_array($decodedSkills)) {
 
-                            $skillsArray = collect($decodedSkills)
+                        $decodedSkills =
+                            json_decode(
+                                $skillsRaw,
+                                true
+                            );
+
+
+                        if(
+                            json_last_error()
+                            === JSON_ERROR_NONE
+                            &&
+                            is_array($decodedSkills)
+                        ) {
+
+                            $skillsArray =
+                                collect($decodedSkills)
+
                                 ->flatten()
-                                ->map(fn ($skill) => trim((string) $skill))
+
+                                ->map(
+                                    fn($skill) =>
+                                        trim(
+                                            (string)$skill
+                                        )
+                                )
+
                                 ->filter()
+
                                 ->values()
+
                                 ->all();
 
                         } else {
 
-                            $skillsArray = array_values(
-                                array_filter(
-                                    array_map(
-                                        'trim',
-                                        preg_split('/[,;\n]+/', $skillsRaw, -1, PREG_SPLIT_NO_EMPTY)
+                            $skillsArray =
+                                array_values(
+                                    array_filter(
+                                        array_map(
+                                            'trim',
+                                            preg_split(
+                                                '/[,;\n]+/',
+                                                $skillsRaw,
+                                                -1,
+                                                PREG_SPLIT_NO_EMPTY
+                                            )
+                                        )
                                     )
-                                )
-                            );
+                                );
 
                         }
 
                     }
+
 
 
                     /*
@@ -2117,13 +2390,23 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $description = trim((string) ($internship->description ?? ''));
+                    $description =
+                        trim(
+                            (string)
+                            (
+                                $internship->description
+                                ?? ''
+                            )
+                        );
 
-                    if ($description === '') {
 
-                        $description = 'No description provided.';
+                    if($description === '') {
+
+                        $description =
+                            'No description provided.';
 
                     }
+
 
 
                     /*
@@ -2132,9 +2415,15 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $applicationCount = $internship->applications_count ?? 0;
+                    $applicationCount =
+                        $internship->applications_count
+                        ?? 0;
 
-                    $positions = $internship->positions ?? 1;
+
+                    $positions =
+                        $internship->positions
+                        ?? 1;
+
 
 
                     /*
@@ -2143,13 +2432,26 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $isActive = ($internship->status ?? 'active') === 'active';
+                    $isActive =
+                        (
+                            $internship->status
+                            ?? 'active'
+                        )
+                        === 'active';
 
-                    $statusText = ucfirst($internship->status ?? 'active');
 
-                    $internshipStatusClass = $isActive
-                        ? 'internship-status-active'
-                        : 'internship-status-closed';
+                    $statusText =
+                        ucfirst(
+                            $internship->status
+                            ?? 'active'
+                        );
+
+
+                    $internshipStatusClass =
+                        $isActive
+                            ? 'internship-status-active'
+                            : 'internship-status-closed';
+
 
 
                     /*
@@ -2158,60 +2460,129 @@ $companyName = optional($employerRegistration)->company_name
                     |--------------------------------------------------------------------------
                     */
 
-                    $postedText = 'Recently';
+                    $postedText =
+                        'Recently';
 
-                    if ($internship->created_at) {
 
-                        $postedText = $internship->created_at->diffForHumans();
+                    if($internship->created_at) {
+
+                        $postedText =
+                            $internship->created_at
+                                ->diffForHumans();
 
                     }
 
                 @endphp
 
 
+
                 {{-- =================================================
                      INTERNSHIP CARD
                 ================================================== --}}
 
-                <article class="employer-internship-card">
+                <article
+                    class="employer-internship-card"
+                >
 
-                    <div class="employer-internship-card-inner">
+                    <div
+                        class="employer-internship-card-inner"
+                    >
+
 
                         <div class="internship-card-top">
 
+
                             <div class="internship-main-info">
+
 
                                 <div class="internship-title-row">
 
+
                                     <h3 class="internship-card-title">
+
                                         {{ $internshipTitle }}
+
                                     </h3>
 
-                                    <span class="internship-type {{ $internshipTypeClass }}">
+
+                                    <span
+                                        class="internship-type {{ $internshipTypeClass }}"
+                                    >
+
                                         {{ $internshipTypeLabel }}
+
                                     </span>
 
                                 </div>
 
 
+
+                                {{-- =================================================
+                                     COMPANY / STARTUP
+                                ================================================== --}}
+
                                 <div class="internship-company-location">
 
-                                    <i class="bi bi-building"></i>
 
-                                    <span class="internship-company-name">
-                                        {{ $companyName }}
-                                    </span>
+                                    @if($isStartupInternship)
+
+                                        <i class="bi bi-rocket-takeoff"></i>
+
+
+                                        <span
+                                            class="internship-company-name"
+                                        >
+
+                                            {{ $companyName }}
+
+                                        </span>
+
+
+                                        <span
+                                            class="startup-internship-badge"
+                                        >
+
+                                            <i class="bi bi-rocket-takeoff"></i>
+
+                                            Startup
+
+                                        </span>
+
+                                    @else
+
+                                        <i class="bi bi-building"></i>
+
+
+                                        <span
+                                            class="internship-company-name"
+                                        >
+
+                                            {{ $companyName }}
+
+                                        </span>
+
+                                    @endif
+
+
 
                                     @if($location)
 
-                                        <span class="internship-separator">
+                                        <span
+                                            class="internship-separator"
+                                        >
                                             &bull;
                                         </span>
 
+
                                         <i class="bi bi-geo-alt"></i>
 
-                                        <span class="internship-location">
+
+                                        <span
+                                            class="internship-location"
+                                        >
+
                                             {{ $location }}
+
                                         </span>
 
                                     @endif
@@ -2219,11 +2590,21 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
+
+                                {{-- META --}}
+
                                 <div class="internship-meta-row">
 
-                                    @if($workModeLabel !== 'Not specified')
 
-                                        <span class="internship-meta-item">
+                                    @if(
+                                        $workModeLabel
+                                        !==
+                                        'Not specified'
+                                    )
+
+                                        <span
+                                            class="internship-meta-item"
+                                        >
 
                                             <i class="bi bi-laptop"></i>
 
@@ -2234,9 +2615,15 @@ $companyName = optional($employerRegistration)->company_name
                                     @endif
 
 
-                                    @if($duration !== 'Not specified')
+                                    @if(
+                                        $duration
+                                        !==
+                                        'Not specified'
+                                    )
 
-                                        <span class="internship-meta-item">
+                                        <span
+                                            class="internship-meta-item"
+                                        >
 
                                             <i class="bi bi-clock-history"></i>
 
@@ -2249,7 +2636,9 @@ $companyName = optional($employerRegistration)->company_name
 
                                     @if($applicationCount > 0)
 
-                                        <span class="internship-meta-item">
+                                        <span
+                                            class="internship-meta-item"
+                                        >
 
                                             <i class="bi bi-people"></i>
 
@@ -2260,9 +2649,15 @@ $companyName = optional($employerRegistration)->company_name
                                     @endif
 
 
-                                    @if($stipend !== 'Unpaid / Not specified')
+                                    @if(
+                                        $stipend
+                                        !==
+                                        'Unpaid / Not specified'
+                                    )
 
-                                        <span class="internship-meta-item">
+                                        <span
+                                            class="internship-meta-item"
+                                        >
 
                                             <i class="bi bi-cash"></i>
 
@@ -2277,28 +2672,42 @@ $companyName = optional($employerRegistration)->company_name
                             </div>
 
 
-                            {{-- THREE DOT MENU --}}
 
-                            <div class="internship-menu-wrap">
+                            {{-- =================================================
+                                 THREE DOT MENU
+                            ================================================== --}}
 
-                                <button type="button"
-                                        class="internship-menu-toggle"
-                                        onclick="toggleInternshipMenu({{ $internship->id }})"
-                                        aria-label="Internship actions">
+                            <div
+                                class="internship-menu-wrap"
+                            >
+
+
+                                <button
+                                    type="button"
+                                    class="internship-menu-toggle"
+                                    onclick="toggleInternshipMenu({{ $internship->id }})"
+                                    aria-label="Internship actions"
+                                >
 
                                     <i class="bi bi-three-dots-vertical"></i>
 
                                 </button>
 
 
-                                <div id="internship-menu-{{ $internship->id }}"
-                                     class="internship-menu">
+
+                                <div
+                                    id="internship-menu-{{ $internship->id }}"
+                                    class="internship-menu"
+                                >
+
 
                                     {{-- VIEW --}}
 
-                                    <button type="button"
-                                            class="internship-menu-item"
-                                            onclick="openInternshipModal({{ $internship->id }})">
+                                    <button
+                                        type="button"
+                                        class="internship-menu-item"
+                                        onclick="openInternshipModal({{ $internship->id }})"
+                                    >
 
                                         <i class="bi bi-eye"></i>
 
@@ -2309,10 +2718,13 @@ $companyName = optional($employerRegistration)->company_name
                                     </button>
 
 
+
                                     {{-- EDIT --}}
 
-                                    <a href="{{ route('employer.internships.edit', $internship) }}"
-                                       class="internship-menu-item">
+                                    <a
+                                        href="{{ route('employer.internships.edit', $internship) }}"
+                                        class="internship-menu-item"
+                                    >
 
                                         <i class="bi bi-pencil"></i>
 
@@ -2323,10 +2735,13 @@ $companyName = optional($employerRegistration)->company_name
                                     </a>
 
 
+
                                     {{-- APPLICATIONS --}}
 
-                                    <a href="#"
-                                       class="internship-menu-item">
+                                    <a
+                                        href="#"
+                                        class="internship-menu-item"
+                                    >
 
                                         <i class="bi bi-people"></i>
 
@@ -2337,25 +2752,42 @@ $companyName = optional($employerRegistration)->company_name
                                     </a>
 
 
-                                    <div class="internship-menu-divider"></div>
+
+                                    <div
+                                        class="internship-menu-divider"
+                                    ></div>
+
 
 
                                     {{-- ACTIVATE / DEACTIVATE --}}
 
-                                    <form action="{{ route('employer.internships.toggle-status', $internship) }}"
-                                          method="POST"
-                                          style="margin:0;">
+                                    <form
+                                        action="{{ route('employer.internships.toggle-status', $internship) }}"
+                                        method="POST"
+                                        style="margin:0;"
+                                    >
 
                                         @csrf
+
                                         @method('PATCH')
 
-                                        <button type="submit"
-                                                class="internship-menu-item">
+
+                                        <button
+                                            type="submit"
+                                            class="internship-menu-item"
+                                        >
 
                                             <i class="bi bi-{{ $isActive ? 'pause-circle' : 'play-circle' }}"></i>
 
+
                                             <span>
-                                                {{ $isActive ? 'Deactivate' : 'Activate' }}
+
+                                                {{
+                                                    $isActive
+                                                        ? 'Deactivate'
+                                                        : 'Activate'
+                                                }}
+
                                             </span>
 
                                         </button>
@@ -2363,21 +2795,31 @@ $companyName = optional($employerRegistration)->company_name
                                     </form>
 
 
-                                    <div class="internship-menu-divider"></div>
+
+                                    <div
+                                        class="internship-menu-divider"
+                                    ></div>
+
 
 
                                     {{-- DELETE --}}
 
-                                    <form action="{{ route('employer.internships.destroy', $internship) }}"
-                                          method="POST"
-                                          style="margin:0;"
-                                          onsubmit="return confirm('Are you sure you want to delete this internship posting? This action cannot be undone.');">
+                                    <form
+                                        action="{{ route('employer.internships.destroy', $internship) }}"
+                                        method="POST"
+                                        style="margin:0;"
+                                        onsubmit="return confirm('Are you sure you want to delete this internship posting? This action cannot be undone.');"
+                                    >
 
                                         @csrf
+
                                         @method('DELETE')
 
-                                        <button type="submit"
-                                                class="internship-menu-item danger">
+
+                                        <button
+                                            type="submit"
+                                            class="internship-menu-item danger"
+                                        >
 
                                             <i class="bi bi-trash3"></i>
 
@@ -2396,24 +2838,44 @@ $companyName = optional($employerRegistration)->company_name
                         </div>
 
 
-                        {{-- STATS --}}
+
+                        {{-- =================================================
+                             STATS
+                        ================================================== --}}
 
                         <div class="internship-stats">
 
-                            <div class="internship-stat internship-stat-blue">
 
-                                <span class="internship-stat-icon">
+                            <div
+                                class="internship-stat internship-stat-blue"
+                            >
+
+                                <span
+                                    class="internship-stat-icon"
+                                >
+
                                     <i class="bi bi-people"></i>
+
                                 </span>
+
 
                                 <div>
 
-                                    <span class="internship-stat-number">
+                                    <span
+                                        class="internship-stat-number"
+                                    >
+
                                         {{ $applicationCount }}
+
                                     </span>
 
-                                    <span class="internship-stat-label">
+
+                                    <span
+                                        class="internship-stat-label"
+                                    >
+
                                         Applications
+
                                     </span>
 
                                 </div>
@@ -2421,20 +2883,37 @@ $companyName = optional($employerRegistration)->company_name
                             </div>
 
 
-                            <div class="internship-stat internship-stat-green">
 
-                                <span class="internship-stat-icon">
+                            <div
+                                class="internship-stat internship-stat-green"
+                            >
+
+                                <span
+                                    class="internship-stat-icon"
+                                >
+
                                     <i class="bi bi-person-check"></i>
+
                                 </span>
+
 
                                 <div>
 
-                                    <span class="internship-stat-number">
+                                    <span
+                                        class="internship-stat-number"
+                                    >
+
                                         {{ $positions }}
+
                                     </span>
 
-                                    <span class="internship-stat-label">
+
+                                    <span
+                                        class="internship-stat-label"
+                                    >
+
                                         Positions
+
                                     </span>
 
                                 </div>
@@ -2442,20 +2921,37 @@ $companyName = optional($employerRegistration)->company_name
                             </div>
 
 
-                            <div class="internship-stat internship-stat-orange">
 
-                                <span class="internship-stat-icon">
+                            <div
+                                class="internship-stat internship-stat-orange"
+                            >
+
+                                <span
+                                    class="internship-stat-icon"
+                                >
+
                                     <i class="bi bi-clock-history"></i>
+
                                 </span>
+
 
                                 <div>
 
-                                    <span class="internship-stat-number">
+                                    <span
+                                        class="internship-stat-number"
+                                    >
+
                                         {{ $duration }}
+
                                     </span>
 
-                                    <span class="internship-stat-label">
+
+                                    <span
+                                        class="internship-stat-label"
+                                    >
+
                                         Duration
+
                                     </span>
 
                                 </div>
@@ -2465,13 +2961,23 @@ $companyName = optional($employerRegistration)->company_name
                         </div>
 
 
-                        {{-- FOOTER --}}
 
-                        <div class="internship-card-footer">
+                        {{-- =================================================
+                             FOOTER
+                        ================================================== --}}
 
-                            <div class="internship-status-area">
+                        <div
+                            class="internship-card-footer"
+                        >
 
-                                <span class="internship-status {{ $internshipStatusClass }}">
+
+                            <div
+                                class="internship-status-area"
+                            >
+
+                                <span
+                                    class="internship-status {{ $internshipStatusClass }}"
+                                >
 
                                     <span class="status-dot"></span>
 
@@ -2479,18 +2985,29 @@ $companyName = optional($employerRegistration)->company_name
 
                                 </span>
 
-                                <span class="internship-posted-time">
+
+                                <span
+                                    class="internship-posted-time"
+                                >
+
                                     Posted {{ $postedText }}
+
                                 </span>
 
                             </div>
 
 
-                            <div class="internship-actions">
 
-                                <button type="button"
-                                        class="internship-action-btn internship-view-btn"
-                                        onclick="openInternshipModal({{ $internship->id }})">
+                            <div
+                                class="internship-actions"
+                            >
+
+
+                                <button
+                                    type="button"
+                                    class="internship-action-btn internship-view-btn"
+                                    onclick="openInternshipModal({{ $internship->id }})"
+                                >
 
                                     <i class="bi bi-eye"></i>
 
@@ -2499,8 +3016,10 @@ $companyName = optional($employerRegistration)->company_name
                                 </button>
 
 
-                                <a href="#"
-                                   class="internship-action-btn internship-applications-btn">
+                                <a
+                                    href="#"
+                                    class="internship-action-btn internship-applications-btn"
+                                >
 
                                     <i class="bi bi-people"></i>
 
@@ -2517,37 +3036,52 @@ $companyName = optional($employerRegistration)->company_name
                 </article>
 
 
+
                 {{-- =================================================
                      INTERNSHIP MODAL
                 ================================================== --}}
 
-                <div id="internshipModal-{{ $internship->id }}"
-                     class="internship-modal"
-                     aria-hidden="true">
-
-                    <div class="internship-modal-overlay"
-                         onclick="closeInternshipModal({{ $internship->id }})">
-                    </div>
+                <div
+                    id="internshipModal-{{ $internship->id }}"
+                    class="internship-modal"
+                    aria-hidden="true"
+                >
 
 
-                    <div class="internship-modal-card"
-                         role="dialog"
-                         aria-modal="true"
-                         aria-labelledby="internship-modal-title-{{ $internship->id }}">
+                    <div
+                        class="internship-modal-overlay"
+                        onclick="closeInternshipModal({{ $internship->id }})"
+                    ></div>
 
-                        <button type="button"
-                                class="internship-modal-close"
-                                onclick="closeInternshipModal({{ $internship->id }})"
-                                aria-label="Close">
+
+
+                    <div
+                        class="internship-modal-card"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="internship-modal-title-{{ $internship->id }}"
+                    >
+
+
+                        <button
+                            type="button"
+                            class="internship-modal-close"
+                            onclick="closeInternshipModal({{ $internship->id }})"
+                            aria-label="Close"
+                        >
 
                             <i class="bi bi-x-lg"></i>
 
                         </button>
 
 
-                        {{-- HEADER --}}
+
+                        {{-- =================================================
+                             MODAL HEADER
+                        ================================================== --}}
 
                         <div class="internship-modal-header">
+
 
                             <div class="internship-modal-icon">
 
@@ -2556,24 +3090,69 @@ $companyName = optional($employerRegistration)->company_name
                             </div>
 
 
-                            <div class="internship-modal-header-content">
 
-                                <span class="internship-type {{ $internshipTypeClass }}">
+                            <div
+                                class="internship-modal-header-content"
+                            >
+
+
+                                <span
+                                    class="internship-type {{ $internshipTypeClass }}"
+                                >
+
                                     {{ $internshipTypeLabel }}
+
                                 </span>
 
-                                <h2 id="internship-modal-title-{{ $internship->id }}"
-                                    class="internship-modal-title">
+
+
+                                <h2
+                                    id="internship-modal-title-{{ $internship->id }}"
+                                    class="internship-modal-title"
+                                >
 
                                     {{ $internshipTitle }}
 
                                 </h2>
 
-                                <p class="internship-modal-company">
 
-                                    <i class="bi bi-building"></i>
 
-                                    {{ $companyName }}
+                                <p
+                                    class="internship-modal-company"
+                                >
+
+
+                                    @if($isStartupInternship)
+
+                                        <i class="bi bi-rocket-takeoff"></i>
+
+                                    @else
+
+                                        <i class="bi bi-building"></i>
+
+                                    @endif
+
+
+                                    <span>
+
+                                        {{ $companyName }}
+
+                                    </span>
+
+
+                                    @if($isStartupInternship)
+
+                                        <span
+                                            class="startup-internship-badge"
+                                        >
+
+                                            <i class="bi bi-rocket-takeoff"></i>
+
+                                            Startup
+
+                                        </span>
+
+                                    @endif
 
                                 </p>
 
@@ -2582,24 +3161,50 @@ $companyName = optional($employerRegistration)->company_name
                         </div>
 
 
-                        {{-- BODY --}}
 
-                        <div class="internship-modal-body">
+                        {{-- =================================================
+                             MODAL BODY
+                        ================================================== --}}
 
-                            <div class="internship-modal-meta-grid">
+                        <div
+                            class="internship-modal-body"
+                        >
 
-                                <div class="internship-modal-meta">
+
+                            <div
+                                class="internship-modal-meta-grid"
+                            >
+
+
+                                {{-- LOCATION --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-geo-alt"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Location
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
-                                            {{ $modalLocation ?: 'Not specified' }}
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
+                                            {{
+                                                $modalLocation
+                                                ?: 'Not specified'
+                                            }}
+
                                         </strong>
 
                                     </div>
@@ -2607,18 +3212,33 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-meta">
+
+                                {{-- WORK MODE --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-laptop"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Work Mode
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
                                             {{ $workModeLabel }}
+
                                         </strong>
 
                                     </div>
@@ -2626,18 +3246,33 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-meta">
+
+                                {{-- DURATION --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-clock-history"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Duration
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
                                             {{ $duration }}
+
                                         </strong>
 
                                     </div>
@@ -2645,18 +3280,33 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-meta">
+
+                                {{-- STIPEND --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-cash-stack"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Stipend
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
                                             {{ $stipend }}
+
                                         </strong>
 
                                     </div>
@@ -2664,18 +3314,33 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-meta">
+
+                                {{-- POSITIONS --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-people"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Positions
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
                                             {{ $positions }}
+
                                         </strong>
 
                                     </div>
@@ -2683,18 +3348,33 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-meta">
+
+                                {{-- STATUS --}}
+
+                                <div
+                                    class="internship-modal-meta"
+                                >
 
                                     <i class="bi bi-activity"></i>
 
+
                                     <div>
 
-                                        <span class="internship-modal-meta-label">
+                                        <span
+                                            class="internship-modal-meta-label"
+                                        >
+
                                             Status
+
                                         </span>
 
-                                        <strong class="internship-modal-meta-value">
+
+                                        <strong
+                                            class="internship-modal-meta-value"
+                                        >
+
                                             {{ $statusText }}
+
                                         </strong>
 
                                     </div>
@@ -2704,22 +3384,39 @@ $companyName = optional($employerRegistration)->company_name
                             </div>
 
 
-                            {{-- SKILLS --}}
+
+                            {{-- =================================================
+                                 SKILLS
+                            ================================================== --}}
 
                             @if(count($skillsArray) > 0)
 
-                                <div class="internship-modal-section">
+                                <div
+                                    class="internship-modal-section"
+                                >
 
-                                    <h3 class="internship-modal-section-title">
+                                    <h3
+                                        class="internship-modal-section-title"
+                                    >
+
                                         Skills
+
                                     </h3>
 
-                                    <div class="internship-modal-skills">
+
+                                    <div
+                                        class="internship-modal-skills"
+                                    >
+
 
                                         @foreach($skillsArray as $skill)
 
-                                            <span class="internship-modal-skill">
+                                            <span
+                                                class="internship-modal-skill"
+                                            >
+
                                                 {{ $skill }}
+
                                             </span>
 
                                         @endforeach
@@ -2731,29 +3428,53 @@ $companyName = optional($employerRegistration)->company_name
                             @endif
 
 
-                            {{-- DESCRIPTION --}}
 
-                            <div class="internship-modal-section">
+                            {{-- =================================================
+                                 DESCRIPTION
+                            ================================================== --}}
 
-                                <h3 class="internship-modal-section-title">
+                            <div
+                                class="internship-modal-section"
+                            >
+
+                                <h3
+                                    class="internship-modal-section-title"
+                                >
+
                                     Internship Description
+
                                 </h3>
 
-                                <div class="internship-modal-description">
+
+                                <div
+                                    class="internship-modal-description"
+                                >
+
                                     {{ $description }}
+
                                 </div>
 
                             </div>
 
 
-                            {{-- STATS --}}
 
-                            <div class="internship-modal-stats">
+                            {{-- =================================================
+                                 STATS
+                            ================================================== --}}
 
-                                <div class="internship-modal-stat">
+                            <div
+                                class="internship-modal-stats"
+                            >
+
+
+                                <div
+                                    class="internship-modal-stat"
+                                >
 
                                     <strong>
+
                                         {{ $applicationCount }}
+
                                     </strong>
 
                                     <span>
@@ -2763,10 +3484,15 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-stat">
+
+                                <div
+                                    class="internship-modal-stat"
+                                >
 
                                     <strong>
+
                                         {{ $positions }}
+
                                     </strong>
 
                                     <span>
@@ -2776,10 +3502,15 @@ $companyName = optional($employerRegistration)->company_name
                                 </div>
 
 
-                                <div class="internship-modal-stat">
+
+                                <div
+                                    class="internship-modal-stat"
+                                >
 
                                     <strong>
+
                                         {{ $duration }}
+
                                     </strong>
 
                                     <span>
@@ -2793,21 +3524,31 @@ $companyName = optional($employerRegistration)->company_name
                         </div>
 
 
-                        {{-- FOOTER --}}
 
-                        <div class="internship-modal-footer">
+                        {{-- =================================================
+                             MODAL FOOTER
+                        ================================================== --}}
 
-                            <button type="button"
-                                    class="internship-modal-secondary"
-                                    onclick="closeInternshipModal({{ $internship->id }})">
+                        <div
+                            class="internship-modal-footer"
+                        >
+
+
+                            <button
+                                type="button"
+                                class="internship-modal-secondary"
+                                onclick="closeInternshipModal({{ $internship->id }})"
+                            >
 
                                 Close
 
                             </button>
 
 
-                            <a href="#"
-                               class="internship-modal-primary">
+                            <a
+                                href="#"
+                                class="internship-modal-primary"
+                            >
 
                                 <i class="bi bi-people"></i>
 
@@ -2821,19 +3562,30 @@ $companyName = optional($employerRegistration)->company_name
 
                 </div>
 
+
             @empty
 
-                {{-- EMPTY STATE --}}
 
-                <div class="internships-empty">
+                {{-- =================================================
+                     EMPTY STATE
+                ================================================== --}}
 
-                    <div class="internships-empty-icon">
+                <div
+                    class="internships-empty"
+                >
+
+
+                    <div
+                        class="internships-empty-icon"
+                    >
 
                         <i class="bi bi-mortarboard"></i>
 
                     </div>
 
+
                     <h3>
+
 
                         @if(request()->hasAny([
                             'search',
@@ -2850,7 +3602,9 @@ $companyName = optional($employerRegistration)->company_name
 
                     </h3>
 
+
                     <p>
+
 
                         @if(request()->hasAny([
                             'search',
@@ -2870,13 +3624,16 @@ $companyName = optional($employerRegistration)->company_name
                     </p>
 
 
+
                     @if(request()->hasAny([
                         'search',
                         'status'
                     ]))
 
-                        <a href="{{ route('employer.internships.index') }}"
-                           class="internships-primary-btn">
+                        <a
+                            href="{{ route('employer.internships.index') }}"
+                            class="internships-primary-btn"
+                        >
 
                             <i class="bi bi-arrow-counterclockwise"></i>
 
@@ -2886,8 +3643,10 @@ $companyName = optional($employerRegistration)->company_name
 
                     @else
 
-                        <a href="{{ route('employer.internships.create') }}"
-                           class="internships-primary-btn">
+                        <a
+                            href="{{ route('employer.internships.create') }}"
+                            class="internships-primary-btn"
+                        >
 
                             <i class="bi bi-plus-lg"></i>
 
@@ -2902,19 +3661,30 @@ $companyName = optional($employerRegistration)->company_name
             @endforelse
 
 
-            {{-- PAGINATION --}}
+
+            {{-- =================================================
+                 PAGINATION
+            ================================================== --}}
 
             @if(method_exists($internships, 'links'))
 
-                <div class="internships-pagination">
+                <div
+                    class="internships-pagination"
+                >
 
-                    {{ $internships->withQueryString()->fragment('internship-list')->links() }}
+                    {{
+                        $internships
+                            ->withQueryString()
+                            ->fragment('internship-list')
+                            ->links()
+                    }}
 
                 </div>
 
             @endif
 
         </main>
+
 
 
         {{-- =====================================================
@@ -2934,13 +3704,17 @@ $companyName = optional($employerRegistration)->company_name
                         Need Fresh Talent?
                     </h3>
 
+
                     <p>
                         Post an internship and connect with
                         motivated students ready to learn.
                     </p>
 
-                    <a href="{{ route('employer.internships.create') }}"
-                       class="sidebar-cta-btn">
+
+                    <a
+                        href="{{ route('employer.internships.create') }}"
+                        class="sidebar-cta-btn"
+                    >
 
                         Post Internship
 
@@ -2953,6 +3727,7 @@ $companyName = optional($employerRegistration)->company_name
             </div>
 
 
+
             {{-- OVERVIEW --}}
 
             <div class="sidebar-card">
@@ -2961,7 +3736,9 @@ $companyName = optional($employerRegistration)->company_name
                     Internship Overview
                 </h3>
 
+
                 <div class="sidebar-overview">
+
 
                     <div class="sidebar-overview-row">
 
@@ -2969,11 +3746,15 @@ $companyName = optional($employerRegistration)->company_name
                             Total Internships
                         </span>
 
+
                         <span class="sidebar-overview-value">
+
                             {{ $internships->total() ?? $internships->count() }}
+
                         </span>
 
                     </div>
+
 
 
                     <div class="sidebar-overview-row">
@@ -2982,8 +3763,11 @@ $companyName = optional($employerRegistration)->company_name
                             Current Page
                         </span>
 
+
                         <span class="sidebar-overview-value">
+
                             {{ $internships->count() }}
+
                         </span>
 
                     </div>
@@ -2991,6 +3775,7 @@ $companyName = optional($employerRegistration)->company_name
                 </div>
 
             </div>
+
 
 
             {{-- INTERNSHIP TIPS --}}
@@ -3001,13 +3786,18 @@ $companyName = optional($employerRegistration)->company_name
                     Internship Tips
                 </h3>
 
+
                 <div class="sidebar-list">
+
 
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
+
 
                         <span>
                             Keep the internship title clear and specific.
@@ -3016,11 +3806,15 @@ $companyName = optional($employerRegistration)->company_name
                     </div>
 
 
+
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
+
 
                         <span>
                             Mention the duration and start date.
@@ -3029,11 +3823,15 @@ $companyName = optional($employerRegistration)->company_name
                     </div>
 
 
+
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
+
 
                         <span>
                             Specify remote, hybrid, or on-site work mode.
@@ -3042,11 +3840,15 @@ $companyName = optional($employerRegistration)->company_name
                     </div>
 
 
+
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
+
 
                         <span>
                             List required skills and learning outcomes.
@@ -3064,11 +3866,12 @@ $companyName = optional($employerRegistration)->company_name
 
 </div>
 
-
 </div>
 
+
+
 {{-- =============================================================
-JAVASCRIPT
+     JAVASCRIPT
 ============================================================= --}}
 
 <script>
@@ -3077,78 +3880,122 @@ JAVASCRIPT
        THREE DOT MENU
     ========================================================= */
 
-    function toggleInternshipMenu(internshipId) {
+    function toggleInternshipMenu(internshipId)
+    {
+        const menu =
+            document.getElementById(
+                'internship-menu-' + internshipId
+            );
 
-        const menu = document.getElementById(
-            'internship-menu-' + internshipId
-        );
 
         if (!menu) {
             return;
         }
 
-        const isOpen = menu.classList.contains('show');
 
-        document.querySelectorAll('.internship-menu.show').forEach(function (openMenu) {
+        const isOpen =
+            menu.classList.contains('show');
 
-            openMenu.classList.remove('show');
 
-        });
+        document
+            .querySelectorAll(
+                '.internship-menu.show'
+            )
+            .forEach(function(openMenu) {
+
+                openMenu.classList.remove(
+                    'show'
+                );
+
+            });
+
 
         if (!isOpen) {
 
-            menu.classList.add('show');
+            menu.classList.add(
+                'show'
+            );
 
         }
-
     }
+
 
 
     /* =========================================================
        CLOSE MENUS WHEN CLICKING OUTSIDE
     ========================================================= */
 
-    document.addEventListener('click', function (event) {
+    document.addEventListener(
+        'click',
+        function(event) {
 
-        if (!event.target.closest('.internship-menu-wrap')) {
 
-            document.querySelectorAll('.internship-menu.show').forEach(function (menu) {
+            if (
+                !event.target.closest(
+                    '.internship-menu-wrap'
+                )
+            ) {
 
-                menu.classList.remove('show');
+                document
+                    .querySelectorAll(
+                        '.internship-menu.show'
+                    )
+                    .forEach(function(menu) {
 
-            });
+                        menu.classList.remove(
+                            'show'
+                        );
+
+                    });
+
+            }
 
         }
+    );
 
-    });
 
 
     /* =========================================================
        OPEN INTERNSHIP MODAL
     ========================================================= */
 
-    function openInternshipModal(internshipId) {
+    function openInternshipModal(internshipId)
+    {
 
-        const modal = document.getElementById(
-            'internshipModal-' + internshipId
-        );
+        const modal =
+            document.getElementById(
+                'internshipModal-' + internshipId
+            );
+
 
         if (!modal) {
             return;
         }
 
-        document.querySelectorAll('.internship-menu.show').forEach(function (menu) {
 
-            menu.classList.remove('show');
+        document
+            .querySelectorAll(
+                '.internship-menu.show'
+            )
+            .forEach(function(menu) {
 
-        });
+                menu.classList.remove(
+                    'show'
+                );
 
-        modal.classList.add('is-open');
+            });
+
+
+        modal.classList.add(
+            'is-open'
+        );
+
 
         modal.setAttribute(
             'aria-hidden',
             'false'
         );
+
 
         document.body.classList.add(
             'internship-modal-open'
@@ -3157,26 +4004,35 @@ JAVASCRIPT
     }
 
 
+
     /* =========================================================
        CLOSE INTERNSHIP MODAL
     ========================================================= */
 
-    function closeInternshipModal(internshipId) {
+    function closeInternshipModal(internshipId)
+    {
 
-        const modal = document.getElementById(
-            'internshipModal-' + internshipId
-        );
+        const modal =
+            document.getElementById(
+                'internshipModal-' + internshipId
+            );
+
 
         if (!modal) {
             return;
         }
 
-        modal.classList.remove('is-open');
+
+        modal.classList.remove(
+            'is-open'
+        );
+
 
         modal.setAttribute(
             'aria-hidden',
             'true'
         );
+
 
         document.body.classList.remove(
             'internship-modal-open'
@@ -3185,94 +4041,127 @@ JAVASCRIPT
     }
 
 
+
     /* =========================================================
-       ESCAPE KEY CLOSES MODAL
+       ESCAPE KEY
     ========================================================= */
 
-    document.addEventListener('keydown', function (event) {
+    document.addEventListener(
+        'keydown',
+        function(event) {
 
-        if (event.key !== 'Escape') {
-            return;
-        }
 
-        document.querySelectorAll('.internship-modal.is-open').forEach(function (modal) {
+            if (event.key !== 'Escape') {
+                return;
+            }
 
-            modal.classList.remove('is-open');
 
-            modal.setAttribute(
-                'aria-hidden',
-                'true'
+            document
+                .querySelectorAll(
+                    '.internship-modal.is-open'
+                )
+                .forEach(function(modal) {
+
+                    modal.classList.remove(
+                        'is-open'
+                    );
+
+
+                    modal.setAttribute(
+                        'aria-hidden',
+                        'true'
+                    );
+
+                });
+
+
+            document.body.classList.remove(
+                'internship-modal-open'
             );
 
-        });
+        }
+    );
 
-        document.body.classList.remove(
-            'internship-modal-open'
-        );
-
-    });
 
 
     /* =========================================================
        SEARCH / FILTER
-       AFTER SUBMIT, AUTOMATICALLY STAY AT INTERNSHIP SECTION
     ========================================================= */
 
-    document.addEventListener('DOMContentLoaded', function () {
-
-        const hasFilters =
-            new URLSearchParams(window.location.search).has('search') ||
-            new URLSearchParams(window.location.search).has('status');
-
-        const internshipList = document.getElementById('internship-list');
+    document.addEventListener(
+        'DOMContentLoaded',
+        function() {
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | FILTERED SEARCH
-        |--------------------------------------------------------------------------
-        | If a search/filter was submitted, keep the user at the
-        | internship section instead of leaving them at the hero.
-        */
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
 
-        if (hasFilters && internshipList) {
 
-            setTimeout(function () {
+            const hasFilters =
+                params.has('search')
+                ||
+                params.has('status');
 
-                internshipList.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'start'
-                });
 
-            }, 50);
+            const internshipList =
+                document.getElementById(
+                    'internship-list'
+                );
+
+
+            if (
+                hasFilters
+                &&
+                internshipList
+            ) {
+
+                setTimeout(
+                    function() {
+
+                        internshipList.scrollIntoView({
+
+                            behavior: 'auto',
+
+                            block: 'start'
+
+                        });
+
+                    },
+                    50
+                );
+
+            }
+
+
+            if (
+                window.location.hash
+                ===
+                '#internship-list'
+                &&
+                internshipList
+            ) {
+
+                setTimeout(
+                    function() {
+
+                        internshipList.scrollIntoView({
+
+                            behavior: 'auto',
+
+                            block: 'start'
+
+                        });
+
+                    },
+                    100
+                );
+
+            }
 
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PAGINATION
-        |--------------------------------------------------------------------------
-        | Pagination already uses #internship-list.
-        */
-
-        if (
-            window.location.hash === '#internship-list' &&
-            internshipList
-        ) {
-
-            setTimeout(function () {
-
-                internshipList.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'start'
-                });
-
-            }, 100);
-
-        }
-
-    });
+    );
 
 </script>
 

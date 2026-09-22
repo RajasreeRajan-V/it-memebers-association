@@ -646,7 +646,7 @@
         position: absolute;
         top: 46px;
         right: 0;
-        width: 205px;
+        width: 215px;
         padding: 7px;
         background: #fff;
         border: 1px solid #e2e8f0;
@@ -687,6 +687,7 @@
         width: 17px;
         color: #64748b;
         font-size: 13px;
+        flex-shrink: 0;
     }
 
     .startup-menu-item:hover i {
@@ -1249,6 +1250,10 @@
         .startups-clear-btn {
             width: 100%;
         }
+
+        .startup-menu {
+            width: 205px;
+        }
     }
 
     @media (max-width: 450px) {
@@ -1280,6 +1285,7 @@
     }
 </style>
 
+
 <div class="startups-page">
 
 
@@ -1294,23 +1300,33 @@
         <div class="hero-left">
 
             <span class="hero-badge">
+
                 <svg fill="currentColor" viewBox="0 0 24 24">
                     <path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z"/>
                 </svg>
 
                 SHOWCASE YOUR STARTUP
+
             </span>
 
+
             <h1 class="hero-title">
+
                 Tell Your Story,
+
                 <span>Grow Your Startup</span>
+
             </h1>
 
+
             <p class="hero-description">
+
                 Build your public startup presence, showcase your company,
-                products and team, and connect your open jobs to attract
-                the right talent.
+                products and team, and connect your open jobs and internships
+                to attract the right talent.
+
             </p>
+
 
             <div class="hero-buttons">
 
@@ -1322,6 +1338,7 @@
                     Create Startup Profile
 
                 </a>
+
 
                 <a href="#startup-list"
                    class="hero-secondary-btn">
@@ -1346,7 +1363,9 @@
             <div class="floating-card floating-card-one">
 
                 <span class="floating-icon floating-icon-blue">
+
                     <i class="bi bi-rocket-takeoff"></i>
+
                 </span>
 
                 <div>
@@ -1367,7 +1386,9 @@
             <div class="floating-card floating-card-two">
 
                 <span class="floating-icon floating-icon-purple">
+
                     <i class="bi bi-stars"></i>
+
                 </span>
 
                 <div>
@@ -1388,7 +1409,9 @@
             <div class="floating-card floating-card-three">
 
                 <span class="floating-icon floating-icon-green">
+
                     <i class="bi bi-graph-up-arrow"></i>
+
                 </span>
 
                 <div>
@@ -1469,13 +1492,18 @@
                     </h2>
 
                     <p class="startups-list-subtitle">
-                        Manage your startup profiles, jobs and visibility
+
+                        Manage your startup profiles, jobs,
+                        internships and visibility
 
                         @if($hasFilters)
 
                             <span class="active-filter-badge">
+
                                 <i class="bi bi-funnel-fill"></i>
+
                                 Filtered Results
+
                             </span>
 
                         @endif
@@ -1558,7 +1586,7 @@
                     </button>
 
 
-                    {{-- CLEAR BUTTON BESIDE SEARCH --}}
+                    {{-- CLEAR BUTTON --}}
 
                     @if($hasFilters)
 
@@ -1587,6 +1615,7 @@
                         @if(request('search'))
 
                             for
+
                             "<strong>{{ request('search') }}</strong>"
 
                         @endif
@@ -1594,6 +1623,7 @@
                         @if(request('status'))
 
                             &middot;
+
                             {{ ucfirst(request('status')) }}
 
                         @endif
@@ -1648,7 +1678,12 @@
                     |--------------------------------------------------------------------------
                     */
 
-                    $descriptionText = trim((string) ($startup->short_description ?: $startup->about));
+                    $descriptionText = trim(
+                        (string) (
+                            $startup->short_description
+                            ?: $startup->about
+                        )
+                    );
 
                 @endphp
 
@@ -1691,13 +1726,18 @@
                                     <div class="startup-title-row">
 
                                         <h3 class="startup-card-title">
+
                                             {{ $startup->startup_name }}
+
                                         </h3>
+
 
                                         @if($startup->startup_stage)
 
                                             <span class="startup-stage">
+
                                                 {{ $startup->startup_stage }}
+
                                             </span>
 
                                         @endif
@@ -1712,7 +1752,9 @@
                                             <i class="bi bi-lightbulb"></i>
 
                                             <span class="startup-tagline-text">
+
                                                 {{ $startup->tagline }}
+
                                             </span>
 
                                         </div>
@@ -1721,6 +1763,7 @@
 
 
                                     <div class="startup-meta-row">
+
 
                                         @if($startup->location)
 
@@ -1780,7 +1823,10 @@
 
                                         <p class="startup-description">
 
-                                            {{ \Illuminate\Support\Str::limit($descriptionText, 220) }}
+                                            {{ \Illuminate\Support\Str::limit(
+                                                $descriptionText,
+                                                220
+                                            ) }}
 
                                         </p>
 
@@ -1791,7 +1837,9 @@
                             </div>
 
 
-                            {{-- THREE DOT MENU --}}
+                            {{-- =================================================
+                                 THREE DOT MENU
+                            ================================================== --}}
 
                             <div class="startup-menu-wrap">
 
@@ -1808,9 +1856,15 @@
                                 <div id="startup-menu-{{ $startup->id }}"
                                      class="startup-menu">
 
-                                    {{-- VIEW PROFILE --}}
 
-                                    <a href="{{ route('employer.startup-profile.show', $startup) }}"
+                                    {{-- =================================================
+                                         VIEW PROFILE
+                                    ================================================== --}}
+
+                                    <a href="{{ route(
+                                                'employer.startup-profile.show',
+                                                $startup
+                                            ) }}"
                                        class="startup-menu-item">
 
                                         <i class="bi bi-eye"></i>
@@ -1822,9 +1876,14 @@
                                     </a>
 
 
-                                    {{-- EDIT PROFILE --}}
+                                    {{-- =================================================
+                                         EDIT PROFILE
+                                    ================================================== --}}
 
-                                    <a href="{{ route('employer.startup-profile.edit', $startup) }}"
+                                    <a href="{{ route(
+                                                'employer.startup-profile.edit',
+                                                $startup
+                                            ) }}"
                                        class="startup-menu-item">
 
                                         <i class="bi bi-pencil"></i>
@@ -1839,9 +1898,18 @@
                                     <div class="startup-menu-divider"></div>
 
 
+                                    {{-- =================================================
+                                         JOB SECTION
+                                    ================================================== --}}
+
                                     {{-- CREATE JOB --}}
 
-                                    <a href="{{ route('employer.jobs.create', ['startup_profile_id' => $startup->id]) }}"
+                                    <a href="{{ route(
+                                                'employer.jobs.create',
+                                                [
+                                                    'startup_profile_id' => $startup->id
+                                                ]
+                                            ) }}"
                                        class="startup-menu-item">
 
                                         <i class="bi bi-plus-circle"></i>
@@ -1855,7 +1923,10 @@
 
                                     {{-- SHOW JOBS --}}
 
-                                    <a href="{{ route('employer.startup-profile.jobs', $startup) }}"
+                                    <a href="{{ route(
+                                                'employer.startup-profile.jobs',
+                                                $startup
+                                            ) }}"
                                        class="startup-menu-item">
 
                                         <i class="bi bi-list-ul"></i>
@@ -1867,13 +1938,61 @@
                                     </a>
 
 
-                                    {{-- PUBLISH / UNPUBLISH --}}
+                                    <div class="startup-menu-divider"></div>
+
+
+                                    {{-- =================================================
+                                         INTERNSHIP SECTION
+                                    ================================================== --}}
+
+                                    {{-- CREATE INTERNSHIP --}}
+
+                                    <a href="{{ route(
+                                                'employer.internships.create',
+                                                [
+                                                    'startup_profile_id' => $startup->id
+                                                ]
+                                            ) }}"
+                                       class="startup-menu-item">
+
+                                        <i class="bi bi-mortarboard"></i>
+
+                                        <span>
+                                            Create Internship
+                                        </span>
+
+                                    </a>
+
+
+                                    {{-- SHOW INTERNSHIPS --}}
+
+                                    <a href="{{ route(
+                                                'employer.startup-profile.internships',
+                                                $startup
+                                            ) }}"
+                                       class="startup-menu-item">
+
+                                        <i class="bi bi-briefcase"></i>
+
+                                        <span>
+                                            Show Internships
+                                        </span>
+
+                                    </a>
+
+
+                                    {{-- =================================================
+                                         PUBLISH / UNPUBLISH
+                                    ================================================== --}}
 
                                     @if($startupStatus === 'approved')
 
                                         <div class="startup-menu-divider"></div>
 
-                                        <form action="{{ route('employer.startup-profile.toggle', $startup) }}"
+                                        <form action="{{ route(
+                                                    'employer.startup-profile.toggle',
+                                                    $startup
+                                                ) }}"
                                               method="POST"
                                               style="margin:0;">
 
@@ -1882,10 +2001,20 @@
                                             <button type="submit"
                                                     class="startup-menu-item">
 
-                                                <i class="bi bi-{{ $startup->is_published ? 'eye-slash' : 'globe2' }}"></i>
+                                                <i class="bi bi-{{
+                                                    $startup->is_published
+                                                    ? 'eye-slash'
+                                                    : 'globe2'
+                                                }}"></i>
 
                                                 <span>
-                                                    {{ $startup->is_published ? 'Unpublish' : 'Publish' }}
+
+                                                    {{
+                                                        $startup->is_published
+                                                        ? 'Unpublish'
+                                                        : 'Publish'
+                                                    }}
+
                                                 </span>
 
                                             </button>
@@ -1898,14 +2027,20 @@
                                     <div class="startup-menu-divider"></div>
 
 
-                                    {{-- DELETE --}}
+                                    {{-- =================================================
+                                         DELETE
+                                    ================================================== --}}
 
-                                    <form action="{{ route('employer.startup-profile.destroy', $startup) }}"
+                                    <form action="{{ route(
+                                                'employer.startup-profile.destroy',
+                                                $startup
+                                            ) }}"
                                           method="POST"
                                           style="margin:0;"
                                           onsubmit="return confirm('Are you sure you want to delete this startup profile? This action cannot be undone.');">
 
                                         @csrf
+
                                         @method('DELETE')
 
                                         <button type="submit"
@@ -1928,45 +2063,64 @@
                         </div>
 
 
-                        {{-- STATS --}}
+                        {{-- =================================================
+                             STATS
+                        ================================================== --}}
 
                         <div class="startup-stats">
+
+
+                            {{-- TEAM SIZE --}}
 
                             <div class="startup-stat startup-stat-blue">
 
                                 <span class="startup-stat-icon">
+
                                     <i class="bi bi-people"></i>
+
                                 </span>
 
                                 <div>
 
                                     <span class="startup-stat-number">
+
                                         {{ $startup->team_size ?: '—' }}
+
                                     </span>
 
                                     <span class="startup-stat-label">
+
                                         Team Size
+
                                     </span>
 
                                 </div>
 
                             </div>
 
+
+                            {{-- STAGE --}}
 
                             <div class="startup-stat startup-stat-green">
 
                                 <span class="startup-stat-icon">
+
                                     <i class="bi bi-graph-up-arrow"></i>
+
                                 </span>
 
                                 <div>
 
                                     <span class="startup-stat-number">
+
                                         {{ $startup->startup_stage ?: '—' }}
+
                                     </span>
 
                                     <span class="startup-stat-label">
+
                                         Stage
+
                                     </span>
 
                                 </div>
@@ -1974,20 +2128,28 @@
                             </div>
 
 
+                            {{-- FOUNDED --}}
+
                             <div class="startup-stat startup-stat-orange">
 
                                 <span class="startup-stat-icon">
+
                                     <i class="bi bi-calendar-event"></i>
+
                                 </span>
 
                                 <div>
 
                                     <span class="startup-stat-number">
+
                                         {{ $startup->founded_year ?: '—' }}
+
                                     </span>
 
                                     <span class="startup-stat-label">
+
                                         Founded
+
                                     </span>
 
                                 </div>
@@ -1997,11 +2159,15 @@
                         </div>
 
 
-                        {{-- FOOTER --}}
+                        {{-- =================================================
+                             FOOTER
+                        ================================================== --}}
 
                         <div class="startup-card-footer">
 
+
                             <div class="startup-status-area">
+
 
                                 {{-- APPROVAL STATUS --}}
 
@@ -2044,7 +2210,10 @@
                                 @if($startup->updated_at)
 
                                     <span class="startup-posted-time">
-                                        Updated {{ $startup->updated_at->diffForHumans() }}
+
+                                        Updated
+                                        {{ $startup->updated_at->diffForHumans() }}
+
                                     </span>
 
                                 @endif
@@ -2054,7 +2223,13 @@
 
                             <div class="startup-actions">
 
-                                <a href="{{ route('employer.startup-profile.show', $startup) }}"
+
+                                {{-- VIEW --}}
+
+                                <a href="{{ route(
+                                            'employer.startup-profile.show',
+                                            $startup
+                                        ) }}"
                                    class="startup-action-btn startup-view-btn">
 
                                     <i class="bi bi-eye"></i>
@@ -2064,7 +2239,12 @@
                                 </a>
 
 
-                                <a href="{{ route('employer.startup-profile.edit', $startup) }}"
+                                {{-- EDIT --}}
+
+                                <a href="{{ route(
+                                            'employer.startup-profile.edit',
+                                            $startup
+                                        ) }}"
                                    class="startup-action-btn startup-edit-btn">
 
                                     <i class="bi bi-pencil-square"></i>
@@ -2081,9 +2261,13 @@
 
                 </article>
 
+
             @empty
 
-                {{-- EMPTY STATE --}}
+
+                {{-- =================================================
+                     EMPTY STATE
+                ================================================== --}}
 
                 <div class="startups-empty">
 
@@ -2092,6 +2276,7 @@
                         <i class="bi bi-rocket-takeoff"></i>
 
                     </div>
+
 
                     <h3>
 
@@ -2106,6 +2291,7 @@
                         @endif
 
                     </h3>
+
 
                     <p>
 
@@ -2126,7 +2312,9 @@
 
                     @if($hasFilters)
 
-                        <a href="{{ route('employer.startup-profile.index') }}"
+                        <a href="{{ route(
+                                    'employer.startup-profile.index'
+                                ) }}"
                            class="startups-primary-btn">
 
                             <i class="bi bi-arrow-counterclockwise"></i>
@@ -2137,7 +2325,9 @@
 
                     @else
 
-                        <a href="{{ route('employer.startup-profile.create') }}"
+                        <a href="{{ route(
+                                    'employer.startup-profile.create'
+                                ) }}"
                            class="startups-primary-btn">
 
                             <i class="bi bi-plus-lg"></i>
@@ -2153,13 +2343,20 @@
             @endforelse
 
 
-            {{-- PAGINATION --}}
+            {{-- =================================================
+                 PAGINATION
+            ================================================== --}}
 
             @if($isPaginated)
 
                 <div class="startups-pagination">
 
-                    {{ $startupProfiles->withQueryString()->fragment('startup-list')->links() }}
+                    {{
+                        $startupProfiles
+                            ->withQueryString()
+                            ->fragment('startup-list')
+                            ->links()
+                    }}
 
                 </div>
 
@@ -2175,7 +2372,9 @@
         <aside class="startups-sidebar">
 
 
-            {{-- CTA --}}
+            {{-- =================================================
+                 CTA
+            ================================================== --}}
 
             <div class="sidebar-cta">
 
@@ -2186,11 +2385,16 @@
                     </h3>
 
                     <p>
+
                         Create a startup profile and show candidates
                         what makes your team worth joining.
+
                     </p>
 
-                    <a href="{{ route('employer.startup-profile.create') }}"
+
+                    <a href="{{ route(
+                                'employer.startup-profile.create'
+                            ) }}"
                        class="sidebar-cta-btn">
 
                         Create Profile
@@ -2204,7 +2408,9 @@
             </div>
 
 
-            {{-- OVERVIEW --}}
+            {{-- =================================================
+                 OVERVIEW
+            ================================================== --}}
 
             <div class="sidebar-card">
 
@@ -2212,7 +2418,9 @@
                     Profile Overview
                 </h3>
 
+
                 <div class="sidebar-overview">
+
 
                     <div class="sidebar-overview-row">
 
@@ -2235,9 +2443,12 @@
 
                         <span class="sidebar-overview-value">
 
-                            {{ $startupProfiles->filter(function ($profile) {
-                                return strtolower((string) $profile->status) === 'approved';
-                            })->count() }}
+                            {{
+                                $startupProfiles->filter(function ($profile) {
+                                    return strtolower((string) $profile->status)
+                                        === 'approved';
+                                })->count()
+                            }}
 
                         </span>
 
@@ -2252,9 +2463,12 @@
 
                         <span class="sidebar-overview-value">
 
-                            {{ $startupProfiles->filter(function ($profile) {
-                                return strtolower((string) $profile->status) === 'pending';
-                            })->count() }}
+                            {{
+                                $startupProfiles->filter(function ($profile) {
+                                    return strtolower((string) $profile->status)
+                                        === 'pending';
+                                })->count()
+                            }}
 
                         </span>
 
@@ -2269,7 +2483,11 @@
 
                         <span class="sidebar-overview-value">
 
-                            {{ $startupProfiles->where('is_published', true)->count() }}
+                            {{
+                                $startupProfiles
+                                    ->where('is_published', true)
+                                    ->count()
+                            }}
 
                         </span>
 
@@ -2280,7 +2498,9 @@
             </div>
 
 
-            {{-- PROFILE TIPS --}}
+            {{-- =================================================
+                 PROFILE TIPS
+            ================================================== --}}
 
             <div class="sidebar-card">
 
@@ -2288,16 +2508,22 @@
                     Build a Strong Profile
                 </h3>
 
+
                 <div class="sidebar-list">
 
+
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
 
                         <span>
+
                             Use a clear logo and an attractive cover image.
+
                         </span>
 
                     </div>
@@ -2306,11 +2532,16 @@
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
 
                         <span>
-                            Clearly explain your mission and what your startup does.
+
+                            Clearly explain your mission and what your
+                            startup does.
+
                         </span>
 
                     </div>
@@ -2319,11 +2550,15 @@
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
 
                         <span>
+
                             Add your products, services and technologies.
+
                         </span>
 
                     </div>
@@ -2332,11 +2567,16 @@
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
 
                         <span>
-                            Select the members and opportunities relevant to your startup.
+
+                            Select the members and opportunities relevant
+                            to your startup.
+
                         </span>
 
                     </div>
@@ -2345,14 +2585,20 @@
                     <div class="sidebar-list-item">
 
                         <span class="sidebar-check">
+
                             <i class="bi bi-check-lg"></i>
+
                         </span>
 
                         <span>
-                            Connect relevant jobs to your startup profile.
+
+                            Connect relevant jobs and internships to your
+                            startup profile.
+
                         </span>
 
                     </div>
+
 
                 </div>
 
@@ -2364,8 +2610,8 @@
 
 </div>
 
-
 </div>
+
 
 {{-- =============================================================
 JAVASCRIPT
@@ -2389,11 +2635,15 @@ JAVASCRIPT
 
         const isOpen = menu.classList.contains('show');
 
-        document.querySelectorAll('.startup-menu.show').forEach(function (openMenu) {
 
-            openMenu.classList.remove('show');
+        document
+            .querySelectorAll('.startup-menu.show')
+            .forEach(function (openMenu) {
 
-        });
+                openMenu.classList.remove('show');
+
+            });
+
 
         if (!isOpen) {
 
@@ -2412,11 +2662,13 @@ JAVASCRIPT
 
         if (!event.target.closest('.startup-menu-wrap')) {
 
-            document.querySelectorAll('.startup-menu.show').forEach(function (menu) {
+            document
+                .querySelectorAll('.startup-menu.show')
+                .forEach(function (menu) {
 
-                menu.classList.remove('show');
+                    menu.classList.remove('show');
 
-            });
+                });
 
         }
 
@@ -2433,35 +2685,41 @@ JAVASCRIPT
             return;
         }
 
-        document.querySelectorAll('.startup-menu.show').forEach(function (menu) {
 
-            menu.classList.remove('show');
+        document
+            .querySelectorAll('.startup-menu.show')
+            .forEach(function (menu) {
 
-        });
+                menu.classList.remove('show');
+
+            });
 
     });
 
 
     /* =========================================================
        SEARCH / FILTER
-       AFTER SUBMIT, AUTOMATICALLY STAY AT STARTUP SECTION
+       AFTER SUBMIT, STAY AT STARTUP SECTION
     ========================================================= */
 
     document.addEventListener('DOMContentLoaded', function () {
 
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(
+            window.location.search
+        );
 
-        const hasFilters = params.has('search') || params.has('status');
+        const hasFilters =
+            params.has('search') ||
+            params.has('status');
 
-        const startupList = document.getElementById('startup-list');
+        const startupList =
+            document.getElementById('startup-list');
 
 
         /*
         |--------------------------------------------------------------------------
         | FILTERED SEARCH
         |--------------------------------------------------------------------------
-        | If a search/filter was submitted, keep the user at the
-        | startup section instead of leaving them at the hero.
         */
 
         if (hasFilters && startupList) {
@@ -2482,7 +2740,6 @@ JAVASCRIPT
         |--------------------------------------------------------------------------
         | PAGINATION
         |--------------------------------------------------------------------------
-        | Pagination already uses #startup-list.
         */
 
         if (
