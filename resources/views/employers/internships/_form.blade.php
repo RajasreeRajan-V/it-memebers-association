@@ -26,64 +26,179 @@
     </div>
 
 
-    {{-- TITLE --}}
+    {{-- =====================================================
+         TITLE
+    ====================================================== --}}
+
     <div class="form-group-custom full-width">
 
         <label for="title">
+
             Internship Title
-            <span class="required">*</span>
+
+            <span class="required">
+                *
+            </span>
+
         </label>
+
 
         <div class="input-wrapper">
 
             <i class="fas fa-heading"></i>
 
-            <input type="text"
-                   id="title"
-                   name="title"
-                   class="form-control-custom @error('title') is-invalid @enderror"
-                   value="{{ old('title', $internship->title ?? '') }}"
-                   placeholder="e.g. Laravel Developer Intern"
-                   required>
+            <input
+                type="text"
+                id="title"
+                name="title"
+                class="form-control-custom @error('title') is-invalid @enderror"
+                value="{{ old('title', $internship->title ?? '') }}"
+                placeholder="e.g. Laravel Developer Intern"
+                required
+            >
 
         </div>
 
+
         @error('title')
+
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
+
         @enderror
 
+
         <div class="helper-text">
+
             <i class="fas fa-info-circle"></i>
+
             Use a clear and specific internship title.
+
         </div>
 
     </div>
 
 
-    {{-- TYPE + MODE --}}
+
+    {{-- =====================================================
+         STARTUP PROFILE
+    ====================================================== --}}
+
+    <div class="form-group-custom full-width">
+
+        <label for="startup_profile_id">
+
+            Startup Profile
+
+            <span
+                class="optional-label"
+                style="font-size: 12px; color: #94a3b8; font-weight: 600;"
+            >
+                (Optional)
+            </span>
+
+        </label>
+
+
+        <div class="input-wrapper select-wrapper">
+
+            <i class="fas fa-rocket"></i>
+
+            <select
+                id="startup_profile_id"
+                name="startup_profile_id"
+                class="form-control-custom @error('startup_profile_id') is-invalid @enderror"
+            >
+
+                <option value="">
+                    No specific startup
+                </option>
+
+
+                @foreach($startupProfiles ?? [] as $startup)
+
+                    <option
+                        value="{{ $startup->id }}"
+                        @selected(
+                            old(
+                                'startup_profile_id',
+                                $internship->startup_profile_id ?? ''
+                            ) == $startup->id
+                        )
+                    >
+
+                        {{ $startup->startup_name }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
+
+        </div>
+
+
+        @error('startup_profile_id')
+
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @enderror
+
+
+        <div class="helper-text">
+
+            <i class="fas fa-info-circle"></i>
+
+            Leave this empty for a normal employer internship.
+            Select a startup to publish this internship under that startup profile.
+
+        </div>
+
+    </div>
+
+
+
+    {{-- =====================================================
+         TYPE + MODE
+    ====================================================== --}}
+
     <div class="form-grid-2">
+
+
+        {{-- INTERNSHIP TYPE --}}
 
         <div class="form-group-custom">
 
             <label for="internship_type">
+
                 Internship Type
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper select-wrapper">
 
                 <i class="fas fa-tag"></i>
 
-                <select id="internship_type"
-                        name="internship_type"
-                        class="form-control-custom @error('internship_type') is-invalid @enderror"
-                        required>
+
+                <select
+                    id="internship_type"
+                    name="internship_type"
+                    class="form-control-custom @error('internship_type') is-invalid @enderror"
+                    required
+                >
 
                     <option value="">
                         Select type
                     </option>
+
 
                     @foreach([
                         'paid' => 'Paid',
@@ -91,13 +206,15 @@
                         'stipend' => 'Stipend'
                     ] as $value => $label)
 
-                        <option value="{{ $value }}"
+                        <option
+                            value="{{ $value }}"
                             @selected(
                                 old(
                                     'internship_type',
                                     $internship->internship_type ?? ''
                                 ) == $value
-                            )>
+                            )
+                        >
 
                             {{ $label }}
 
@@ -109,34 +226,50 @@
 
             </div>
 
+
             @error('internship_type')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
 
+
+        {{-- WORK MODE --}}
+
         <div class="form-group-custom">
 
             <label for="work_mode">
+
                 Work Mode
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper select-wrapper">
 
                 <i class="fas fa-laptop-house"></i>
 
-                <select id="work_mode"
-                        name="work_mode"
-                        class="form-control-custom @error('work_mode') is-invalid @enderror"
-                        required>
+
+                <select
+                    id="work_mode"
+                    name="work_mode"
+                    class="form-control-custom @error('work_mode') is-invalid @enderror"
+                    required
+                >
 
                     <option value="">
                         Select mode
                     </option>
+
 
                     @foreach([
                         'onsite' => 'Onsite',
@@ -144,13 +277,15 @@
                         'remote' => 'Remote'
                     ] as $value => $label)
 
-                        <option value="{{ $value }}"
+                        <option
+                            value="{{ $value }}"
                             @selected(
                                 old(
                                     'work_mode',
                                     $internship->work_mode ?? ''
                                 ) == $value
-                            )>
+                            )
+                        >
 
                             {{ $label }}
 
@@ -162,10 +297,13 @@
 
             </div>
 
+
             @error('work_mode')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
@@ -173,38 +311,60 @@
     </div>
 
 
-    {{-- DURATION + STIPEND --}}
+
+    {{-- =====================================================
+         DURATION + STIPEND
+    ====================================================== --}}
+
     <div class="form-grid-2">
+
+
+        {{-- DURATION --}}
 
         <div class="form-group-custom">
 
             <label for="duration">
+
                 Duration
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper">
 
                 <i class="fas fa-clock"></i>
 
-                <input type="text"
-                       id="duration"
-                       name="duration"
-                       class="form-control-custom @error('duration') is-invalid @enderror"
-                       value="{{ old('duration', $internship->duration ?? '') }}"
-                       placeholder="e.g. 3 months"
-                       required>
+
+                <input
+                    type="text"
+                    id="duration"
+                    name="duration"
+                    class="form-control-custom @error('duration') is-invalid @enderror"
+                    value="{{ old('duration', $internship->duration ?? '') }}"
+                    placeholder="e.g. 3 months"
+                    required
+                >
 
             </div>
 
+
             @error('duration')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
+
+
+        {{-- STIPEND --}}
 
         <div class="form-group-custom">
 
@@ -212,23 +372,30 @@
                 Stipend
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-money-bill-wave"></i>
 
-                <input type="text"
-                       id="stipend"
-                       name="stipend"
-                       class="form-control-custom @error('stipend') is-invalid @enderror"
-                       value="{{ old('stipend', $internship->stipend ?? '') }}"
-                       placeholder="e.g. ₹10,000/month">
+
+                <input
+                    type="text"
+                    id="stipend"
+                    name="stipend"
+                    class="form-control-custom @error('stipend') is-invalid @enderror"
+                    value="{{ old('stipend', $internship->stipend ?? '') }}"
+                    placeholder="e.g. ₹10,000/month"
+                >
 
             </div>
 
+
             @error('stipend')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
@@ -236,8 +403,15 @@
     </div>
 
 
-    {{-- POSITIONS + QUALIFICATION --}}
+
+    {{-- =====================================================
+         POSITIONS + QUALIFICATION
+    ====================================================== --}}
+
     <div class="form-grid-2">
+
+
+        {{-- POSITIONS --}}
 
         <div class="form-group-custom">
 
@@ -245,28 +419,38 @@
                 Available Positions
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-users"></i>
 
-                <input type="number"
-                       id="positions"
-                       name="positions"
-                       min="1"
-                       class="form-control-custom @error('positions') is-invalid @enderror"
-                       value="{{ old('positions', $internship->positions ?? 1) }}"
-                       placeholder="1">
+
+                <input
+                    type="number"
+                    id="positions"
+                    name="positions"
+                    min="1"
+                    class="form-control-custom @error('positions') is-invalid @enderror"
+                    value="{{ old('positions', $internship->positions ?? 1) }}"
+                    placeholder="1"
+                >
 
             </div>
 
+
             @error('positions')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
+
+
+        {{-- QUALIFICATION --}}
 
         <div class="form-group-custom">
 
@@ -274,23 +458,30 @@
                 Qualification
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-graduation-cap"></i>
 
-                <input type="text"
-                       id="qualification"
-                       name="qualification"
-                       class="form-control-custom @error('qualification') is-invalid @enderror"
-                       value="{{ old('qualification', $internship->qualification ?? '') }}"
-                       placeholder="e.g. Bachelor's Degree">
+
+                <input
+                    type="text"
+                    id="qualification"
+                    name="qualification"
+                    class="form-control-custom @error('qualification') is-invalid @enderror"
+                    value="{{ old('qualification', $internship->qualification ?? '') }}"
+                    placeholder="e.g. Bachelor's Degree"
+                >
 
             </div>
 
+
             @error('qualification')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
@@ -330,33 +521,41 @@
             Required Skills
         </label>
 
+
         <div class="input-wrapper">
 
             <i class="fas fa-code"></i>
 
-            <input type="text"
-                   id="skills"
-                   name="skills"
-                   class="form-control-custom @error('skills') is-invalid @enderror"
-                   value="{{ old(
-                       'skills',
-                       isset($internship->skills)
-                           ? (
-                               is_array($internship->skills)
-                                   ? implode(', ', $internship->skills)
-                                   : $internship->skills
-                             )
-                           : ''
-                   ) }}"
-                   placeholder="PHP, Laravel, MySQL, JavaScript">
+
+            <input
+                type="text"
+                id="skills"
+                name="skills"
+                class="form-control-custom @error('skills') is-invalid @enderror"
+                value="{{ old(
+                    'skills',
+                    isset($internship->skills)
+                        ? (
+                            is_array($internship->skills)
+                                ? implode(', ', $internship->skills)
+                                : $internship->skills
+                        )
+                        : ''
+                ) }}"
+                placeholder="PHP, Laravel, MySQL, JavaScript"
+            >
 
         </div>
 
+
         @error('skills')
+
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
+
         @enderror
+
 
         <div class="helper-text">
 
@@ -386,7 +585,9 @@
 
         <div>
 
-            <h3>Internship Period</h3>
+            <h3>
+                Internship Period
+            </h3>
 
             <p>
                 Specify when the internship will take place.
@@ -399,67 +600,85 @@
 
     <div class="form-grid-2">
 
-        {{-- START --}}
+
+        {{-- START DATE --}}
+
         <div class="form-group-custom">
 
             <label for="start_date">
                 Start Date
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-calendar-plus"></i>
 
-                <input type="date"
-                       id="start_date"
-                       name="start_date"
-                       class="form-control-custom @error('start_date') is-invalid @enderror"
-                       value="{{ old(
-                           'start_date',
-                           optional(
-                               $internship->start_date ?? null
-                           )->format('Y-m-d')
-                       ) }}">
+
+                <input
+                    type="date"
+                    id="start_date"
+                    name="start_date"
+                    class="form-control-custom @error('start_date') is-invalid @enderror"
+                    value="{{ old(
+                        'start_date',
+                        optional(
+                            $internship->start_date ?? null
+                        )->format('Y-m-d')
+                    ) }}"
+                >
 
             </div>
 
+
             @error('start_date')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
 
-        {{-- END --}}
+
+        {{-- END DATE --}}
+
         <div class="form-group-custom">
 
             <label for="end_date">
                 End Date
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-calendar-minus"></i>
 
-                <input type="date"
-                       id="end_date"
-                       name="end_date"
-                       class="form-control-custom @error('end_date') is-invalid @enderror"
-                       value="{{ old(
-                           'end_date',
-                           optional(
-                               $internship->end_date ?? null
-                           )->format('Y-m-d')
-                       ) }}">
+
+                <input
+                    type="date"
+                    id="end_date"
+                    name="end_date"
+                    class="form-control-custom @error('end_date') is-invalid @enderror"
+                    value="{{ old(
+                        'end_date',
+                        optional(
+                            $internship->end_date ?? null
+                        )->format('Y-m-d')
+                    ) }}"
+                >
 
             </div>
 
+
             @error('end_date')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
@@ -484,7 +703,9 @@
 
         <div>
 
-            <h3>Location</h3>
+            <h3>
+                Location
+            </h3>
 
             <p>
                 Where will the intern work?
@@ -497,123 +718,174 @@
 
     <div class="location-grid">
 
+
         {{-- COUNTRY --}}
+
         <div class="form-group-custom">
 
             <label for="country">
                 Country
             </label>
 
+
             <div class="input-wrapper">
 
                 <i class="fas fa-globe"></i>
 
-                <input type="text"
-                       id="country"
-                       name="country"
-                       class="form-control-custom @error('country') is-invalid @enderror"
-                       value="{{ old('country', $internship->country ?? '') }}"
-                       placeholder="India">
+
+                <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    class="form-control-custom @error('country') is-invalid @enderror"
+                    value="{{ old('country', $internship->country ?? '') }}"
+                    placeholder="India"
+                >
 
             </div>
 
+
             @error('country')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
 
+
         {{-- STATE --}}
+
         <div class="form-group-custom">
 
             <label for="state">
+
                 State
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper">
 
                 <i class="fas fa-map-pin"></i>
 
-                <input type="text"
-                       id="state"
-                       name="state"
-                       class="form-control-custom @error('state') is-invalid @enderror"
-                       value="{{ old('state', $internship->state ?? '') }}"
-                       placeholder="Kerala"
-                       required>
+
+                <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    class="form-control-custom @error('state') is-invalid @enderror"
+                    value="{{ old('state', $internship->state ?? '') }}"
+                    placeholder="Kerala"
+                    required
+                >
 
             </div>
 
+
             @error('state')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
 
+
         {{-- DISTRICT --}}
+
         <div class="form-group-custom">
 
             <label for="district">
+
                 District
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper">
 
                 <i class="fas fa-map-marked-alt"></i>
 
-                <input type="text"
-                       id="district"
-                       name="district"
-                       class="form-control-custom @error('district') is-invalid @enderror"
-                       value="{{ old('district', $internship->district ?? '') }}"
-                       placeholder="Kasargod"
-                       required>
+
+                <input
+                    type="text"
+                    id="district"
+                    name="district"
+                    class="form-control-custom @error('district') is-invalid @enderror"
+                    value="{{ old('district', $internship->district ?? '') }}"
+                    placeholder="Kasargod"
+                    required
+                >
 
             </div>
 
+
             @error('district')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
 
 
+
         {{-- CITY --}}
+
         <div class="form-group-custom">
 
             <label for="city">
+
                 City
-                <span class="required">*</span>
+
+                <span class="required">
+                    *
+                </span>
+
             </label>
+
 
             <div class="input-wrapper">
 
                 <i class="fas fa-city"></i>
 
-                <input type="text"
-                       id="city"
-                       name="city"
-                       class="form-control-custom @error('city') is-invalid @enderror"
-                       value="{{ old('city', $internship->city ?? '') }}"
-                       placeholder="Kanhangad"
-                       required>
+
+                <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    class="form-control-custom @error('city') is-invalid @enderror"
+                    value="{{ old('city', $internship->city ?? '') }}"
+                    placeholder="Kanhangad"
+                    required
+                >
 
             </div>
 
+
             @error('city')
+
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
+
             @enderror
 
         </div>
@@ -638,7 +910,9 @@
 
         <div>
 
-            <h3>Internship Description</h3>
+            <h3>
+                Internship Description
+            </h3>
 
             <p>
                 Give candidates a clear idea about the opportunity.
@@ -655,17 +929,21 @@
 
             Description
 
-            <span class="required">*</span>
+            <span class="required">
+                *
+            </span>
 
         </label>
 
 
-        <textarea id="description"
-                  name="description"
-                  rows="6"
-                  class="form-control-custom textarea-custom @error('description') is-invalid @enderror"
-                  placeholder="Describe the internship, responsibilities, projects, learning opportunities and expectations..."
-                  required>{{ old('description', $internship->description ?? '') }}</textarea>
+        <textarea
+            id="description"
+            name="description"
+            rows="6"
+            class="form-control-custom textarea-custom @error('description') is-invalid @enderror"
+            placeholder="Describe the internship, responsibilities, projects, learning opportunities and expectations..."
+            required
+        >{{ old('description', $internship->description ?? '') }}</textarea>
 
 
         @error('description')

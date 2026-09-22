@@ -169,6 +169,10 @@ Route::patch('/jobs/{job}/reopen', [
         )->name('internships.toggle-status');
 
 
+Route::get('/startup-profile/{startupProfile}/internships', [
+    StartupProfileController::class,
+    'internships'
+])->name('startup-profile.internships');
         /*
         |--------------------------------------------------------------------------
         | Project Routes
