@@ -9,6 +9,7 @@
 @section('content')
 
 <style>
+
     :root {
         --intern-primary: #3376F2;
         --intern-primary-dark: #245ED1;
@@ -20,6 +21,7 @@
         --intern-border: #E6EAF0;
         --intern-success: #16A34A;
         --intern-warning: #F59E0B;
+        --intern-danger: #DC2626;
         --intern-shadow: 0 8px 28px rgba(31, 41, 55, 0.07);
     }
 
@@ -41,6 +43,33 @@
     .internship-page-container {
         width: min(1320px, calc(100% - 40px));
         margin: 0 auto;
+    }
+
+    /* =========================================================
+       FLASH MESSAGES
+    ========================================================= */
+
+    .intern-flash {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 13px 18px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .intern-flash-success {
+        background: #ECFDF5;
+        color: #047857;
+        border: 1px solid #D1FAE5;
+    }
+
+    .intern-flash-error {
+        background: #FEF2F2;
+        color: #B91C1C;
+        border: 1px solid #FECACA;
     }
 
     /* =========================================================
@@ -773,6 +802,7 @@
     .internship-type {
         display: inline-flex;
         align-items: center;
+        gap: 5px;
         background: #EAF1FF;
         color: var(--intern-primary);
         border-radius: 999px;
@@ -782,6 +812,30 @@
         text-transform: uppercase;
         letter-spacing: .03em;
         white-space: nowrap;
+    }
+
+    /* =========================================================
+       APPLICATION STATUS
+    ========================================================= */
+
+    .internship-type.applied-badge {
+        background: #ECFDF5;
+        color: #047857;
+    }
+
+    .internship-type.selected-badge {
+        background: #EEF4FF;
+        color: #3376F2;
+    }
+
+    .internship-type.rejected-badge {
+        background: #FEF2F2;
+        color: #B91C1C;
+    }
+
+    .internship-type.completed-badge {
+        background: #F3EEFF;
+        color: #7C4DFF;
     }
 
     .intern-posted-time {
@@ -875,6 +929,13 @@
         font-size: 13px;
     }
 
+    .intern-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
     .intern-view-btn {
         display: inline-flex;
         align-items: center;
@@ -890,12 +951,34 @@
         font-weight: 600;
         cursor: pointer;
         transition: .2s ease;
+        text-decoration: none;
     }
 
     .intern-view-btn:hover {
         background: var(--intern-primary-dark);
         color: #fff;
         transform: translateY(-1px);
+    }
+
+    .intern-completed-btn {
+        background: #7C4DFF;
+    }
+
+    .intern-completed-btn:hover {
+        background: #6639E8;
+    }
+
+    .intern-applied-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 36px;
+        padding: 0 15px;
+        border-radius: 9px;
+        background: #ECFDF5;
+        color: #047857;
+        font-size: 12px;
+        font-weight: 700;
     }
 
     /* =========================================================
@@ -1138,6 +1221,53 @@
         white-space: pre-line;
     }
 
+    .intern-modal-section textarea {
+        width: 100%;
+        border: 1px solid #E6EAF0;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 12.5px;
+        font-family: inherit;
+        color: var(--intern-text);
+        resize: vertical;
+        outline: none;
+    }
+
+    .intern-modal-section textarea:focus {
+        border-color: var(--intern-primary);
+        box-shadow: 0 0 0 3px rgba(51,118,242,.10);
+    }
+
+    .intern-modal-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .intern-modal-status.applied {
+        background: #ECFDF5;
+        color: #047857;
+    }
+
+    .intern-modal-status.selected {
+        background: #EEF4FF;
+        color: #3376F2;
+    }
+
+    .intern-modal-status.rejected {
+        background: #FEF2F2;
+        color: #B91C1C;
+    }
+
+    .intern-modal-status.completed {
+        background: #F3EEFF;
+        color: #7C4DFF;
+    }
+
     .intern-modal-footer {
         border-top: 1px solid #EEF1F5;
         margin-top: 23px;
@@ -1146,11 +1276,18 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
+        flex-wrap: wrap;
     }
 
     .intern-modal-posted {
         color: #9AA3B2;
         font-size: 10px;
+    }
+
+    .intern-modal-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .intern-modal-close-btn {
@@ -1163,10 +1300,50 @@
         font-weight: 650;
         cursor: pointer;
         transition: .2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .intern-modal-close-btn:hover {
         background: var(--intern-primary-dark);
+        color: #fff;
+    }
+
+    .intern-modal-close-btn.secondary {
+        background: #fff;
+        color: #64748B;
+        border: 1px solid #DDE3EC;
+    }
+
+    .intern-modal-close-btn.secondary:hover {
+        background: #F6F8FC;
+        color: var(--intern-text);
+    }
+
+    .intern-modal-applied-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 9px;
+        padding: 9px 18px;
+        font-size: 11px;
+        font-weight: 700;
+        background: #ECFDF5;
+        color: #047857;
+    }
+
+    .intern-modal-completed-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 9px;
+        padding: 9px 18px;
+        font-size: 11px;
+        font-weight: 700;
+        background: #F3EEFF;
+        color: #7C4DFF;
     }
 
     /* =========================================================
@@ -1305,6 +1482,10 @@
             flex-direction: column;
         }
 
+        .intern-card-actions {
+            width: 100%;
+        }
+
         .intern-view-btn {
             width: 100%;
         }
@@ -1323,12 +1504,18 @@
         }
 
         .intern-modal-footer {
-            align-items: flex-start;
+            align-items: stretch;
             flex-direction: column;
+        }
+
+        .intern-modal-actions {
+            width: 100%;
+            flex-wrap: wrap;
         }
 
         .intern-modal-close-btn {
             width: 100%;
+            justify-content: center;
         }
     }
 
@@ -1354,12 +1541,43 @@
             padding: 16px;
         }
     }
+
 </style>
 
 
 <div class="student-internship-page">
 
     <div class="internship-page-container">
+
+        {{-- =====================================================
+             FLASH MESSAGES
+        ====================================================== --}}
+
+        @if(session('success'))
+
+            <div class="intern-flash intern-flash-success">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                {{ session('success') }}
+
+            </div>
+
+        @endif
+
+
+        @if(session('error'))
+
+            <div class="intern-flash intern-flash-error">
+
+                <i class="bi bi-exclamation-circle-fill"></i>
+
+                {{ session('error') }}
+
+            </div>
+
+        @endif
+
 
         {{-- =====================================================
              HERO
@@ -1384,7 +1602,10 @@
                     <h1 class="intern-hero-title">
 
                         Start Your Career With
-                        <span>Real-World Experience</span>
+
+                        <span>
+                            Real-World Experience
+                        </span>
 
                     </h1>
 
@@ -1500,9 +1721,7 @@
 
 
                             <div class="intern-visual-line w-85"></div>
-
                             <div class="intern-visual-line w-70"></div>
-
                             <div class="intern-visual-line w-50"></div>
 
 
@@ -1542,16 +1761,12 @@
                             <div>
 
                                 <div class="intern-feature-title">
-
                                     Find the Right Internship
-
                                 </div>
 
                                 <div class="intern-feature-text">
-
                                     Discover opportunities that match
                                     your skills and interests
-
                                 </div>
 
                             </div>
@@ -1570,16 +1785,12 @@
                             <div>
 
                                 <div class="intern-feature-title">
-
                                     Learn From Employers
-
                                 </div>
 
                                 <div class="intern-feature-text">
-
                                     Gain practical experience from
                                     real companies and teams
-
                                 </div>
 
                             </div>
@@ -1598,16 +1809,12 @@
                             <div>
 
                                 <div class="intern-feature-title">
-
                                     Build Your Career
-
                                 </div>
 
                                 <div class="intern-feature-text">
-
                                     Develop valuable skills and prepare
                                     for your future career
-
                                 </div>
 
                             </div>
@@ -1632,23 +1839,17 @@
             <div class="intern-stat-card">
 
                 <div class="intern-stat-icon">
-
                     <i class="bi bi-mortarboard"></i>
-
                 </div>
 
                 <div>
 
                     <div class="intern-stat-value">
-
                         {{ number_format($internships->total()) }}
-
                     </div>
 
                     <div class="intern-stat-label">
-
                         Available Internships
-
                     </div>
 
                 </div>
@@ -1659,23 +1860,17 @@
             <div class="intern-stat-card">
 
                 <div class="intern-stat-icon">
-
                     <i class="bi bi-building"></i>
-
                 </div>
 
                 <div>
 
                     <div class="intern-stat-value">
-
                         {{ $internships->count() }}
-
                     </div>
 
                     <div class="intern-stat-label">
-
                         Internships Showing
-
                     </div>
 
                 </div>
@@ -1686,23 +1881,17 @@
             <div class="intern-stat-card">
 
                 <div class="intern-stat-icon">
-
                     <i class="bi bi-geo-alt"></i>
-
                 </div>
 
                 <div>
 
                     <div class="intern-stat-value">
-
                         {{ request('city') ? '1' : 'All' }}
-
                     </div>
 
                     <div class="intern-stat-label">
-
                         Location Search
-
                     </div>
 
                 </div>
@@ -1755,14 +1944,10 @@
                     </div>
 
 
-                    {{-- SEARCH --}}
-
                     <div class="intern-filter-block">
 
                         <div class="intern-filter-label">
-
                             Search Internships
-
                         </div>
 
                         <input
@@ -1776,14 +1961,10 @@
                     </div>
 
 
-                    {{-- LOCATION --}}
-
                     <div class="intern-filter-block">
 
                         <div class="intern-filter-label">
-
                             Location
-
                         </div>
 
                         <input
@@ -1821,23 +2002,17 @@
                     >
 
                         <div class="intern-quick-icon blue">
-
                             <i class="bi bi-grid"></i>
-
                         </div>
 
                         <div class="intern-quick-content">
 
                             <span class="intern-quick-title">
-
                                 All Internships
-
                             </span>
 
                             <span class="intern-quick-text">
-
                                 Browse all opportunities
-
                             </span>
 
                         </div>
@@ -1846,28 +2021,70 @@
 
 
                     <a
-                        href="{{ route('student.internships.index') }}"
+                        href="{{ route('student.internships.applications') }}"
                         class="intern-quick-link"
                     >
 
                         <div class="intern-quick-icon green">
-
-                            <i class="bi bi-clock-history"></i>
-
+                            <i class="bi bi-file-earmark-text"></i>
                         </div>
 
                         <div class="intern-quick-content">
 
                             <span class="intern-quick-title">
-
-                                Latest Internships
-
+                                My Applications
                             </span>
 
                             <span class="intern-quick-text">
+                                Track what you've applied to
+                            </span>
 
-                                Recently posted opportunities
+                        </div>
 
+                    </a>
+
+
+                    <a
+                        href="{{ route('student.internships.my') }}"
+                        class="intern-quick-link"
+                    >
+
+                        <div class="intern-quick-icon blue">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+
+                        <div class="intern-quick-content">
+
+                            <span class="intern-quick-title">
+                                My Internships
+                            </span>
+
+                            <span class="intern-quick-text">
+                                Ongoing and completed
+                            </span>
+
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="{{ route('student.internships.certificates') }}"
+                        class="intern-quick-link"
+                    >
+
+                        <div class="intern-quick-icon green">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
+
+                        <div class="intern-quick-content">
+
+                            <span class="intern-quick-title">
+                                Certificates
+                            </span>
+
+                            <span class="intern-quick-text">
+                                Download what you've earned
                             </span>
 
                         </div>
@@ -1890,16 +2107,12 @@
                     <div>
 
                         <h2 class="intern-section-heading">
-
                             Available Internships
-
                         </h2>
 
                         <p class="intern-section-subtitle">
-
                             Explore internships that can help you
                             gain valuable experience
-
                         </p>
 
                     </div>
@@ -1948,6 +2161,94 @@
                                     )
                                 )
                                 : null;
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | CURRENT STUDENT APPLICATION
+                            |--------------------------------------------------------------------------
+                            */
+
+                            $application =
+                                $studentApplications[$internship->id]
+                                ?? null;
+
+                            $hasApplied =
+                                $application !== null;
+
+                            $applicationStatus =
+                                $application?->status;
+
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | SEAT AVAILABILITY
+                            |--------------------------------------------------------------------------
+                            */
+
+                            $totalSeats =
+                                (int) ($internship->positions ?? 0);
+
+                            $filledSeats =
+                                (int) ($internship->filled_seats ?? 0);
+
+                            $isInternshipFull =
+                                $totalSeats > 0 &&
+                                $filledSeats >= $totalSeats;
+
+                            $availableSeats =
+                                max(
+                                    0,
+                                    $totalSeats - $filledSeats
+                                );
+
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | STATUS DISPLAY
+                            |--------------------------------------------------------------------------
+                            */
+
+                            $statusLabel = null;
+                            $statusClass = null;
+                            $statusIcon = null;
+
+                            if (
+                                $applicationStatus ===
+                                \App\Models\InternshipApplication::STATUS_APPLIED
+                            ) {
+
+                                $statusLabel = 'Applied';
+                                $statusClass = 'applied-badge';
+                                $statusIcon = 'bi-check-circle-fill';
+
+                            } elseif (
+                                $applicationStatus ===
+                                \App\Models\InternshipApplication::STATUS_SELECTED
+                            ) {
+
+                                $statusLabel = 'Selected';
+                                $statusClass = 'selected-badge';
+                                $statusIcon = 'bi-person-check-fill';
+
+                            } elseif (
+                                $applicationStatus ===
+                                \App\Models\InternshipApplication::STATUS_REJECTED
+                            ) {
+
+                                $statusLabel = 'Rejected';
+                                $statusClass = 'rejected-badge';
+                                $statusIcon = 'bi-x-circle-fill';
+
+                            } elseif (
+                                $applicationStatus ===
+                                \App\Models\InternshipApplication::STATUS_COMPLETED
+                            ) {
+
+                                $statusLabel = 'Completed';
+                                $statusClass = 'completed-badge';
+                                $statusIcon = 'bi-patch-check-fill';
+
+                            }
 
                         @endphp
 
@@ -2003,6 +2304,21 @@
 
                                                 @endif
 
+
+                                                {{-- APPLICATION STATUS --}}
+
+                                                @if($statusLabel)
+
+                                                    <span class="internship-type {{ $statusClass }}">
+
+                                                        <i class="bi {{ $statusIcon }}"></i>
+
+                                                        {{ $statusLabel }}
+
+                                                    </span>
+
+                                                @endif
+
                                             </div>
 
 
@@ -2013,7 +2329,7 @@
                                                 </strong>
 
                                                 <span class="intern-separator">
-                                                    ·
+                                                    &middot;
                                                 </span>
 
                                                 {{ $location }}
@@ -2074,6 +2390,47 @@
 
                                         @endif
 
+
+                                        {{-- =================================================
+                                             SEAT AVAILABILITY
+                                        ================================================== --}}
+
+                                        @if($totalSeats > 0)
+
+                                            @if($isInternshipFull)
+
+                                                <span
+                                                    class="internship-tag"
+                                                    style="
+                                                        background:#FEF2F2;
+                                                        border-color:#FECACA;
+                                                        color:#DC2626;
+                                                    "
+                                                >
+
+                                                    <i class="bi bi-people-fill"></i>
+
+                                                    Internship Full
+
+                                                </span>
+
+                                            @else
+
+                                                <span class="internship-tag green">
+
+                                                    <i class="bi bi-people-fill"></i>
+
+                                                    {{ $filledSeats }}
+                                                    /
+                                                    {{ $totalSeats }}
+                                                    Seats Filled
+
+                                                </span>
+
+                                            @endif
+
+                                        @endif
+
                                     </div>
 
 
@@ -2105,17 +2462,41 @@
                                         @endif
 
 
-                                        <button
-                                            type="button"
-                                            class="intern-view-btn"
-                                            onclick="openInternshipModal('internship-{{ $internship->id }}')"
-                                        >
+                                        <div class="intern-card-actions">
 
-                                            View Details
+                                            {{-- VIEW BUTTON --}}
 
-                                            <i class="bi bi-arrow-right"></i>
+                                            <button
+                                                type="button"
+                                                class="intern-view-btn
+                                                    @if($applicationStatus === \App\Models\InternshipApplication::STATUS_COMPLETED)
+                                                        intern-completed-btn
+                                                    @endif"
+                                                onclick="openInternshipModal('internship-{{ $internship->id }}')"
+                                            >
 
-                                        </button>
+                                                @if(
+                                                    $applicationStatus ===
+                                                    \App\Models\InternshipApplication::STATUS_COMPLETED
+                                                )
+
+                                                    View Internship
+
+                                                @elseif($hasApplied)
+
+                                                    View Application
+
+                                                @else
+
+                                                    View Details
+
+                                                @endif
+
+                                                <i class="bi bi-arrow-right"></i>
+
+                                            </button>
+
+                                        </div>
 
                                     </div>
 
@@ -2180,7 +2561,7 @@
                                             {{ $companyName }}
 
                                             <span style="margin:0 5px;">
-                                                ·
+                                                &middot;
                                             </span>
 
                                             {{ $location }}
@@ -2190,6 +2571,25 @@
                                     </div>
 
                                 </div>
+
+
+                                {{-- APPLICATION STATUS --}}
+
+                                @if($application && $statusLabel)
+
+                                    <div style="margin-top:18px;">
+
+                                        <span class="intern-modal-status {{ $applicationStatus }}">
+
+                                            <i class="bi {{ $statusIcon }}"></i>
+
+                                            Application {{ $statusLabel }}
+
+                                        </span>
+
+                                    </div>
+
+                                @endif
 
 
                                 {{-- INFORMATION --}}
@@ -2265,6 +2665,46 @@
                                     @endif
 
 
+                                    {{-- =================================================
+                                         SEAT INFORMATION
+                                    ================================================== --}}
+
+                                    @if($totalSeats > 0)
+
+                                        <div class="intern-info-box">
+
+                                            <span>
+                                                Internship Seats
+                                            </span>
+
+                                            <strong
+                                                @if($isInternshipFull)
+                                                    style="color:#DC2626;"
+                                                @else
+                                                    style="color:#16A34A;"
+                                                @endif
+                                            >
+
+                                                @if($isInternshipFull)
+
+                                                    Internship Full
+
+                                                @else
+
+                                                    {{ $filledSeats }}
+                                                    /
+                                                    {{ $totalSeats }}
+                                                    Seats Filled
+
+                                                @endif
+
+                                            </strong>
+
+                                        </div>
+
+                                    @endif
+
+
                                     <div class="intern-info-box full">
 
                                         <span>
@@ -2299,6 +2739,119 @@
                                 @endif
 
 
+                                {{-- COVER LETTER --}}
+
+                                @if(!$hasApplied)
+
+                                    <div class="intern-modal-section">
+
+                                        <h4>
+
+                                            Cover Letter
+
+                                            <span style="
+                                                font-weight:400;
+                                                color:#9AA3B2;
+                                                text-transform:none;
+                                                letter-spacing:0;
+                                            ">
+
+                                                (optional)
+
+                                            </span>
+
+                                        </h4>
+
+
+                                        <textarea
+                                            form="apply-form-{{ $internship->id }}"
+                                            name="cover_letter"
+                                            rows="3"
+                                            placeholder="Tell the employer why you're a good fit for this internship..."
+                                        ></textarea>
+
+                                    </div>
+
+                                @elseif($application?->cover_letter)
+
+                                    <div class="intern-modal-section">
+
+                                        <h4>
+                                            Your Cover Letter
+                                        </h4>
+
+                                        <p>
+                                            {{ $application->cover_letter }}
+                                        </p>
+
+                                    </div>
+
+                                @endif
+
+
+                                {{-- APPLICATION DATE --}}
+
+                                @if($application)
+
+                                    <div class="intern-modal-info-grid">
+
+                                        <div class="intern-info-box">
+
+                                            <span>
+                                                Applied On
+                                            </span>
+
+                                            <strong>
+
+                                                {{ $application->applied_at?->format('d M Y') }}
+
+                                            </strong>
+
+                                        </div>
+
+
+                                        @if($application->selected_at)
+
+                                            <div class="intern-info-box">
+
+                                                <span>
+                                                    Selected On
+                                                </span>
+
+                                                <strong>
+
+                                                    {{ $application->selected_at?->format('d M Y') }}
+
+                                                </strong>
+
+                                            </div>
+
+                                        @endif
+
+
+                                        @if($application->completed_at)
+
+                                            <div class="intern-info-box">
+
+                                                <span>
+                                                    Completed On
+                                                </span>
+
+                                                <strong>
+
+                                                    {{ $application->completed_at?->format('d M Y') }}
+
+                                                </strong>
+
+                                            </div>
+
+                                        @endif
+
+                                    </div>
+
+                                @endif
+
+
                                 {{-- FOOTER --}}
 
                                 <div class="intern-modal-footer">
@@ -2311,15 +2864,119 @@
                                     </span>
 
 
-                                    <button
-                                        type="button"
-                                        class="intern-modal-close-btn"
-                                        onclick="closeInternshipModal('internship-{{ $internship->id }}')"
-                                    >
+                                    <div class="intern-modal-actions">
 
-                                        Close
+                                        <button
+                                            type="button"
+                                            class="intern-modal-close-btn secondary"
+                                            onclick="closeInternshipModal('internship-{{ $internship->id }}')"
+                                        >
 
-                                    </button>
+                                            Close
+
+                                        </button>
+
+
+                                        {{-- =================================================
+                                             NO APPLICATION
+                                        ================================================== --}}
+
+                                        @if(!$hasApplied)
+
+                                            @if($isInternshipFull)
+
+                                                <span
+                                                    class="intern-modal-applied-pill"
+                                                    style="
+                                                        background:#FEF2F2;
+                                                        color:#DC2626;
+                                                    "
+                                                >
+
+                                                    <i class="bi bi-x-circle-fill"></i>
+
+                                                    Internship Full
+
+                                                </span>
+
+                                            @else
+
+                                                <form
+                                                    id="apply-form-{{ $internship->id }}"
+                                                    action="{{ route('student.internships.apply', $internship) }}"
+                                                    method="POST"
+                                                >
+
+                                                    @csrf
+
+                                                    <button
+                                                        type="submit"
+                                                        class="intern-modal-close-btn"
+                                                    >
+
+                                                        <i class="bi bi-send"></i>
+
+                                                        Apply Now
+
+                                                    </button>
+
+                                                </form>
+
+                                            @endif
+
+
+                                        {{-- =================================================
+                                             COMPLETED
+                                        ================================================== --}}
+
+                                        @elseif(
+                                            $applicationStatus ===
+                                            \App\Models\InternshipApplication::STATUS_COMPLETED
+                                        )
+
+                                            @if($application->certificate)
+
+                                                <a
+                                                    href="{{ route('student.internships.certificates.show', $application) }}"
+                                                    class="intern-modal-close-btn"
+                                                >
+
+                                                    <i class="bi bi-patch-check-fill"></i>
+
+                                                    View Certificate
+
+                                                </a>
+
+                                            @else
+
+                                                <span class="intern-modal-completed-pill">
+
+                                                    <i class="bi bi-patch-check-fill"></i>
+
+                                                    Internship Completed
+
+                                                </span>
+
+                                            @endif
+
+
+                                        {{-- =================================================
+                                             OTHER APPLICATION STATUS
+                                        ================================================== --}}
+
+                                        @else
+
+                                            <span class="intern-modal-applied-pill">
+
+                                                <i class="bi {{ $statusIcon }}"></i>
+
+                                                {{ $statusLabel }}
+
+                                            </span>
+
+                                        @endif
+
+                                    </div>
 
                                 </div>
 
@@ -2402,6 +3059,12 @@
 
 <script>
 
+    /*
+    |--------------------------------------------------------------------------
+    | OPEN MODAL
+    |--------------------------------------------------------------------------
+    */
+
     function openInternshipModal(id) {
 
         const modal = document.getElementById(id);
@@ -2415,6 +3078,12 @@
         document.body.style.overflow = 'hidden';
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLOSE MODAL
+    |--------------------------------------------------------------------------
+    */
 
     function closeInternshipModal(id) {
 
@@ -2431,8 +3100,10 @@
 
 
     /*
-     * Close when clicking outside modal box
-     */
+    |--------------------------------------------------------------------------
+    | CLICK OUTSIDE MODAL
+    |--------------------------------------------------------------------------
+    */
 
     document
         .querySelectorAll('.internship-modal')
@@ -2447,7 +3118,6 @@
                         modal.classList.remove('active');
 
                         document.body.style.overflow = '';
-
                     }
 
                 }
@@ -2457,8 +3127,10 @@
 
 
     /*
-     * ESC key
-     */
+    |--------------------------------------------------------------------------
+    | ESC KEY
+    |--------------------------------------------------------------------------
+    */
 
     document.addEventListener(
         'keydown',

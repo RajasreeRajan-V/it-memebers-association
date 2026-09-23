@@ -2738,18 +2738,13 @@
 
                                     {{-- APPLICATIONS --}}
 
-                                    <a
-                                        href="#"
-                                        class="internship-menu-item"
-                                    >
-
-                                        <i class="bi bi-people"></i>
-
-                                        <span>
-                                            Applications
-                                        </span>
-
-                                    </a>
+                                 <a
+    href="{{ route('employer.internship-applicants.index', ['internship' => $internship->id]) }}"
+    class="internship-menu-item"
+>
+    <i class="bi bi-people"></i>
+    <span>Applicants</span>
+</a>
 
 
 

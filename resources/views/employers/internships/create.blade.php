@@ -6,7 +6,10 @@
 
 <div class="internship-page">
 
-    {{-- PAGE HEADER --}}
+    {{-- =========================================================
+         PAGE HEADER
+    ========================================================== --}}
+
     <div class="internship-page-header">
 
         <div class="page-title-row">
@@ -17,6 +20,7 @@
 
             <div>
                 <h1>Post an Internship</h1>
+
                 <p>
                     Find talented students and young professionals for your organization.
                 </p>
@@ -26,14 +30,20 @@
 
         <a href="{{ route('employer.internships.index') }}"
            class="back-button">
+
             <i class="fas fa-arrow-left"></i>
+
             <span>Back</span>
+
         </a>
 
     </div>
 
 
-    {{-- PROGRESS STEPS --}}
+    {{-- =========================================================
+         PROGRESS STEPS
+    ========================================================== --}}
+
     <div class="progress-card">
 
         <div class="progress-step active">
@@ -46,7 +56,9 @@
 
         </div>
 
+
         <div class="progress-line"></div>
+
 
         <div class="progress-step">
 
@@ -58,7 +70,9 @@
 
         </div>
 
+
         <div class="progress-line"></div>
+
 
         <div class="progress-step">
 
@@ -73,15 +87,24 @@
     </div>
 
 
-    {{-- MAIN LAYOUT --}}
+    {{-- =========================================================
+         MAIN LAYOUT
+    ========================================================== --}}
+
     <div class="internship-layout">
 
-        {{-- FORM --}}
+
+        {{-- =====================================================
+             MAIN FORM
+        ====================================================== --}}
+
         <div class="internship-main">
 
             <div class="form-card">
 
+
                 {{-- CARD HEADER --}}
+
                 <div class="form-card-header">
 
                     <div class="section-icon">
@@ -89,11 +112,13 @@
                     </div>
 
                     <div>
+
                         <h2>Internship Details</h2>
 
                         <p>
                             Provide the basic information about your internship opportunity.
                         </p>
+
                     </div>
 
                 </div>
@@ -101,7 +126,11 @@
 
                 <div class="form-card-body">
 
-                    {{-- SUCCESS --}}
+
+                    {{-- =================================================
+                         SUCCESS MESSAGE
+                    ================================================== --}}
+
                     @if(session('success'))
 
                         <div class="alert-custom alert-success-custom">
@@ -117,7 +146,10 @@
                     @endif
 
 
-                    {{-- ERRORS --}}
+                    {{-- =================================================
+                         VALIDATION ERRORS
+                    ================================================== --}}
+
                     @if ($errors->any())
 
                         <div class="alert-custom alert-error-custom">
@@ -125,11 +157,13 @@
                             <i class="fas fa-exclamation-circle"></i>
 
                             <div>
+
                                 <strong>Please check the form.</strong>
 
                                 <span>
                                     Some information needs your attention.
                                 </span>
+
                             </div>
 
                         </div>
@@ -137,7 +171,10 @@
                     @endif
 
 
-                    {{-- INFO BOX --}}
+                    {{-- =================================================
+                         INFO BOX
+                    ================================================== --}}
+
                     <div class="info-box">
 
                         <div class="info-icon">
@@ -158,17 +195,26 @@
                     </div>
 
 
-                    {{-- FORM --}}
+                    {{-- =================================================
+                         FORM
+                    ================================================== --}}
+
                     <form action="{{ route('employer.internships.store') }}"
                           method="POST"
                           id="internshipForm">
 
                         @csrf
 
+
+                        {{-- FORM FIELDS --}}
+
                         @include('employers.internships._form')
 
 
-                        {{-- ACTIONS --}}
+                        {{-- =================================================
+                             ACTIONS
+                        ================================================== --}}
+
                         <div class="form-actions">
 
                             <a href="{{ route('employer.internships.index') }}"
@@ -202,8 +248,16 @@
         </div>
 
 
-        {{-- SIDEBAR --}}
+        {{-- =========================================================
+             SIDEBAR
+        ========================================================== --}}
+
         <aside class="internship-sidebar">
+
+
+            {{-- =====================================================
+                 TIPS
+            ====================================================== --}}
 
             <div class="tips-card">
 
@@ -241,7 +295,21 @@
 
                     <p>
                         Clearly mention whether the internship is
-                        <strong>paid, unpaid or stipend-based</strong>.
+                        <strong>paid or unpaid</strong>.
+                    </p>
+
+                </div>
+
+
+                <div class="tip-item">
+
+                    <div class="tip-bullet">
+                        <i class="fas fa-check"></i>
+                    </div>
+
+                    <p>
+                        If the internship is paid, clearly mention the
+                        <strong>monthly stipend</strong>.
                     </p>
 
                 </div>
@@ -291,7 +359,10 @@
             </div>
 
 
-            {{-- QUICK INFO --}}
+            {{-- =====================================================
+                 QUICK INFO
+            ====================================================== --}}
+
             <div class="quick-card">
 
                 <div class="quick-card-icon">
@@ -316,6 +387,7 @@
     </div>
 
 </div>
+
 
 @include('employers.internships._scripts')
 

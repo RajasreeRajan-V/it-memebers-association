@@ -11,10 +11,7 @@ class Internship extends Model
 
     protected $fillable = [
         'employer_id',
-
-        // Startup Profile connection
         'startup_profile_id',
-
         'title',
         'internship_type',
         'work_mode',
@@ -39,25 +36,10 @@ class Internship extends Model
         'end_date' => 'date',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Employer
-    |--------------------------------------------------------------------------
-    */
-
     public function employer()
     {
-        return $this->belongsTo(
-            User::class,
-            'employer_id'
-        );
+        return $this->belongsTo(User::class, 'employer_id');
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Startup Profile
-    |--------------------------------------------------------------------------
-    */
 
     public function startupProfile()
     {
@@ -65,5 +47,19 @@ class Internship extends Model
             StartupProfile::class,
             'startup_profile_id'
         );
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(InternshipApplication::class);
+    }
+
+    public function selectedApplications()
+    {
+        return $this->applications()
+            ->where(
+                'status',
+                InternshipApplication::STATUS_SELECTED
+            );
     }
 }

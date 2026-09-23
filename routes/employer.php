@@ -1,10 +1,10 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Employer\InternshipController;
+use App\Http\Controllers\Employer\InternshipApplicantController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\StartupProfileController;
 use App\Http\Controllers\Employer\ApplicantController;
@@ -13,7 +13,6 @@ use App\Http\Controllers\Employer\EmployerDashboardController;
 use App\Http\Controllers\Employer\CandidateInvitationController;
 use App\Http\Controllers\Employer\EmployerPortalNotificationController;
 use App\Http\Controllers\Admin\JobApprovalController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -50,82 +49,83 @@ Route::middleware(['member.auth'])
     ->name('employer.')
     ->group(function () {
 
+        /*
+        |--------------------------------------------------------------------------
+        | Job Routes
+        |--------------------------------------------------------------------------
+        */
 
-    /*
-|--------------------------------------------------------------------------
-| Job Routes
-|--------------------------------------------------------------------------
-*/
+        Route::get('/jobs', [
+            JobController::class,
+            'index'
+        ])->name('jobs.index');
 
-Route::get('/jobs', [
-    JobController::class,
-    'index'
-])->name('jobs.index');
+        Route::get('/jobs/create', [
+            JobController::class,
+            'create'
+        ])->name('jobs.create');
 
-Route::get('/jobs/create', [
-    JobController::class,
-    'create'
-])->name('jobs.create');
+        Route::post('/jobs', [
+            JobController::class,
+            'store'
+        ])->name('jobs.store');
 
-Route::post('/jobs', [
-    JobController::class,
-    'store'
-])->name('jobs.store');
+        /*
+        |--------------------------------------------------------------------------
+        | Duplicate Job
+        |--------------------------------------------------------------------------
+        */
 
-/*
-|--------------------------------------------------------------------------
-| Duplicate Job
-|--------------------------------------------------------------------------
-*/
+        Route::post('/jobs/{job}/duplicate', [
+            JobController::class,
+            'duplicate'
+        ])->name('jobs.duplicate');
 
-Route::post('/jobs/{job}/duplicate', [
-    JobController::class,
-    'duplicate'
-])->name('jobs.duplicate');
+        Route::get('/jobs/{job}', [
+            JobController::class,
+            'show'
+        ])->name('jobs.show');
 
-Route::get('/jobs/{job}', [
-    JobController::class,
-    'show'
-])->name('jobs.show');
+        Route::get('/jobs/{job}/edit', [
+            JobController::class,
+            'edit'
+        ])->name('jobs.edit');
 
-Route::get('/jobs/{job}/edit', [
-    JobController::class,
-    'edit'
-])->name('jobs.edit');
+        Route::put('/jobs/{job}', [
+            JobController::class,
+            'update'
+        ])->name('jobs.update');
 
-Route::put('/jobs/{job}', [
-    JobController::class,
-    'update'
-])->name('jobs.update');
+        Route::delete('/jobs/{job}', [
+            JobController::class,
+            'destroy'
+        ])->name('jobs.destroy');
 
-Route::delete('/jobs/{job}', [
-    JobController::class,
-    'destroy'
-])->name('jobs.destroy');
+        // NOTE: this was previously registered twice — removed the duplicate.
+        Route::patch('/jobs/{job}/toggle-active', [
+            JobController::class,
+            'toggleActive'
+        ])->name('jobs.toggle-active');
 
-Route::patch('/jobs/{job}/toggle-active', [
-    JobController::class,
-    'toggleActive'
-])->name('jobs.toggle-active');
+        Route::patch('/jobs/{job}/close', [
+            JobController::class,
+            'close'
+        ])->name('jobs.close');
 
-Route::patch('/jobs/{job}/toggle-active', [
-    JobController::class,
-    'toggleActive'
-])->name('jobs.toggle-active');
+        Route::patch('/jobs/{job}/reopen', [
+            JobController::class,
+            'reopen'
+        ])->name('jobs.reopen');
 
-Route::patch('/jobs/{job}/close', [
-    JobController::class,
-    'close'
-])->name('jobs.close');
 
-Route::patch('/jobs/{job}/reopen', [
-    JobController::class,
-    'reopen'
-])->name('jobs.reopen');
         /*
         |--------------------------------------------------------------------------
         | Internship Routes
         |--------------------------------------------------------------------------
+        |
+        | Fixed segments (create) are declared before the {internship}
+        | wildcard route, as with jobs/articles elsewhere in this file.
+        |
         */
 
         Route::get('/internships', [
@@ -169,10 +169,39 @@ Route::patch('/jobs/{job}/reopen', [
         )->name('internships.toggle-status');
 
 
-Route::get('/startup-profile/{startupProfile}/internships', [
-    StartupProfileController::class,
-    'internships'
-])->name('startup-profile.internships');
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Applicants (select / reject / complete — no shortlist step)
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/internship-applicants', [
+            InternshipApplicantController::class,
+            'index'
+        ])->name('internship-applicants.index');
+
+        Route::patch('/internship-applicants/{application}/select', [
+            InternshipApplicantController::class,
+            'select'
+        ])->name('internship-applicants.select');
+
+        Route::patch('/internship-applicants/{application}/reject', [
+            InternshipApplicantController::class,
+            'reject'
+        ])->name('internship-applicants.reject');
+
+        Route::post('/internship-applicants/{application}/complete', [
+            InternshipApplicantController::class,
+            'complete'
+        ])->name('internship-applicants.complete');
+
+
+        Route::get('/startup-profile/{startupProfile}/internships', [
+            StartupProfileController::class,
+            'internships'
+        ])->name('startup-profile.internships');
+
+
         /*
         |--------------------------------------------------------------------------
         | Project Routes
@@ -219,170 +248,121 @@ Route::get('/startup-profile/{startupProfile}/internships', [
             [ProjectController::class, 'toggleStatus']
         )->name('projects.toggle-status');
 
-        Route::patch('/projects/{project}/close', [ProjectController::class, 'close'])
-    ->name('projects.close');
+        Route::patch('/projects/{project}/close', [
+            ProjectController::class,
+            'close'
+        ])->name('projects.close');
 
-Route::patch('/projects/{project}/complete', [ProjectController::class, 'complete'])
-    ->name('projects.complete');
-
-
- /*
-|--------------------------------------------------------------------------
-| Startup Profile Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Startup Profile Index
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/startup-profile', [
-    StartupProfileController::class,
-    'index'
-])->name('startup-profile.index');
+        Route::patch('/projects/{project}/complete', [
+            ProjectController::class,
+            'complete'
+        ])->name('projects.complete');
 
 
-/*
-|--------------------------------------------------------------------------
-| Create Startup Profile
-|--------------------------------------------------------------------------
-*/
+        /*
+        |--------------------------------------------------------------------------
+        | Startup Profile Routes
+        |--------------------------------------------------------------------------
+        */
 
-Route::get('/startup-profile/create', [
-    StartupProfileController::class,
-    'create'
-])->name('startup-profile.create');
+        Route::get('/startup-profile', [
+            StartupProfileController::class,
+            'index'
+        ])->name('startup-profile.index');
 
+        Route::get('/startup-profile/create', [
+            StartupProfileController::class,
+            'create'
+        ])->name('startup-profile.create');
 
-/*
-|--------------------------------------------------------------------------
-| Store Startup Profile
-|--------------------------------------------------------------------------
-*/
+        Route::post('/startup-profile', [
+            StartupProfileController::class,
+            'store'
+        ])->name('startup-profile.store');
 
-Route::post('/startup-profile', [
-    StartupProfileController::class,
-    'store'
-])->name('startup-profile.store');
+        Route::get('/startup-profile/show/{startupProfile}', [
+            StartupProfileController::class,
+            'show'
+        ])->name('startup-profile.show');
 
+        Route::get('/startup-profile/edit/{startupProfile}', [
+            StartupProfileController::class,
+            'edit'
+        ])->name('startup-profile.edit');
 
-/*
-|--------------------------------------------------------------------------
-| Show Startup Profile
-|--------------------------------------------------------------------------
-*/
+        Route::put('/startup-profile/{startupProfile}', [
+            StartupProfileController::class,
+            'update'
+        ])->name('startup-profile.update');
 
-Route::get('/startup-profile/show/{startupProfile}', [
-    StartupProfileController::class,
-    'show'
-])->name('startup-profile.show');
+        Route::delete('/startup-profile/{startupProfile}', [
+            StartupProfileController::class,
+            'destroy'
+        ])->name('startup-profile.destroy');
 
+        Route::post('/startup-profile/{startupProfile}/toggle', [
+            StartupProfileController::class,
+            'togglePublish'
+        ])->name('startup-profile.toggle');
 
-/*
-|--------------------------------------------------------------------------
-| Edit Startup Profile
-|--------------------------------------------------------------------------
-*/
+        /*
+        |--------------------------------------------------------------------------
+        | Startup Profile Jobs
+        |--------------------------------------------------------------------------
+        |
+        | IMPORTANT:
+        | Do NOT define this route twice.
+        |
+        */
 
-Route::get('/startup-profile/edit/{startupProfile}', [
-    StartupProfileController::class,
-    'edit'
-])->name('startup-profile.edit');
-
-
-/*
-|--------------------------------------------------------------------------
-| Update Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::put('/startup-profile/{startupProfile}', [
-    StartupProfileController::class,
-    'update'
-])->name('startup-profile.update');
-
-
-/*
-|--------------------------------------------------------------------------
-| Delete Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::delete('/startup-profile/{startupProfile}', [
-    StartupProfileController::class,
-    'destroy'
-])->name('startup-profile.destroy');
+        Route::get('/startup-profile/{startupProfile}/jobs', [
+            StartupProfileController::class,
+            'jobs'
+        ])->name('startup-profile.jobs');
 
 
-/*
-|--------------------------------------------------------------------------
-| Publish / Unpublish Startup Profile
-|--------------------------------------------------------------------------
-*/
+        /*
+        |--------------------------------------------------------------------------
+        | Applicant Routes (Jobs)
+        |--------------------------------------------------------------------------
+        */
 
-Route::post('/startup-profile/{startupProfile}/toggle', [
-    StartupProfileController::class,
-    'togglePublish'
-])->name('startup-profile.toggle');
+        Route::get('/applicants', [
+            ApplicantController::class,
+            'index'
+        ])->name('applicants.index');
+
+        Route::get('/applicants/{applicant}/details', [
+            ApplicantController::class,
+            'details'
+        ])->name('applicants.details');
+
+        Route::get('/applicants/{applicant}/photo', [
+            ApplicantController::class,
+            'photo'
+        ])->name('applicants.photo');
+
+        Route::get('/applicants/{applicant}', [
+            ApplicantController::class,
+            'show'
+        ])->name('applicants.show');
+
+        Route::post('/applicants/{application}/status', [
+            ApplicantController::class,
+            'updateStatus'
+        ])->name('applicants.updateStatus');
+
+        Route::post('/applicants/{application}/interview', [
+            ApplicantController::class,
+            'scheduleInterview'
+        ])->name('applicants.scheduleInterview');
+
+        Route::post('/applicants/{application}/interview/cancel', [
+            ApplicantController::class,
+            'cancelInterview'
+        ])->name('applicants.cancelInterview');
 
 
-/*
-|--------------------------------------------------------------------------
-| Startup Profile Jobs
-|--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| Do NOT define this route twice.
-|
-*/
-
-Route::get('/startup-profile/{startupProfile}/jobs', [
-    StartupProfileController::class,
-    'jobs'
-])->name('startup-profile.jobs');
-
-/*
-|--------------------------------------------------------------------------
-| Applicant Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/applicants', [
-    ApplicantController::class,
-    'index'
-])->name('applicants.index');
-
-Route::get('/applicants/{applicant}/details', [
-    ApplicantController::class,
-    'details'
-])->name('applicants.details');
-
-Route::get('/applicants/{applicant}/photo', [
-    ApplicantController::class,
-    'photo'
-])->name('applicants.photo');
-
-Route::get('/applicants/{applicant}', [
-    ApplicantController::class,
-    'show'
-])->name('applicants.show');
-
-Route::post('/applicants/{application}/status', [
-    ApplicantController::class,
-    'updateStatus'
-])->name('applicants.updateStatus');
-
-Route::post('/applicants/{application}/interview', [
-    ApplicantController::class,
-    'scheduleInterview'
-])->name('applicants.scheduleInterview');
-
-Route::post('/applicants/{application}/interview/cancel', [
-    ApplicantController::class,
-    'cancelInterview'
-])->name('applicants.cancelInterview');
         /*
         |--------------------------------------------------------------------------
         | Project Proposal
