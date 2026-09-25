@@ -869,17 +869,17 @@ class InternshipController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        if ($internship->status === 'active') {
+   if ($internship->status === 'active') {
 
-            $internship->update([
-                'status' => 'closed',
-            ]);
+    $internship->update([
+        'status' => 'deactive',
+    ]);
 
-            return back()->with(
-                'success',
-                'Internship closed successfully.'
-            );
-        }
+    return back()->with(
+        'success',
+        'Internship closed successfully.'
+    );
+}
 
 
         /*

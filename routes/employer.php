@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Employer\InternshipController;
 use App\Http\Controllers\Employer\InternshipApplicantController;
+use App\Http\Controllers\Employer\InternshipModuleController;
+use App\Http\Controllers\Employer\InternshipTaskController;
+use App\Http\Controllers\Employer\InternshipSubmissionController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\StartupProfileController;
 use App\Http\Controllers\Employer\ApplicantController;
@@ -14,13 +17,11 @@ use App\Http\Controllers\Employer\CandidateInvitationController;
 use App\Http\Controllers\Employer\EmployerPortalNotificationController;
 use App\Http\Controllers\Admin\JobApprovalController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Employer Dashboard
 |--------------------------------------------------------------------------
-|
-| Dashboard route
-|
 */
 
 Route::middleware(['member.auth'])->group(function () {
@@ -38,16 +39,15 @@ Route::middleware(['member.auth'])->group(function () {
 | Employer Routes
 |--------------------------------------------------------------------------
 |
-| All employer routes use:
-|
 | Middleware: member.auth
-| URL prefix: /employer
-| Route name prefix: employer.
+| Name prefix: employer.
 |
 */
+
 Route::middleware(['member.auth'])
     ->name('employer.')
     ->group(function () {
+
 
         /*
         |--------------------------------------------------------------------------
@@ -69,12 +69,6 @@ Route::middleware(['member.auth'])
             JobController::class,
             'store'
         ])->name('jobs.store');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Duplicate Job
-        |--------------------------------------------------------------------------
-        */
 
         Route::post('/jobs/{job}/duplicate', [
             JobController::class,
@@ -101,7 +95,6 @@ Route::middleware(['member.auth'])
             'destroy'
         ])->name('jobs.destroy');
 
-        // NOTE: this was previously registered twice — removed the duplicate.
         Route::patch('/jobs/{job}/toggle-active', [
             JobController::class,
             'toggleActive'
@@ -122,10 +115,6 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         | Internship Routes
         |--------------------------------------------------------------------------
-        |
-        | Fixed segments (create) are declared before the {internship}
-        | wildcard route, as with jobs/articles elsewhere in this file.
-        |
         */
 
         Route::get('/internships', [
@@ -163,15 +152,112 @@ Route::middleware(['member.auth'])
             'destroy'
         ])->name('internships.destroy');
 
-        Route::patch(
-            '/internships/{internship}/toggle-status',
-            [InternshipController::class, 'toggleStatus']
-        )->name('internships.toggle-status');
+        Route::patch('/internships/{internship}/toggle-status', [
+            InternshipController::class,
+            'toggleStatus'
+        ])->name('internships.toggle-status');
 
 
         /*
         |--------------------------------------------------------------------------
-        | Internship Applicants (select / reject / complete — no shortlist step)
+        | Internship Modules
+        |--------------------------------------------------------------------------
+        |
+        | Employer creates modules inside a specific internship.
+        |
+        | GET    /employer/internships/{internship}/modules
+        | POST   /employer/internships/{internship}/modules
+        | PUT    /employer/internships/{internship}/modules/{module}
+        | DELETE /employer/internships/{internship}/modules/{module}
+        |
+        */
+
+        Route::prefix('/internships/{internship}/modules')
+            ->name('internships.modules.')
+            ->group(function () {
+
+                Route::get('/', [
+                    InternshipModuleController::class,
+                    'index'
+                ])->name('index');
+
+                Route::post('/', [
+                    InternshipModuleController::class,
+                    'store'
+                ])->name('store');
+
+                Route::put('/{module}', [
+                    InternshipModuleController::class,
+                    'update'
+                ])->name('update');
+
+                Route::delete('/{module}', [
+                    InternshipModuleController::class,
+                    'destroy'
+                ])->name('destroy');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Internship Tasks
+                |--------------------------------------------------------------------------
+                |
+                | Employer creates tasks inside each module.
+                |
+                */
+
+                Route::prefix('/{module}/tasks')
+                    ->name('tasks.')
+                    ->group(function () {
+
+                        Route::get('/', [
+                            InternshipTaskController::class,
+                            'index'
+                        ])->name('index');
+
+                        Route::post('/', [
+                            InternshipTaskController::class,
+                            'store'
+                        ])->name('store');
+
+                        Route::put('/{task}', [
+                            InternshipTaskController::class,
+                            'update'
+                        ])->name('update');
+
+                        Route::delete('/{task}', [
+                            InternshipTaskController::class,
+                            'destroy'
+                        ])->name('destroy');
+
+                    });
+
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Task Submissions
+        |--------------------------------------------------------------------------
+        |
+        | Employer views student submissions and reviews them.
+        |
+        */
+
+        Route::get(
+            '/internships/{internship}/tasks/{task}/submissions',
+            [InternshipSubmissionController::class, 'index']
+        )->name('internships.tasks.submissions.index');
+
+        Route::patch(
+            '/submissions/{submission}/review',
+            [InternshipSubmissionController::class, 'review']
+        )->name('submissions.review');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Applicants
         |--------------------------------------------------------------------------
         */
 
@@ -194,12 +280,6 @@ Route::middleware(['member.auth'])
             InternshipApplicantController::class,
             'complete'
         ])->name('internship-applicants.complete');
-
-
-        Route::get('/startup-profile/{startupProfile}/internships', [
-            StartupProfileController::class,
-            'internships'
-        ])->name('startup-profile.internships');
 
 
         /*
@@ -243,10 +323,10 @@ Route::middleware(['member.auth'])
             'destroy'
         ])->name('projects.destroy');
 
-        Route::patch(
-            '/projects/{project}/toggle-status',
-            [ProjectController::class, 'toggleStatus']
-        )->name('projects.toggle-status');
+        Route::patch('/projects/{project}/toggle-status', [
+            ProjectController::class,
+            'toggleStatus'
+        ])->name('projects.toggle-status');
 
         Route::patch('/projects/{project}/close', [
             ProjectController::class,
@@ -305,25 +385,20 @@ Route::middleware(['member.auth'])
             'togglePublish'
         ])->name('startup-profile.toggle');
 
-        /*
-        |--------------------------------------------------------------------------
-        | Startup Profile Jobs
-        |--------------------------------------------------------------------------
-        |
-        | IMPORTANT:
-        | Do NOT define this route twice.
-        |
-        */
-
         Route::get('/startup-profile/{startupProfile}/jobs', [
             StartupProfileController::class,
             'jobs'
         ])->name('startup-profile.jobs');
 
+        Route::get('/startup-profile/{startupProfile}/internships', [
+            StartupProfileController::class,
+            'internships'
+        ])->name('startup-profile.internships');
+
 
         /*
         |--------------------------------------------------------------------------
-        | Applicant Routes (Jobs)
+        | Applicant Routes
         |--------------------------------------------------------------------------
         */
 
@@ -365,7 +440,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | Project Proposal
+        | Project Proposals
         |--------------------------------------------------------------------------
         */
 
@@ -394,20 +469,20 @@ Route::middleware(['member.auth'])
             'show'
         ])->name('articles.show');
 
-        Route::post(
-            '/articles/{article}/like',
-            [EmployerArticleController::class, 'toggleLike']
-        )->name('articles.like');
+        Route::post('/articles/{article}/like', [
+            EmployerArticleController::class,
+            'toggleLike'
+        ])->name('articles.like');
 
-        Route::post(
-            '/articles/{article}/comments',
-            [EmployerArticleController::class, 'storeComment']
-        )->name('articles.comments.store');
+        Route::post('/articles/{article}/comments', [
+            EmployerArticleController::class,
+            'storeComment'
+        ])->name('articles.comments.store');
 
-        Route::delete(
-            '/articles/comments/{comment}',
-            [EmployerArticleController::class, 'destroyComment']
-        )->name('articles.comments.destroy');
+        Route::delete('/articles/comments/{comment}', [
+            EmployerArticleController::class,
+            'destroyComment'
+        ])->name('articles.comments.destroy');
 
 
         /*
@@ -416,35 +491,16 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-        Route::post(
-            '/candidates/{candidate}/invite',
-            [
-                CandidateInvitationController::class,
-                'send'
-            ]
-        )->name('candidates.invite');
+        Route::post('/candidates/{candidate}/invite', [
+            CandidateInvitationController::class,
+            'send'
+        ])->name('candidates.invite');
 
 
         /*
         |--------------------------------------------------------------------------
-        | Employer Notification Routes
+        | Employer Notifications
         |--------------------------------------------------------------------------
-        |
-        | IMPORTANT:
-        | These routes are INSIDE the existing employer group.
-        |
-        | Therefore:
-        |
-        | /notifications
-        | becomes
-        | /employer/notifications
-        |
-        | and:
-        |
-        | notifications.index
-        | becomes
-        | employer.notifications.index
-        |
         */
 
         Route::get('/notifications', [
@@ -481,13 +537,10 @@ Route::middleware(['member.auth'])
 |--------------------------------------------------------------------------
 */
 
-Route::get(
-    '/job-invitations/{token}',
-    [
-        CandidateInvitationController::class,
-        'open'
-    ]
-)->name('job.invitations.open');
+Route::get('/job-invitations/{token}', [
+    CandidateInvitationController::class,
+    'open'
+])->name('job.invitations.open');
 
 
 /*
@@ -501,19 +554,19 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function () {
 
-        Route::get(
-            'jobs',
-            [JobApprovalController::class, 'index']
-        )->name('jobs.index');
+        Route::get('jobs', [
+            JobApprovalController::class,
+            'index'
+        ])->name('jobs.index');
 
-        Route::post(
-            'jobs/{job}/approve',
-            [JobApprovalController::class, 'approve']
-        )->name('jobs.approve');
+        Route::post('jobs/{job}/approve', [
+            JobApprovalController::class,
+            'approve'
+        ])->name('jobs.approve');
 
-        Route::post(
-            'jobs/{job}/reject',
-            [JobApprovalController::class, 'reject']
-        )->name('jobs.reject');
+        Route::post('jobs/{job}/reject', [
+            JobApprovalController::class,
+            'reject'
+        ])->name('jobs.reject');
 
     });

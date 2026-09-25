@@ -8,6 +8,7 @@ use App\Models\InternshipApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InternshipController extends Controller
 {
@@ -20,10 +21,6 @@ class InternshipController extends Controller
         |--------------------------------------------------------------------------
         | AVAILABLE INTERNSHIPS
         |--------------------------------------------------------------------------
-        |
-        | filled_seats = number of students SELECTED by employer.
-        | Applied students do not consume a seat.
-        |
         */
 
         $internships = Internship::with([
@@ -31,10 +28,25 @@ class InternshipController extends Controller
                 'startupProfile',
             ])
             ->withCount([
+                /*
+                |--------------------------------------------------------------------------
+                | FILLED SEATS = SELECTED + COMPLETED
+                |--------------------------------------------------------------------------
+                |
+                | A student's status moves from SELECTED to COMPLETED once the
+                | internship is finished. Both statuses still occupy a seat,
+                | so both must be counted here. Counting SELECTED only would
+                | make the seat count drop (e.g. 1/5 -> 0/5) the moment a
+                | student is marked completed.
+                |
+                */
                 'applications as filled_seats' => function ($query) {
-                    $query->where(
+                    $query->whereIn(
                         'status',
-                        InternshipApplication::STATUS_SELECTED
+                        [
+                            InternshipApplication::STATUS_SELECTED,
+                            InternshipApplication::STATUS_COMPLETED,
+                        ]
                     );
                 },
             ])
@@ -87,19 +99,23 @@ class InternshipController extends Controller
             ->paginate(4)
             ->withQueryString();
 
+
         /*
         |--------------------------------------------------------------------------
         | STUDENT APPLICATIONS
         |--------------------------------------------------------------------------
         */
 
-        $studentApplications = InternshipApplication::with('certificate')
+        $studentApplications = InternshipApplication::with([
+                'certificate',
+            ])
             ->where(
                 'student_id',
                 Auth::id()
             )
             ->get()
             ->keyBy('internship_id');
+
 
         /*
         |--------------------------------------------------------------------------
@@ -138,6 +154,7 @@ class InternshipController extends Controller
             );
         }
 
+
         /*
         |--------------------------------------------------------------------------
         | VALIDATE COVER LETTER
@@ -152,21 +169,23 @@ class InternshipController extends Controller
             ],
         ]);
 
+
         /*
         |--------------------------------------------------------------------------
         | CHECK APPLICATION + SEATS
         |--------------------------------------------------------------------------
-        |
-        | lockForUpdate() prevents two students from taking the last
-        | available seat at exactly the same time.
-        |
         */
 
         $application = DB::transaction(function () use (
-            $request,
             $internship,
             $validated
         ) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | LOCK INTERNSHIP
+            |--------------------------------------------------------------------------
+            */
 
             $lockedInternship = Internship::where(
                     'id',
@@ -174,6 +193,7 @@ class InternshipController extends Controller
                 )
                 ->lockForUpdate()
                 ->firstOrFail();
+
 
             /*
             |--------------------------------------------------------------------------
@@ -196,12 +216,16 @@ class InternshipController extends Controller
                 return null;
             }
 
+
             /*
             |--------------------------------------------------------------------------
             | CHECK AVAILABLE SEATS
             |--------------------------------------------------------------------------
             |
-            | Only SELECTED applications count as filled seats.
+            | Same fix as index(): SELECTED + COMPLETED both occupy a seat.
+            | Counting SELECTED only would let new students apply even after
+            | the internship reached full capacity, once some students were
+            | marked completed.
             |
             */
 
@@ -209,13 +233,18 @@ class InternshipController extends Controller
                     'internship_id',
                     $lockedInternship->id
                 )
-                ->where(
+                ->whereIn(
                     'status',
-                    InternshipApplication::STATUS_SELECTED
+                    [
+                        InternshipApplication::STATUS_SELECTED,
+                        InternshipApplication::STATUS_COMPLETED,
+                    ]
                 )
                 ->count();
 
+
             $totalSeats = (int) $lockedInternship->positions;
+
 
             /*
             |--------------------------------------------------------------------------
@@ -231,6 +260,7 @@ class InternshipController extends Controller
                 return 'full';
             }
 
+
             /*
             |--------------------------------------------------------------------------
             | STUDENT RESUME
@@ -240,6 +270,7 @@ class InternshipController extends Controller
             $resume = optional(
                 Auth::user()->studentRegistration
             )->resume;
+
 
             /*
             |--------------------------------------------------------------------------
@@ -264,6 +295,7 @@ class InternshipController extends Controller
             ]);
         });
 
+
         /*
         |--------------------------------------------------------------------------
         | DUPLICATE APPLICATION
@@ -278,6 +310,7 @@ class InternshipController extends Controller
             );
         }
 
+
         /*
         |--------------------------------------------------------------------------
         | FULL
@@ -291,6 +324,7 @@ class InternshipController extends Controller
                 'This internship is full. No more applications can be submitted.'
             );
         }
+
 
         /*
         |--------------------------------------------------------------------------
@@ -310,22 +344,281 @@ class InternshipController extends Controller
      */
     public function applications()
     {
+        $studentId = Auth::id();
+
+
         $applications = InternshipApplication::with([
-                'internship.employer',
-                'internship.startupProfile',
-                'certificate',
-            ])
+            'internship',
+            'internship.employer',
+            'internship.startupProfile',
+            'certificate',
+        ])
             ->where(
                 'student_id',
-                Auth::id()
+                $studentId
             )
             ->latest()
             ->paginate(10);
+
 
         return view(
             'students.internships.applications',
             compact('applications')
         );
+    }
+
+
+    /**
+     * Show one internship certificate.
+     */
+    public function certificate(
+        InternshipApplication $application
+    ) {
+        /*
+        |--------------------------------------------------------------------------
+        | SECURITY
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            (int) $application->student_id !==
+            (int) Auth::id()
+        ) {
+            abort(403);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOAD RELATIONSHIPS
+        |--------------------------------------------------------------------------
+        */
+
+        $application->load([
+            'internship',
+            'certificate',
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CERTIFICATE MUST EXIST
+        |--------------------------------------------------------------------------
+        */
+
+        if (!$application->certificate) {
+
+            abort(
+                404,
+                'Certificate not found.'
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INTERNSHIP MUST BE COMPLETED
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            defined(
+                InternshipApplication::class .
+                '::STATUS_COMPLETED'
+            )
+        ) {
+
+            if (
+                $application->status !==
+                InternshipApplication::STATUS_COMPLETED
+            ) {
+
+                abort(
+                    403,
+                    'This internship has not been completed.'
+                );
+            }
+
+        } else {
+
+            if ($application->status !== 'completed') {
+
+                abort(
+                    403,
+                    'This internship has not been completed.'
+                );
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CERTIFICATE VIEW
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'students.internships.certificate',
+            compact('application')
+        );
+    }
+
+
+    /**
+     * Download internship certificate as PDF.
+     */
+    public function downloadCertificate($application)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | LOAD APPLICATION
+        |--------------------------------------------------------------------------
+        |
+        | IMPORTANT:
+        | There is NO 'user' relationship here.
+        |
+        | The correct relationship is 'student'.
+        |
+        */
+
+        $application = InternshipApplication::with([
+            'student',
+            'internship',
+            'certificate',
+        ])->findOrFail($application);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SECURITY
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            (int) $application->student_id !==
+            (int) Auth::id()
+        ) {
+
+            abort(
+                403,
+                'You are not authorized to download this certificate.'
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INTERNSHIP MUST BE COMPLETED
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            defined(
+                InternshipApplication::class .
+                '::STATUS_COMPLETED'
+            )
+        ) {
+
+            if (
+                $application->status !==
+                InternshipApplication::STATUS_COMPLETED
+            ) {
+
+                abort(
+                    403,
+                    'This internship has not been completed.'
+                );
+            }
+
+        } else {
+
+            if ($application->status !== 'completed') {
+
+                abort(
+                    403,
+                    'This internship has not been completed.'
+                );
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CERTIFICATE MUST EXIST
+        |--------------------------------------------------------------------------
+        */
+
+        if (!$application->certificate) {
+
+            abort(
+                404,
+                'Certificate not found.'
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | GENERATE PDF
+        |--------------------------------------------------------------------------
+        */
+
+        $pdf = Pdf::loadView(
+            'students.internships.certificate-pdf',
+            [
+                'application' => $application,
+            ]
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | A4 LANDSCAPE
+        |--------------------------------------------------------------------------
+        */
+
+        $pdf->setPaper(
+            'a4',
+            'landscape'
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | STUDENT NAME
+        |--------------------------------------------------------------------------
+        */
+
+        $studentName = $application->student?->name
+            ?? 'Student';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SAFE FILE NAME
+        |--------------------------------------------------------------------------
+        */
+
+        $safeStudentName = preg_replace(
+            '/[^A-Za-z0-9\-]/',
+            '-',
+            $studentName
+        );
+
+
+        $fileName =
+            'Internship-Certificate-' .
+            $safeStudentName .
+            '.pdf';
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DOWNLOAD
+        |--------------------------------------------------------------------------
+        */
+
+        return $pdf->download($fileName);
     }
 
 
@@ -353,6 +646,7 @@ class InternshipController extends Controller
             ->latest()
             ->paginate(10);
 
+
         return view(
             'students.internships.my-internships',
             compact('applications')
@@ -363,30 +657,45 @@ class InternshipController extends Controller
     /**
      * Show student's certificates.
      */
-    public function certificates()
-    {
-        $applications = InternshipApplication::with([
-                'internship.employer',
-                'internship.startupProfile',
-                'certificate',
-            ])
-            ->where(
-                'student_id',
-                Auth::id()
-            )
-            ->where(
-                'status',
-                InternshipApplication::STATUS_COMPLETED
-            )
-            ->whereHas('certificate')
-            ->latest()
-            ->paginate(10);
+    /**
+ * Student Internship Certificates
+ */
+public function certificates()
+{
+    $studentId = auth()->id();
 
-        return view(
-            'students.internships.certificates',
-            compact('applications')
-        );
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Get completed internships that have certificates
+    |--------------------------------------------------------------------------
+    */
+    $certificates = \App\Models\InternshipApplication::query()
+        ->where('student_id', $studentId)
+        ->where('status', 'completed')
+        ->whereHas('certificate')
+        ->with([
+            'internship',
+            'certificate',
+        ])
+        ->latest('created_at')
+        ->paginate(10);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Certificate count
+    |--------------------------------------------------------------------------
+    */
+    $certificateCount = \App\Models\InternshipApplication::query()
+        ->where('student_id', $studentId)
+        ->where('status', 'completed')
+        ->whereHas('certificate')
+        ->count();
+
+    return view('students.internships.certificates', [
+        'certificates'    => $certificates,
+        'certificateCount' => $certificateCount,
+    ]);
+}
 
 
     /**
@@ -395,6 +704,12 @@ class InternshipController extends Controller
     public function showCertificate(
         InternshipApplication $application
     ) {
+        /*
+        |--------------------------------------------------------------------------
+        | SECURITY
+        |--------------------------------------------------------------------------
+        */
+
         abort_if(
             (int) $application->student_id !==
                 (int) Auth::id(),
@@ -402,17 +717,38 @@ class InternshipController extends Controller
             'You do not have access to this certificate.'
         );
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOAD RELATIONSHIPS
+        |--------------------------------------------------------------------------
+        */
+
         $application->load([
             'internship.employer',
             'internship.startupProfile',
             'certificate',
         ]);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | CERTIFICATE MUST EXIST
+        |--------------------------------------------------------------------------
+        */
+
         abort_if(
             !$application->certificate,
             404,
             'Certificate not found.'
         );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VIEW
+        |--------------------------------------------------------------------------
+        */
 
         return view(
             'students.internships.certificate-view',
