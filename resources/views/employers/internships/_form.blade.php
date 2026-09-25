@@ -1,5 +1,27 @@
 @php
     $internship = $internship ?? null;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Current Internship Type
+    |--------------------------------------------------------------------------
+    */
+
+    $currentInternshipType = old(
+        'internship_type',
+        $internship->internship_type ?? ''
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Current Stipend
+    |--------------------------------------------------------------------------
+    */
+
+    $currentStipend = old(
+        'stipend',
+        $internship->stipend ?? ''
+    );
 @endphp
 
 
@@ -16,11 +38,13 @@
         </div>
 
         <div>
+
             <h3>Basic Information</h3>
 
             <p>
                 Tell candidates what this internship is about.
             </p>
+
         </div>
 
     </div>
@@ -162,13 +186,15 @@
 
 
     {{-- =====================================================
-         TYPE + MODE
+         INTERNSHIP TYPE + WORK MODE
     ====================================================== --}}
 
     <div class="form-grid-2">
 
 
-        {{-- INTERNSHIP TYPE --}}
+        {{-- =================================================
+             INTERNSHIP TYPE
+        ================================================== --}}
 
         <div class="form-group-custom">
 
@@ -200,27 +226,20 @@
                     </option>
 
 
-                    @foreach([
-                        'paid' => 'Paid',
-                        'unpaid' => 'Unpaid',
-                        'stipend' => 'Stipend'
-                    ] as $value => $label)
+                    <option
+                        value="paid"
+                        @selected($currentInternshipType === 'paid')
+                    >
+                        Paid
+                    </option>
 
-                        <option
-                            value="{{ $value }}"
-                            @selected(
-                                old(
-                                    'internship_type',
-                                    $internship->internship_type ?? ''
-                                ) == $value
-                            )
-                        >
 
-                            {{ $label }}
-
-                        </option>
-
-                    @endforeach
+                    <option
+                        value="unpaid"
+                        @selected($currentInternshipType === 'unpaid')
+                    >
+                        Unpaid
+                    </option>
 
                 </select>
 
@@ -235,11 +254,22 @@
 
             @enderror
 
+
+            <div class="helper-text">
+
+                <i class="fas fa-info-circle"></i>
+
+                Select whether the internship provides a monthly stipend.
+
+            </div>
+
         </div>
 
 
 
-        {{-- WORK MODE --}}
+        {{-- =================================================
+             WORK MODE
+        ================================================== --}}
 
         <div class="form-group-custom">
 
@@ -313,13 +343,74 @@
 
 
     {{-- =====================================================
-         DURATION + STIPEND
+         MONTHLY STIPEND
+    ====================================================== --}}
+
+    <div
+        class="form-group-custom full-width stipend-field"
+        id="stipendField"
+        style="{{ $currentInternshipType === 'paid' ? '' : 'display:none;' }}"
+    >
+
+        <label for="stipend">
+
+            Monthly Stipend
+
+            <span class="required">
+                *
+            </span>
+
+        </label>
+
+
+        <div class="input-wrapper">
+
+            <i class="fas fa-indian-rupee-sign"></i>
+
+            <input
+                type="text"
+                id="stipend"
+                name="stipend"
+                class="form-control-custom @error('stipend') is-invalid @enderror"
+                value="{{ $currentStipend }}"
+                placeholder="e.g. ₹10,000 per month"
+                {{ $currentInternshipType === 'paid' ? 'required' : '' }}
+            >
+
+        </div>
+
+
+        @error('stipend')
+
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @enderror
+
+
+        <div class="helper-text">
+
+            <i class="fas fa-info-circle"></i>
+
+            Enter the amount the intern will receive every month.
+
+        </div>
+
+    </div>
+
+
+
+    {{-- =====================================================
+         DURATION + POSITIONS
     ====================================================== --}}
 
     <div class="form-grid-2">
 
 
-        {{-- DURATION --}}
+        {{-- =================================================
+             DURATION
+        ================================================== --}}
 
         <div class="form-group-custom">
 
@@ -364,54 +455,9 @@
 
 
 
-        {{-- STIPEND --}}
-
-        <div class="form-group-custom">
-
-            <label for="stipend">
-                Stipend
-            </label>
-
-
-            <div class="input-wrapper">
-
-                <i class="fas fa-money-bill-wave"></i>
-
-
-                <input
-                    type="text"
-                    id="stipend"
-                    name="stipend"
-                    class="form-control-custom @error('stipend') is-invalid @enderror"
-                    value="{{ old('stipend', $internship->stipend ?? '') }}"
-                    placeholder="e.g. ₹10,000/month"
-                >
-
-            </div>
-
-
-            @error('stipend')
-
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-
-            @enderror
-
-        </div>
-
-    </div>
-
-
-
-    {{-- =====================================================
-         POSITIONS + QUALIFICATION
-    ====================================================== --}}
-
-    <div class="form-grid-2">
-
-
-        {{-- POSITIONS --}}
+        {{-- =================================================
+             POSITIONS
+        ================================================== --}}
 
         <div class="form-group-custom">
 
@@ -448,43 +494,45 @@
 
         </div>
 
+    </div>
 
 
-        {{-- QUALIFICATION --}}
 
-        <div class="form-group-custom">
+    {{-- =====================================================
+         QUALIFICATION
+    ====================================================== --}}
 
-            <label for="qualification">
-                Qualification
-            </label>
+    <div class="form-group-custom full-width">
 
-
-            <div class="input-wrapper">
-
-                <i class="fas fa-graduation-cap"></i>
+        <label for="qualification">
+            Qualification
+        </label>
 
 
-                <input
-                    type="text"
-                    id="qualification"
-                    name="qualification"
-                    class="form-control-custom @error('qualification') is-invalid @enderror"
-                    value="{{ old('qualification', $internship->qualification ?? '') }}"
-                    placeholder="e.g. Bachelor's Degree"
-                >
+        <div class="input-wrapper">
 
-            </div>
+            <i class="fas fa-graduation-cap"></i>
 
 
-            @error('qualification')
-
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-
-            @enderror
+            <input
+                type="text"
+                id="qualification"
+                name="qualification"
+                class="form-control-custom @error('qualification') is-invalid @enderror"
+                value="{{ old('qualification', $internship->qualification ?? '') }}"
+                placeholder="e.g. Bachelor's Degree / BCA / MCA"
+            >
 
         </div>
+
+
+        @error('qualification')
+
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+
+        @enderror
 
     </div>
 
@@ -505,11 +553,13 @@
         </div>
 
         <div>
+
             <h3>Required Skills</h3>
 
             <p>
                 Help candidates understand the skills needed.
             </p>
+
         </div>
 
     </div>
@@ -622,9 +672,7 @@
                     class="form-control-custom @error('start_date') is-invalid @enderror"
                     value="{{ old(
                         'start_date',
-                        optional(
-                            $internship->start_date ?? null
-                        )->format('Y-m-d')
+                        optional($internship->start_date ?? null)->format('Y-m-d')
                     ) }}"
                 >
 
@@ -664,9 +712,7 @@
                     class="form-control-custom @error('end_date') is-invalid @enderror"
                     value="{{ old(
                         'end_date',
-                        optional(
-                            $internship->end_date ?? null
-                        )->format('Y-m-d')
+                        optional($internship->end_date ?? null)->format('Y-m-d')
                     ) }}"
                 >
 
@@ -966,3 +1012,81 @@
     </div>
 
 </div>
+
+
+{{-- =========================================================
+     STIPEND DYNAMIC JAVASCRIPT
+========================================================= --}}
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const internshipType = document.getElementById('internship_type');
+
+    const stipendField = document.getElementById('stipendField');
+
+    const stipendInput = document.getElementById('stipend');
+
+
+    if (!internshipType || !stipendField || !stipendInput) {
+        return;
+    }
+
+
+    function updateStipendField() {
+
+        const selectedType = internshipType.value;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PAID INTERNSHIP
+        |--------------------------------------------------------------------------
+        */
+
+        if (selectedType === 'paid') {
+
+            stipendField.style.display = '';
+
+            stipendInput.required = true;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UNPAID INTERNSHIP
+        |--------------------------------------------------------------------------
+        */
+
+        else {
+
+            stipendField.style.display = 'none';
+
+            stipendInput.required = false;
+
+            stipendInput.value = '';
+
+        }
+
+    }
+
+
+    internshipType.addEventListener(
+        'change',
+        updateStipendField
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INITIAL STATE
+    |--------------------------------------------------------------------------
+    */
+
+    updateStipendField();
+
+});
+
+</script>

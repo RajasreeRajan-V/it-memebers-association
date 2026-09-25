@@ -9,7 +9,7 @@ use App\Http\Controllers\Student\ResumeReviewController;
 use App\Http\Controllers\Student\WebinarController;
 use App\Http\Controllers\Student\RequestController;
 use App\Http\Controllers\Student\SessionController;
-
+use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
 use App\Http\Controllers\Mentor\SessionSchedulingController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\NotificationController;
@@ -20,13 +20,20 @@ use App\Http\Controllers\Student\FeedbackController;
 use App\Http\Controllers\Student\TrainingController as StudentTrainingController;
 use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
 use App\Http\Controllers\Student\JobController as StudentJobController;
-use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
 use App\Http\Controllers\Student\ArticleController as StudentArticleController;
+use App\Http\Controllers\Student\InternshipModuleController as StudentInternshipModuleController;
 
+
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['member.auth'])
     ->name('student.')
     ->group(function () {
+
 
         /*
         |--------------------------------------------------------------------------
@@ -74,7 +81,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | My Mentorship
+        | Mentorship
         |--------------------------------------------------------------------------
         */
 
@@ -106,7 +113,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | Mentorship Requests
+        | Requests
         |--------------------------------------------------------------------------
         */
 
@@ -138,7 +145,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | Mentorship Sessions
+        | Sessions
         |--------------------------------------------------------------------------
         */
 
@@ -184,7 +191,7 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-          Route::prefix('mentorship/{mentorship}/feedback')
+        Route::prefix('mentorship/{mentorship}/feedback')
             ->name('mentorship.feedback.')
             ->group(function () {
 
@@ -206,66 +213,65 @@ Route::middleware(['member.auth'])
         |--------------------------------------------------------------------------
         */
 
-Route::prefix('jobs')
-    ->name('jobs.')
-    ->group(function () {
- 
-        Route::get(
-            '/',
-            [StudentJobController::class, 'index']
-        )->name('index');
- 
-        Route::post(
-            '/{job}/apply',
-            [StudentJobController::class, 'apply']
-        )->name('apply');
- 
-        Route::post(
-            '/{job}/save',
-            [StudentJobController::class, 'toggleSave']
-        )->name('save');
- 
-        Route::get(
-            '/saved',
-            [StudentJobController::class, 'saved']
-        )->name('saved');
- 
-        Route::get(
-            '/applied',
-            [StudentJobController::class, 'applied']
-        )->name('applied');
- 
-        Route::get(
-            '/interviews',
-            [StudentJobController::class, 'interviews']
-        )->name('interviews');
- 
-        Route::get(
-            '/in-progress',
-            [StudentJobController::class, 'inProgress']
-        )->name('in-progress');
- 
-        Route::get(
-            '/hired',
-            [StudentJobController::class, 'hired']
-        )->name('hired');
- 
-        Route::get(
-            '/archived',
-            [StudentJobController::class, 'archived']
-        )->name('archived');
- 
-        // Job details modal is inline on the index page, but a dedicated
-        // "show" route is useful for deep-linking from other pages.
-        Route::get(
-            '/{job}',
-            [StudentJobController::class, 'show']
-        )->name('show');
-    });
+        Route::prefix('jobs')
+            ->name('jobs.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentJobController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/saved',
+                    [StudentJobController::class, 'saved']
+                )->name('saved');
+
+                Route::get(
+                    '/applied',
+                    [StudentJobController::class, 'applied']
+                )->name('applied');
+
+                Route::get(
+                    '/interviews',
+                    [StudentJobController::class, 'interviews']
+                )->name('interviews');
+
+                Route::get(
+                    '/in-progress',
+                    [StudentJobController::class, 'inProgress']
+                )->name('in-progress');
+
+                Route::get(
+                    '/hired',
+                    [StudentJobController::class, 'hired']
+                )->name('hired');
+
+                Route::get(
+                    '/archived',
+                    [StudentJobController::class, 'archived']
+                )->name('archived');
+
+                Route::post(
+                    '/{job}/apply',
+                    [StudentJobController::class, 'apply']
+                )->name('apply');
+
+                Route::post(
+                    '/{job}/save',
+                    [StudentJobController::class, 'toggleSave']
+                )->name('save');
+
+                Route::get(
+                    '/{job}',
+                    [StudentJobController::class, 'show']
+                )->name('show');
+            });
+
 
         /*
         |--------------------------------------------------------------------------
-        | Internships
+        | INTERNSHIPS
         |--------------------------------------------------------------------------
         */
 
@@ -273,10 +279,165 @@ Route::prefix('jobs')
             ->name('internships.')
             ->group(function () {
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | All Internships
+                |--------------------------------------------------------------------------
+                */
+
                 Route::get(
                     '/',
                     [StudentInternshipController::class, 'index']
                 )->name('index');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | My Applications
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/applications',
+                    [StudentInternshipController::class, 'applications']
+                )->name('applications');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Certificate Download
+                |--------------------------------------------------------------------------
+                |
+                | This must be BEFORE:
+                | /certificates/{application}
+                |
+                */
+
+                Route::get(
+                    '/certificates/{application}/download',
+                    [StudentInternshipController::class, 'downloadCertificate']
+                )->name('certificates.download');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | View Certificate
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/certificates/{application}',
+                    [StudentInternshipController::class, 'certificate']
+                )->name('certificates.show');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | My Internships
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/my',
+                    [StudentInternshipController::class, 'my']
+                )->name('my');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Certificate List
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/certificates',
+                    [StudentInternshipController::class, 'certificates']
+                )->name('certificates');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Apply
+                |--------------------------------------------------------------------------
+                */
+
+                Route::post(
+                    '/{internship}/apply',
+                    [StudentInternshipController::class, 'apply']
+                )->name('apply');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | View Internship
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/{internship}',
+                    [StudentInternshipController::class, 'show']
+                )->name('show');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Learning Modules
+                |--------------------------------------------------------------------------
+                */
+
+                Route::prefix('{internship}/modules')
+                    ->name('modules.')
+                    ->group(function () {
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Module List
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/',
+                            [StudentInternshipModuleController::class, 'index']
+                        )->name('index');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Module Details
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{module}',
+                            [StudentInternshipModuleController::class, 'show']
+                        )->name('show');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Task Details
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{module}/tasks/{task}',
+                            [StudentInternshipModuleController::class, 'task']
+                        )->name('tasks.show');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Submit Task
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post(
+                            '/{module}/tasks/{task}/submit',
+                            [StudentInternshipModuleController::class, 'submit']
+                        )->name('tasks.submit');
+                    });
             });
 
 
@@ -312,8 +473,7 @@ Route::prefix('jobs')
             });
 
 
-
-                /*
+        /*
         |--------------------------------------------------------------------------
         | Articles
         |--------------------------------------------------------------------------
@@ -348,44 +508,100 @@ Route::prefix('jobs')
                     [StudentArticleController::class, 'destroyComment']
                 )->name('comments.destroy');
             });
+
+
         /*
         |--------------------------------------------------------------------------
         | Trainings
         |--------------------------------------------------------------------------
         */
 
-        Route::prefix('trainings')->name('trainings.')->group(function () {
-            Route::get('/',                       [StudentTrainingController::class, 'index'])->name('index');
-            Route::get('/my-trainings',            [StudentTrainingController::class, 'myTrainings'])->name('my-trainings');
-            Route::get('/{training}',              [StudentTrainingController::class, 'show'])->name('show');
-            Route::post('/{training}/enroll',      [StudentTrainingController::class, 'enroll'])->name('enroll');
-            Route::get('/{training}/learn',        [StudentTrainingController::class, 'learn'])->name('learn');
-            Route::post('/{training}/progress',    [StudentTrainingController::class, 'updateProgress'])->name('progress');
-            Route::post('/{training}/complete',    [StudentTrainingController::class, 'complete'])->name('complete');
-            Route::get('/{training}/certificate',  [StudentTrainingController::class, 'certificate'])->name('certificate');
-        });
+        Route::prefix('trainings')
+            ->name('trainings.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentTrainingController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/my-trainings',
+                    [StudentTrainingController::class, 'myTrainings']
+                )->name('my-trainings');
+
+                Route::get(
+                    '/{training}',
+                    [StudentTrainingController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{training}/enroll',
+                    [StudentTrainingController::class, 'enroll']
+                )->name('enroll');
+
+                Route::get(
+                    '/{training}/learn',
+                    [StudentTrainingController::class, 'learn']
+                )->name('learn');
+
+                Route::post(
+                    '/{training}/progress',
+                    [StudentTrainingController::class, 'updateProgress']
+                )->name('progress');
+
+                Route::post(
+                    '/{training}/complete',
+                    [StudentTrainingController::class, 'complete']
+                )->name('complete');
+
+                Route::get(
+                    '/{training}/certificate',
+                    [StudentTrainingController::class, 'certificate']
+                )->name('certificate');
+            });
 
 
         /*
         |--------------------------------------------------------------------------
         | Mock Interviews
         |--------------------------------------------------------------------------
-        | Inherits 'member.auth' middleware and the 'student.' name prefix from
-        | the outer group above (no URL prefix, matching the sibling groups
-        | such as 'mentors', 'mentorship', 'resume-review'). Registers as:
-        |   student.mock-interviews.index  -> GET  /mock-interviews
-        |   student.mock-interviews.show   -> GET  /mock-interviews/{mockInterview}
-        |   etc.
         */
 
-        Route::prefix('mock-interviews')->name('mock-interviews.')->group(function () {
-            Route::get('/', [StudentMockInterviewController::class, 'index'])->name('index');
-            Route::get('/create', [StudentMockInterviewController::class, 'create'])->name('create');
-            Route::post('/', [StudentMockInterviewController::class, 'store'])->name('store');
-            Route::get('/{mockInterview}', [StudentMockInterviewController::class, 'show'])->name('show');
-            Route::patch('/{mockInterview}/cancel', [StudentMockInterviewController::class, 'cancel'])->name('cancel');
-            Route::post('/{mockInterview}/feedback', [StudentMockInterviewController::class, 'storeFeedback'])->name('feedback');
-        });
+        Route::prefix('mock-interviews')
+            ->name('mock-interviews.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentMockInterviewController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/create',
+                    [StudentMockInterviewController::class, 'create']
+                )->name('create');
+
+                Route::post(
+                    '/',
+                    [StudentMockInterviewController::class, 'store']
+                )->name('store');
+
+                Route::get(
+                    '/{mockInterview}',
+                    [StudentMockInterviewController::class, 'show']
+                )->name('show');
+
+                Route::patch(
+                    '/{mockInterview}/cancel',
+                    [StudentMockInterviewController::class, 'cancel']
+                )->name('cancel');
+
+                Route::post(
+                    '/{mockInterview}/feedback',
+                    [StudentMockInterviewController::class, 'storeFeedback']
+                )->name('feedback');
+            });
 
 
         /*
@@ -423,6 +639,13 @@ Route::prefix('jobs')
                     [WebinarController::class, 'show']
                 )->name('show');
             });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | My Webinars
+        |--------------------------------------------------------------------------
+        */
 
         Route::get(
             '/my-webinars',
@@ -529,4 +752,5 @@ Route::prefix('jobs')
             '/logout',
             [ProfileController::class, 'logout']
         )->name('logout');
+
     });

@@ -1,10 +1,13 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Employer\InternshipController;
+use App\Http\Controllers\Employer\InternshipApplicantController;
+use App\Http\Controllers\Employer\InternshipModuleController;
+use App\Http\Controllers\Employer\InternshipTaskController;
+use App\Http\Controllers\Employer\InternshipSubmissionController;
 use App\Http\Controllers\Employer\ProjectController;
 use App\Http\Controllers\Employer\StartupProfileController;
 use App\Http\Controllers\Employer\ApplicantController;
@@ -19,9 +22,6 @@ use App\Http\Controllers\Admin\JobApprovalController;
 |--------------------------------------------------------------------------
 | Employer Dashboard
 |--------------------------------------------------------------------------
-|
-| Dashboard route
-|
 */
 
 Route::middleware(['member.auth'])->group(function () {
@@ -39,89 +39,78 @@ Route::middleware(['member.auth'])->group(function () {
 | Employer Routes
 |--------------------------------------------------------------------------
 |
-| All employer routes use:
-|
 | Middleware: member.auth
-| URL prefix: /employer
-| Route name prefix: employer.
+| Name prefix: employer.
 |
 */
+
 Route::middleware(['member.auth'])
     ->name('employer.')
     ->group(function () {
 
 
-    /*
-|--------------------------------------------------------------------------
-| Job Routes
-|--------------------------------------------------------------------------
-*/
+        /*
+        |--------------------------------------------------------------------------
+        | Job Routes
+        |--------------------------------------------------------------------------
+        */
 
-Route::get('/jobs', [
-    JobController::class,
-    'index'
-])->name('jobs.index');
+        Route::get('/jobs', [
+            JobController::class,
+            'index'
+        ])->name('jobs.index');
 
-Route::get('/jobs/create', [
-    JobController::class,
-    'create'
-])->name('jobs.create');
+        Route::get('/jobs/create', [
+            JobController::class,
+            'create'
+        ])->name('jobs.create');
 
-Route::post('/jobs', [
-    JobController::class,
-    'store'
-])->name('jobs.store');
+        Route::post('/jobs', [
+            JobController::class,
+            'store'
+        ])->name('jobs.store');
 
-/*
-|--------------------------------------------------------------------------
-| Duplicate Job
-|--------------------------------------------------------------------------
-*/
+        Route::post('/jobs/{job}/duplicate', [
+            JobController::class,
+            'duplicate'
+        ])->name('jobs.duplicate');
 
-Route::post('/jobs/{job}/duplicate', [
-    JobController::class,
-    'duplicate'
-])->name('jobs.duplicate');
+        Route::get('/jobs/{job}', [
+            JobController::class,
+            'show'
+        ])->name('jobs.show');
 
-Route::get('/jobs/{job}', [
-    JobController::class,
-    'show'
-])->name('jobs.show');
+        Route::get('/jobs/{job}/edit', [
+            JobController::class,
+            'edit'
+        ])->name('jobs.edit');
 
-Route::get('/jobs/{job}/edit', [
-    JobController::class,
-    'edit'
-])->name('jobs.edit');
+        Route::put('/jobs/{job}', [
+            JobController::class,
+            'update'
+        ])->name('jobs.update');
 
-Route::put('/jobs/{job}', [
-    JobController::class,
-    'update'
-])->name('jobs.update');
+        Route::delete('/jobs/{job}', [
+            JobController::class,
+            'destroy'
+        ])->name('jobs.destroy');
 
-Route::delete('/jobs/{job}', [
-    JobController::class,
-    'destroy'
-])->name('jobs.destroy');
+        Route::patch('/jobs/{job}/toggle-active', [
+            JobController::class,
+            'toggleActive'
+        ])->name('jobs.toggle-active');
 
-Route::patch('/jobs/{job}/toggle-active', [
-    JobController::class,
-    'toggleActive'
-])->name('jobs.toggle-active');
+        Route::patch('/jobs/{job}/close', [
+            JobController::class,
+            'close'
+        ])->name('jobs.close');
 
-Route::patch('/jobs/{job}/toggle-active', [
-    JobController::class,
-    'toggleActive'
-])->name('jobs.toggle-active');
+        Route::patch('/jobs/{job}/reopen', [
+            JobController::class,
+            'reopen'
+        ])->name('jobs.reopen');
 
-Route::patch('/jobs/{job}/close', [
-    JobController::class,
-    'close'
-])->name('jobs.close');
 
-Route::patch('/jobs/{job}/reopen', [
-    JobController::class,
-    'reopen'
-])->name('jobs.reopen');
         /*
         |--------------------------------------------------------------------------
         | Internship Routes
@@ -163,16 +152,136 @@ Route::patch('/jobs/{job}/reopen', [
             'destroy'
         ])->name('internships.destroy');
 
+        Route::patch('/internships/{internship}/toggle-status', [
+            InternshipController::class,
+            'toggleStatus'
+        ])->name('internships.toggle-status');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Modules
+        |--------------------------------------------------------------------------
+        |
+        | Employer creates modules inside a specific internship.
+        |
+        | GET    /employer/internships/{internship}/modules
+        | POST   /employer/internships/{internship}/modules
+        | PUT    /employer/internships/{internship}/modules/{module}
+        | DELETE /employer/internships/{internship}/modules/{module}
+        |
+        */
+
+        Route::prefix('/internships/{internship}/modules')
+            ->name('internships.modules.')
+            ->group(function () {
+
+                Route::get('/', [
+                    InternshipModuleController::class,
+                    'index'
+                ])->name('index');
+
+                Route::post('/', [
+                    InternshipModuleController::class,
+                    'store'
+                ])->name('store');
+
+                Route::put('/{module}', [
+                    InternshipModuleController::class,
+                    'update'
+                ])->name('update');
+
+                Route::delete('/{module}', [
+                    InternshipModuleController::class,
+                    'destroy'
+                ])->name('destroy');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Internship Tasks
+                |--------------------------------------------------------------------------
+                |
+                | Employer creates tasks inside each module.
+                |
+                */
+
+                Route::prefix('/{module}/tasks')
+                    ->name('tasks.')
+                    ->group(function () {
+
+                        Route::get('/', [
+                            InternshipTaskController::class,
+                            'index'
+                        ])->name('index');
+
+                        Route::post('/', [
+                            InternshipTaskController::class,
+                            'store'
+                        ])->name('store');
+
+                        Route::put('/{task}', [
+                            InternshipTaskController::class,
+                            'update'
+                        ])->name('update');
+
+                        Route::delete('/{task}', [
+                            InternshipTaskController::class,
+                            'destroy'
+                        ])->name('destroy');
+
+                    });
+
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Task Submissions
+        |--------------------------------------------------------------------------
+        |
+        | Employer views student submissions and reviews them.
+        |
+        */
+
+        Route::get(
+            '/internships/{internship}/tasks/{task}/submissions',
+            [InternshipSubmissionController::class, 'index']
+        )->name('internships.tasks.submissions.index');
+
         Route::patch(
-            '/internships/{internship}/toggle-status',
-            [InternshipController::class, 'toggleStatus']
-        )->name('internships.toggle-status');
+            '/submissions/{submission}/review',
+            [InternshipSubmissionController::class, 'review']
+        )->name('submissions.review');
 
 
-Route::get('/startup-profile/{startupProfile}/internships', [
-    StartupProfileController::class,
-    'internships'
-])->name('startup-profile.internships');
+        /*
+        |--------------------------------------------------------------------------
+        | Internship Applicants
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/internship-applicants', [
+            InternshipApplicantController::class,
+            'index'
+        ])->name('internship-applicants.index');
+
+        Route::patch('/internship-applicants/{application}/select', [
+            InternshipApplicantController::class,
+            'select'
+        ])->name('internship-applicants.select');
+
+        Route::patch('/internship-applicants/{application}/reject', [
+            InternshipApplicantController::class,
+            'reject'
+        ])->name('internship-applicants.reject');
+
+        Route::post('/internship-applicants/{application}/complete', [
+            InternshipApplicantController::class,
+            'complete'
+        ])->name('internship-applicants.complete');
+
+
         /*
         |--------------------------------------------------------------------------
         | Project Routes
@@ -214,178 +323,124 @@ Route::get('/startup-profile/{startupProfile}/internships', [
             'destroy'
         ])->name('projects.destroy');
 
-        Route::patch(
-            '/projects/{project}/toggle-status',
-            [ProjectController::class, 'toggleStatus']
-        )->name('projects.toggle-status');
+        Route::patch('/projects/{project}/toggle-status', [
+            ProjectController::class,
+            'toggleStatus'
+        ])->name('projects.toggle-status');
 
-        Route::patch('/projects/{project}/close', [ProjectController::class, 'close'])
-    ->name('projects.close');
+        Route::patch('/projects/{project}/close', [
+            ProjectController::class,
+            'close'
+        ])->name('projects.close');
 
-Route::patch('/projects/{project}/complete', [ProjectController::class, 'complete'])
-    ->name('projects.complete');
-
-
- /*
-|--------------------------------------------------------------------------
-| Startup Profile Routes
-|--------------------------------------------------------------------------
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Startup Profile Index
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/startup-profile', [
-    StartupProfileController::class,
-    'index'
-])->name('startup-profile.index');
+        Route::patch('/projects/{project}/complete', [
+            ProjectController::class,
+            'complete'
+        ])->name('projects.complete');
 
 
-/*
-|--------------------------------------------------------------------------
-| Create Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/startup-profile/create', [
-    StartupProfileController::class,
-    'create'
-])->name('startup-profile.create');
-
-
-/*
-|--------------------------------------------------------------------------
-| Store Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::post('/startup-profile', [
-    StartupProfileController::class,
-    'store'
-])->name('startup-profile.store');
-
-
-/*
-|--------------------------------------------------------------------------
-| Show Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/startup-profile/show/{startupProfile}', [
-    StartupProfileController::class,
-    'show'
-])->name('startup-profile.show');
-
-
-/*
-|--------------------------------------------------------------------------
-| Edit Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/startup-profile/edit/{startupProfile}', [
-    StartupProfileController::class,
-    'edit'
-])->name('startup-profile.edit');
-
-
-/*
-|--------------------------------------------------------------------------
-| Update Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::put('/startup-profile/{startupProfile}', [
-    StartupProfileController::class,
-    'update'
-])->name('startup-profile.update');
-
-
-/*
-|--------------------------------------------------------------------------
-| Delete Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::delete('/startup-profile/{startupProfile}', [
-    StartupProfileController::class,
-    'destroy'
-])->name('startup-profile.destroy');
-
-
-/*
-|--------------------------------------------------------------------------
-| Publish / Unpublish Startup Profile
-|--------------------------------------------------------------------------
-*/
-
-Route::post('/startup-profile/{startupProfile}/toggle', [
-    StartupProfileController::class,
-    'togglePublish'
-])->name('startup-profile.toggle');
-
-
-/*
-|--------------------------------------------------------------------------
-| Startup Profile Jobs
-|--------------------------------------------------------------------------
-|
-| IMPORTANT:
-| Do NOT define this route twice.
-|
-*/
-
-Route::get('/startup-profile/{startupProfile}/jobs', [
-    StartupProfileController::class,
-    'jobs'
-])->name('startup-profile.jobs');
-
-/*
-|--------------------------------------------------------------------------
-| Applicant Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/applicants', [
-    ApplicantController::class,
-    'index'
-])->name('applicants.index');
-
-Route::get('/applicants/{applicant}/details', [
-    ApplicantController::class,
-    'details'
-])->name('applicants.details');
-
-Route::get('/applicants/{applicant}/photo', [
-    ApplicantController::class,
-    'photo'
-])->name('applicants.photo');
-
-Route::get('/applicants/{applicant}', [
-    ApplicantController::class,
-    'show'
-])->name('applicants.show');
-
-Route::post('/applicants/{application}/status', [
-    ApplicantController::class,
-    'updateStatus'
-])->name('applicants.updateStatus');
-
-Route::post('/applicants/{application}/interview', [
-    ApplicantController::class,
-    'scheduleInterview'
-])->name('applicants.scheduleInterview');
-
-Route::post('/applicants/{application}/interview/cancel', [
-    ApplicantController::class,
-    'cancelInterview'
-])->name('applicants.cancelInterview');
         /*
         |--------------------------------------------------------------------------
-        | Project Proposal
+        | Startup Profile Routes
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/startup-profile', [
+            StartupProfileController::class,
+            'index'
+        ])->name('startup-profile.index');
+
+        Route::get('/startup-profile/create', [
+            StartupProfileController::class,
+            'create'
+        ])->name('startup-profile.create');
+
+        Route::post('/startup-profile', [
+            StartupProfileController::class,
+            'store'
+        ])->name('startup-profile.store');
+
+        Route::get('/startup-profile/show/{startupProfile}', [
+            StartupProfileController::class,
+            'show'
+        ])->name('startup-profile.show');
+
+        Route::get('/startup-profile/edit/{startupProfile}', [
+            StartupProfileController::class,
+            'edit'
+        ])->name('startup-profile.edit');
+
+        Route::put('/startup-profile/{startupProfile}', [
+            StartupProfileController::class,
+            'update'
+        ])->name('startup-profile.update');
+
+        Route::delete('/startup-profile/{startupProfile}', [
+            StartupProfileController::class,
+            'destroy'
+        ])->name('startup-profile.destroy');
+
+        Route::post('/startup-profile/{startupProfile}/toggle', [
+            StartupProfileController::class,
+            'togglePublish'
+        ])->name('startup-profile.toggle');
+
+        Route::get('/startup-profile/{startupProfile}/jobs', [
+            StartupProfileController::class,
+            'jobs'
+        ])->name('startup-profile.jobs');
+
+        Route::get('/startup-profile/{startupProfile}/internships', [
+            StartupProfileController::class,
+            'internships'
+        ])->name('startup-profile.internships');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Applicant Routes
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/applicants', [
+            ApplicantController::class,
+            'index'
+        ])->name('applicants.index');
+
+        Route::get('/applicants/{applicant}/details', [
+            ApplicantController::class,
+            'details'
+        ])->name('applicants.details');
+
+        Route::get('/applicants/{applicant}/photo', [
+            ApplicantController::class,
+            'photo'
+        ])->name('applicants.photo');
+
+        Route::get('/applicants/{applicant}', [
+            ApplicantController::class,
+            'show'
+        ])->name('applicants.show');
+
+        Route::post('/applicants/{application}/status', [
+            ApplicantController::class,
+            'updateStatus'
+        ])->name('applicants.updateStatus');
+
+        Route::post('/applicants/{application}/interview', [
+            ApplicantController::class,
+            'scheduleInterview'
+        ])->name('applicants.scheduleInterview');
+
+        Route::post('/applicants/{application}/interview/cancel', [
+            ApplicantController::class,
+            'cancelInterview'
+        ])->name('applicants.cancelInterview');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Project Proposals
         |--------------------------------------------------------------------------
         */
 
@@ -414,20 +469,20 @@ Route::post('/applicants/{application}/interview/cancel', [
             'show'
         ])->name('articles.show');
 
-        Route::post(
-            '/articles/{article}/like',
-            [EmployerArticleController::class, 'toggleLike']
-        )->name('articles.like');
+        Route::post('/articles/{article}/like', [
+            EmployerArticleController::class,
+            'toggleLike'
+        ])->name('articles.like');
 
-        Route::post(
-            '/articles/{article}/comments',
-            [EmployerArticleController::class, 'storeComment']
-        )->name('articles.comments.store');
+        Route::post('/articles/{article}/comments', [
+            EmployerArticleController::class,
+            'storeComment'
+        ])->name('articles.comments.store');
 
-        Route::delete(
-            '/articles/comments/{comment}',
-            [EmployerArticleController::class, 'destroyComment']
-        )->name('articles.comments.destroy');
+        Route::delete('/articles/comments/{comment}', [
+            EmployerArticleController::class,
+            'destroyComment'
+        ])->name('articles.comments.destroy');
 
 
         /*
@@ -436,35 +491,16 @@ Route::post('/applicants/{application}/interview/cancel', [
         |--------------------------------------------------------------------------
         */
 
-        Route::post(
-            '/candidates/{candidate}/invite',
-            [
-                CandidateInvitationController::class,
-                'send'
-            ]
-        )->name('candidates.invite');
+        Route::post('/candidates/{candidate}/invite', [
+            CandidateInvitationController::class,
+            'send'
+        ])->name('candidates.invite');
 
 
         /*
         |--------------------------------------------------------------------------
-        | Employer Notification Routes
+        | Employer Notifications
         |--------------------------------------------------------------------------
-        |
-        | IMPORTANT:
-        | These routes are INSIDE the existing employer group.
-        |
-        | Therefore:
-        |
-        | /notifications
-        | becomes
-        | /employer/notifications
-        |
-        | and:
-        |
-        | notifications.index
-        | becomes
-        | employer.notifications.index
-        |
         */
 
         Route::get('/notifications', [
@@ -501,13 +537,10 @@ Route::post('/applicants/{application}/interview/cancel', [
 |--------------------------------------------------------------------------
 */
 
-Route::get(
-    '/job-invitations/{token}',
-    [
-        CandidateInvitationController::class,
-        'open'
-    ]
-)->name('job.invitations.open');
+Route::get('/job-invitations/{token}', [
+    CandidateInvitationController::class,
+    'open'
+])->name('job.invitations.open');
 
 
 /*
@@ -521,19 +554,19 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->group(function () {
 
-        Route::get(
-            'jobs',
-            [JobApprovalController::class, 'index']
-        )->name('jobs.index');
+        Route::get('jobs', [
+            JobApprovalController::class,
+            'index'
+        ])->name('jobs.index');
 
-        Route::post(
-            'jobs/{job}/approve',
-            [JobApprovalController::class, 'approve']
-        )->name('jobs.approve');
+        Route::post('jobs/{job}/approve', [
+            JobApprovalController::class,
+            'approve'
+        ])->name('jobs.approve');
 
-        Route::post(
-            'jobs/{job}/reject',
-            [JobApprovalController::class, 'reject']
-        )->name('jobs.reject');
+        Route::post('jobs/{job}/reject', [
+            JobApprovalController::class,
+            'reject'
+        ])->name('jobs.reject');
 
     });
