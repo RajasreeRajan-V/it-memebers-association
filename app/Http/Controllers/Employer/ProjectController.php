@@ -274,16 +274,6 @@ class ProjectController extends Controller
                 ],
 
                 /*
-                 * Number of people required
-                 */
-                'people_required' => [
-                    'required',
-                    'integer',
-                    'min:1',
-                    'max:50',
-                ],
-
-                /*
                  * Skills
                  */
                 'skills' => [
@@ -319,6 +309,8 @@ class ProjectController extends Controller
 
                 /*
                  * Maximum bids
+                 *
+                 * This is now the only project application/proposal limit.
                  */
                 'maximum_bids' => [
                     'required',
@@ -409,18 +401,6 @@ class ProjectController extends Controller
                 'maximum_bids.max' =>
                     'Maximum bids cannot exceed 1000.',
 
-                'people_required.required' =>
-                    'Please specify how many people are required.',
-
-                'people_required.integer' =>
-                    'People required must be a whole number.',
-
-                'people_required.min' =>
-                    'At least 1 person is required.',
-
-                'people_required.max' =>
-                    'People required cannot exceed 50.',
-
                 'country.regex' =>
                     'Country can only contain letters.',
 
@@ -448,4 +428,3 @@ class ProjectController extends Controller
         );
     }
 }
-
