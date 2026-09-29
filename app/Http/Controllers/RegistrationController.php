@@ -17,12 +17,12 @@ use App\Models\User;
 class RegistrationController extends Controller
 {
     protected array $fees = [
-        'student'     => 500,
-        'employee'    => 1000,
-        'freelancer'  => 1500,
-        'employer'    => 5000,
-        'investor'    => 10000,
-        'mentor'      => 0, // free — skips payment, goes straight to membership route
+        'student' => 500,
+        'employee' => 1000,
+        'freelancer' => 1500,
+        'employer' => 5000,
+        'investor' => 10000,
+        'mentor' => 0, // free — skips payment, goes straight to membership route
     ];
 
     public function register()
@@ -116,11 +116,12 @@ class RegistrationController extends Controller
     protected function getBaseValidationRules($role = null)
     {
         return [
-            'role'     => ['required', Rule::in(array_keys($this->fees))],
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255', 'unique:users,email'],
-            'phone'    => ['nullable', 'string', 'max:20'],
-            'terms'    => ['accepted'],
+            'role' => ['required', Rule::in(array_keys($this->fees))],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'contact_number' => ['nullable', 'string', 'max:20'],
+            'terms' => ['accepted'],
 
             // Password is required from the form for every role except investor.
             // Investors don't set a password here; it's generated after admin approval.
@@ -139,14 +140,14 @@ class RegistrationController extends Controller
             // ===========================
             'student' => [
 
-                'college_name'       => ['required', 'string', 'max:255'],
-                'university'         => ['required', 'string', 'max:255'],
-                'course'             => ['required', 'string', 'max:255'],
-                'year'               => ['required', 'string', 'max:50'],
-                'skills'             => ['nullable', 'string'],
-                'resume'             => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
-                'college_id_card'    => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
-                'interested_domain'  => ['nullable', 'string', 'max:255'],
+                'college_name' => ['required', 'string', 'max:255'],
+                'university' => ['required', 'string', 'max:255'],
+                'course' => ['required', 'string', 'max:255'],
+                'year' => ['required', 'string', 'max:50'],
+                'skills' => ['nullable', 'string'],
+                'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+                'college_id_card' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
+                'interested_domain' => ['nullable', 'string', 'max:255'],
 
             ],
 
@@ -176,15 +177,16 @@ class RegistrationController extends Controller
             // ===========================
             'employer' => [
 
-                'company_name'       => ['required', 'string', 'max:255'],
-                'gst_number'         => ['nullable', 'string', 'max:50'],
-                'pan_number'         => ['nullable', 'string', 'max:20'],
-                'company_address'    => ['required', 'string'],
-                'company_size'       => ['nullable', 'string', 'max:100'],
-                'industry'           => ['nullable', 'string', 'max:255'],
-                'website'            => ['nullable', 'url', 'max:255'],
-                'company_logo'       => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
-                'company_documents'  => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+                'company_name' => ['required', 'string', 'max:255'],
+                'gst_number' => ['nullable', 'string', 'max:50'],
+                'pan_number' => ['nullable', 'string', 'max:20'],
+                'company_address' => ['required', 'string'],
+                'company_size' => ['nullable', 'string', 'max:100'],
+                'industry' => ['nullable', 'string', 'max:255'],
+                'website' => ['nullable', 'url', 'max:255'],
+                'contact_number' => ['required', 'string', 'max:20'],
+                'company_logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:3072'],
+                'company_registered_certificate' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
 
             ],
 
@@ -194,13 +196,13 @@ class RegistrationController extends Controller
             'freelancer' => [
 
                 'specialization' => ['required', 'string', 'max:255'],
-                'experience'     => ['required', 'integer', 'min:0'],
-                'hourly_rate'    => ['nullable', 'numeric', 'min:0'],
+                'experience' => ['required', 'integer', 'min:0'],
+                'hourly_rate' => ['nullable', 'numeric', 'min:0'],
                 'portfolio_link' => ['nullable', 'url', 'max:255'],
-                'skills'         => ['nullable', 'string'],
-                'github'         => ['nullable', 'url', 'max:255'],
-                'linkedin'       => ['nullable', 'url', 'max:255'],
-                'availability'   => ['nullable', 'string', 'max:255'],
+                'skills' => ['nullable', 'string'],
+                'github' => ['nullable', 'url', 'max:255'],
+                'linkedin' => ['nullable', 'url', 'max:255'],
+                'availability' => ['nullable', 'string', 'max:255'],
 
             ],
 
@@ -209,14 +211,14 @@ class RegistrationController extends Controller
             // ===========================
             'investor' => [
 
-                'organization'           => ['required', 'string', 'max:255'],
-                'investment_range'       => ['required', 'string', 'max:255'],
-                'preferred_sectors'      => ['required', 'string'],
-                'investment_stage'       => ['required', 'string', 'max:255'],
-                'linkedin'               => ['nullable', 'url', 'max:255'],
-                'website'                => ['nullable', 'url', 'max:255'],
-                'bio'                    => ['nullable', 'string'],
-                'verification_document'  => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+                'organization' => ['required', 'string', 'max:255'],
+                'investment_range' => ['required', 'string', 'max:255'],
+                'preferred_sectors' => ['required', 'string'],
+                'investment_stage' => ['required', 'string', 'max:255'],
+                'linkedin' => ['nullable', 'url', 'max:255'],
+                'website' => ['nullable', 'url', 'max:255'],
+                'bio' => ['nullable', 'string'],
+                'verification_document' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
 
             ],
 
@@ -225,14 +227,14 @@ class RegistrationController extends Controller
             // ===========================
             'mentor' => [
 
-                'company'              => ['required', 'string', 'max:255'],
-                'designation'          => ['required', 'string', 'max:255'],
-                'expertise'            => ['required', 'string'],
-                'years_of_experience'  => ['required', 'integer', 'min:0'],
-                'availability'         => ['nullable', 'string', 'max:255'],
-                'linkedin'             => ['nullable', 'url', 'max:255'],
-                'bio'                  => ['nullable', 'string'],
-                'resume'               => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
+                'company' => ['required', 'string', 'max:255'],
+                'designation' => ['required', 'string', 'max:255'],
+                'expertise' => ['required', 'string'],
+                'years_of_experience' => ['required', 'integer', 'min:0'],
+                'availability' => ['nullable', 'string', 'max:255'],
+                'linkedin' => ['nullable', 'url', 'max:255'],
+                'bio' => ['nullable', 'string'],
+                'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:3072'],
 
             ],
 
@@ -298,11 +300,12 @@ class RegistrationController extends Controller
                     'company_size' => $validated['company_size'] ?? null,
                     'industry' => $validated['industry'] ?? null,
                     'website' => $validated['website'] ?? null,
-                    'company_logo' => $request->hasFile('company_logo')
+                    'contact_number' => $validated['contact_number'] ?? null,
+                    'profile_photo' => $request->hasFile('company_logo')
                         ? $request->file('company_logo')->store('employers/logo', 'public')
                         : null,
-                    'company_documents' => $request->hasFile('company_documents')
-                        ? $request->file('company_documents')->store('employers/documents', 'public')
+                    'company_registered_certificate' => $request->hasFile('company_registered_certificate')
+                        ? $request->file('company_registered_certificate')->store('employers/certificates', 'public')
                         : null,
                 ]);
 

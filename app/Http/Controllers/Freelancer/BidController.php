@@ -86,7 +86,7 @@ class BidController extends Controller
             'github' => $request->github,
             'linkedin' => $request->linkedin,
             'availability' => $request->availability,
-            'status' => 'pending',
+            'status' => FreelancerBid::STATUS_PENDING,
         ]);
 
         return redirect()

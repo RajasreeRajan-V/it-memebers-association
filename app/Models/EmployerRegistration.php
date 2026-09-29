@@ -23,8 +23,9 @@ class EmployerRegistration extends Model
         'company_size',
         'industry',
         'website',
+        'contact_number',                 
         'profile_photo',
-        'company_documents',
+        'company_registered_certificate',  
     ];
 
     /**

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Freelancer\FreelancerDashboardController;
 use App\Http\Controllers\Freelancer\BidController;
 use App\Http\Controllers\Freelancer\FreelancerWorkController;
+use App\Http\Controllers\Employer\FreelancerBidController;
 
 Route::middleware(['member.auth'])
     ->name('freelancer.')
@@ -61,4 +62,18 @@ Route::middleware(['member.auth'])
             '/archived',
             [FreelancerWorkController::class, 'archived']
         )->name('archived');
+
+        Route::get(
+        '/employer/bids/{bid}',[FreelancerBidController::class, 'show']
+        )->name('employer.bids.show');
+
+        Route::post(
+            '/employer/bids/{bid}/proceed',
+            [FreelancerBidController::class, 'proceed']
+        )->name('employer.bids.proceed');
+
+        Route::post(
+            '/employer/bids/{bid}/reject',
+            [FreelancerBidController::class, 'reject']
+        )->name('employer.bids.reject');
     });

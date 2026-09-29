@@ -21,57 +21,29 @@
 
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path
-                                d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z"
-                                fill="currentColor"
-                                stroke="none"
-                            />
+                            <path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z" fill="currentColor"
+                                stroke="none" />
                         </svg>
                         Verified Badge
                     </span>
 
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <circle
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
-                            <path
-                                d="M12 6v6l4 2"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
+                                fill="none" />
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none" />
                         </svg>
                         24/7 Support
                     </span>
 
                     <span class="badge">
                         <svg viewBox="0 0 24 24" width="16" height="16">
-                            <path
-                                d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
-                            <circle
-                                cx="9"
-                                cy="7"
-                                r="4"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
-                            <path
-                                d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
+                                fill="none" />
+                            <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"
+                                fill="none" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor"
+                                stroke-width="2" fill="none" />
                         </svg>
                         Exclusive Network
                     </span>
@@ -89,16 +61,9 @@
                         <svg viewBox="0 0 24 24" width="28" height="28">
                             <path
                                 d="M12 15C15.866 15 19 11.866 19 8C19 4.13401 15.866 1 12 1C8.13401 1 5 4.13401 5 8C5 11.866 8.13401 15 12 15Z"
-                                stroke="white"
-                                stroke-width="1.5"
-                                fill="rgba(255,255,255,0.15)"
-                            />
-                            <path
-                                d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88"
-                                stroke="white"
-                                stroke-width="1.5"
-                                stroke-linejoin="round"
-                            />
+                                stroke="white" stroke-width="1.5" fill="rgba(255,255,255,0.15)" />
+                            <path d="M8.21 13.89L7 23L12 20L17 23L15.79 13.88" stroke="white" stroke-width="1.5"
+                                stroke-linejoin="round" />
                         </svg>
                     </div>
 
@@ -114,40 +79,20 @@
                             <span>Join Now</span>
 
                             <svg viewBox="0 0 24 24" width="16" height="16">
-                                <path
-                                    d="M5 12h14M13 6l6 6-6 6"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    fill="none"
-                                />
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" />
                             </svg>
                         </button>
 
                         @guest
 
-                            <a
-                                href="#"
-                                class="btn btn-secondary"
-                                id="membershipLoginBtn"
-                                data-login-trigger
-                            >
+                            <a href="#" class="btn btn-secondary" id="membershipLoginBtn" data-login-trigger>
                                 <span>Login</span>
                             </a>
-
                         @else
-
-                            <form
-                                method="POST"
-                                action="{{ route('member-logout') }}"
-                                style="margin:0;"
-                            >
+                            <form method="POST" action="{{ route('member-logout') }}" style="margin:0;">
                                 @csrf
 
-                                <button
-                                    type="submit"
-                                    class="btn btn-secondary"
-                                    id="membershipLogoutBtn"
-                                >
+                                <button type="submit" class="btn btn-secondary" id="membershipLogoutBtn">
                                     <span>Sign Out</span>
                                 </button>
                             </form>
@@ -159,18 +104,9 @@
                     <p class="membership-note">
 
                         <svg viewBox="0 0 24 24" width="14" height="14">
-                            <path
-                                d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10z"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
-                            <path
-                                d="M12 6v6l4 2"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                fill="none"
-                            />
+                            <path d="M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10z" stroke="currentColor" stroke-width="2"
+                                fill="none" />
+                            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" fill="none" />
                         </svg>
 
                         Free trial available • No credit card required
@@ -185,62 +121,35 @@
 
 
     <!-- Registration Section -->
-    <section
-        class="registration-section"
-        id="registration-section"
-    >
+    <section class="registration-section" id="registration-section">
 
         <div class="registration-wrapper-full">
 
             @if (session('status'))
-
                 <div class="alert alert-success animate-fadeIn">
 
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <path
-                            d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                            stroke-linecap="round"
-                        />
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
 
-                        <path
-                            d="M22 4L12 14.01l-3-3"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                            stroke-linecap="round"
-                        />
+                        <path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" />
                     </svg>
 
                     {{ session('status') }}
 
                 </div>
-
             @endif
 
 
             @if ($errors->any())
-
                 <div class="alert alert-error animate-shake">
 
                     <svg viewBox="0 0 24 24" width="20" height="20">
-                        <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <path
-                            d="M12 8v4M12 16h.01"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                        />
+                        <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                     </svg>
 
                     <div>
@@ -258,38 +167,24 @@
                     </div>
 
                 </div>
-
             @endif
 
 
             @if (session('error'))
-
                 <div class="alert alert-error animate-shake">
 
                     <svg viewBox="0 0 24 24" width="20" height="20">
 
-                        <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <path
-                            d="M12 8v4M12 16h.01"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                        />
+                        <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
 
                     </svg>
 
                     {{ session('error') }}
 
                 </div>
-
             @endif
 
 
@@ -304,13 +199,8 @@
             </div>
 
 
-            <form
-                method="POST"
-                action="{{ route('do_registration') }}"
-                enctype="multipart/form-data"
-                id="registerForm"
-                novalidate
-            >
+            <form method="POST" action="{{ route('do_registration') }}" enctype="multipart/form-data" id="registerForm"
+                novalidate>
 
                 @csrf
 
@@ -318,10 +208,7 @@
                 <!-- Progress Steps -->
                 <div class="progress-steps">
 
-                    <div
-                        class="step active"
-                        data-step="1"
-                    >
+                    <div class="step active" data-step="1">
 
                         <div class="step-circle">
 
@@ -329,19 +216,9 @@
                                 1
                             </span>
 
-                            <svg
-                                class="step-check"
-                                viewBox="0 0 24 24"
-                                width="16"
-                                height="16"
-                            >
-                                <polyline
-                                    points="20 6 9 17 4 12"
-                                    stroke="currentColor"
-                                    stroke-width="3"
-                                    fill="none"
-                                    stroke-linecap="round"
-                                />
+                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
+                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
+                                    stroke-linecap="round" />
                             </svg>
 
                         </div>
@@ -353,16 +230,10 @@
                     </div>
 
 
-                    <div
-                        class="step-connector"
-                        id="connector1"
-                    ></div>
+                    <div class="step-connector" id="connector1"></div>
 
 
-                    <div
-                        class="step"
-                        data-step="2"
-                    >
+                    <div class="step" data-step="2">
 
                         <div class="step-circle">
 
@@ -370,19 +241,9 @@
                                 2
                             </span>
 
-                            <svg
-                                class="step-check"
-                                viewBox="0 0 24 24"
-                                width="16"
-                                height="16"
-                            >
-                                <polyline
-                                    points="20 6 9 17 4 12"
-                                    stroke="currentColor"
-                                    stroke-width="3"
-                                    fill="none"
-                                    stroke-linecap="round"
-                                />
+                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
+                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
+                                    stroke-linecap="round" />
                             </svg>
 
                         </div>
@@ -394,16 +255,10 @@
                     </div>
 
 
-                    <div
-                        class="step-connector"
-                        id="connector2"
-                    ></div>
+                    <div class="step-connector" id="connector2"></div>
 
 
-                    <div
-                        class="step"
-                        data-step="3"
-                    >
+                    <div class="step" data-step="3">
 
                         <div class="step-circle">
 
@@ -411,19 +266,9 @@
                                 3
                             </span>
 
-                            <svg
-                                class="step-check"
-                                viewBox="0 0 24 24"
-                                width="16"
-                                height="16"
-                            >
-                                <polyline
-                                    points="20 6 9 17 4 12"
-                                    stroke="currentColor"
-                                    stroke-width="3"
-                                    fill="none"
-                                    stroke-linecap="round"
-                                />
+                            <svg class="step-check" viewBox="0 0 24 24" width="16" height="16">
+                                <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="3" fill="none"
+                                    stroke-linecap="round" />
                             </svg>
 
                         </div>
@@ -441,35 +286,19 @@
 
 
                     <!-- STEP 1 -->
-                    <div
-                        class="form-card"
-                        id="step1-section"
-                    >
+                    <div class="form-card" id="step1-section">
 
                         <div class="card-header">
 
-                            <div
-                                class="card-icon"
-                                style="background: linear-gradient(135deg, #2ECC71, #27AE60);"
-                            >
+                            <div class="card-icon" style="background: linear-gradient(135deg, #2ECC71, #27AE60);">
 
                                 <svg viewBox="0 0 24 24" width="24" height="24">
 
-                                    <path
-                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"
+                                        fill="none" />
 
-                                    <circle
-                                        cx="12"
-                                        cy="7"
-                                        r="4"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <circle cx="12" cy="7" r="4" stroke="white" stroke-width="2"
+                                        fill="none" />
 
                                 </svg>
 
@@ -510,38 +339,18 @@
 
                                 <div class="input-wrapper">
 
-                                    <svg
-                                        class="input-icon"
-                                        viewBox="0 0 24 24"
-                                        width="18"
-                                        height="18"
-                                    >
+                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
 
-                                        <path
-                                            d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor"
+                                            stroke-width="2" fill="none" />
 
-                                        <circle
-                                            cx="12"
-                                            cy="7"
-                                            r="4"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <circle cx="12" cy="7" r="4" stroke="currentColor"
+                                            stroke-width="2" fill="none" />
 
                                     </svg>
 
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value="{{ old('name') }}"
-                                        required
-                                        placeholder="Enter your full name"
-                                    >
+                                    <input type="text" name="name" value="{{ old('name') }}" required
+                                        placeholder="Enter your full name">
 
                                 </div>
 
@@ -571,36 +380,19 @@
 
                                 <div class="input-wrapper">
 
-                                    <svg
-                                        class="input-icon"
-                                        viewBox="0 0 24 24"
-                                        width="18"
-                                        height="18"
-                                    >
+                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
 
                                         <path
                                             d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                            stroke="currentColor" stroke-width="2" fill="none" />
 
-                                        <polyline
-                                            points="22,6 12,13 2,6"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
 
                                     </svg>
 
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value="{{ old('email') }}"
-                                        required
-                                        placeholder="your@email.com"
-                                    >
+                                    <input type="email" name="email" value="{{ old('email') }}" required
+                                        placeholder="your@email.com">
 
                                 </div>
 
@@ -630,29 +422,16 @@
 
                                 <div class="input-wrapper">
 
-                                    <svg
-                                        class="input-icon"
-                                        viewBox="0 0 24 24"
-                                        width="18"
-                                        height="18"
-                                    >
+                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
 
                                         <path
                                             d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                            stroke="currentColor" stroke-width="2" fill="none" />
 
                                     </svg>
 
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value="{{ old('phone') }}"
-                                        required
-                                        placeholder="+91 9XXXXXXXXX"
-                                    >
+                                    <input type="text" name="phone" value="{{ old('phone') }}" required
+                                        placeholder="+91 9XXXXXXXXX">
 
                                 </div>
 
@@ -666,10 +445,7 @@
 
 
                             <!-- Password -->
-                            <div
-                                class="form-group"
-                                id="passwordFieldGroup"
-                            >
+                            <div class="form-group" id="passwordFieldGroup">
 
                                 <label class="form-label">
 
@@ -685,40 +461,18 @@
 
                                 <div class="input-wrapper">
 
-                                    <svg
-                                        class="input-icon"
-                                        viewBox="0 0 24 24"
-                                        width="18"
-                                        height="18"
-                                    >
+                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
 
-                                        <rect
-                                            x="3"
-                                            y="11"
-                                            width="18"
-                                            height="11"
-                                            rx="2"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <rect x="3" y="11" width="18" height="11" rx="2"
+                                            stroke="currentColor" stroke-width="2" fill="none" />
 
-                                        <path
-                                            d="M7 11V7a5 5 0 0 1 10 0v4"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
 
                                     </svg>
 
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        id="passwordInput"
-                                        required
-                                        placeholder="Minimum 8 characters"
-                                    >
+                                    <input type="password" name="password" id="passwordInput" required
+                                        placeholder="Minimum 8 characters">
 
                                 </div>
 
@@ -732,10 +486,7 @@
 
 
                             <!-- Confirm Password -->
-                            <div
-                                class="form-group"
-                                id="passwordConfirmFieldGroup"
-                            >
+                            <div class="form-group" id="passwordConfirmFieldGroup">
 
                                 <label class="form-label">
 
@@ -751,40 +502,18 @@
 
                                 <div class="input-wrapper">
 
-                                    <svg
-                                        class="input-icon"
-                                        viewBox="0 0 24 24"
-                                        width="18"
-                                        height="18"
-                                    >
+                                    <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18">
 
-                                        <rect
-                                            x="3"
-                                            y="11"
-                                            width="18"
-                                            height="11"
-                                            rx="2"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <rect x="3" y="11" width="18" height="11" rx="2"
+                                            stroke="currentColor" stroke-width="2" fill="none" />
 
-                                        <path
-                                            d="M7 11V7a5 5 0 0 1 10 0v4"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            fill="none"
-                                        />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
 
                                     </svg>
 
-                                    <input
-                                        type="password"
-                                        name="password_confirmation"
-                                        id="passwordConfirmInput"
-                                        required
-                                        placeholder="Re-enter your password"
-                                    >
+                                    <input type="password" name="password_confirmation" id="passwordConfirmInput"
+                                        required placeholder="Re-enter your password">
 
                                 </div>
 
@@ -796,42 +525,22 @@
 
 
                     <!-- STEP 2 -->
-                    <div
-                        class="form-card"
-                        id="step2-section"
-                    >
+                    <div class="form-card" id="step2-section">
 
                         <div class="card-header">
 
-                            <div
-                                class="card-icon"
-                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);"
-                            >
+                            <div class="card-icon" style="background: linear-gradient(135deg, #4A90D9, #357ABD);">
 
                                 <svg viewBox="0 0 24 24" width="24" height="24">
 
-                                    <path
-                                        d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="white" stroke-width="2"
+                                        fill="none" />
 
-                                    <circle
-                                        cx="9"
-                                        cy="7"
-                                        r="4"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <circle cx="9" cy="7" r="4" stroke="white" stroke-width="2"
+                                        fill="none" />
 
-                                    <path
-                                        d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="white"
+                                        stroke-width="2" fill="none" />
 
                                 </svg>
 
@@ -872,19 +581,10 @@
 
 
                             @foreach ($roles as $value => $label)
+                                <label class="role-radio-card" data-role="{{ $value }}">
 
-                                <label
-                                    class="role-radio-card"
-                                    data-role="{{ $value }}"
-                                >
-
-                                    <input
-                                        type="radio"
-                                        name="role"
-                                        value="{{ $value }}"
-                                        {{ $selectedRole === $value ? 'checked' : '' }}
-                                        required
-                                    >
+                                    <input type="radio" name="role" value="{{ $value }}"
+                                        {{ $selectedRole === $value ? 'checked' : '' }} required>
 
                                     <span class="radio-circle"></span>
 
@@ -893,7 +593,6 @@
                                     </span>
 
                                 </label>
-
                             @endforeach
 
                         </div>
@@ -902,41 +601,20 @@
 
 
                     <!-- STEP 3 -->
-                    <div
-                        class="form-card"
-                        id="step3-section"
-                    >
+                    <div class="form-card" id="step3-section">
 
                         <div class="card-header">
 
-                            <div
-                                class="card-icon"
-                                id="roleDetailIcon"
-                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);"
-                            >
+                            <div class="card-icon" id="roleDetailIcon"
+                                style="background: linear-gradient(135deg, #4A90D9, #357ABD);">
 
                                 <svg viewBox="0 0 24 24" width="24" height="24">
 
-                                    <path
-                                        d="M12 2L2 7l10 5 10-5-10-5z"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="white" stroke-width="2" fill="none" />
 
-                                    <path
-                                        d="M2 17l10 5 10-5"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M2 17l10 5 10-5" stroke="white" stroke-width="2" fill="none" />
 
-                                    <path
-                                        d="M2 12l10 5 10-5"
-                                        stroke="white"
-                                        stroke-width="2"
-                                        fill="none"
-                                    />
+                                    <path d="M2 12l10 5 10-5" stroke="white" stroke-width="2" fill="none" />
 
                                 </svg>
 
@@ -958,10 +636,7 @@
                         </div>
 
 
-                        <div
-                            class="form-grid"
-                            id="dynamicFields"
-                        >
+                        <div class="form-grid" id="dynamicFields">
                             <!-- Dynamic fields injected by JavaScript -->
                         </div>
 
@@ -973,27 +648,14 @@
 
                         <label class="checkbox-label">
 
-                            <input
-                                type="checkbox"
-                                name="terms"
-                                required
-                            >
+                            <input type="checkbox" name="terms" required>
 
                             <span class="checkbox-custom">
 
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    width="14"
-                                    height="14"
-                                >
+                                <svg viewBox="0 0 24 24" width="14" height="14">
 
-                                    <polyline
-                                        points="20 6 9 17 4 12"
-                                        stroke="white"
-                                        stroke-width="3"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                    />
+                                    <polyline points="20 6 9 17 4 12" stroke="white" stroke-width="3" fill="none"
+                                        stroke-linecap="round" />
 
                                 </svg>
 
@@ -1020,28 +682,16 @@
                         </label>
 
 
-                        <button
-                            type="submit"
-                            class="submit-btn"
-                        >
+                        <button type="submit" class="submit-btn">
 
                             <span>
                                 Create Account
                             </span>
 
-                            <svg
-                                viewBox="0 0 24 24"
-                                width="20"
-                                height="20"
-                            >
+                            <svg viewBox="0 0 24 24" width="20" height="20">
 
-                                <path
-                                    d="M5 12h14M13 6l6 6-6 6"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    fill="none"
-                                    stroke-linecap="round"
-                                />
+                                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none"
+                                    stroke-linecap="round" />
 
                             </svg>
 
@@ -1082,13 +732,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="college_name"
-                value="{{ old('college_name') }}"
-                required
-                placeholder="Enter college name"
-            >
+            <input type="text" name="college_name" value="{{ old('college_name') }}" required
+                placeholder="Enter college name">
 
         </div>
 
@@ -1100,13 +745,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="university"
-                value="{{ old('university') }}"
-                required
-                placeholder="Enter university"
-            >
+            <input type="text" name="university" value="{{ old('university') }}" required
+                placeholder="Enter university">
 
         </div>
 
@@ -1118,13 +758,7 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="course"
-                value="{{ old('course') }}"
-                required
-                placeholder="e.g. B.Tech CSE"
-            >
+            <input type="text" name="course" value="{{ old('course') }}" required placeholder="e.g. B.Tech CSE">
 
         </div>
 
@@ -1142,45 +776,27 @@
                     Select year
                 </option>
 
-                <option
-                    value="1st Year"
-                    {{ old('year') == '1st Year' ? 'selected' : '' }}
-                >
+                <option value="1st Year" {{ old('year') == '1st Year' ? 'selected' : '' }}>
                     1st Year
                 </option>
 
-                <option
-                    value="2nd Year"
-                    {{ old('year') == '2nd Year' ? 'selected' : '' }}
-                >
+                <option value="2nd Year" {{ old('year') == '2nd Year' ? 'selected' : '' }}>
                     2nd Year
                 </option>
 
-                <option
-                    value="3rd Year"
-                    {{ old('year') == '3rd Year' ? 'selected' : '' }}
-                >
+                <option value="3rd Year" {{ old('year') == '3rd Year' ? 'selected' : '' }}>
                     3rd Year
                 </option>
 
-                <option
-                    value="4th Year"
-                    {{ old('year') == '4th Year' ? 'selected' : '' }}
-                >
+                <option value="4th Year" {{ old('year') == '4th Year' ? 'selected' : '' }}>
                     4th Year
                 </option>
 
-                <option
-                    value="Final Year"
-                    {{ old('year') == 'Final Year' ? 'selected' : '' }}
-                >
+                <option value="Final Year" {{ old('year') == 'Final Year' ? 'selected' : '' }}>
                     Final Year
                 </option>
 
-                <option
-                    value="Graduated"
-                    {{ old('year') == 'Graduated' ? 'selected' : '' }}
-                >
+                <option value="Graduated" {{ old('year') == 'Graduated' ? 'selected' : '' }}>
                     Graduated
                 </option>
 
@@ -1195,11 +811,7 @@
                 <span>Skills</span>
             </label>
 
-            <textarea
-                name="skills"
-                rows="3"
-                placeholder="e.g. Python, React, Machine Learning"
-            >{{ old('skills') }}</textarea>
+            <textarea name="skills" rows="3" placeholder="e.g. Python, React, Machine Learning">{{ old('skills') }}</textarea>
 
         </div>
 
@@ -1210,12 +822,8 @@
                 <span>Interested Domain</span>
             </label>
 
-            <input
-                type="text"
-                name="interested_domain"
-                value="{{ old('interested_domain') }}"
-                placeholder="e.g. Web Development"
-            >
+            <input type="text" name="interested_domain" value="{{ old('interested_domain') }}"
+                placeholder="e.g. Web Development">
 
         </div>
 
@@ -1228,46 +836,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="resume"
-                    id="resume-student"
-                    accept=".pdf,.doc,.docx"
-                >
+                <input type="file" name="resume" id="resume-student" accept=".pdf,.doc,.docx">
 
-                <label
-                    for="resume-student"
-                    class="file-label"
-                >
+                <label for="resume-student" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1290,46 +871,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="college_id_card"
-                    id="college-id"
-                    accept=".jpg,.jpeg,.png"
-                >
+                <input type="file" name="college_id_card" id="college-id" accept=".jpg,.jpeg,.png">
 
-                <label
-                    for="college-id"
-                    class="file-label"
-                >
+                <label for="college-id" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1359,16 +913,10 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="company_name"
-                value="{{ old('company_name') }}"
-                required
-                placeholder="Current company name"
-            >
+            <input type="text" name="company_name" value="{{ old('company_name') }}" required
+                placeholder="Current company name">
 
         </div>
-
 
         <div class="form-group">
 
@@ -1377,13 +925,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="designation"
-                value="{{ old('designation') }}"
-                required
-                placeholder="Your job title"
-            >
+            <input type="text" name="designation" value="{{ old('designation') }}" required
+                placeholder="Your job title">
 
         </div>
 
@@ -1395,14 +938,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="number"
-                name="experience_years"
-                value="{{ old('experience_years') }}"
-                min="0"
-                required
-                placeholder="e.g. 5"
-            >
+            <input type="number" name="experience_years" value="{{ old('experience_years') }}" min="0" required
+                placeholder="e.g. 5">
 
         </div>
 
@@ -1413,14 +950,8 @@
                 <span>Current CTC (LPA)</span>
             </label>
 
-            <input
-                type="number"
-                name="current_ctc"
-                value="{{ old('current_ctc') }}"
-                step="0.01"
-                min="0"
-                placeholder="e.g. 5.5"
-            >
+            <input type="number" name="current_ctc" value="{{ old('current_ctc') }}" step="0.01" min="0"
+                placeholder="e.g. 5.5">
 
         </div>
 
@@ -1431,14 +962,8 @@
                 <span>Expected CTC (LPA)</span>
             </label>
 
-            <input
-                type="number"
-                name="expected_ctc"
-                value="{{ old('expected_ctc') }}"
-                step="0.01"
-                min="0"
-                placeholder="e.g. 8.0"
-            >
+            <input type="number" name="expected_ctc" value="{{ old('expected_ctc') }}" step="0.01" min="0"
+                placeholder="e.g. 8.0">
 
         </div>
 
@@ -1449,12 +974,8 @@
                 <span>LinkedIn Profile</span>
             </label>
 
-            <input
-                type="url"
-                name="linkedin"
-                value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/..."
-            >
+            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/...">
 
         </div>
 
@@ -1463,76 +984,7 @@
         <!-- NEW: EMPLOYEE PROFILE PHOTO -->
         <!-- ===================================================== -->
 
-        <div class="form-group">
-
-            <label class="form-label">
-
-                <span>
-                    Profile Photo
-                </span>
-
-            </label>
-
-            <div class="file-upload">
-
-                <input
-                    type="file"
-                    name="profile_photo"
-                    id="employee-profile-photo"
-                    accept=".jpg,.jpeg,.png"
-                >
-
-                <label
-                    for="employee-profile-photo"
-                    class="file-label"
-                >
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
-
-                        <rect
-                            x="3"
-                            y="3"
-                            width="18"
-                            height="18"
-                            rx="2"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                        <circle
-                            cx="8.5"
-                            cy="8.5"
-                            r="1.5"
-                            fill="currentColor"
-                        />
-
-                        <path
-                            d="M21 15l-5-5L5 21"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
-
-                    </svg>
-
-                    <span>
-                        Upload Profile Photo
-                    </span>
-
-                </label>
-
-            </div>
-
-            <small style="display:block;margin-top:6px;color:#64748b;">
-                JPG, JPEG or PNG. Maximum 3 MB.
-            </small>
-
-        </div>
+     
 
 
         <div class="form-group full-width">
@@ -1541,11 +993,7 @@
                 <span>Skills</span>
             </label>
 
-            <textarea
-                name="skills"
-                rows="3"
-                placeholder="e.g. Java, Spring Boot, AWS"
-            >{{ old('skills') }}</textarea>
+            <textarea name="skills" rows="3" placeholder="e.g. Java, Spring Boot, AWS">{{ old('skills') }}</textarea>
 
         </div>
 
@@ -1558,46 +1006,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="resume"
-                    id="resume-employee"
-                    accept=".pdf,.doc,.docx"
-                >
+                <input type="file" name="resume" id="resume-employee" accept=".pdf,.doc,.docx">
 
-                <label
-                    for="resume-employee"
-                    class="file-label"
-                >
+                <label for="resume-employee" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1620,46 +1041,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="experience_proof"
-                    id="exp-proof"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                >
+                <input type="file" name="experience_proof" id="exp-proof" accept=".pdf,.jpg,.jpeg,.png">
 
-                <label
-                    for="exp-proof"
-                    class="file-label"
-                >
+                <label for="exp-proof" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1672,7 +1066,46 @@
             </div>
 
         </div>
+           <div class="form-group">
 
+            <label class="form-label">
+
+                <span>
+                    Profile Photo
+                </span>
+
+            </label>
+
+            <div class="file-upload">
+
+                <input type="file" name="profile_photo" id="employee-profile-photo" accept=".jpg,.jpeg,.png">
+
+                <label for="employee-profile-photo" class="file-label">
+
+                    <svg viewBox="0 0 24 24" width="18" height="18">
+
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor"
+                            stroke-width="2" fill="none" />
+
+                        <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+
+                        <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2" fill="none" />
+
+                    </svg>
+
+                    <span>
+                        Upload Profile Photo
+                    </span>
+
+                </label>
+
+            </div>
+
+            <small style="display:block;margin-top:6px;color:#64748b;">
+                JPG, JPEG or PNG. Maximum 3 MB.
+            </small>
+
+        </div>
     </template>
 
 
@@ -1689,16 +1122,28 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="company_name"
-                value="{{ old('company_name') }}"
-                required
-                placeholder="Company name"
-            >
+            <input type="text" name="company_name" value="{{ old('company_name') }}" required
+                placeholder="Company name">
 
         </div>
 
+        <div class="form-group">
+            <label class="form-label">
+                <span>Contact Number</span>
+                <span class="required">*</span>
+            </label>
+
+            <input type="tel" name="contact_number" value="{{ old('contact_number') }}" required inputmode="tel"
+                autocomplete="tel" pattern="[0-9+\-\s()]{7,20}" maxlength="20" placeholder="+91 9XXXXXXXXX">
+
+            <small style="display:block;margin-top:6px;color:#64748b;">
+                Official contact number for hiring / verification purposes.
+            </small>
+
+            @error('contact_number')
+                <span class="error-message">{{ $message }}</span>
+            @enderror
+        </div>
 
         <div class="form-group">
 
@@ -1706,12 +1151,7 @@
                 <span>Industry</span>
             </label>
 
-            <input
-                type="text"
-                name="industry"
-                value="{{ old('industry') }}"
-                placeholder="e.g. Technology, Finance"
-            >
+            <input type="text" name="industry" value="{{ old('industry') }}" placeholder="e.g. Technology, Finance">
 
         </div>
 
@@ -1722,12 +1162,7 @@
                 <span>GST Number</span>
             </label>
 
-            <input
-                type="text"
-                name="gst_number"
-                value="{{ old('gst_number') }}"
-                placeholder="GSTIN"
-            >
+            <input type="text" name="gst_number" value="{{ old('gst_number') }}" placeholder="GSTIN">
 
         </div>
 
@@ -1738,12 +1173,7 @@
                 <span>PAN Number</span>
             </label>
 
-            <input
-                type="text"
-                name="pan_number"
-                value="{{ old('pan_number') }}"
-                placeholder="PAN"
-            >
+            <input type="text" name="pan_number" value="{{ old('pan_number') }}" placeholder="PAN">
 
         </div>
 
@@ -1760,38 +1190,23 @@
                     Select range
                 </option>
 
-                <option
-                    value="1-10"
-                    {{ old('company_size') == '1-10' ? 'selected' : '' }}
-                >
+                <option value="1-10" {{ old('company_size') == '1-10' ? 'selected' : '' }}>
                     1–10 employees
                 </option>
 
-                <option
-                    value="11-50"
-                    {{ old('company_size') == '11-50' ? 'selected' : '' }}
-                >
+                <option value="11-50" {{ old('company_size') == '11-50' ? 'selected' : '' }}>
                     11–50 employees
                 </option>
 
-                <option
-                    value="51-200"
-                    {{ old('company_size') == '51-200' ? 'selected' : '' }}
-                >
+                <option value="51-200" {{ old('company_size') == '51-200' ? 'selected' : '' }}>
                     51–200 employees
                 </option>
 
-                <option
-                    value="201-500"
-                    {{ old('company_size') == '201-500' ? 'selected' : '' }}
-                >
+                <option value="201-500" {{ old('company_size') == '201-500' ? 'selected' : '' }}>
                     201–500 employees
                 </option>
 
-                <option
-                    value="500+"
-                    {{ old('company_size') == '500+' ? 'selected' : '' }}
-                >
+                <option value="500+" {{ old('company_size') == '500+' ? 'selected' : '' }}>
                     500+ employees
                 </option>
 
@@ -1800,20 +1215,7 @@
         </div>
 
 
-        <div class="form-group">
-
-            <label class="form-label">
-                <span>Website</span>
-            </label>
-
-            <input
-                type="url"
-                name="website"
-                value="{{ old('website') }}"
-                placeholder="https://..."
-            >
-
-        </div>
+       
 
 
         <div class="form-group full-width">
@@ -1830,12 +1232,7 @@
 
             </label>
 
-            <textarea
-                name="company_address"
-                rows="3"
-                required
-                placeholder="Full company address"
-            >{{ old('company_address') }}</textarea>
+            <textarea name="company_address" rows="3" required placeholder="Full company address">{{ old('company_address') }}</textarea>
 
         </div>
 
@@ -1848,46 +1245,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="company_logo"
-                    id="company-logo"
-                    accept=".jpg,.jpeg,.png"
-                >
+                <input type="file" name="company_logo" id="company-logo" accept=".jpg,.jpeg,.png">
 
-                <label
-                    for="company-logo"
-                    class="file-label"
-                >
+                <label for="company-logo" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1910,46 +1280,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="company_documents"
-                    id="company-docs"
-                    accept=".pdf,.doc,.docx"
-                >
+                <input type="file" name="company_registered_certificate" id="company-docs" accept=".pdf,.doc,.docx">
 
-                <label
-                    for="company-docs"
-                    class="file-label"
-                >
+                <label for="company-docs" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -1962,7 +1305,15 @@
             </div>
 
         </div>
+         <div class="form-group">
 
+            <label class="form-label">
+                <span>Website</span>
+            </label>
+
+            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://...">
+
+        </div>
     </template>
 
 
@@ -1979,13 +1330,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="specialization"
-                value="{{ old('specialization') }}"
-                required
-                placeholder="e.g. UI/UX Design"
-            >
+            <input type="text" name="specialization" value="{{ old('specialization') }}" required
+                placeholder="e.g. UI/UX Design">
 
         </div>
 
@@ -1997,14 +1343,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="number"
-                name="experience"
-                value="{{ old('experience') }}"
-                min="0"
-                required
-                placeholder="e.g. 3"
-            >
+            <input type="number" name="experience" value="{{ old('experience') }}" min="0" required
+                placeholder="e.g. 3">
 
         </div>
 
@@ -2015,14 +1355,8 @@
                 <span>Hourly Rate (₹)</span>
             </label>
 
-            <input
-                type="number"
-                name="hourly_rate"
-                value="{{ old('hourly_rate') }}"
-                step="0.01"
-                min="0"
-                placeholder="e.g. 500"
-            >
+            <input type="number" name="hourly_rate" value="{{ old('hourly_rate') }}" step="0.01" min="0"
+                placeholder="e.g. 500">
 
         </div>
 
@@ -2039,31 +1373,19 @@
                     Select availability
                 </option>
 
-                <option
-                    value="Full-time"
-                    {{ old('availability') == 'Full-time' ? 'selected' : '' }}
-                >
+                <option value="Full-time" {{ old('availability') == 'Full-time' ? 'selected' : '' }}>
                     Full-time
                 </option>
 
-                <option
-                    value="Part-time"
-                    {{ old('availability') == 'Part-time' ? 'selected' : '' }}
-                >
+                <option value="Part-time" {{ old('availability') == 'Part-time' ? 'selected' : '' }}>
                     Part-time
                 </option>
 
-                <option
-                    value="Weekends"
-                    {{ old('availability') == 'Weekends' ? 'selected' : '' }}
-                >
+                <option value="Weekends" {{ old('availability') == 'Weekends' ? 'selected' : '' }}>
                     Weekends
                 </option>
 
-                <option
-                    value="Not available"
-                    {{ old('availability') == 'Not available' ? 'selected' : '' }}
-                >
+                <option value="Not available" {{ old('availability') == 'Not available' ? 'selected' : '' }}>
                     Not available right now
                 </option>
 
@@ -2078,12 +1400,7 @@
                 <span>Portfolio Link</span>
             </label>
 
-            <input
-                type="url"
-                name="portfolio_link"
-                value="{{ old('portfolio_link') }}"
-                placeholder="https://..."
-            >
+            <input type="url" name="portfolio_link" value="{{ old('portfolio_link') }}" placeholder="https://...">
 
         </div>
 
@@ -2094,12 +1411,7 @@
                 <span>GitHub Profile</span>
             </label>
 
-            <input
-                type="url"
-                name="github"
-                value="{{ old('github') }}"
-                placeholder="https://github.com/..."
-            >
+            <input type="url" name="github" value="{{ old('github') }}" placeholder="https://github.com/...">
 
         </div>
 
@@ -2110,12 +1422,8 @@
                 <span>LinkedIn Profile</span>
             </label>
 
-            <input
-                type="url"
-                name="linkedin"
-                value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/..."
-            >
+            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/...">
 
         </div>
 
@@ -2126,11 +1434,7 @@
                 <span>Skills</span>
             </label>
 
-            <textarea
-                name="skills"
-                rows="3"
-                placeholder="e.g. Figma, React, WordPress"
-            >{{ old('skills') }}</textarea>
+            <textarea name="skills" rows="3" placeholder="e.g. Figma, React, WordPress">{{ old('skills') }}</textarea>
 
         </div>
 
@@ -2150,13 +1454,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="organization"
-                value="{{ old('organization') }}"
-                required
-                placeholder="Fund, firm, or 'Individual'"
-            >
+            <input type="text" name="organization" value="{{ old('organization') }}" required
+                placeholder="Fund, firm, or 'Individual'">
 
         </div>
 
@@ -2174,45 +1473,27 @@
                     Select stage
                 </option>
 
-                <option
-                    value="Idea"
-                    {{ old('investment_stage') == 'Idea' ? 'selected' : '' }}
-                >
+                <option value="Idea" {{ old('investment_stage') == 'Idea' ? 'selected' : '' }}>
                     Idea
                 </option>
 
-                <option
-                    value="Pre-seed"
-                    {{ old('investment_stage') == 'Pre-seed' ? 'selected' : '' }}
-                >
+                <option value="Pre-seed" {{ old('investment_stage') == 'Pre-seed' ? 'selected' : '' }}>
                     Pre-seed
                 </option>
 
-                <option
-                    value="Seed"
-                    {{ old('investment_stage') == 'Seed' ? 'selected' : '' }}
-                >
+                <option value="Seed" {{ old('investment_stage') == 'Seed' ? 'selected' : '' }}>
                     Seed
                 </option>
 
-                <option
-                    value="Series A"
-                    {{ old('investment_stage') == 'Series A' ? 'selected' : '' }}
-                >
+                <option value="Series A" {{ old('investment_stage') == 'Series A' ? 'selected' : '' }}>
                     Series A
                 </option>
 
-                <option
-                    value="Series B+"
-                    {{ old('investment_stage') == 'Series B+' ? 'selected' : '' }}
-                >
+                <option value="Series B+" {{ old('investment_stage') == 'Series B+' ? 'selected' : '' }}>
                     Series B+
                 </option>
 
-                <option
-                    value="Growth"
-                    {{ old('investment_stage') == 'Growth' ? 'selected' : '' }}
-                >
+                <option value="Growth" {{ old('investment_stage') == 'Growth' ? 'selected' : '' }}>
                     Growth
                 </option>
 
@@ -2234,38 +1515,23 @@
                     Select range
                 </option>
 
-                <option
-                    value="Under ₹5L"
-                    {{ old('investment_range') == 'Under ₹5L' ? 'selected' : '' }}
-                >
+                <option value="Under ₹5L" {{ old('investment_range') == 'Under ₹5L' ? 'selected' : '' }}>
                     Under ₹5L
                 </option>
 
-                <option
-                    value="₹5L - ₹25L"
-                    {{ old('investment_range') == '₹5L - ₹25L' ? 'selected' : '' }}
-                >
+                <option value="₹5L - ₹25L" {{ old('investment_range') == '₹5L - ₹25L' ? 'selected' : '' }}>
                     ₹5L – ₹25L
                 </option>
 
-                <option
-                    value="₹25L - ₹1Cr"
-                    {{ old('investment_range') == '₹25L - ₹1Cr' ? 'selected' : '' }}
-                >
+                <option value="₹25L - ₹1Cr" {{ old('investment_range') == '₹25L - ₹1Cr' ? 'selected' : '' }}>
                     ₹25L – ₹1Cr
                 </option>
 
-                <option
-                    value="₹1Cr - ₹5Cr"
-                    {{ old('investment_range') == '₹1Cr - ₹5Cr' ? 'selected' : '' }}
-                >
+                <option value="₹1Cr - ₹5Cr" {{ old('investment_range') == '₹1Cr - ₹5Cr' ? 'selected' : '' }}>
                     ₹1Cr – ₹5Cr
                 </option>
 
-                <option
-                    value="₹5Cr+"
-                    {{ old('investment_range') == '₹5Cr+' ? 'selected' : '' }}
-                >
+                <option value="₹5Cr+" {{ old('investment_range') == '₹5Cr+' ? 'selected' : '' }}>
                     ₹5Cr+
                 </option>
 
@@ -2281,13 +1547,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="preferred_sectors"
-                value="{{ old('preferred_sectors') }}"
-                required
-                placeholder="e.g. Fintech, HealthTech"
-            >
+            <input type="text" name="preferred_sectors" value="{{ old('preferred_sectors') }}" required
+                placeholder="e.g. Fintech, HealthTech">
 
         </div>
 
@@ -2298,12 +1559,8 @@
                 <span>LinkedIn Profile</span>
             </label>
 
-            <input
-                type="url"
-                name="linkedin"
-                value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/..."
-            >
+            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/...">
 
         </div>
 
@@ -2314,12 +1571,7 @@
                 <span>Website</span>
             </label>
 
-            <input
-                type="url"
-                name="website"
-                value="{{ old('website') }}"
-                placeholder="https://..."
-            >
+            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://...">
 
         </div>
 
@@ -2330,11 +1582,7 @@
                 <span>Short Bio</span>
             </label>
 
-            <textarea
-                name="bio"
-                rows="3"
-                placeholder="Tell us about yourself and your investment philosophy..."
-            >{{ old('bio') }}</textarea>
+            <textarea name="bio" rows="3" placeholder="Tell us about yourself and your investment philosophy...">{{ old('bio') }}</textarea>
 
         </div>
 
@@ -2347,46 +1595,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="verification_document"
-                    id="verification-doc"
-                    accept=".pdf,.jpg,.jpeg,.png"
-                >
+                <input type="file" name="verification_document" id="verification-doc" accept=".pdf,.jpg,.jpeg,.png">
 
-                <label
-                    for="verification-doc"
-                    class="file-label"
-                >
+                <label for="verification-doc" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -2416,13 +1637,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="company"
-                value="{{ old('company') }}"
-                required
-                placeholder="Current or most recent company"
-            >
+            <input type="text" name="company" value="{{ old('company') }}" required
+                placeholder="Current or most recent company">
 
         </div>
 
@@ -2434,13 +1650,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="designation"
-                value="{{ old('designation') }}"
-                required
-                placeholder="Your job title"
-            >
+            <input type="text" name="designation" value="{{ old('designation') }}" required
+                placeholder="Your job title">
 
         </div>
 
@@ -2452,13 +1663,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="text"
-                name="expertise"
-                value="{{ old('expertise') }}"
-                required
-                placeholder="e.g. Product Management"
-            >
+            <input type="text" name="expertise" value="{{ old('expertise') }}" required
+                placeholder="e.g. Product Management">
 
         </div>
 
@@ -2470,14 +1676,8 @@
                 <span class="required">*</span>
             </label>
 
-            <input
-                type="number"
-                name="years_of_experience"
-                value="{{ old('years_of_experience') }}"
-                min="0"
-                required
-                placeholder="e.g. 10"
-            >
+            <input type="number" name="years_of_experience" value="{{ old('years_of_experience') }}" min="0"
+                required placeholder="e.g. 10">
 
         </div>
 
@@ -2494,24 +1694,15 @@
                     Select availability
                 </option>
 
-                <option
-                    value="Weekdays"
-                    {{ old('availability') == 'Weekdays' ? 'selected' : '' }}
-                >
+                <option value="Weekdays" {{ old('availability') == 'Weekdays' ? 'selected' : '' }}>
                     Weekdays
                 </option>
 
-                <option
-                    value="Weekends"
-                    {{ old('availability') == 'Weekends' ? 'selected' : '' }}
-                >
+                <option value="Weekends" {{ old('availability') == 'Weekends' ? 'selected' : '' }}>
                     Weekends
                 </option>
 
-                <option
-                    value="Flexible"
-                    {{ old('availability') == 'Flexible' ? 'selected' : '' }}
-                >
+                <option value="Flexible" {{ old('availability') == 'Flexible' ? 'selected' : '' }}>
                     Flexible
                 </option>
 
@@ -2526,12 +1717,8 @@
                 <span>LinkedIn Profile</span>
             </label>
 
-            <input
-                type="url"
-                name="linkedin"
-                value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/..."
-            >
+            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
+                placeholder="https://linkedin.com/in/...">
 
         </div>
 
@@ -2542,11 +1729,7 @@
                 <span>Short Bio</span>
             </label>
 
-            <textarea
-                name="bio"
-                rows="3"
-                placeholder="Tell us about your experience and mentoring philosophy..."
-            >{{ old('bio') }}</textarea>
+            <textarea name="bio" rows="3" placeholder="Tell us about your experience and mentoring philosophy...">{{ old('bio') }}</textarea>
 
         </div>
 
@@ -2559,46 +1742,19 @@
 
             <div class="file-upload">
 
-                <input
-                    type="file"
-                    name="resume"
-                    id="resume-mentor"
-                    accept=".pdf,.doc,.docx"
-                >
+                <input type="file" name="resume" id="resume-mentor" accept=".pdf,.doc,.docx">
 
-                <label
-                    for="resume-mentor"
-                    class="file-label"
-                >
+                <label for="resume-mentor" class="file-label">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="18"
-                        height="18"
-                    >
+                    <svg viewBox="0 0 24 24" width="18" height="18">
 
-                        <path
-                            d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
+                            fill="none" />
 
-                        <polyline
-                            points="17 8 12 3 7 8"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            fill="none"
-                        />
+                        <polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" />
 
-                        <line
-                            x1="12"
-                            y1="3"
-                            x2="12"
-                            y2="15"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        />
+                        <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
+                            stroke-width="2" />
 
                     </svg>
 
@@ -2615,7 +1771,7 @@
     </template>
 
 @endsection
-
+@push('styles')
     <!-- Styles -->
     <style>
         /* Registration Section - Full Width */
@@ -3136,6 +2292,7 @@
         .form-group input[type="password"],
         .form-group input[type="number"],
         .form-group input[type="url"],
+        .form-group input[type="tel"],
         .form-group select,
         .form-group textarea {
             width: 100%;
@@ -3720,201 +2877,199 @@
             }
         }
     </style>
+@endpush
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const joinNowBtn = document.getElementById('joinNowBtn');
+        const registrationSection = document.getElementById('registration-section');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const joinNowBtn = document.getElementById('joinNowBtn');
-            const registrationSection = document.getElementById('registration-section');
+        // Show registration section when "Join Now" is clicked
+        joinNowBtn.addEventListener('click', function(e) {
+            e.preventDefault();
 
-            // Show registration section when "Join Now" is clicked
-            joinNowBtn.addEventListener('click', function(e) {
-                e.preventDefault();
+            // Show the registration section
+            registrationSection.classList.add('visible');
+            registrationSection.style.display = 'flex';
 
-                // Show the registration section
-                registrationSection.classList.add('visible');
-                registrationSection.style.display = 'flex';
-
-                // Scroll to the registration section with smooth animation
-                setTimeout(() => {
-                    registrationSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 100);
-            });
-
-            // If there are validation errors, show the form automatically
-            const hasErrors = document.querySelector('.alert-error');
-            if (hasErrors) {
-                registrationSection.classList.add('visible');
-                registrationSection.style.display = 'flex';
-            }
-
-            const roleRadios = document.querySelectorAll('.role-radio-card input[type="radio"]');
-            const dynamicFields = document.getElementById('dynamicFields');
-            const roleDescription = document.getElementById('roleDescription');
-            const roleDetailTitle = document.getElementById('roleDetailTitle');
-            const roleDetailIcon = document.getElementById('roleDetailIcon');
-            const progressSteps = document.querySelectorAll('.step');
-            const connectors = document.querySelectorAll('.step-connector');
-
-            // Password field elements - hidden/disabled for the investor role,
-            // since investor accounts are provisioned with a password by an admin.
-            const passwordFieldGroup = document.getElementById('passwordFieldGroup');
-            const passwordConfirmFieldGroup = document.getElementById('passwordConfirmFieldGroup');
-            const passwordInput = document.getElementById('passwordInput');
-            const passwordConfirmInput = document.getElementById('passwordConfirmInput');
-
-            const roleConfig = {
-                student: {
-                    title: 'Student Details',
-                    description: 'Provide your educational details to get started with internships and learning opportunities.',
-                    gradient: 'linear-gradient(135deg, #4A90D9, #357ABD)',
-                    accent: '#4A90D9'
-                },
-                employee: {
-                    title: 'Employee Details',
-                    description: 'Share your professional experience to access job switches and career growth tools.',
-                    gradient: 'linear-gradient(135deg, #2ECC71, #27AE60)',
-                    accent: '#2ECC71'
-                },
-                employer: {
-                    title: 'Employer Details',
-                    description: 'Tell us about your company to post jobs and find the right talent.',
-                    gradient: 'linear-gradient(135deg, #F39C12, #E67E22)',
-                    accent: '#F39C12'
-                },
-                freelancer: {
-                    title: 'Freelancer Details',
-                    description: 'Showcase your skills and services to connect with potential clients.',
-                    gradient: 'linear-gradient(135deg, #9B59B6, #8E44AD)',
-                    accent: '#9B59B6'
-                },
-                investor: {
-                    title: 'Investor Details',
-                    description: 'Share your investment preferences to discover promising startups.',
-                    gradient: 'linear-gradient(135deg, #E74C3C, #C0392B)',
-                    accent: '#E74C3C'
-                },
-                mentor: {
-                    title: 'Mentor Details',
-                    description: 'Tell us about your expertise to start guiding the next generation of professionals.',
-                    gradient: 'linear-gradient(135deg, #3498DB, #2980B9)',
-                    accent: '#3498DB'
-                }
-            };
-
-            function renderRoleFields(role) {
-                const template = document.getElementById('tpl-' + role);
-                if (template) {
-                    dynamicFields.innerHTML = '';
-                    const clone = template.content.cloneNode(true);
-                    dynamicFields.appendChild(clone);
-
-                    const config = roleConfig[role];
-                    roleDetailTitle.textContent = config.title;
-                    roleDescription.textContent = config.description;
-                    roleDetailIcon.style.background = config.gradient;
-
-                    document.documentElement.style.setProperty('--accent-color', config.accent);
-                }
-            }
-
-            // Toggle the password fields based on role: investors don't set their
-            // own password (it's issued by an admin after verification), so we
-            // hide the inputs, drop the "required" attribute, and clear any value.
-            function togglePasswordFields(role) {
-                const isInvestor = role === 'investor';
-
-                passwordFieldGroup.style.display = isInvestor ? 'none' : '';
-                passwordConfirmFieldGroup.style.display = isInvestor ? 'none' : '';
-
-                passwordInput.required = !isInvestor;
-                passwordConfirmInput.required = !isInvestor;
-
-                if (isInvestor) {
-                    passwordInput.value = '';
-                    passwordConfirmInput.value = '';
-                }
-            }
-
-            function updateProgress(step) {
-                progressSteps.forEach((s, index) => {
-                    const stepNum = index + 1;
-                    s.classList.remove('active', 'completed');
-                    if (stepNum < step) s.classList.add('completed');
-                    if (stepNum === step) s.classList.add('active');
+            // Scroll to the registration section with smooth animation
+            setTimeout(() => {
+                registrationSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
+            }, 100);
+        });
 
-                connectors.forEach((connector, index) => {
-                    if (index < step - 1) {
-                        connector.classList.add('completed');
-                    } else {
-                        connector.classList.remove('completed');
-                    }
-                });
+        // If there are validation errors, show the form automatically
+        const hasErrors = document.querySelector('.alert-error');
+        if (hasErrors) {
+            registrationSection.classList.add('visible');
+            registrationSection.style.display = 'flex';
+        }
+
+        const roleRadios = document.querySelectorAll('.role-radio-card input[type="radio"]');
+        const dynamicFields = document.getElementById('dynamicFields');
+        const roleDescription = document.getElementById('roleDescription');
+        const roleDetailTitle = document.getElementById('roleDetailTitle');
+        const roleDetailIcon = document.getElementById('roleDetailIcon');
+        const progressSteps = document.querySelectorAll('.step');
+        const connectors = document.querySelectorAll('.step-connector');
+
+        // Password field elements - hidden/disabled for the investor role,
+        // since investor accounts are provisioned with a password by an admin.
+        const passwordFieldGroup = document.getElementById('passwordFieldGroup');
+        const passwordConfirmFieldGroup = document.getElementById('passwordConfirmFieldGroup');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordConfirmInput = document.getElementById('passwordConfirmInput');
+
+        const roleConfig = {
+            student: {
+                title: 'Student Details',
+                description: 'Provide your educational details to get started with internships and learning opportunities.',
+                gradient: 'linear-gradient(135deg, #4A90D9, #357ABD)',
+                accent: '#4A90D9'
+            },
+            employee: {
+                title: 'Employee Details',
+                description: 'Share your professional experience to access job switches and career growth tools.',
+                gradient: 'linear-gradient(135deg, #2ECC71, #27AE60)',
+                accent: '#2ECC71'
+            },
+            employer: {
+                title: 'Employer Details',
+                description: 'Tell us about your company to post jobs and find the right talent.',
+                gradient: 'linear-gradient(135deg, #F39C12, #E67E22)',
+                accent: '#F39C12'
+            },
+            freelancer: {
+                title: 'Freelancer Details',
+                description: 'Showcase your skills and services to connect with potential clients.',
+                gradient: 'linear-gradient(135deg, #9B59B6, #8E44AD)',
+                accent: '#9B59B6'
+            },
+            investor: {
+                title: 'Investor Details',
+                description: 'Share your investment preferences to discover promising startups.',
+                gradient: 'linear-gradient(135deg, #E74C3C, #C0392B)',
+                accent: '#E74C3C'
+            },
+            mentor: {
+                title: 'Mentor Details',
+                description: 'Tell us about your expertise to start guiding the next generation of professionals.',
+                gradient: 'linear-gradient(135deg, #3498DB, #2980B9)',
+                accent: '#3498DB'
             }
+        };
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const sectionId = entry.target.id;
-                        if (sectionId === 'step1-section') updateProgress(1);
-                        if (sectionId === 'step2-section') updateProgress(2);
-                        if (sectionId === 'step3-section') updateProgress(3);
-                    }
-                });
-            }, {
-                threshold: 0.3
-            });
+        function renderRoleFields(role) {
+            const template = document.getElementById('tpl-' + role);
+            if (template) {
+                dynamicFields.innerHTML = '';
+                const clone = template.content.cloneNode(true);
+                dynamicFields.appendChild(clone);
 
-            document.querySelectorAll('.form-card').forEach(card => {
-                observer.observe(card);
-            });
+                const config = roleConfig[role];
+                roleDetailTitle.textContent = config.title;
+                roleDescription.textContent = config.description;
+                roleDetailIcon.style.background = config.gradient;
 
-            const initialRole = document.querySelector('.role-radio-card input[type="radio"]:checked');
-            if (initialRole) {
-                renderRoleFields(initialRole.value);
-                togglePasswordFields(initialRole.value);
-                const config = roleConfig[initialRole.value];
                 document.documentElement.style.setProperty('--accent-color', config.accent);
             }
+        }
 
-            roleRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    renderRoleFields(this.value);
-                    togglePasswordFields(this.value);
+        // Toggle the password fields based on role: investors don't set their
+        // own password (it's issued by an admin after verification), so we
+        // hide the inputs, drop the "required" attribute, and clear any value.
+        function togglePasswordFields(role) {
+            const isInvestor = role === 'investor';
 
-                    setTimeout(() => {
-                        document.getElementById('step3-section').scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center'
-                        });
-                    }, 200);
-                });
+            passwordFieldGroup.style.display = isInvestor ? 'none' : '';
+            passwordConfirmFieldGroup.style.display = isInvestor ? 'none' : '';
+
+            passwordInput.required = !isInvestor;
+            passwordConfirmInput.required = !isInvestor;
+
+            if (isInvestor) {
+                passwordInput.value = '';
+                passwordConfirmInput.value = '';
+            }
+        }
+
+        function updateProgress(step) {
+            progressSteps.forEach((s, index) => {
+                const stepNum = index + 1;
+                s.classList.remove('active', 'completed');
+                if (stepNum < step) s.classList.add('completed');
+                if (stepNum === step) s.classList.add('active');
             });
 
-            document.addEventListener('change', function(e) {
-                if (e.target.type === 'file') {
-                    const label = e.target.nextElementSibling;
-                    if (label && e.target.files.length > 0) {
-                        label.querySelector('span').textContent = e.target.files[0].name;
-                        label.style.borderColor = '#2ECC71';
-                        label.style.color = '#2ECC71';
-                        label.style.background = '#E8F3EC';
-                    }
+            connectors.forEach((connector, index) => {
+                if (index < step - 1) {
+                    connector.classList.add('completed');
+                } else {
+                    connector.classList.remove('completed');
                 }
             });
+        }
 
-            const firstError = document.querySelector('.alert-error');
-            if (firstError) {
-                firstError.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-                updateProgress(1);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    if (sectionId === 'step1-section') updateProgress(1);
+                    if (sectionId === 'step2-section') updateProgress(2);
+                    if (sectionId === 'step3-section') updateProgress(3);
+                }
+            });
+        }, {
+            threshold: 0.3
+        });
+
+        document.querySelectorAll('.form-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        const initialRole = document.querySelector('.role-radio-card input[type="radio"]:checked');
+        if (initialRole) {
+            renderRoleFields(initialRole.value);
+            togglePasswordFields(initialRole.value);
+            const config = roleConfig[initialRole.value];
+            document.documentElement.style.setProperty('--accent-color', config.accent);
+        }
+
+        roleRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                renderRoleFields(this.value);
+                togglePasswordFields(this.value);
+
+                setTimeout(() => {
+                    document.getElementById('step3-section').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }, 200);
+            });
+        });
+
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'file') {
+                const label = e.target.nextElementSibling;
+                if (label && e.target.files.length > 0) {
+                    label.querySelector('span').textContent = e.target.files[0].name;
+                    label.style.borderColor = '#2ECC71';
+                    label.style.color = '#2ECC71';
+                    label.style.background = '#E8F3EC';
+                }
             }
         });
-    </script>
 
-@endsection
+        const firstError = document.querySelector('.alert-error');
+        if (firstError) {
+            firstError.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+            updateProgress(1);
+        }
+    });
+</script>

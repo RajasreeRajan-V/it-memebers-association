@@ -15,6 +15,7 @@ use App\Http\Controllers\Employer\ArticleController as EmployerArticleController
 use App\Http\Controllers\Employer\EmployerDashboardController;
 use App\Http\Controllers\Employer\CandidateInvitationController;
 use App\Http\Controllers\Employer\EmployerPortalNotificationController;
+use App\Http\Controllers\Employer\FreelancerHandlerController;
 use App\Http\Controllers\Admin\JobApprovalController;
 
 
@@ -48,6 +49,42 @@ Route::middleware(['member.auth'])
     ->name('employer.')
     ->group(function () {
 
+  /*
+    |--------------------------------------------------------------------------
+    | Freelancer Bid Approval
+    |--------------------------------------------------------------------------
+    */
+         Route::get(
+            'freelancer/bids',
+            [FreelancerHandlerController::class, 'index']
+        )->name('freelancer.bids.index');
+
+        Route::get(
+            'freelancer/bids/{bid}',
+            [FreelancerHandlerController::class, 'show']
+        )->name('freelancer.bids.show');
+
+        Route::put('/{id}/approve', [FreelancerHandlerController::class, 'approve'])
+            ->name('freelancer.bids.approve');
+
+        Route::get(
+                'freelancer/bids/project/{projectId}',
+                [FreelancerHandlerController::class, 'bids']
+            )->name('freelancer.bids.project');
+    
+        Route::get('/freelancer/bids/{id}/resume', [FreelancerHandlerController::class, 'resume'])
+            ->name('freelancer.bids.resume');
+
+        // ---- Job Routes ----
+        Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
+        Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+        Route::post('/jobs', [JobController::class, 'store'])->name('jobs.store');
+        Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+        Route::get('/jobs/{job}/edit', [JobController::class, 'edit'])->name('jobs.edit');
+        Route::put('/jobs/{job}', [JobController::class, 'update'])->name('jobs.update');
+        Route::delete('/jobs/{job}', [JobController::class, 'destroy'])->name('jobs.destroy');
+        Route::patch('/jobs/{job}/toggle-active', [JobController::class, 'toggleActive'])
+            ->name('jobs.toggle-active');
 
         /*
         |--------------------------------------------------------------------------
@@ -528,8 +565,14 @@ Route::middleware(['member.auth'])
             'destroy'
         ])->name('notifications.destroy');
 
-    });
+    // ========================================================= // FREELANCER BID ROUTES // =========================================================//
+    Route::get('/bids', [FreelancerBidController::class, 'index']) ->name('bids.index');
+    Route::get('/bids/{bid}', [FreelancerBidController::class, 'show']) ->name('bids.show');
+    Route::post('/bids/{bid}/proceed', [FreelancerBidController::class, 'proceed']) ->name('bids.proceed');
+    Route::post('/bids/{bid}/reject', [FreelancerBidController::class, 'reject']) ->name('bids.reject');
 
+       
+    });
 
 /*
 |--------------------------------------------------------------------------

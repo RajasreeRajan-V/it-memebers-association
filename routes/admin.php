@@ -22,7 +22,7 @@ use App\Http\Controllers\Admin\MockInterviewManagementController;
 use App\Http\Controllers\Admin\LegalHelpController;
 use App\Http\Controllers\Admin\TrainingController as AdminTrainingController;
 
-
+//Freelancer Bid Approval Controller
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -30,7 +30,7 @@ use App\Http\Controllers\Admin\TrainingController as AdminTrainingController;
 */
 
 Route::name('admin.')->group(function () {
-
+    
     /*
     |--------------------------------------------------------------------------
     | Admin Authentication
