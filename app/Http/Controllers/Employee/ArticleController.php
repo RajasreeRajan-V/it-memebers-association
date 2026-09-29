@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Schema;
 
 class ArticleController extends Controller
 {
-    /**
-     * Articles hub — categories, filters, tabs, trending sidebar.
-     * Only shows articles an admin has APPROVED. Pending/rejected
-     * submissions never appear here.
-     */
+ 
     public function index(Request $request)
     {
         $tab = $request->query('tab', 'all');

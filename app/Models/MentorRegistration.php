@@ -9,11 +9,6 @@ class MentorRegistration extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
         'company',
@@ -27,18 +22,10 @@ class MentorRegistration extends Model
         'resume',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'years_of_experience' => 'integer',
     ];
 
-    /**
-     * Get the user that owns the mentor registration.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);

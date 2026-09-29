@@ -9,11 +9,6 @@ class StudentRegistration extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'user_id',
         'college_name',
@@ -27,9 +22,6 @@ class StudentRegistration extends Model
         'profile_photo',
     ];
 
-    /**
-     * Get the user that owns the student registration.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);

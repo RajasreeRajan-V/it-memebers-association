@@ -1,6 +1,61 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{-- CSRF Token --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Tech Leaders Network — One Platform, Endless Opportunities</title>
+
+    {{-- Bootstrap CSS --}}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    {{-- Tailwind CSS --}}
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {{-- Font Awesome --}}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    {{-- Bootstrap Icons --}}
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    {{-- Google Fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
+
+    {{-- Main CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    {{-- Profile CSS --}}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+
+    {{-- Page-specific styles --}}
+    @stack('styles')
+</head>
+
+<body>
+
+    {{-- Navbar --}}
+    @include('partials.navbar')
+
+    
 
 <!-- Hero -->
 <section class="hero" id="about">
@@ -19,7 +74,7 @@
             <p class="hero-sub">
                 Jobs, internships, projects, courses, investments and mentorship —
                 everything in one place, built around the way you actually work.
-                Whether you're hiring, learning, freelancing, or investing, SkillConnect
+                Whether you're hiring, learning, freelancing, or investing, Tech Leaders Network
                 gives you the tools to move faster and go further.
             </p>
 
@@ -34,7 +89,7 @@
             <!-- <div class="hero-blob"></div> -->
 
 
-            <img class="hero-plain-img" src="{{ asset('assets/img/hero-team.png') }}" alt="About SkillConnect">
+            <img class="hero-plain-img" src="{{ asset('assets/img/hero-team.png') }}" alt="About Tech Leaders Network">
 
             <div class="hero-float-chip hero-float-chip-brand">
                 <span class="hero-float-chip-icon">
@@ -43,7 +98,7 @@
                     </svg>
                 </span>
                 <div class="hero-float-chip-text">
-                    <strong>SkillConnect</strong>
+                    <strong>Tech Leaders Network</strong>
                     <span>Connect &amp; Grow</span>
                 </div>
             </div>
@@ -176,7 +231,7 @@
         <div class="section-head reveal">
             <h2>Choose your portal</h2>
             <p>
-                Every path onto SkillConnect is purpose-built — pick the door
+                Every path onto Tech Leaders Network is purpose-built — pick the door
                 that matches where you're headed.
             </p>
         </div>
@@ -361,34 +416,34 @@
 
             <div class="feature-grid">
 
+               <div class="feature-item">
+    <i class="fas fa-check-circle"></i>
+    <span style="color: black;">Professional Networking</span>
+</div>
+
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Professional Networking
+                    <span style="color: black;">Job & Internship Portal</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Job & Internship Portal
+                    <span style="color: black;">Startup Investment</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Startup Investment
+                    <span style="color: black;">Mentorship Programs</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Mentorship Programs
+                    <span style="color: black;">Freelancing Opportunities</span>
                 </div>
 
                 <div class="feature-item">
                     <i class="fas fa-check-circle"></i>
-                    Freelancing Opportunities
-                </div>
-
-                <div class="feature-item">
-                    <i class="fas fa-check-circle"></i>
-                    Verified Community
+                    <span style="color: black;">Verified Community</span>
                 </div>
 
             </div>
@@ -804,7 +859,7 @@
 <section class="home-bento-section">
     <div class="container">
         <div class="section-head reveal">
-            <h2 class="home-bento-heading">Why Choose SkillConnect</h2>
+            <h2 class="home-bento-heading">Why Choose Tech Leaders Network</h2>
             <p>Built for real people navigating real careers — not one-size-fits-all job boards.</p>
         </div>
 
@@ -894,7 +949,7 @@
                 Opportunities for <span class="highlight">Every Professional</span>
             </h2>
             <p class="opportunities-subtext">
-                Whether you guide, invest, or create — SkillConnect provides the perfect ecosystem to grow your impact,
+                Whether you guide, invest, or create — Tech Leaders Network provides the perfect ecosystem to grow your impact,
                 income, and network.
             </p>
         </div>
@@ -1061,14 +1116,14 @@
     <div>
            <p style="color: #3376F2;">Everything you need to know</p>
         <h1>Frequently asked<br><span>questions</span></h1>
-        <p class="desc">Answers to the most common questions about using SkillConnect — whatever portal you're coming
+        <p class="desc">Answers to the most common questions about using Tech Leaders Network — whatever portal you're coming
             from. Browse by topic below, or reach out to our support team if you can't find what you need.</p>
     </div>
 
     <div class="accordion" id="accordion">
         <div class="item open" data-index="0">
             <div class="item-header">
-                <span>How do I create an account on SkillConnect?</span>
+                <span>How do I create an account on Tech Leaders Network?</span>
                 <div class="icon-btn"><svg viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" />
                     </svg></div>
@@ -1081,7 +1136,7 @@
 
         <div class="item" data-index="1">
             <div class="item-header">
-                <span>Is my personal data safe on SkillConnect?</span>
+                <span>Is my personal data safe on Tech Leaders Network?</span>
                 <div class="icon-btn"><svg viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" />
                     </svg></div>
@@ -1130,7 +1185,7 @@
 
                 <h2>
                     Join thousands of professionals and
-                    start your journey with SkillConnect today!
+                    start your journey with Tech Leaders Network today!
                 </h2>
 
                 <div class="cta-banner-actions">
@@ -1138,9 +1193,7 @@
                         Create Your Account
                     </a>
 
-                    <a href="members" class="btn btn-cta-outline">
-                        Explore More
-                    </a>
+                   
                 </div>
             </div>
 
@@ -1294,4 +1347,28 @@ items.forEach(item => {
 });
 </script>
 
-@endsection
+    {{-- Footer --}}
+    @include('partials.footer')
+
+
+    {{-- =====================================================
+         JAVASCRIPT
+    ====================================================== --}}
+
+    {{-- Navbar JS --}}
+    <script src="{{ asset('js/navbar.js') }}"></script>
+
+    {{-- Profile JS --}}
+    <script src="{{ asset('js/profile.js') }}"></script>
+
+    {{-- Bootstrap JS --}}
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    {{-- Page-specific JavaScript --}}
+    @stack('scripts')
+
+</body>
+
+</html>

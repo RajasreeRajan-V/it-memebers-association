@@ -10,14 +10,23 @@ class MockInterview extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'mentor_id', 'assigned_by', 'scheduled_at', 'mode',
-        'meeting_link', 'status', 'technical_rating', 'communication_rating',
-        'confidence_rating', 'overall_rating', 'feedback', 'conducted_at',
+        'student_id',
+        'mentor_id',
+        'topic',
+        'student_notes',
+        'requested_at',
+        'scheduled_at',
+        'meeting_link',
+        'status',
+        'mentor_feedback',
+        'mentor_rating',
+        'student_feedback',
+        'student_rating',
     ];
 
     protected $casts = [
+        'requested_at' => 'datetime',
         'scheduled_at' => 'datetime',
-        'conducted_at' => 'datetime',
     ];
 
     public function student()
@@ -30,8 +39,13 @@ class MockInterview extends Model
         return $this->belongsTo(User::class, 'mentor_id');
     }
 
-    public function assignedBy()
+    public function scopeForMentor($query, $mentorId)
     {
-        return $this->belongsTo(Admin::class, 'assigned_by');
+        return $query->where('mentor_id', $mentorId);
+    }
+
+    public function scopeForStudent($query, $studentId)
+    {
+        return $query->where('student_id', $studentId);
     }
 }

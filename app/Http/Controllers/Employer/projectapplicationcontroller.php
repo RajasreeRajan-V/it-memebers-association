@@ -23,11 +23,36 @@ class ProjectApplicationController extends Controller
             'status' => ['required', Rule::in(['shortlisted', 'accepted', 'rejected'])],
         ]);
 
-        $proposal->update(['status' => $validated['status']]);
+        $newStatus = $validated['status'];
+        $project = $proposal->project;
+
+        // ------------------------------------------------------------
+        // Accepting: enforce the people_required cap, and don't let an
+        // employer accidentally accept the same proposal twice into the
+        // count. If the proposal is already accepted, this is a no-op.
+        // ------------------------------------------------------------
+        if ($newStatus === 'accepted' && $proposal->status !== 'accepted') {
+            if ($project->isTeamFull()) {
+                return response()->json([
+                    'message' => "This project's team is already full ({$project->requiredPeople()} / {$project->requiredPeople()} positions filled). Reject or remove an existing team member before accepting another proposal.",
+                ], 422);
+            }
+        }
+
+        $proposal->update(['status' => $newStatus]);
+
+        // First acceptance moves the project from "active" (open/published)
+        // into "in_progress". Only do this once — don't override completed/closed.
+        if ($newStatus === 'accepted' && $project->status === 'active') {
+            $project->update(['status' => 'in_progress']);
+        }
 
         return response()->json([
-            'message' => 'Proposal status updated.',
-            'status'  => $proposal->status,
+            'message'          => 'Proposal status updated.',
+            'status'           => $proposal->status,
+            'accepted_count'   => $project->fresh()->acceptedCount(),
+            'people_required'  => $project->requiredPeople(),
+            'project_status'   => $project->fresh()->status,
         ]);
     }
 }

@@ -41,7 +41,11 @@ class Interview extends Model
 
     public function scopeUpcoming($query)
     {
-        return $query->where('scheduled_at', '>=', now())
-            ->where('status', self::STATUS_SCHEDULED);
+        return $query
+            ->where('scheduled_at', '>=', now())
+            ->whereIn('status', [
+                self::STATUS_SCHEDULED,
+                self::STATUS_RESCHEDULED,
+            ]);
     }
 }

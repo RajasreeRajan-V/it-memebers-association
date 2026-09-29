@@ -20,12 +20,12 @@
             <p class="hero-sub">
                 Questions, feedback or partnership ideas — send us a message and
                 our team will get back to you within 24 hours. Whichever portal
-                you're on, we're here to help you get the most out of SkillConnect.
+                you're on, we're here to help you get the most out of Tech Leaders Network.
             </p>
 
             <div class="hero-actions">
                 <a href="#contact-form" class="btn btn-primary btn-lg">Send a Message</a>
-                <a href="mailto:support@skillconnect.com" class="btn btn-outline btn-lg">Email Us</a>
+                <a href="mailto:support@Tech Leaders Network.com" class="btn btn-outline btn-lg">Email Us</a>
             </div>
 
             <div class="hero-stats">
@@ -113,7 +113,7 @@
                     </div>
                     <div class="portal-body">
                         <h3>Email</h3>
-                        <p>support@skillconnect.com</p>
+                        <p>support@Tech Leaders Network.com</p>
                     </div>
                 </article>
 

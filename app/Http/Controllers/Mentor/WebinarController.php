@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Mentor;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WebinarSubmittedForApproval;
 use App\Models\Webinar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Models\WebinarRegistration;
 
 class WebinarController extends Controller
 {
@@ -16,6 +19,7 @@ class WebinarController extends Controller
         $search = $request->query('q');
 
         $webinars = Webinar::where('mentor_id', Auth::id())
+            ->withCount('registrations')
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($search, fn ($q) => $q->where('title', 'like', "%{$search}%"))
             ->latest()
@@ -65,7 +69,7 @@ class WebinarController extends Controller
             $bannerPath = $request->file('banner')->store('webinars/banners', 'public');
         }
 
-        Webinar::create([
+        $webinar = Webinar::create([
             'mentor_id' => Auth::id(),
             'title' => $data['title'],
             'type' => $data['type'],
@@ -83,6 +87,8 @@ class WebinarController extends Controller
             'banner' => $bannerPath,
             'status' => 'pending',
         ]);
+
+        $this->notifyAdminOfSubmission($webinar);
 
         return redirect()->route('mentor.webinars.index')
             ->with('success', 'Webinar submitted for admin approval.');
@@ -139,6 +145,8 @@ class WebinarController extends Controller
 
         $webinar->update($data);
 
+        $this->notifyAdminOfSubmission($webinar);
+
         return redirect()->route('mentor.webinars.index')
             ->with('success', 'Webinar updated and resubmitted for approval.');
     }
@@ -146,6 +154,15 @@ class WebinarController extends Controller
     private function authorizeWebinar(Webinar $webinar): void
     {
         abort_unless($webinar->mentor_id === Auth::id(), 403);
+    }
+
+    private function notifyAdminOfSubmission(Webinar $webinar): void
+    {
+        $adminEmail = config('mail.admin_address');
+
+        if ($adminEmail) {
+            Mail::to($adminEmail)->send(new WebinarSubmittedForApproval($webinar));
+        }
     }
 
     /**
@@ -199,4 +216,22 @@ class WebinarController extends Controller
             ->take(3)
             ->get();
     }
+
+
+
+    public function registrations(Webinar $webinar)
+{
+    // Make sure this webinar belongs to the logged-in mentor
+    abort_unless($webinar->mentor_id == auth()->id(), 403);
+
+    $registrations = WebinarRegistration::with('student')
+        ->where('webinar_id', $webinar->id)
+        ->latest('registered_at')
+        ->paginate(10);
+
+    return view('mentor.webinars.registrations', compact(
+        'webinar',
+        'registrations'
+    ));
+}
 }

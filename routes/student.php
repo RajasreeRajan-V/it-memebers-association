@@ -1,95 +1,756 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Student\WebinarFeedbackController;
 use App\Http\Controllers\Student\StudentDashboardController;
 use App\Http\Controllers\Student\MentorController;
 use App\Http\Controllers\Student\ResumeReviewController;
-use App\Http\Controllers\Student\MockInterviewController;
 use App\Http\Controllers\Student\WebinarController;
-use App\Http\Controllers\Student\TrainingMaterialController;
 use App\Http\Controllers\Student\RequestController;
 use App\Http\Controllers\Student\SessionController;
+use App\Http\Controllers\Student\InternshipController as StudentInternshipController;
+use App\Http\Controllers\Mentor\SessionSchedulingController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\NotificationController;
 use App\Http\Controllers\Student\SupportController;
 use App\Http\Controllers\Student\SearchController;
+use App\Http\Controllers\Student\CertificateController;
+use App\Http\Controllers\Student\FeedbackController;
+use App\Http\Controllers\Student\TrainingController as StudentTrainingController;
+use App\Http\Controllers\Student\MockInterviewController as StudentMockInterviewController;
+use App\Http\Controllers\Student\JobController as StudentJobController;
+use App\Http\Controllers\Student\ArticleController as StudentArticleController;
+use App\Http\Controllers\Student\InternshipModuleController as StudentInternshipModuleController;
 
 
+/*
+|--------------------------------------------------------------------------
+| Student Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware(['member.auth'])
     ->name('student.')
     ->group(function () {
 
-        // ===== Home / Dashboard =====
-        Route::get('/dashboard', [StudentDashboardController::class, 'index'])
-            ->name('dashboard');
 
-        // ===== Find Mentors =====
-        Route::prefix('mentors')->name('mentors.')->group(function () {
-            Route::get('/', [MentorController::class, 'index'])->name('index');
-            Route::get('/{mentor}', [MentorController::class, 'show'])->name('show');
-            Route::get('/{mentor}/request', [MentorController::class, 'requestForm'])->name('request');
-            Route::post('/{mentor}/request', [MentorController::class, 'storeRequest'])->name('request.store');
-        });
+        /*
+        |--------------------------------------------------------------------------
+        | Dashboard
+        |--------------------------------------------------------------------------
+        */
 
-        // ===== Resume Review =====
-            // ===== Resume Review =====
-        Route::get('/resume-review', [ResumeReviewController::class, 'index'])
-            ->name('resume-review');
-        Route::get('/resume-review/create', [ResumeReviewController::class, 'create'])
-            ->name('resume-review.create');
-        Route::post('/resume-review', [ResumeReviewController::class, 'store'])
-            ->name('resume-review.store');
-        Route::get('/resume-review/{review}', [ResumeReviewController::class, 'show'])
-            ->name('resume-review.show');
+        Route::get(
+            '/dashboard',
+            [StudentDashboardController::class, 'index']
+        )->name('dashboard');
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Mentors
+        |--------------------------------------------------------------------------
+        */
 
-        // ===== Mock Interviews =====
-        Route::get('/mock-interviews', [MockInterviewController::class, 'index'])
-            ->name('mock-interviews');
-        Route::post('/mock-interviews/{interview}/book', [MockInterviewController::class, 'book'])
-            ->name('mock-interviews.book');
+        Route::prefix('mentors')
+            ->name('mentors.')
+            ->group(function () {
 
-        // ===== Webinars =====
-        Route::get('/webinars', [WebinarController::class, 'index'])
-            ->name('webinars');
-        Route::post('/webinars/{webinar}/register', [WebinarController::class, 'register'])
-            ->name('webinars.register');
+                Route::get(
+                    '/',
+                    [MentorController::class, 'index']
+                )->name('index');
 
-        // ===== Training Materials =====
-        Route::get('/training-materials', [TrainingMaterialController::class, 'index'])
-            ->name('training-materials');
-        Route::get('/training-materials/{material}', [TrainingMaterialController::class, 'show'])
-            ->name('training-materials.show');
+                Route::get(
+                    '/{mentor}',
+                    [MentorController::class, 'show']
+                )->name('show');
 
-        // ===== My Requests =====
-        Route::prefix('requests')->name('requests.')->group(function () {
-            Route::get('/', [RequestController::class, 'index'])->name('index');
-            Route::get('/pending', [RequestController::class, 'pending'])->name('pending');
-            Route::get('/accepted', [RequestController::class, 'accepted'])->name('accepted');
-            Route::delete('/{request}', [RequestController::class, 'cancel'])->name('cancel');
-        });
+                Route::get(
+                    '/{mentor}/request',
+                    [MentorController::class, 'requestForm']
+                )->name('request');
 
-        // ===== Sessions (linked from "My Mentorship" sidebar) =====
-        Route::prefix('sessions')->name('sessions.')->group(function () {
-            Route::get('/upcoming', [SessionController::class, 'upcoming'])->name('upcoming');
-            Route::get('/completed', [SessionController::class, 'completed'])->name('completed');
-        });
+                Route::post(
+                    '/{mentor}/request',
+                    [MentorController::class, 'storeRequest']
+                )->name('request.store');
+            });
 
-        // ===== Account dropdown =====
-        Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::get('/settings', [ProfileController::class, 'settings'])->name('settings');
-        Route::put('/settings', [ProfileController::class, 'updateSettings'])->name('settings.update');
-        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
-        Route::post('/logout', [ProfileController::class, 'logout'])->name('logout');
 
-        // ===== Misc (search bar, "How it Works" and "Contact Support" links) =====
-        Route::get('/search', [SearchController::class, 'index'])->name('search');
-        Route::get('/how-it-works', function () {
-            return view('students.how-it-works');
-        })->name('how-it-works');
-        Route::get('/support', [SupportController::class, 'index'])->name('support');
-        Route::post('/support', [SupportController::class, 'store'])->name('support.store');
+        /*
+        |--------------------------------------------------------------------------
+        | Mentorship
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('mentorship')
+            ->name('mentorship.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [RequestController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/pending',
+                    [RequestController::class, 'pending']
+                )->name('pending');
+
+                Route::post(
+                    '/requests/{mentorshipRequest}/accept-suggestion',
+                    [RequestController::class, 'acceptSuggestion']
+                )->name('accept-suggestion');
+
+                Route::delete(
+                    '/requests/{mentorshipRequest}',
+                    [RequestController::class, 'cancel']
+                )->name('cancel');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Requests
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('requests')
+            ->name('requests.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [RequestController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/pending',
+                    [RequestController::class, 'pending']
+                )->name('pending');
+
+                Route::get(
+                    '/accepted',
+                    [RequestController::class, 'accepted']
+                )->name('accepted');
+
+                Route::delete(
+                    '/{request}',
+                    [RequestController::class, 'cancel']
+                )->name('cancel');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sessions
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('sessions')
+            ->name('sessions.')
+            ->group(function () {
+
+                Route::get(
+                    '/upcoming',
+                    [SessionController::class, 'upcoming']
+                )->name('upcoming');
+
+                Route::get(
+                    '/completed',
+                    [SessionController::class, 'completed']
+                )->name('completed');
+
+                Route::get(
+                    '/{session}',
+                    [SessionController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{session}/confirm',
+                    [SessionController::class, 'confirm']
+                )->name('confirm');
+
+                Route::post(
+                    '/{session}/feedback',
+                    [SessionController::class, 'storeFeedback']
+                )->name('feedback');
+
+                Route::post(
+                    '/{session}/cancel',
+                    [SessionSchedulingController::class, 'cancel']
+                )->name('cancel');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mentorship Feedback
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('mentorship/{mentorship}/feedback')
+            ->name('mentorship.feedback.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [FeedbackController::class, 'create']
+                )->name('create');
+
+                Route::post(
+                    '/',
+                    [FeedbackController::class, 'store']
+                )->name('store');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Jobs
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('jobs')
+            ->name('jobs.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentJobController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/saved',
+                    [StudentJobController::class, 'saved']
+                )->name('saved');
+
+                Route::get(
+                    '/applied',
+                    [StudentJobController::class, 'applied']
+                )->name('applied');
+
+                Route::get(
+                    '/interviews',
+                    [StudentJobController::class, 'interviews']
+                )->name('interviews');
+
+                Route::get(
+                    '/in-progress',
+                    [StudentJobController::class, 'inProgress']
+                )->name('in-progress');
+
+                Route::get(
+                    '/hired',
+                    [StudentJobController::class, 'hired']
+                )->name('hired');
+
+                Route::get(
+                    '/archived',
+                    [StudentJobController::class, 'archived']
+                )->name('archived');
+
+                Route::post(
+                    '/{job}/apply',
+                    [StudentJobController::class, 'apply']
+                )->name('apply');
+
+                Route::post(
+                    '/{job}/save',
+                    [StudentJobController::class, 'toggleSave']
+                )->name('save');
+
+                Route::get(
+                    '/{job}',
+                    [StudentJobController::class, 'show']
+                )->name('show');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | INTERNSHIPS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('internships')
+            ->name('internships.')
+            ->group(function () {
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | All Internships
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/',
+                    [StudentInternshipController::class, 'index']
+                )->name('index');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | My Applications
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/applications',
+                    [StudentInternshipController::class, 'applications']
+                )->name('applications');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Certificate Download
+                |--------------------------------------------------------------------------
+                |
+                | This must be BEFORE:
+                | /certificates/{application}
+                |
+                */
+
+                Route::get(
+                    '/certificates/{application}/download',
+                    [StudentInternshipController::class, 'downloadCertificate']
+                )->name('certificates.download');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | View Certificate
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/certificates/{application}',
+                    [StudentInternshipController::class, 'certificate']
+                )->name('certificates.show');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | My Internships
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/my',
+                    [StudentInternshipController::class, 'my']
+                )->name('my');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Certificate List
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/certificates',
+                    [StudentInternshipController::class, 'certificates']
+                )->name('certificates');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Apply
+                |--------------------------------------------------------------------------
+                */
+
+                Route::post(
+                    '/{internship}/apply',
+                    [StudentInternshipController::class, 'apply']
+                )->name('apply');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | View Internship
+                |--------------------------------------------------------------------------
+                */
+
+                Route::get(
+                    '/{internship}',
+                    [StudentInternshipController::class, 'show']
+                )->name('show');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Learning Modules
+                |--------------------------------------------------------------------------
+                */
+
+                Route::prefix('{internship}/modules')
+                    ->name('modules.')
+                    ->group(function () {
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Module List
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/',
+                            [StudentInternshipModuleController::class, 'index']
+                        )->name('index');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Module Details
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{module}',
+                            [StudentInternshipModuleController::class, 'show']
+                        )->name('show');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Task Details
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::get(
+                            '/{module}/tasks/{task}',
+                            [StudentInternshipModuleController::class, 'task']
+                        )->name('tasks.show');
+
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Submit Task
+                        |--------------------------------------------------------------------------
+                        */
+
+                        Route::post(
+                            '/{module}/tasks/{task}/submit',
+                            [StudentInternshipModuleController::class, 'submit']
+                        )->name('tasks.submit');
+                    });
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Resume Review
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('resume-review')
+            ->name('resume-review.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [ResumeReviewController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/create',
+                    [ResumeReviewController::class, 'create']
+                )->name('create');
+
+                Route::post(
+                    '/',
+                    [ResumeReviewController::class, 'store']
+                )->name('store');
+
+                Route::get(
+                    '/{review}',
+                    [ResumeReviewController::class, 'show']
+                )->name('show');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Articles
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('articles')
+            ->name('articles.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentArticleController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/{article}',
+                    [StudentArticleController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{article}/like',
+                    [StudentArticleController::class, 'toggleLike']
+                )->name('like');
+
+                Route::post(
+                    '/{article}/comments',
+                    [StudentArticleController::class, 'storeComment']
+                )->name('comments.store');
+
+                Route::delete(
+                    '/comments/{comment}',
+                    [StudentArticleController::class, 'destroyComment']
+                )->name('comments.destroy');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Trainings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('trainings')
+            ->name('trainings.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentTrainingController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/my-trainings',
+                    [StudentTrainingController::class, 'myTrainings']
+                )->name('my-trainings');
+
+                Route::get(
+                    '/{training}',
+                    [StudentTrainingController::class, 'show']
+                )->name('show');
+
+                Route::post(
+                    '/{training}/enroll',
+                    [StudentTrainingController::class, 'enroll']
+                )->name('enroll');
+
+                Route::get(
+                    '/{training}/learn',
+                    [StudentTrainingController::class, 'learn']
+                )->name('learn');
+
+                Route::post(
+                    '/{training}/progress',
+                    [StudentTrainingController::class, 'updateProgress']
+                )->name('progress');
+
+                Route::post(
+                    '/{training}/complete',
+                    [StudentTrainingController::class, 'complete']
+                )->name('complete');
+
+                Route::get(
+                    '/{training}/certificate',
+                    [StudentTrainingController::class, 'certificate']
+                )->name('certificate');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mock Interviews
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('mock-interviews')
+            ->name('mock-interviews.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [StudentMockInterviewController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/create',
+                    [StudentMockInterviewController::class, 'create']
+                )->name('create');
+
+                Route::post(
+                    '/',
+                    [StudentMockInterviewController::class, 'store']
+                )->name('store');
+
+                Route::get(
+                    '/{mockInterview}',
+                    [StudentMockInterviewController::class, 'show']
+                )->name('show');
+
+                Route::patch(
+                    '/{mockInterview}/cancel',
+                    [StudentMockInterviewController::class, 'cancel']
+                )->name('cancel');
+
+                Route::post(
+                    '/{mockInterview}/feedback',
+                    [StudentMockInterviewController::class, 'storeFeedback']
+                )->name('feedback');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Webinars
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('webinars')
+            ->name('webinars.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [WebinarController::class, 'index']
+                )->name('index');
+
+                Route::post(
+                    '/{webinar}/register',
+                    [WebinarController::class, 'register']
+                )->name('register');
+
+                Route::post(
+                    '/{webinar}/feedback',
+                    [WebinarFeedbackController::class, 'store']
+                )->name('feedback');
+
+                Route::get(
+                    '/{webinar}/certificate',
+                    [CertificateController::class, 'download']
+                )->name('certificate');
+
+                Route::get(
+                    '/{webinar}',
+                    [WebinarController::class, 'show']
+                )->name('show');
+            });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | My Webinars
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/my-webinars',
+            [WebinarController::class, 'myWebinars']
+        )->name('webinars.my');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Profile
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/profile',
+            [ProfileController::class, 'show']
+        )->name('profile');
+
+        Route::put(
+            '/profile',
+            [ProfileController::class, 'update']
+        )->name('profile.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Settings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/settings',
+            [ProfileController::class, 'settings']
+        )->name('settings');
+
+        Route::put(
+            '/settings',
+            [ProfileController::class, 'updateSettings']
+        )->name('settings.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Notifications
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/notifications',
+            [NotificationController::class, 'index']
+        )->name('notifications');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/search',
+            [SearchController::class, 'index']
+        )->name('search');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | How It Works
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/how-it-works',
+            function () {
+                return view('students.how-it-works');
+            }
+        )->name('how-it-works');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Support
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/support',
+            [SupportController::class, 'index']
+        )->name('support');
+
+        Route::post(
+            '/support',
+            [SupportController::class, 'store']
+        )->name('support.store');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logout
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post(
+            '/logout',
+            [ProfileController::class, 'logout']
+        )->name('logout');
+
     });

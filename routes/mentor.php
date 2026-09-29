@@ -6,19 +6,23 @@ use App\Http\Controllers\Mentor\MentorDashboardController;
 use App\Http\Controllers\Mentor\MenteeController;
 use App\Http\Controllers\Mentor\ResumeReviewController;
 use App\Http\Controllers\Mentor\WebinarController;
-use App\Http\Controllers\Mentor\TrainingMaterialController;
-use App\Http\Controllers\Mentor\MockInterviewController;
-use App\Http\Controllers\Mentor\MentorRequestController;
+use App\Http\Controllers\Mentor\WebinarAttendanceController;
+use App\Http\Controllers\Mentor\SessionSchedulingController;
+use App\Http\Controllers\Mentor\SessionLifecycleController;
+use App\Http\Controllers\Mentor\CompleteMentorshipController;
+use App\Http\Controllers\Mentor\TrainingController as MentorTrainingController;
+use App\Http\Controllers\Mentor\MockInterviewController as MentorMockInterviewController;
+use App\Http\Controllers\Mentor\ArticleController;
 
 
 Route::middleware(['member.auth'])
-    ->prefix('mentor')   
-    ->name('mentor.')    
+    ->prefix('mentor')
+    ->name('mentor.')
     ->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Home
+        | Dashboard
         |--------------------------------------------------------------------------
         */
 
@@ -30,7 +34,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | 1. My Mentees
+        | My Mentees / Mentorship Requests
         |--------------------------------------------------------------------------
         */
 
@@ -45,53 +49,128 @@ Route::middleware(['member.auth'])
         )->name('mentees.show');
 
         Route::post(
-            '/mentees/{mentee}/sessions',
-            [MenteeController::class, 'storeSession']
-        )->name('mentees.sessions.store');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Mentorship Requests
-        |--------------------------------------------------------------------------
-        */
-
-        Route::post(
             '/mentees/requests/{mentorshipRequest}/accept',
             [MenteeController::class, 'acceptRequest']
-        )->name('mentees.requests.accept');
+        )->name('requests.accept');
 
         Route::post(
             '/mentees/requests/{mentorshipRequest}/reject',
             [MenteeController::class, 'rejectRequest']
-        )->name('mentees.requests.reject');
+        )->name('requests.reject');
+
+        Route::post(
+            '/mentees/requests/{mentorshipRequest}/suggest-time',
+            [MenteeController::class, 'suggestTime']
+        )->name('requests.suggest-time');
 
 
         /*
         |--------------------------------------------------------------------------
-        | Sessions
+        | Complete Mentorship
+        |--------------------------------------------------------------------------
+        */
+
+        Route::post(
+            '/mentees/{mentee}/complete',
+            [CompleteMentorshipController::class, 'complete']
+        )->name('mentees.complete');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Session Scheduling
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/mentees/{mentee}/sessions/create',
+            [SessionSchedulingController::class, 'create']
+        )->name('sessions.create');
+
+        Route::post(
+            '/mentees/{mentee}/sessions',
+            [SessionSchedulingController::class, 'store']
+        )->name('sessions.store');
+
+        Route::post(
+            '/sessions/{session}/reschedule',
+            [SessionSchedulingController::class, 'reschedule']
+        )->name('sessions.reschedule');
+
+        Route::post(
+            '/sessions/{session}/cancel',
+            [SessionSchedulingController::class, 'cancel']
+        )->name('sessions.cancel');
+
+
+     /* 
+|--------------------------------------------------------------------------
+| Articles
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/articles',
+    [ArticleController::class, 'index']
+)->name('articles.index');
+
+Route::get(
+    '/articles/{article}',
+    [ArticleController::class, 'show']
+)->name('articles.show');
+
+Route::post(
+    '/articles/{article}/like',
+    [ArticleController::class, 'toggleLike']
+)->name('articles.like');
+
+/*
+|--------------------------------------------------------------------------
+| Article Comments
+|--------------------------------------------------------------------------
+*/
+
+Route::get(
+    '/articles/{article}/comments',
+    [ArticleController::class, 'comments']
+)->name('articles.comments.index');
+
+Route::post(
+    '/articles/{article}/comments',
+    [ArticleController::class, 'storeComment']
+)->name('articles.comments.store');
+
+Route::delete(
+    '/comments/{comment}',
+    [ArticleController::class, 'destroyComment']
+)->name('articles.comments.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Session Lifecycle
         |--------------------------------------------------------------------------
         */
 
         Route::post(
             '/sessions/{session}/conduct',
-            [MenteeController::class, 'conductSession']
+            [SessionLifecycleController::class, 'conduct']
         )->name('sessions.conduct');
 
         Route::post(
             '/sessions/{session}/notes',
-            [MenteeController::class, 'storeNotes']
-        )->name('sessions.notes.store');
+            [SessionLifecycleController::class, 'storeNotes']
+        )->name('sessions.notes');
 
         Route::post(
             '/sessions/{session}/complete',
-            [MenteeController::class, 'markCompleted']
+            [SessionLifecycleController::class, 'markCompleted']
         )->name('sessions.complete');
 
 
         /*
         |--------------------------------------------------------------------------
-        | 2. Resume Reviews
+        | Resume Reviews
         |--------------------------------------------------------------------------
         */
 
@@ -113,7 +192,7 @@ Route::middleware(['member.auth'])
 
         /*
         |--------------------------------------------------------------------------
-        | 3. Webinars & Workshops
+        | Webinars
         |--------------------------------------------------------------------------
         */
 
@@ -147,78 +226,75 @@ Route::middleware(['member.auth'])
             [WebinarController::class, 'destroy']
         )->name('webinars.destroy');
 
+        Route::get(
+            '/webinars/{webinar}/registrations',
+            [WebinarController::class, 'registrations']
+        )->name('webinars.registrations.index');
+
 
         /*
         |--------------------------------------------------------------------------
-        | 4. Training Materials
+        | Trainings
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('trainings')->name('trainings.')->group(function () {
+            Route::get('/',              [MentorTrainingController::class, 'index'])->name('index');
+            Route::get('/create',        [MentorTrainingController::class, 'create'])->name('create');
+            Route::post('/',             [MentorTrainingController::class, 'store'])->name('store');
+            Route::get('/{training}',    [MentorTrainingController::class, 'show'])->name('show');
+            Route::get('/{training}/edit', [MentorTrainingController::class, 'edit'])->name('edit');
+            Route::put('/{training}',    [MentorTrainingController::class, 'update'])->name('update');
+            Route::delete('/{training}', [MentorTrainingController::class, 'destroy'])->name('destroy');
+            Route::post('/{training}/submit', [MentorTrainingController::class, 'submit'])->name('submit');
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Webinar Attendance & Resources
         |--------------------------------------------------------------------------
         */
 
         Route::get(
-            '/training-materials',
-            [TrainingMaterialController::class, 'index']
-        )->name('training-materials.index');
+            '/webinars/{webinar}/attendance',
+            [WebinarAttendanceController::class, 'edit']
+        )->name('webinars.attendance');
 
-        Route::get(
-            '/training-materials/create',
-            [TrainingMaterialController::class, 'create']
-        )->name('training-materials.create');
+        Route::put(
+            '/webinars/{webinar}/attendance',
+            [WebinarAttendanceController::class, 'updateAttendance']
+        )->name('webinars.attendance.update');
 
         Route::post(
-            '/training-materials',
-            [TrainingMaterialController::class, 'store']
-        )->name('training-materials.store');
+            '/webinars/{webinar}/resources',
+            [WebinarAttendanceController::class, 'storeResource']
+        )->name('webinars.resources.store');
 
         Route::delete(
-            '/training-materials/{trainingMaterial}',
-            [TrainingMaterialController::class, 'destroy']
-        )->name('training-materials.destroy');
-
-        Route::get(
-            '/training-materials/{trainingMaterial}/download',
-            [TrainingMaterialController::class, 'download']
-        )->name('training-materials.download');
-
-        Route::post(
-            '/training-materials/{trainingMaterial}/view',
-            [TrainingMaterialController::class, 'incrementView']
-        )->name('training-materials.view');
-
-        Route::post(
-            '/training-materials/{trainingMaterial}/rate',
-            [TrainingMaterialController::class, 'rate']
-        )->name('training-materials.rate');
+            '/webinar-resources/{resource}',
+            [WebinarAttendanceController::class, 'destroyResource']
+        )->name('webinar-resources.destroy');
 
 
         /*
         |--------------------------------------------------------------------------
-        | 5. Mock Interviews
+        | Mock Interviews
         |--------------------------------------------------------------------------
+        | Inherits the 'mentor' prefix and 'member.auth' middleware from the
+        | outer group above, so these register as:
+        |   mentor.mock-interviews.index   -> GET  /mentor/mock-interviews
+        |   mentor.mock-interviews.show    -> GET  /mentor/mock-interviews/{mockInterview}
+        |   etc.
         */
 
-        Route::get(
-            '/mock-interviews',
-            [MockInterviewController::class, 'index']
-        )->name('mock-interviews.index');
-
-        Route::get(
-            '/mock-interviews/{interview}',
-            [MockInterviewController::class, 'show']
-        )->name('mock-interviews.show');
-
-        Route::post(
-            '/mock-interviews/{interview}/schedule',
-            [MockInterviewController::class, 'schedule']
-        )->name('mock-interviews.schedule');
-
-        Route::post(
-            '/mock-interviews/{interview}/conduct',
-            [MockInterviewController::class, 'conduct']
-        )->name('mock-interviews.conduct');
-
-        Route::post(
-            '/mock-interviews/{interview}/feedback',
-            [MockInterviewController::class, 'submitFeedback']
-        )->name('mock-interviews.feedback');
+        Route::prefix('mock-interviews')->name('mock-interviews.')->group(function () {
+            Route::get('/', [MentorMockInterviewController::class, 'index'])->name('index');
+            Route::get('/{mockInterview}', [MentorMockInterviewController::class, 'show'])->name('show');
+            Route::patch('/{mockInterview}/schedule', [MentorMockInterviewController::class, 'schedule'])->name('schedule');
+            Route::patch('/{mockInterview}/complete', [MentorMockInterviewController::class, 'complete'])->name('complete');
+            Route::patch('/{mockInterview}/cancel', [MentorMockInterviewController::class, 'cancel'])->name('cancel');
+            Route::post('/{mockInterview}/feedback', [MentorMockInterviewController::class, 'storeFeedback'])->name('feedback');
+        });
 
     });

@@ -20,7 +20,8 @@ class StartupProfileApproved extends Mailable
 
     public function build()
     {
-        return $this->subject('Your Startup Profile Has Been Approved')
-            ->view('emails.startup.approved');
+        return $this->subject('Your startup profile has been approved')
+            ->view('emails.startup-approved')
+            ->with(['startup' => $this->startup]);
     }
 }

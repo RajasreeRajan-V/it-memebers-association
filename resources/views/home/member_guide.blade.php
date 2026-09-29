@@ -764,7 +764,7 @@
                 <h3>Urgent Admin Support</h3>
                 <p>For verification issues, payment disputes, or urgent approval matters</p>
                 <div class="admin-contact-options">
-                    <a href="mailto:admin@skillconnect.com" class="btn btn-primary">Email Admin</a>
+                    <a href="mailto:admin@Tech Leaders Network.com" class="btn btn-primary">Email Admin</a>
                     <a href="#" class="btn btn-secondary" onclick="openEscalation()">Escalate Issue</a>
                 </div>
             </div>

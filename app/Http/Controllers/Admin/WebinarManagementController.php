@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WebinarStatusUpdated;
 use App\Models\Webinar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class WebinarManagementController extends Controller
 {
@@ -22,6 +24,8 @@ class WebinarManagementController extends Controller
     {
         $webinar->update(['status' => 'approved', 'admin_remarks' => null]);
 
+        $this->notifyMentor($webinar);
+
         return back()->with('success', 'Webinar approved.');
     }
 
@@ -33,6 +37,8 @@ class WebinarManagementController extends Controller
 
         $webinar->update(['status' => 'rejected', 'admin_remarks' => $data['admin_remarks']]);
 
+        $this->notifyMentor($webinar);
+
         return back()->with('success', 'Webinar rejected.');
     }
 
@@ -42,6 +48,17 @@ class WebinarManagementController extends Controller
 
         $webinar->update(['status' => 'published']);
 
+        $this->notifyMentor($webinar);
+
         return back()->with('success', 'Webinar published.');
+    }
+
+    private function notifyMentor(Webinar $webinar): void
+    {
+        $webinar->loadMissing('mentor');
+
+        if ($webinar->mentor?->email) {
+            Mail::to($webinar->mentor->email)->send(new WebinarStatusUpdated($webinar));
+        }
     }
 }

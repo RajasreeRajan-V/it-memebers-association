@@ -7,7 +7,7 @@
     <div class="container hero-inner">
 
         <div class="hero-copy reveal">
-            <p class="eyebrow">🚀 Welcome to SkillConnect</p>
+            <p class="eyebrow">🚀 Welcome to Tech Leaders Network</p>
 
             <h1>
                 One Platform<br>
@@ -19,7 +19,7 @@
             <p class="hero-sub">
                 Jobs, internships, projects, courses, investments and mentorship —
                 everything in one place, built around the way you actually work.
-                Whether you're hiring, learning, freelancing, or investing, SkillConnect
+                Whether you're hiring, learning, freelancing, or investing, Tech Leaders Network
                 gives you the tools to move faster and go further.
             </p>
 
@@ -37,7 +37,7 @@
             <div class="hero-blob"></div>
             <div class="hero-dots"></div>
             <div class="hero-card">
-                <img src="{{ asset('assets/img/hero-team.png') }}" alt="About SkillConnect">
+                <img src="{{ asset('assets/img/hero-team.png') }}" alt="About Tech Leaders Network">
             </div>
         </div>
 
@@ -72,7 +72,7 @@
     <div class="container">
         <div class="section-head reveal">
             <h2>Choose your portal</h2>
-            <p>Every path onto SkillConnect is purpose-built — pick the door that matches where you're headed.</p>
+            <p>Every path onto Tech Leaders Network is purpose-built — pick the door that matches where you're headed.</p>
         </div>
 
         <div class="portal-grid">
@@ -172,7 +172,7 @@
 <section class="home-how-it-works" id="how-it-works">
     <div class="container">
         <div class="section-head reveal">
-            <h2>How SkillConnect Works</h2>
+            <h2>How Tech Leaders Network Works</h2>
             <p>Three simple steps to unlock everything the platform has to offer.</p>
         </div>
 
@@ -215,7 +215,7 @@
 <section class="home-tabs-section">
     <div class="container">
         <div class="section-head reveal">
-            <h2>See SkillConnect Through Your Eyes</h2>
+            <h2>See Tech Leaders Network Through Your Eyes</h2>
             <p>Pick a role below and watch the platform reshape around what matters to you.</p>
         </div>
 
@@ -334,7 +334,7 @@
 <section class="home-bento-section">
     <div class="container">
         <div class="section-head reveal">
-            <h2 class="home-bento-heading">Why Choose SkillConnect</h2>
+            <h2 class="home-bento-heading">Why Choose Tech Leaders Network</h2>
             <p>Built for real people navigating real careers — not one-size-fits-all job boards.</p>
         </div>
 
@@ -560,8 +560,8 @@
 <section class="home-cta-banner">
     <div class="container home-cta-inner reveal">
         <h2>Ready to find your next opportunity?</h2>
-        <p>Join thousands of employers, students, freelancers, and mentors already growing with SkillConnect.</p>
-        <a href="#portals" class="btn btn-primary btn-lg">Join SkillConnect Today</a>
+        <p>Join thousands of employers, students, freelancers, and mentors already growing with Tech Leaders Network.</p>
+        <a href="#portals" class="btn btn-primary btn-lg">Join Tech Leaders Network Today</a>
     </div>
 </section>
 

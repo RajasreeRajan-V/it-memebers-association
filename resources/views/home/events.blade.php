@@ -13,7 +13,7 @@
             </h1>
             <p class="hero-sub">
                 Workshops, webinars, job fairs and networking meetups — find out
-                what's happening on SkillConnect and reserve your spot.
+                what's happening on Tech Leaders Network and reserve your spot.
             </p>
         </div>
     </div>

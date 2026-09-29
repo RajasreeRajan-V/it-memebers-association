@@ -12,7 +12,7 @@
                 <span class="accent">Building a Better Tomorrow</span>
             </h1>
             <p class="career-hero-text">
-                Explore opportunities, enhance your skills, and grow your professional journey with SkillConnect.
+                Explore opportunities, enhance your skills, and grow your professional journey with Tech Leaders Network.
             </p>
 
             <div class="career-hero-actions">

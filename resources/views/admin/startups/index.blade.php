@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', 'Job Approvals')
+@section('title', 'Startup Approvals')
 
 @section('content')
 <div class="container-fluid" style="padding: 24px;">

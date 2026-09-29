@@ -18,7 +18,7 @@
             <p class="home-hero-subtitle">Quick answers. No waiting around.</p>
 
             <p class="hero-sub">
-                Answers to the most common questions about using SkillConnect —
+                Answers to the most common questions about using Tech Leaders Network —
                 whatever portal you're coming from. Browse by topic below, or
                 reach out to our support team if you can't find what you need.
             </p>
@@ -63,7 +63,7 @@
             <div class="faq-card faq-blue reveal">
                 <button type="button" class="faq-summary">
                     <span class="faq-tag">Getting Started</span>
-                    <span class="faq-q">How do I create an account on SkillConnect?</span>
+                    <span class="faq-q">How do I create an account on Tech Leaders Network?</span>
                     <span class="faq-toggle">+</span>
                 </button>
                 <div class="faq-panel">
@@ -76,7 +76,7 @@
             <div class="faq-card faq-green reveal">
                 <button type="button" class="faq-summary">
                     <span class="faq-tag">Pricing</span>
-                    <span class="faq-q">Is SkillConnect free to use?</span>
+                    <span class="faq-q">Is Tech Leaders Network free to use?</span>
                     <span class="faq-toggle">+</span>
                 </button>
                 <div class="faq-panel">
@@ -153,7 +153,7 @@
             <div class="faq-card faq-green reveal">
                 <button type="button" class="faq-summary">
                     <span class="faq-tag">Privacy</span>
-                    <span class="faq-q">Is my personal data safe on SkillConnect?</span>
+                    <span class="faq-q">Is my personal data safe on Tech Leaders Network?</span>
                     <span class="faq-toggle">+</span>
                 </button>
                 <div class="faq-panel">
