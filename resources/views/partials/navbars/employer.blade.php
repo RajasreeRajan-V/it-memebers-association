@@ -9,7 +9,8 @@
                     <path d="M15 2L27 8.5V21.5L15 28L3 21.5V8.5L15 2Z" fill="url(#lg)" />
                     <path d="M15 9L20 12V18L15 21L10 18V12L15 9Z" fill="white" fill-opacity="0.9" />
                     <defs>
-                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28" gradientUnits="userSpaceOnUse">
+                        <linearGradient id="lg" x1="3" y1="2" x2="27" y2="28"
+                            gradientUnits="userSpaceOnUse">
                             <stop stop-color="#4F46E5" />
                             <stop offset="1" stop-color="#2080D4" />
                         </linearGradient>
@@ -23,10 +24,6 @@
         </a>
 
 
-
-        
-        
-
         <div class="header-actions">
             <a href="#" class="action-item">
                 <i class="fa-regular fa-bell"></i>
@@ -35,7 +32,7 @@
             </a>
 
             <a href="{{ route('employer.articles.index') }}" class="action-item">
-              <i class="fa-solid fa-file-lines"></i>
+                <i class="fa-solid fa-file-lines"></i>
                 <span>View Articles</span>
             </a>
 
@@ -79,48 +76,75 @@
             </a>
 
             <div class="dropdown">
-                <a href="{{ route('employer.jobs.index') }}" class="{{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}">
+                <a href="{{ route('employer.jobs.index') }}"
+                    class="{{ request()->routeIs('employer.jobs.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-briefcase"></i> Jobs
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('employer.jobs.create') }}"><i class="fa-solid fa-plus"></i> Create Job</a></li>
+                    <li><a href="{{ route('employer.jobs.create') }}"><i class="fa-solid fa-plus"></i> Create Job</a>
+                    </li>
                     <li><a href="{{ route('employer.jobs.index') }}"><i class="fa-solid fa-list"></i> View Jobs</a></li>
                 </ul>
             </div>
 
             <div class="dropdown">
-                <a href="{{ route('employer.internships.index') }}" class="{{ request()->routeIs('employer.internships.*') ? 'active' : '' }}">
+                <a href="{{ route('employer.internships.index') }}"
+                    class="{{ request()->routeIs('employer.internships.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-user-graduate"></i> Internships
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('employer.internships.create') }}"><i class="fa-solid fa-plus"></i> Create Internship</a></li>
-                    <li><a href="{{ route('employer.internships.index') }}"><i class="fa-solid fa-list"></i> View Internships</a></li>
+                    <li><a href="{{ route('employer.internships.create') }}"><i class="fa-solid fa-plus"></i> Create
+                            Internship</a></li>
+                    <li><a href="{{ route('employer.internships.index') }}"><i class="fa-solid fa-list"></i> View
+                            Internships</a></li>
                 </ul>
             </div>
 
             <div class="dropdown">
-                <a href="{{ route('employer.projects.index') }}" class="{{ request()->routeIs('employer.projects.*') ? 'active' : '' }}">
+                <a href="{{ route('employer.projects.index') }}"
+                    class="{{ request()->routeIs('employer.projects.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-diagram-project"></i> Projects
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('employer.projects.create') }}"><i class="fa-solid fa-plus"></i> Create Project</a></li>
-                    <li><a href="{{ route('employer.projects.index') }}"><i class="fa-solid fa-list"></i> View Projects</a></li>
+                    <li><a href="{{ route('employer.projects.create') }}"><i class="fa-solid fa-plus"></i> Create
+                            Project</a></li>
+                    <li><a href="{{ route('employer.projects.index') }}"><i class="fa-solid fa-list"></i> View
+                            Projects</a></li>
                 </ul>
             </div>
 
             <div class="dropdown">
-                <a href="{{ route('employer.startup-profile.index') }}" class="{{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}">
+                <a href="{{ route('employer.startup-profile.index') }}"
+                    class="{{ request()->routeIs('employer.startup-profile.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-rocket"></i> Startup
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ route('employer.startup-profile.create') }}"><i class="fa-solid fa-plus"></i> Create Startup</a></li>
-                    <li><a href="{{ route('employer.startup-profile.index') }}"><i class="fa-solid fa-list"></i> View Startups</a></li>
+                    <li><a href="{{ route('employer.startup-profile.create') }}"><i class="fa-solid fa-plus"></i>
+                            Create Startup</a></li>
+                    <li><a href="{{ route('employer.startup-profile.index') }}"><i class="fa-solid fa-list"></i> View
+                            Startups</a></li>
                 </ul>
             </div>
 
-            <a href="{{ route('employer.applicants.index') }}" class="{{ request()->routeIs('employer.applicants.*') ? 'active' : '' }}">
+            <a href="{{ route('employer.applicants.index') }}"
+                class="{{ request()->routeIs('employer.applicants.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-users"></i> Applicants
             </a>
+
+            <div class="dropdown">
+                <a href="{{ route('employer.freelancer.bids.index') }}"
+                    class="{{ request()->routeIs('employer.freelancer.bids.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-check"></i> Freelancer Bids
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ route('employer.freelancer.bids.index') }}">
+                            <i class="fa-solid fa-clock"></i> Freelancer Bids
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </div>
 </header>
@@ -199,7 +223,10 @@
         background: #ffffff;
     }
 
-    .header-search i { color: #9ca3af; font-size: 13px; }
+    .header-search i {
+        color: #9ca3af;
+        font-size: 13px;
+    }
 
     .header-search input {
         border: none;
@@ -210,7 +237,9 @@
         color: #111827;
     }
 
-    .header-search input::placeholder { color: #9ca3af; }
+    .header-search input::placeholder {
+        color: #9ca3af;
+    }
 
     .header-actions {
         display: flex;
@@ -231,9 +260,18 @@
         font-weight: 500;
     }
 
-    .action-item i { font-size: 17px; color: #4b5563; }
-    .action-item:hover { color: #3364d7; }
-    .action-item:hover i { color: #3364d7; }
+    .action-item i {
+        font-size: 17px;
+        color: #4b5563;
+    }
+
+    .action-item:hover {
+        color: #3364d7;
+    }
+
+    .action-item:hover i {
+        color: #3364d7;
+    }
 
     .pill-badge {
         position: absolute;
@@ -253,7 +291,9 @@
     }
 
     /* ===== Settings (row 1) ===== */
-    .settings-menu-wrap { position: relative; }
+    .settings-menu-wrap {
+        position: relative;
+    }
 
     .settings-top-btn {
         display: flex;
@@ -293,7 +333,9 @@
         transition: transform 0.25s ease;
     }
 
-    .settings-top-btn.open .arrow { transform: rotate(180deg); }
+    .settings-top-btn.open .arrow {
+        transform: rotate(180deg);
+    }
 
     .settings-top-dropdown {
         position: absolute;
@@ -311,11 +353,20 @@
     }
 
     @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-8px); }
-        to { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .settings-top-dropdown.show { display: block; }
+    .settings-top-dropdown.show {
+        display: block;
+    }
 
     .settings-menu-item {
         display: flex;
@@ -335,24 +386,55 @@
         transition: background 0.2s ease;
     }
 
-    .settings-menu-item i { width: 16px; text-align: center; color: #6b7280; font-size: 14px; }
-    .settings-menu-item:hover { background: rgba(0, 0, 0, 0.04); }
+    .settings-menu-item i {
+        width: 16px;
+        text-align: center;
+        color: #6b7280;
+        font-size: 14px;
+    }
 
-    .settings-menu-item.profile { color: #1e3a8a; }
-    .settings-menu-item.profile i { color: #1e3a8a; opacity: 0.85; }
-    .settings-menu-item.profile:hover { color: #1e3a8a; background: rgba(0, 0, 0, 0.04); }
-    .settings-menu-item.profile:hover i { color: #1e3a8a; opacity: 1; }
+    .settings-menu-item:hover {
+        background: rgba(0, 0, 0, 0.04);
+    }
 
-    .settings-menu-item.logout { color: #dc2626; border-top: 1px solid rgba(0, 0, 0, 0.06); }
-    .settings-menu-item.logout i { color: #dc2626; opacity: 0.75; }
-    .settings-menu-item.logout:hover { background: rgba(220, 38, 38, 0.06); }
-    .settings-menu-item.logout:hover i { opacity: 1; }
+    .settings-menu-item.profile {
+        color: #1e3a8a;
+    }
 
-    /* ===== Row 2: BLUE bar, CENTERED =====
-       FIX: this section had a cramped look because gaps and link padding
-       were too tight, and the caret sat almost flush against the label.
-       Widened gaps/padding and gave the bar a bit more vertical breathing
-       room below. */
+    .settings-menu-item.profile i {
+        color: #1e3a8a;
+        opacity: 0.85;
+    }
+
+    .settings-menu-item.profile:hover {
+        color: #1e3a8a;
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    .settings-menu-item.profile:hover i {
+        color: #1e3a8a;
+        opacity: 1;
+    }
+
+    .settings-menu-item.logout {
+        color: #dc2626;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .settings-menu-item.logout i {
+        color: #dc2626;
+        opacity: 0.75;
+    }
+
+    .settings-menu-item.logout:hover {
+        background: rgba(220, 38, 38, 0.06);
+    }
+
+    .settings-menu-item.logout:hover i {
+        opacity: 1;
+    }
+
+    /* ===== Row 2: BLUE bar, CENTERED ===== */
     .header-bottom {
         background: linear-gradient(90deg, #2f57c9, #3364d7);
         padding: 6px 32px;
@@ -370,45 +452,79 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 24px;               /* was 10px — more room between each nav item */
+        gap: 24px;
         flex-wrap: wrap;
     }
 
-    .main-nav > a {
+    /* =========================================================
+       FIX #1 — the dropdown parents (.dropdown > a) were never
+       styled, because the old selector was `.main-nav > a` only
+       (Jobs / Internships / Projects / Startup / Freelancer Bids
+       live inside a .dropdown wrapper, so they were left unstyled
+       and their hover box didn't line up with the menu).
+       Both selectors are now covered.
+       ========================================================= */
+    .main-nav>a,
+    .dropdown>a {
         display: flex;
         align-items: center;
-        gap: 9px;                 /* was 7px — a touch more space between icon and label */
+        gap: 9px;
         text-decoration: none;
         font-weight: 500;
-        font-size: 0.88rem;       /* was 0.85rem */
+        font-size: 0.88rem;
         color: rgba(255, 255, 255, 0.82);
-        padding: 13px 18px;       /* was 12px 16px */
+        padding: 13px 18px;
         margin: 8px 0;
         white-space: nowrap;
         position: relative;
         border-radius: 8px;
+        cursor: pointer;
         transition: background 0.2s ease, color 0.2s ease;
     }
 
+    .main-nav>a i,
+    .dropdown>a i {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.65);
+    }
 
-    .main-nav > a i { font-size: 13px; color: rgba(255, 255, 255, 0.65); }
-
-    .main-nav > a:hover {
+    .main-nav>a:hover,
+    .dropdown>a:hover {
         color: #ffffff;
         background: rgba(255, 255, 255, 0.14);
     }
 
-    .main-nav > a:hover i { color: #ffffff; }
+    .main-nav>a:hover i,
+    .dropdown>a:hover i {
+        color: #ffffff;
+    }
 
-    .main-nav > a.active {
+    .main-nav>a.active,
+    .dropdown>a.active {
         color: #ffffff;
         font-weight: 600;
         background: rgba(255, 255, 255, 0.18);
     }
 
-    .main-nav > a.active i { color: #ffffff; }
+    .main-nav>a.active i,
+    .dropdown>a.active i {
+        color: #ffffff;
+    }
 
-    /* ---- Dropdowns inside blue bar (Jobs / Internships / Projects / Startup) ---- */
+    /* =========================================================
+       FIX #2 — the real reason the menu items were unclickable.
+
+       The menu used `top: calc(100% + 8px)`, which left a gap
+       OUTSIDE the .dropdown box. The moment the pointer crossed
+       that gap, :hover was lost and the menu closed before the
+       user could reach an item.
+
+       Now:
+        • the menu starts at top:100% (the parent already has an
+          8px bottom margin on the link, so the visual gap stays)
+        • an invisible ::before bridge covers any remaining gap
+        • `overflow:hidden` removed so the bridge isn't clipped
+       ========================================================= */
     .dropdown {
         position: relative;
         display: inline-block;
@@ -417,10 +533,11 @@
     .dropdown-menu {
         display: none;
         position: absolute;
-        top: calc(100% + 8px);
+        top: 100%;
+        /* flush with the wrapper box → no hover hole */
         left: 50%;
         transform: translateX(-50%);
-        min-width: 190px;
+        min-width: 200px;
         background: #ffffff;
         border: 1px solid #eef0f3;
         border-radius: 10px;
@@ -428,11 +545,22 @@
         list-style: none;
         margin: 0;
         box-shadow: 0 12px 28px rgba(17, 24, 39, 0.18);
-        overflow: hidden;
-        z-index: 1000;
+        z-index: 1200;
     }
 
-    .dropdown-menu li { margin: 0; }
+    /* invisible bridge that keeps :hover alive between link and menu */
+    .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -14px;
+        height: 14px;
+    }
+
+    .dropdown-menu li {
+        margin: 0;
+    }
 
     .dropdown-menu li a {
         display: flex;
@@ -447,16 +575,25 @@
         transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .dropdown-menu li a i { font-size: 12px; color: #9ca3af; }
+    .dropdown-menu li a i {
+        font-size: 12px;
+        color: #9ca3af;
+    }
 
     .dropdown-menu li a:hover {
         background: #eef2ff;
         color: #3364d7;
     }
 
-    .dropdown-menu li a:hover i { color: #3364d7; }
+    .dropdown-menu li a:hover i {
+        color: #3364d7;
+    }
 
-    .dropdown:hover .dropdown-menu { display: block; }
+    /* open on hover (mouse) — kept open by the ::before bridge */
+    .dropdown:hover .dropdown-menu,
+    .dropdown.open .dropdown-menu {
+        display: block;
+    }
 
     .nav-toggle {
         display: none;
@@ -468,30 +605,102 @@
         padding: 4px;
     }
 
-    .nav-toggle span { width: 22px; height: 2px; background: #374151; border-radius: 2px; }
+    .nav-toggle span {
+        width: 22px;
+        height: 2px;
+        background: #374151;
+        border-radius: 2px;
+    }
+
+    /* =========================================================
+       FIX #3 — touch / no-hover devices (tablets, touch laptops).
+       Hover styles are disabled there and the menu is opened by
+       the JS click toggle instead (.dropdown.open).
+       ========================================================= */
+    @media (hover: none) {
+        .dropdown:hover .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown.open .dropdown-menu {
+            display: block;
+        }
+    }
 
     /* ===== Responsive ===== */
     @media (max-width: 1100px) {
-        .header-search { flex-basis: 340px; }
-        .header-actions { gap: 20px; }
-        .main-nav { gap: 14px; }   /* keep some breathing room as space tightens */
+        .header-search {
+            flex-basis: 340px;
+        }
+
+        .header-actions {
+            gap: 20px;
+        }
+
+        .main-nav {
+            gap: 14px;
+        }
     }
 
     @media (max-width: 900px) {
-        .action-item span:not(.pill-badge) { display: none; }
-        .settings-top-label { display: none; }
-        .header-actions { gap: 16px; }
+        .action-item span:not(.pill-badge) {
+            display: none;
+        }
+
+        .settings-top-label {
+            display: none;
+        }
+
+        .header-actions {
+            gap: 16px;
+        }
     }
 
     @media (max-width: 768px) {
-        .header-search { display: none; }
-        .header-top { flex-wrap: wrap; gap: 16px; padding: 18px 32px; }
-        .nav-toggle { display: flex; }
-        .header-bottom { display: none; }
-        .header-bottom.open { display: block; }
-        .header-bottom .container { display: block; }
-        .main-nav { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 2px; padding: 10px 0; }
-        .main-nav > a { width: 100%; }
+        .header-search {
+            display: none;
+        }
+
+        .header-top {
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 18px 32px;
+        }
+
+        .nav-toggle {
+            display: flex;
+        }
+
+        .header-bottom {
+            display: none;
+        }
+
+        .header-bottom.open {
+            display: block;
+        }
+
+        .header-bottom .container {
+            display: block;
+        }
+
+        .main-nav {
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 2px;
+            padding: 10px 0;
+        }
+
+        .main-nav>a,
+        .dropdown>a {
+            width: 100%;
+            margin: 0;
+        }
+
+        .dropdown {
+            display: block;
+            width: 100%;
+        }
 
         .dropdown-menu {
             position: static;
@@ -499,59 +708,124 @@
             box-shadow: none;
             border: none;
             background: #274ea3;
-            margin-top: 4px;
+            margin: 4px 0 6px;
+            min-width: 0;
+            width: 100%;
+            padding: 4px 6px;
+            border-radius: 8px;
             display: none;
         }
 
-        .dropdown-menu li a { color: #ffffff; }
-        .dropdown-menu li a:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
-        .dropdown-menu li a i { color: rgba(255, 255, 255, 0.7); }
+        .dropdown-menu::before {
+            display: none;
+        }
 
-        .dropdown.open .dropdown-menu { display: block; }
-        .dropdown:hover .dropdown-menu { display: none; } /* disable hover on mobile */
-        .dropdown.open .dropdown-menu { display: block; }
+        .dropdown-menu li a {
+            color: #ffffff;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .dropdown-menu li a i {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* on mobile only the JS .open class controls visibility */
+        .dropdown:hover .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown.open .dropdown-menu {
+            display: block;
+        }
     }
 
     @media (max-width: 480px) {
-        .header-top { padding: 14px 16px; gap: 12px; }
-        .logo-text { font-size: 1.1rem; }
+        .header-top {
+            padding: 14px 16px;
+            gap: 12px;
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+        }
     }
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const settingsTopBtn = document.getElementById('settingsTopBtn');
         const settingsTopDropdown = document.getElementById('settingsTopDropdown');
         const navToggle = document.getElementById('navToggle');
         const headerBottom = document.querySelector('.header-bottom');
         const mainNav = document.getElementById('mainNav');
 
-        settingsTopBtn?.addEventListener('click', function (e) {
+        /* ---------- Settings dropdown (row 1) ---------- */
+        settingsTopBtn?.addEventListener('click', function(e) {
             e.stopPropagation();
             settingsTopDropdown.classList.toggle('show');
             settingsTopBtn.classList.toggle('open');
         });
 
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (!settingsTopDropdown?.contains(e.target) && !settingsTopBtn?.contains(e.target)) {
                 settingsTopDropdown?.classList.remove('show');
                 settingsTopBtn?.classList.remove('open');
             }
         });
 
-        navToggle?.addEventListener('click', function () {
+        /* ---------- Mobile hamburger ---------- */
+        navToggle?.addEventListener('click', function() {
             const isOpen = headerBottom.classList.toggle('open');
             navToggle.setAttribute('aria-expanded', isOpen);
         });
 
-        // On mobile, tapping a dropdown label toggles its submenu instead of navigating
-        mainNav?.querySelectorAll('.dropdown > a').forEach(function (link) {
-            link.addEventListener('click', function (e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    this.parentElement.classList.toggle('open');
-                }
+        /* =========================================================
+           FIX #4 — dropdown parents.
+
+           • On real desktop (hover + fine pointer) the menu opens on
+             hover and the parent link still navigates normally, so
+             nothing is hijacked.
+           • On touch / small screens a click toggles the submenu.
+           • Only one submenu can be open at a time.
+           • Tapping outside closes the open submenu.
+           ========================================================= */
+        const isHoverDevice = () =>
+            window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+        const closeAllDropdowns = (except) => {
+            mainNav?.querySelectorAll('.dropdown.open').forEach(function(d) {
+                if (d !== except) d.classList.remove('open');
             });
+        };
+
+        mainNav?.querySelectorAll('.dropdown > a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                // desktop with a mouse → let the browser follow the href
+                if (isHoverDevice() && window.innerWidth > 768) return;
+
+                e.preventDefault();
+                const parent = this.parentElement;
+                const willOpen = !parent.classList.contains('open');
+                closeAllDropdowns(parent);
+                parent.classList.toggle('open', willOpen);
+            });
+        });
+
+        // tap/click outside any dropdown closes the open submenus
+        document.addEventListener('click', function(e) {
+            if (!mainNav) return;
+            if (!e.target.closest('.dropdown')) {
+                closeAllDropdowns();
+            }
+        });
+
+        // if the viewport is resized back to desktop, drop any .open state
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) closeAllDropdowns();
         });
     });
 </script>

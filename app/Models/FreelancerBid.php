@@ -10,11 +10,14 @@ class FreelancerBid extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_SHORTLISTED = 'shortlisted';
+    public const STATUS_INTERVIEW = 'interview';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_REJECTED = 'rejected';
+    public const STATUS_WITHDRAWN = 'withdrawn';
+    public const STATUS_PROCESSED = 'processed';
+
     protected $fillable = [
         'project_id',
         'freelancer_id',
@@ -22,38 +25,27 @@ class FreelancerBid extends Model
         'bid_amount',
         'estimated_days',
         'cover_letter',
+        'comments',
         'status',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'bid_amount' => 'decimal:2',
-        'estimated_days' => 'integer',
     ];
 
-    /**
-     * Get the project for this bid.
-     */
     public function project()
     {
         return $this->belongsTo(Project::class);
     }
 
-    /**
-     * Get the freelancer who placed this bid.
-     */
     public function freelancer()
     {
-        return $this->belongsTo(FreelancerRegistration::class, 'freelancer_id');
+        return $this->belongsTo(
+            FreelancerRegistration::class,
+            'freelancer_id'
+        );
     }
 
-    /**
-     * Get the employer who owns the project.
-     */
     public function employer()
     {
         return $this->belongsTo(User::class, 'employer_id');

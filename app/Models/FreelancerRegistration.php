@@ -36,6 +36,7 @@ class FreelancerRegistration extends Model
     protected $casts = [
         'experience' => 'integer',
         'hourly_rate' => 'decimal:2',
+        // 'skills' => 'array',
     ];
 
     /**

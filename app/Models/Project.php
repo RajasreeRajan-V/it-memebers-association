@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\FreelancerBid;
 class Project extends Model
 {
     use HasFactory;
@@ -52,5 +52,9 @@ class Project extends Model
     public function savedJobs()
     {
         return $this->hasMany(SavedJob::class);
+    }
+    public function freelancerBids()
+    {
+        return $this->hasMany(FreelancerBid::class, 'project_id');
     }
 }

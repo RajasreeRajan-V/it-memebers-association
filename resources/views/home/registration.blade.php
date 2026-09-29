@@ -472,46 +472,51 @@
         </div>
     </template>
 
-    <template id="tpl-employee">
+    <template id="tpl-employer">
         <div class="form-group">
             <label class="form-label"><span>Company Name</span><span class="required">*</span></label>
             <input type="text" name="company_name" value="{{ old('company_name') }}" required
-                placeholder="Current company name">
+                placeholder="Company name">
         </div>
         <div class="form-group">
-            <label class="form-label"><span>Designation</span><span class="required">*</span></label>
-            <input type="text" name="designation" value="{{ old('designation') }}" required
-                placeholder="Your job title">
+            <label class="form-label"><span>Industry</span></label>
+            <input type="text" name="industry" value="{{ old('industry') }}" placeholder="e.g. Technology, Finance">
         </div>
         <div class="form-group">
-            <label class="form-label"><span>Years of Experience</span><span class="required">*</span></label>
-            <input type="number" name="experience_years" value="{{ old('experience_years') }}" min="0" required
-                placeholder="e.g. 5">
+            <label class="form-label"><span>GST Number</span></label>
+            <input type="text" name="gst_number" value="{{ old('gst_number') }}" placeholder="GSTIN">
         </div>
         <div class="form-group">
-            <label class="form-label"><span>Current CTC (LPA)</span></label>
-            <input type="number" name="current_ctc" value="{{ old('current_ctc') }}" step="0.01" min="0"
-                placeholder="e.g. 5.5">
+            <label class="form-label"><span>PAN Number</span></label>
+            <input type="text" name="pan_number" value="{{ old('pan_number') }}" placeholder="PAN">
         </div>
         <div class="form-group">
-            <label class="form-label"><span>Expected CTC (LPA)</span></label>
-            <input type="number" name="expected_ctc" value="{{ old('expected_ctc') }}" step="0.01" min="0"
-                placeholder="e.g. 8.0">
+            <label class="form-label"><span>Company Size</span></label>
+            <select name="company_size">
+                <option value="">Select range</option>
+                <option value="1-10" {{ old('company_size') == '1-10' ? 'selected' : '' }}>1–10 employees</option>
+                <option value="11-50" {{ old('company_size') == '11-50' ? 'selected' : '' }}>11–50 employees</option>
+                <option value="51-200" {{ old('company_size') == '51-200' ? 'selected' : '' }}>51–200 employees</option>
+                <option value="201-500" {{ old('company_size') == '201-500' ? 'selected' : '' }}>201–500 employees
+                </option>
+                <option value="500+" {{ old('company_size') == '500+' ? 'selected' : '' }}>500+ employees</option>
+            </select>
         </div>
         <div class="form-group">
-            <label class="form-label"><span>LinkedIn Profile</span></label>
-            <input type="url" name="linkedin" value="{{ old('linkedin') }}"
-                placeholder="https://linkedin.com/in/...">
+            <label class="form-label"><span>Website</span></label>
+            <input type="url" name="website" value="{{ old('website') }}" placeholder="https://...">
         </div>
-        <div class="form-group full-width">
-            <label class="form-label"><span>Skills</span></label>
-            <textarea name="skills" rows="3" placeholder="e.g. Java, Spring Boot, AWS">{{ old('skills') }}</textarea>
+        <!-- NEW: Contact Number field -->
+        <div class="form-group">
+            <label class="form-label"><span>Contact Number</span><span class="required">*</span></label>
+            <input type="tel" name="contact_number" value="{{ old('contact_number') }}" required
+                placeholder="+91 9XXXXXXXXX">
         </div>
         <div class="form-group">
-            <label class="form-label"><span>Resume</span></label>
+            <label class="form-label"><span>Company Logo</span></label>
             <div class="file-upload">
-                <input type="file" name="resume" id="resume-employee" accept=".pdf,.doc,.docx">
-                <label for="resume-employee" class="file-label">
+                <input type="file" name="company_logo" id="company-logo" accept=".jpg,.jpeg,.png,.svg">
+                <label for="company-logo" class="file-label">
                     <svg viewBox="0 0 24 24" width="18" height="18">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
                             fill="none" />
@@ -519,15 +524,16 @@
                         <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
                             stroke-width="2" />
                     </svg>
-                    <span>Upload Resume</span>
+                    <span>Upload Logo</span>
                 </label>
             </div>
         </div>
+        <!-- RENAMED: Company Documents -> Company Registered Certificate -->
         <div class="form-group">
-            <label class="form-label"><span>Experience Proof</span></label>
+            <label class="form-label"><span>Company Registered Certificate</span></label>
             <div class="file-upload">
-                <input type="file" name="experience_proof" id="exp-proof" accept=".pdf,.jpg,.jpeg,.png">
-                <label for="exp-proof" class="file-label">
+                <input type="file" name="company_registered_certificate" id="company-cert" accept=".pdf,.doc,.docx">
+                <label for="company-cert" class="file-label">
                     <svg viewBox="0 0 24 24" width="18" height="18">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2"
                             fill="none" />
@@ -535,7 +541,7 @@
                         <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor"
                             stroke-width="2" />
                     </svg>
-                    <span>Upload Proof</span>
+                    <span>Upload Certificate</span>
                 </label>
             </div>
         </div>
@@ -1306,6 +1312,7 @@
         .form-group input[type="password"],
         .form-group input[type="number"],
         .form-group input[type="url"],
+        .form-group input[type="tel"],
         .form-group select,
         .form-group textarea {
             width: 100%;

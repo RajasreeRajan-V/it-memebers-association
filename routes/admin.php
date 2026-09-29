@@ -21,7 +21,7 @@ use App\Http\Controllers\Admin\TrainingMaterialManagementController;
 use App\Http\Controllers\Admin\MockInterviewManagementController;
 use App\Http\Controllers\Admin\LegalHelpController;
 
-
+//Freelancer Bid Approval Controller
 /*
 |--------------------------------------------------------------------------
 | Admin Authentication
@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\LegalHelpController;
 */
 
 Route::name('admin.')->group(function () {
-
+    
     /*
     |--------------------------------------------------------------------------
     | Login
@@ -95,6 +95,7 @@ Route::name('admin.')->group(function () {
             [RegistrationApprovalController::class, 'approveAllInvestors']
         )->name('registrations.approveAllInvestors');
 
+          
     });
 
 });
