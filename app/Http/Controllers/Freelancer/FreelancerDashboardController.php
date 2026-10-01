@@ -25,7 +25,7 @@ class FreelancerDashboardController extends Controller
     function about()
     {
         if (Auth::user()->role !== 'freelancer') {
-            abort(403, 'Unauthorized'); 
+            abort(403, 'Unauthorized');
         }
 
         return view('freelancer.about');
@@ -40,8 +40,14 @@ class FreelancerDashboardController extends Controller
         $projects = Project::query()
             ->with('employer.employerRegistration')
 
+            // Only show projects intended for freelancers
             ->where('visibility', 'freelancer')
+
+            // Only show approved projects
+            ->where('status', 'approved')
+
             ->withCount('applications')
+
             // Search
             ->when($request->filled('q'), function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {
@@ -71,60 +77,44 @@ class FreelancerDashboardController extends Controller
                 $query->where('work_mode', $request->work_mode);
             })
 
-            // Status
-            ->when($request->filled('status'), function ($query) use ($request) {
-                $query->where('status', $request->status);
-            })
-
-            // Visibility
-            ->when($request->filled('visibility'), function ($query) use ($request) {
-                $query->where('visibility', $request->visibility);
-            })
-
             // Minimum Budget
             ->when($request->filled('min_budget'), function ($query) use ($request) {
-
                 $query->whereRaw("
-        CAST(
-            REGEXP_REPLACE(
-                SUBSTRING_INDEX(REPLACE(budget,'₹',''), '-', 1),
-                '[^0-9]',
-                ''
-            ) AS UNSIGNED
-        ) >= ?
-    ", [$request->min_budget]);
-
+                CAST(
+                    REGEXP_REPLACE(
+                        SUBSTRING_INDEX(REPLACE(budget,'₹',''), '-', 1),
+                        '[^0-9]',
+                        ''
+                    ) AS UNSIGNED
+                ) >= ?
+            ", [$request->min_budget]);
             })
 
+            // Maximum Budget
             ->when($request->filled('max_budget'), function ($query) use ($request) {
-
                 $query->whereRaw("
-        CAST(
-            REGEXP_REPLACE(
-                SUBSTRING_INDEX(REPLACE(budget,'₹',''), '-', -1),
-                '[^0-9]',
-                ''
-            ) AS UNSIGNED
-        ) <= ?
-    ", [$request->max_budget]);
-
+                CAST(
+                    REGEXP_REPLACE(
+                        SUBSTRING_INDEX(REPLACE(budget,'₹',''), '-', -1),
+                        '[^0-9]',
+                        ''
+                    ) AS UNSIGNED
+                ) <= ?
+            ", [$request->max_budget]);
             })
 
-            // Duration
             // Duration
             ->when($request->filled('duration'), function ($query) use ($request) {
 
-                // Convert free-text duration ("2 Weeks", "15 Days", "1 Month", "1 Year")
-                // into an approximate number of days so it can be bucketed.
                 $durationInDaysSql = "
-        CAST(REGEXP_REPLACE(duration, '[^0-9]', '') AS UNSIGNED) *
-        CASE
-            WHEN duration REGEXP 'year'  THEN 365
-            WHEN duration REGEXP 'month' THEN 30
-            WHEN duration REGEXP 'week'  THEN 7
-            ELSE 1
-        END
-    ";
+                CAST(REGEXP_REPLACE(duration, '[^0-9]', '') AS UNSIGNED) *
+                CASE
+                    WHEN duration REGEXP 'year' THEN 365
+                    WHEN duration REGEXP 'month' THEN 30
+                    WHEN duration REGEXP 'week' THEN 7
+                    ELSE 1
+                END
+            ";
 
                 switch ($request->duration) {
                     case 'less_than_1_week':
@@ -153,7 +143,6 @@ class FreelancerDashboardController extends Controller
             ->when($request->sort, function ($query) use ($request) {
 
                 switch ($request->sort) {
-
                     case 'oldest':
                         $query->oldest();
                         break;
@@ -170,6 +159,7 @@ class FreelancerDashboardController extends Controller
                         $query->latest();
                         break;
                 }
+
             }, function ($query) {
                 $query->latest();
             })
@@ -183,13 +173,13 @@ class FreelancerDashboardController extends Controller
         $biddedProjectIds = [];
 
         if ($freelancer) {
-
             $existingBids = FreelancerBid::where('freelancer_id', $freelancer->id)
                 ->get()
                 ->keyBy('project_id');
 
             $biddedProjectIds = $existingBids->keys()->toArray();
         }
+
         $savedProjectIds = FreelancerSavedJob::where('user_id', Auth::id())
             ->pluck('project_id')
             ->toArray();

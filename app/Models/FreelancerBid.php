@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class FreelancerBid extends Model
 {
@@ -33,21 +32,39 @@ class FreelancerBid extends Model
         'bid_amount' => 'decimal:2',
     ];
 
+    /**
+     * Project to which this bid belongs.
+     */
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
+    /**
+     * Freelancer who submitted the bid.
+     *
+     * freelancer_id -> freelancer_registrations.id
+     */
     public function freelancer()
     {
         return $this->belongsTo(
             FreelancerRegistration::class,
-            'freelancer_id'
+            'freelancer_id',
+            'id'
         );
     }
 
+    /**
+     * Employer who owns the project / submitted bid relationship.
+     *
+     * employer_id -> users.id
+     */
     public function employer()
     {
-        return $this->belongsTo(User::class, 'employer_id');
+        return $this->belongsTo(
+            User::class,
+            'employer_id',
+            'id'
+        );
     }
 }

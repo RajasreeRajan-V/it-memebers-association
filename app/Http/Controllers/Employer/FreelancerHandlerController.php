@@ -17,14 +17,25 @@ class FreelancerHandlerController extends Controller
     /**
      * Display all freelancer bids.
      */
+
+
     public function index(Request $request)
     {
+        // Currently logged-in employer
+        $employerId = auth()->id();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Projects belonging ONLY to the logged-in employer
+        |--------------------------------------------------------------------------
+        */
         $query = Project::with([
             'employer',
             'freelancerBids.freelancer',
         ])
             ->withCount('freelancerBids')
-            ->whereHas('freelancerBids');
+            ->whereHas('freelancerBids')
+            ->where('projects.employer_id', $employerId);
 
         /*
         |--------------------------------------------------------------------------
@@ -42,10 +53,13 @@ class FreelancerHandlerController extends Controller
                     // Search by project title
                     ->orWhere('projects.title', 'like', "%{$search}%")
 
-                    // Search by freelancer name through users table
-                    ->orWhereHas('freelancerBids.freelancer.user', function ($userQuery) use ($search) {
-                        $userQuery->where('name', 'like', "%{$search}%");
-                    });
+                    // Search by freelancer name
+                    ->orWhereHas(
+                        'freelancerBids.freelancer.user',
+                        function ($userQuery) use ($search) {
+                            $userQuery->where('name', 'like', "%{$search}%");
+                        }
+                    );
             });
         }
 
@@ -91,21 +105,45 @@ class FreelancerHandlerController extends Controller
         | Pagination
         |--------------------------------------------------------------------------
         */
-        $projects = $query->paginate(10);
+        $projects = $query->paginate(10)->withQueryString();
 
         /*
         |--------------------------------------------------------------------------
-        | Statistics
+        | Employer-specific statistics
+        |--------------------------------------------------------------------------
+        |
+        | Get ONLY this employer's projects first.
+        |
+        */
+        $employerProjectIds = Project::where('employer_id', $employerId)
+            ->pluck('id');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bid Statistics
         |--------------------------------------------------------------------------
         */
-        $totalBids = FreelancerBid::count();
 
-        $pendingBids = FreelancerBid::where('status', 'pending')->count();
+        $totalBids = FreelancerBid::whereIn('project_id', $employerProjectIds)
+            ->count();
 
-        $acceptedBids = FreelancerBid::where('status', 'accepted')->count();
+        $pendingBids = FreelancerBid::whereIn('project_id', $employerProjectIds)
+            ->where('status', 'pending')
+            ->count();
 
-        $rejectedBids = FreelancerBid::where('status', 'rejected')->count();
+        $acceptedBids = FreelancerBid::whereIn('project_id', $employerProjectIds)
+            ->where('status', 'accepted')
+            ->count();
 
+        $rejectedBids = FreelancerBid::whereIn('project_id', $employerProjectIds)
+            ->where('status', 'rejected')
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return View
+        |--------------------------------------------------------------------------
+        */
         return view(
             'employers.freelancer.bid.bid_index',
             compact(
@@ -118,20 +156,27 @@ class FreelancerHandlerController extends Controller
         );
     }
 
+
+
+
     /**
      * Show all bids for a project.
      */
     public function bids($projectId)
     {
+        $employerId = auth()->id();
+
         $project = Project::with('employer')
+            ->where('id', $projectId)
+            ->where('employer_id', $employerId)
             ->whereHas('freelancerBids')
-            ->findOrFail($projectId);
+            ->firstOrFail();
 
         $bids = FreelancerBid::with([
             'freelancer',
             'project',
         ])
-            ->where('project_id', $projectId)
+            ->where('project_id', $project->id)
             ->latest()
             ->paginate(10);
 
@@ -146,11 +191,18 @@ class FreelancerHandlerController extends Controller
      */
     public function show($id)
     {
+        $employerId = auth()->id();
+
         $bid = FreelancerBid::with([
             'project',
             'freelancer.user',
             'employer',
-        ])->findOrFail($id);
+        ])
+            ->where('id', $id)
+            ->whereHas('project', function ($query) use ($employerId) {
+                $query->where('employer_id', $employerId);
+            })
+            ->firstOrFail();
 
         return view(
             'employers.freelancer.bid.bid_approval',
@@ -165,8 +217,18 @@ class FreelancerHandlerController extends Controller
             'action' => 'required|in:accepted,rejected',
         ]);
 
-        $bid = FreelancerBid::with(['project', 'freelancer.user', 'employer'])
-            ->findOrFail($id);
+        $employerId = auth()->id();
+
+        $bid = FreelancerBid::with([
+            'project',
+            'freelancer.user',
+            'employer',
+        ])
+            ->where('id', $id)
+            ->whereHas('project', function ($query) use ($employerId) {
+                $query->where('employer_id', $employerId);
+            })
+            ->firstOrFail();
 
         // Guard against re-processing an already-decided bid
         if ($bid->status !== FreelancerBid::STATUS_PENDING) {
