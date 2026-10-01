@@ -518,21 +518,15 @@
 
                             $companyLogoUrl = $companyLogo ? asset('storage/' . ltrim($companyLogo, '/')) : null;
 
-                            /*
-    |--------------------------------------------------------------------------
-    | Proposal / Bid Count
-    |--------------------------------------------------------------------------
-    */
+                            $applicationsCount = $project->applications()->count();
 
-                            $allocatedBids = (int) ($project->maximum_bids ?? 0);
-
-                            $receivedBids = \App\Models\FreelancerBid::where('project_id', $project->id)->count();
-
-                            $remainingBids = $allocatedBids > 0 ? max(0, $allocatedBids - $receivedBids) : 0;
-
-                            $isBidLimitReached = $allocatedBids > 0 && $receivedBids >= $allocatedBids;
+                            $maxBids = $project->maximum_bids ?? 0;
 
                             $contactPerson = optional($project->employer)->name ?? 'N/A';
+
+                            $allocatedBids = (int) ($project->maximum_bids ?? 0);
+                            $receivedBids = (int) ($project->freelancer_bids_count ?? 0);
+                            $remainingBids = max(0, $allocatedBids - $receivedBids);
 
                             $isSaved = in_array($project->id, $savedProjectIds ?? []);
                         @endphp
@@ -897,7 +891,6 @@
 
 
                                     {{-- Bids --}}
-                                    {{-- Bids --}}
                                     <span class="text-xs text-slate2">
 
                                         <span class="font-semibold text-ink">
@@ -906,8 +899,7 @@
 
                                         Received •
 
-                                        <span
-                                            class="font-semibold {{ $remainingBids > 0 ? 'text-green-600' : 'text-red-600' }}">
+                                        <span class="font-semibold text-green-600">
                                             {{ $remainingBids }}
                                         </span>
 
@@ -1471,11 +1463,11 @@
                     <div class="flex items-center gap-2 mt-1.5 flex-wrap">
                         <span class="text-sm font-semibold text-ink">${companyName}</span>
                         ${isVerified ? `<span class="verified-badge">
-                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
-                                                                                                                <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                                                                                            </svg>
-                                                                                                            Verified
-                                                                                                        </span>` : ''}
+                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                                                                                                            <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
+                                                                                                        </svg>
+                                                                                                        Verified
+                                                                                                    </span>` : ''}
                     </div>
                     <p class="text-xs text-slate2 mt-1">
                         <span class="font-medium">Contact Person:</span> ${contactPerson}
@@ -1498,13 +1490,13 @@
                     <p class="text-sm font-semibold text-brand">${project.budget || 'Not specified'}</p>
                 </div>
                 ${project.duration ? `<div>
-                                                                                                    <p class="text-[10px] text-slate2 uppercase tracking-wider">Duration</p>
-                                                                                                    <p class="text-sm font-semibold text-ink">${project.duration}</p>
-                                                                                                </div>` : ''}
+                                                                                                <p class="text-[10px] text-slate2 uppercase tracking-wider">Duration</p>
+                                                                                                <p class="text-sm font-semibold text-ink">${project.duration}</p>
+                                                                                            </div>` : ''}
                 ${formattedDeadline ? `<div>
-                                                                                                    <p class="text-[10px] text-slate2 uppercase tracking-wider">Deadline</p>
-                                                                                                    <p class="text-sm font-semibold text-ink">${formattedDeadline}</p>
-                                                                                                </div>` : ''}
+                                                                                                <p class="text-[10px] text-slate2 uppercase tracking-wider">Deadline</p>
+                                                                                                <p class="text-sm font-semibold text-ink">${formattedDeadline}</p>
+                                                                                            </div>` : ''}
                 <div>
                     <p class="text-[10px] text-slate2 uppercase tracking-wider">Bids</p>
                     <p class="text-sm font-semibold text-ink">${applicationsCount} ${maxBids ? '/ ' + maxBids : ''}</p>
@@ -1519,27 +1511,27 @@
             
             <!-- Location -->
             ${locationStr ? `<div>
-                                                                                                <h4 class="font-display font-semibold text-sm text-ink mb-1">Location</h4>
-                                                                                                <p class="text-sm text-slate2">${locationStr}</p>
-                                                                                            </div>` : ''}
+                                                                                            <h4 class="font-display font-semibold text-sm text-ink mb-1">Location</h4>
+                                                                                            <p class="text-sm text-slate2">${locationStr}</p>
+                                                                                        </div>` : ''}
             
             <!-- Description -->
             ${project.description ? `<div>
-                                                                                                <h4 class="font-display font-semibold text-sm text-ink mb-1">Description</h4>
-                                                                                                <p class="text-sm text-slate2 leading-relaxed">${project.description}</p>
-                                                                                            </div>` : ''}
+                                                                                            <h4 class="font-display font-semibold text-sm text-ink mb-1">Description</h4>
+                                                                                            <p class="text-sm text-slate2 leading-relaxed">${project.description}</p>
+                                                                                        </div>` : ''}
             
             <!-- Skills -->
             ${skills ? `<div>
-                                                                                                <h4 class="font-display font-semibold text-sm text-ink mb-1">Required Skills</h4>
-                                                                                                <div class="flex flex-wrap gap-1.5">${skills}</div>
-                                                                                            </div>` : ''}
+                                                                                            <h4 class="font-display font-semibold text-sm text-ink mb-1">Required Skills</h4>
+                                                                                            <div class="flex flex-wrap gap-1.5">${skills}</div>
+                                                                                        </div>` : ''}
             
             <!-- Rejection Reason -->
             ${project.rejection_reason ? `<div class="bg-red-50 rounded-lg p-4 border border-red-200">
-                                                                                                <h4 class="font-display font-semibold text-sm text-red-700 mb-1">Rejection Reason</h4>
-                                                                                                <p class="text-sm text-red-600">${project.rejection_reason}</p>
-                                                                                            </div>` : ''}
+                                                                                            <h4 class="font-display font-semibold text-sm text-red-700 mb-1">Rejection Reason</h4>
+                                                                                            <p class="text-sm text-red-600">${project.rejection_reason}</p>
+                                                                                        </div>` : ''}
             
             <!-- Action Button with Bid - FIXED with dynamic URL -->
            <div class="flex items-center justify-between pt-4 border-t border-line">
@@ -1548,16 +1540,16 @@
     ${
         project.already_bid
             ? `<span class="inline-flex items-center px-4 py-2 rounded-lg bg-green-100 text-green-700 text-xs font-semibold">
-                                                                                    Proposal Submitted
-                                                                               </span>`
+                                                                                Proposal Submitted
+                                                                           </span>`
             : `<a href="${bidUrl}"
-                                                                                    onclick="event.stopPropagation()"
-                                                                                    class="btn-primary bg-brand hover:bg-brand/90 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5">
-                                                                                    Place Bid
-                                                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7" />
-                                                                                    </svg>
-                                                                               </a>`
+                                                                                onclick="event.stopPropagation()"
+                                                                                class="btn-primary bg-brand hover:bg-brand/90 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5">
+                                                                                Place Bid
+                                                                                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7" />
+                                                                                </svg>
+                                                                           </a>`
     }
 </div>
         </div>
