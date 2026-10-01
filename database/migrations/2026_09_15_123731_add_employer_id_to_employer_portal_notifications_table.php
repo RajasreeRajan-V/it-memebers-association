@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('employer_portal_notifications', 'employer_id')) {
+        if (!Schema::hasColumn('employer_portal_notifications', 'is_read')) {
             Schema::table('employer_portal_notifications', function (Blueprint $table) {
-                $table->foreignId('employer_id')
-                    ->after('id')
-                    ->constrained('users')
-                    ->cascadeOnDelete();
+                $table->boolean('is_read')
+                    ->default(false)
+                    ->after('employer_id');
             });
         }
     }
@@ -26,15 +25,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        if (Schema::hasColumn('employer_portal_notifications', 'employer_id')) {
+        if (Schema::hasColumn('employer_portal_notifications', 'is_read')) {
             Schema::table('employer_portal_notifications', function (Blueprint $table) {
-                // Drop foreign key if it exists
-                $table->dropForeign(['employer_id']);
-
-                // Drop employer_id column
-                $table->dropColumn('employer_id');
+                $table->dropColumn('is_read');
             });
         }
     }
 };
-

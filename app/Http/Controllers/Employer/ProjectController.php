@@ -41,6 +41,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        // Normalize special dashes and spaces before validation
+        $this->normalizeInput($request);
+
         $data = $this->validateProject($request);
 
         $data['employer_id'] = Auth::id();
@@ -81,9 +84,13 @@ class ProjectController extends Controller
     /**
      * Update a project.
      */
+
     public function update(Request $request, Project $project)
     {
         $this->authorizeOwner($project);
+
+        // Normalize special dashes and spaces before validation
+        $this->normalizeInput($request);
 
         $data = $this->validateProject($request);
 
@@ -93,6 +100,8 @@ class ProjectController extends Controller
             ->route('employer.projects.index')
             ->with('success', 'Project updated successfully.');
     }
+
+
 
     /**
      * Delete a project.
@@ -235,6 +244,19 @@ class ProjectController extends Controller
                     'max:100',
                 ],
 
+                'budget' => [
+                    'required',
+                    'string',
+                    'max:100',
+                    'regex:/^[0-9₹$,.\-\s\/]+$/',
+                ],
+
+                'duration' => [
+                    'required',
+                    'string',
+                    'max:100',
+                    'regex:/^[A-Za-z0-9\s-]+$/',
+                ],
                 /*
                  * Project type
                  */
@@ -247,23 +269,13 @@ class ProjectController extends Controller
                  * Budget
                  * Numbers + currency symbols only
                  */
-                'budget' => [
-                    'required',
-                    'string',
-                    'max:100',
-                    'regex:/^[0-9₹$,.\-\s\/]+$/',
-                ],
+
 
                 /*
                  * Duration
                  * Alphabets + Numbers + Hyphen
                  */
-                'duration' => [
-                    'required',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z0-9\s-]+$/',
-                ],
+
 
                 /*
                  * Experience level
@@ -426,5 +438,26 @@ class ProjectController extends Controller
             403,
             'You do not have access to this project.'
         );
+    }
+    /**
+     * Convert fancy dashes / odd spaces to plain characters before validating.
+     */
+    private function normalizeInput(Request $request): void
+    {
+        $dashes = ['–', '—', '−', '‐', '‑', '‒'];
+
+        foreach (['budget', 'duration'] as $field) {
+            if (!$request->has($field)) {
+                continue;
+            }
+
+            $value = (string) $request->input($field);
+
+            $value = str_replace($dashes, '-', $value);          // en/em dash -> hyphen
+            $value = str_replace("\u{00A0}", ' ', $value);       // non-breaking space -> space
+            $value = trim(preg_replace('/\s+/u', ' ', $value));  // collapse whitespace
+
+            $request->merge([$field => $value]);
+        }
     }
 }

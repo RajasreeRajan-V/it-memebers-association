@@ -32,22 +32,63 @@ class BidController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $user = Auth::user();
+
+        $freelancer = FreelancerRegistration::where('user_id', $user->id)
+            ->firstOrFail();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Validation
+        |--------------------------------------------------------------------------
+        */
+
+        $rules = [
             'project_id' => 'required|exists:projects,id',
             'bid_amount' => 'required|numeric|min:1',
-            'estimated_days' => 'required',
-            'cover_letter' => 'required|min:50',
-            'availability' => 'required',
+            'estimated_days' => 'required|string|max:100',
+            'cover_letter' => 'required|string|min:50',
+            'availability' => 'required|in:full_time,part_time,flexible',
             'github' => 'nullable|url',
             'linkedin' => 'nullable|url',
-        ]);
+            'portfolio' => 'nullable|file|mimes:pdf,zip,rar|max:20480',
+        ];
 
-        $user = Auth::user();
-        $freelancer = FreelancerRegistration::where('user_id', $user->id)->firstOrFail();
+        // Resume is required only when freelancer doesn't already have one
+        if (empty($freelancer->resume)) {
+            $rules['resume'] = 'required|file|mimes:pdf,doc,docx|max:5120';
+        } else {
+            $rules['resume'] = 'nullable|file|mimes:pdf,doc,docx|max:5120';
+        }
+
+        $validated = $request->validate($rules);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Project
+        |--------------------------------------------------------------------------
+        */
+
         $project = Project::findOrFail($request->project_id);
 
-        // Update existing proposal
+        /*
+        |--------------------------------------------------------------------------
+        | Check if Freelancer Already Submitted a Proposal
+        |--------------------------------------------------------------------------
+        */
+
+        $existingBid = FreelancerBid::where('project_id', $project->id)
+            ->where('freelancer_id', $freelancer->id)
+            ->first();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Existing Proposal
+        |--------------------------------------------------------------------------
+        */
+
         if ($request->filled('bid_id')) {
+
             $bid = FreelancerBid::where('id', $request->bid_id)
                 ->where('project_id', $project->id)
                 ->where('freelancer_id', $freelancer->id)
@@ -67,14 +108,58 @@ class BidController extends Controller
                 ->with('success', 'Your proposal has been updated successfully.');
         }
 
-        // Create new proposal
-        $alreadyBid = FreelancerBid::where('project_id', $project->id)
-            ->where('freelancer_id', $freelancer->id)
-            ->exists();
+        /*
+        |--------------------------------------------------------------------------
+        | Prevent Duplicate Proposal
+        |--------------------------------------------------------------------------
+        */
 
-        if ($alreadyBid) {
-            return back()->with('error', 'You have already submitted a proposal for this project.');
+        if ($existingBid) {
+            return back()
+                ->withInput()
+                ->with('error', 'You have already submitted a proposal for this project.');
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Available Bid Slots
+        |--------------------------------------------------------------------------
+        */
+
+        $maximumBids = (int) ($project->maximum_bids ?? 0);
+
+        $receivedBids = FreelancerBid::where('project_id', $project->id)
+            ->count();
+
+        if ($maximumBids > 0 && $receivedBids >= $maximumBids) {
+            return back()
+                ->withInput()
+                ->with('error', 'Sorry, all proposal slots for this project have been filled.');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Resume Upload
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->hasFile('resume')) {
+
+            $resumePath = $request->file('resume')->store(
+                'freelancers/resumes',
+                'public'
+            );
+
+            $freelancer->update([
+                'resume' => $resumePath,
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create New Proposal
+        |--------------------------------------------------------------------------
+        */
 
         FreelancerBid::create([
             'project_id' => $project->id,
