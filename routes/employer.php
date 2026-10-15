@@ -16,9 +16,10 @@ use App\Http\Controllers\Employer\EmployerDashboardController;
 use App\Http\Controllers\Employer\CandidateInvitationController;
 use App\Http\Controllers\Employer\EmployerPortalNotificationController;
 use App\Http\Controllers\Employer\FreelancerHandlerController;
+use App\Http\Controllers\Employer\EmployeeProposalController;
 use App\Http\Controllers\Admin\JobApprovalController;
-
-
+use App\Http\Controllers\Employer\FreelancerBidController;
+use App\Http\Controllers\Employer\ContractCronController;
 /*
 |--------------------------------------------------------------------------
 | Employer Dashboard
@@ -49,12 +50,25 @@ Route::middleware(['member.auth'])
     ->name('employer.')
     ->group(function () {
 
+    Route::post( '/projects/{project}/proposals/{application}/contract', [EmployeeProposalController::class, 'sendContract'])->name('projects.proposals.contract');
+    
+    Route::post('projects/{project}/proposals/{application}/send-contract',[EmployeeProposalController::class, 'sendContract'])->name('projects.proposals.send-contract');
   /*
     |--------------------------------------------------------------------------
     | Freelancer Bid Approval
     |--------------------------------------------------------------------------
-    */
-         Route::get(
+    */  Route::get('projects/{project}/proposals', [EmployeeProposalController::class, 'index'])
+            ->name('projects.proposals.index');
+
+        Route::post('/projects/{project}/proposals/{application}/accept',
+            [EmployeeProposalController::class, 'accept']
+        )->name('projects.proposals.accept');
+
+        Route::post('/projects/{project}/proposals/{application}/reject',
+            [EmployeeProposalController::class, 'reject']
+        )->name('projects.proposals.reject');
+
+        Route::get(
             'freelancer/bids',
             [FreelancerHandlerController::class, 'index']
         )->name('freelancer.bids.index');
@@ -612,4 +626,7 @@ Route::prefix('admin')
             'reject'
         ])->name('jobs.reject');
 
+        Route::get('/cron/contracts/cancel-expired', ContractCronController::class)
+            ->middleware('throttle:12,1')
+            ->name('cron.contracts.cancel-expired');
     });
