@@ -13,7 +13,8 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    'contract_cron_token' => env('CONTRACT_CRON_TOKEN'),
+    
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

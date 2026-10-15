@@ -9,9 +9,11 @@ use App\Http\Controllers\Employee\WebinarController;
 use App\Http\Controllers\Employee\WebinarFeedbackController;
 use App\Http\Controllers\Employee\CertificateController;
 use App\Http\Controllers\Employee\StartupController;
+use App\Http\Controllers\Employee\FreelanceJobController;
+use App\Http\Controllers\Employee\FreelanceJobApplicationController;
 use App\Http\Controllers\Employee\TrainingController as EmployeeTrainingController;
 
-
+use App\Http\Controllers\Employee\ProjectApplicationController;
 
 Route::middleware(['member.auth'])
     ->name('employee.')
@@ -61,11 +63,11 @@ Route::middleware(['member.auth'])
 
         Route::get('/projects/proposals', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'index'])
             ->name('projects.proposals');
-Route::post('/proposals/{proposal}/withdraw', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'withdraw'])
-    ->name('proposals.withdraw');
+        Route::post('/proposals/{proposal}/withdraw', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'withdraw'])
+            ->name('proposals.withdraw');
 
-Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'show'])
-    ->name('proposals.show');
+        Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectApplicationController::class, 'show'])
+            ->name('proposals.show');
         // Articles — same rule applies: any fixed segment (e.g. /articles/saved,
         // /articles/create) must be declared BEFORE /articles/{article}.
         Route::get('/articles', [ArticleController::class, 'index'])
@@ -90,12 +92,12 @@ Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectAppli
             ->name('articles.comments.destroy');
 
 
-  Route::prefix('trainings')->name('trainings.')->group(function () {
+        Route::prefix('trainings')->name('trainings.')->group(function () {
             Route::get('/', [EmployeeTrainingController::class, 'index'])->name('index');
             Route::get('/{training}', [EmployeeTrainingController::class, 'show'])->name('show');
         });
 
-                    // Webinars
+        // Webinars
         Route::get('/webinars', [WebinarController::class, 'index'])
             ->name('webinars');
 
@@ -119,35 +121,74 @@ Route::get('/proposals/{proposal}', [\App\Http\Controllers\Employee\ProjectAppli
             ->name('legal-help.')
             ->group(function () {
 
-                Route::get('/', [LegalHelpController::class, 'index'])
-                    ->name('index');
+            Route::get('/', [LegalHelpController::class, 'index'])
+                ->name('index');
 
-                Route::get('/create', [LegalHelpController::class, 'create'])
-                    ->name('create');
+            Route::get('/create', [LegalHelpController::class, 'create'])
+                ->name('create');
 
-                Route::post('/', [LegalHelpController::class, 'store'])
-                    ->name('store');
+            Route::post('/', [LegalHelpController::class, 'store'])
+                ->name('store');
 
-                Route::get('/{legalRequest}', [LegalHelpController::class, 'show'])
-                    ->name('show');
+            Route::get('/{legalRequest}', [LegalHelpController::class, 'show'])
+                ->name('show');
 
-                Route::post('/{legalRequest}/messages', [LegalHelpController::class, 'sendMessage'])
-                    ->name('messages.store');
+            Route::post('/{legalRequest}/messages', [LegalHelpController::class, 'sendMessage'])
+                ->name('messages.store');
 
-                Route::post('/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])
-                    ->name('documents.store');
-            });
+            Route::post('/{legalRequest}/documents', [LegalHelpController::class, 'uploadDocument'])
+                ->name('documents.store');
+        });
 
 
 
-                 Route::get(
-            '/startups',
-            [StartupController::class, 'index']
-        )->name('startups.index');
+        Route::get('/startups', [StartupController::class, 'index'])->name('startups.index');
 
-        Route::get(
-            '/startups/{startupProfile:slug}',
-            [StartupController::class, 'show']
-        )->name('startups.show');
+        Route::get('/startups/{startupProfile:slug}', [StartupController::class, 'show'])->name('startups.show');
 
+        Route::get('/freelance-jobs', [FreelanceJobController::class, 'index'])
+            ->name('freelance-jobs.index');
+
+        Route::get('/projects/proposals', [ProjectApplicationController::class, 'index'])
+            ->name('projects.proposals');
+
+        Route::post('/save-job/{project}', [FreelanceJobController::class, 'saveJob'])
+            ->name('save-job');
+
+        Route::post('/employee/projects/{project}/bid', [FreelanceJobApplicationController::class, 'store'])
+        ->name('jobs.bid.store');
+
+        Route::get('/employee/application/{project}/bid', [FreelanceJobApplicationController::class, 'index'])
+        ->name('jobs.application');
+
+
+        Route::get('/freelance-jobs', [FreelanceJobController::class, 'index'])
+            ->name('freelance-jobs.index');
+
+        Route::get('/freelance-jobs/saved', [FreelanceJobController::class, 'saved'])
+            ->name('freelance-jobs.saved');
+
+        Route::get('/freelance-jobs/archived', [FreelanceJobController::class, 'archived'])
+            ->name('freelance-jobs.archived');
+
+        Route::post('/freelance-jobs/{project}/archive', [FreelanceJobController::class, 'archive'])
+            ->name('freelance-jobs.archive');
+
+        Route::delete('/freelance-jobs/{project}/archive', [FreelanceJobController::class, 'unarchive'])
+            ->name('freelance-jobs.unarchive');
+
+        Route::post('/freelance-saved-job/{project}', [FreelanceJobController::class, 'toggleSaved'])
+            ->name('freelance-saved-job');
+            
+        Route::get('/freelance-job/applied-jobs', [FreelanceJobController::class, 'applied'])->name('freelance-job.applied');
+
+        Route::get('/freelance-job/in-progress',[FreelanceJobController::class, 'inProgress'])->name('freelance-job.in-progress');
+
+        Route::get('/freelance-job/my-proposals',[FreelanceJobController::class, 'proposals'])->name('freelance-job.proposals');
+
+        Route::get('/freelance-job/hired', [FreelanceJobController::class, 'hired']) ->name('freelance-job.hired');
+
+        Route::get('/freelance-job/my-jobs', [FreelanceJobController::class, 'myJobs']) ->name('freelance-job.my-jobs');
+        Route::post(
+    '/employee/freelance-job/applications/{application}/signed-contract',[FreelanceJobController::class, 'uploadSignedContract'])->name('freelance-job.signed-contract');
     });

@@ -13,20 +13,33 @@ class ProjectController extends Controller
      * Display employer's projects.
      */
     public function index(Request $request)
-    {
-        $projects = Project::where('employer_id', Auth::id())
-            ->when($request->search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%");
-            })
-            ->when($request->status, function ($query, $status) {
-                $query->where('status', $status);
-            })
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+{
+    $type = in_array($request->type, ['freelancer', 'employee'])
+        ? $request->type
+        : null;
 
-        return view('employers.projects.index', compact('projects'));
-    }
+    $projects = Project::where('employer_id', Auth::id())
+        ->when($request->search, function ($query, $search) {
+            $query->where('title', 'like', "%{$search}%");
+        })
+        ->when($request->status, function ($query, $status) {
+            $query->where('status', $status);
+        })
+        ->when($type, function ($query, $type) {
+            $query->where('visibility', $type);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    // Counts for the tabs (ignores search/status so numbers stay stable)
+    $counts = Project::where('employer_id', Auth::id())
+        ->selectRaw('visibility, COUNT(*) as total')
+        ->groupBy('visibility')
+        ->pluck('total', 'visibility');
+
+    return view('employers.projects.index', compact('projects', 'type', 'counts'));
+}
 
     /**
      * Show create project form.
