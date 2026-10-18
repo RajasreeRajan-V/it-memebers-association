@@ -5,6 +5,7 @@ use App\Http\Controllers\Freelancer\FreelancerDashboardController;
 use App\Http\Controllers\Freelancer\BidController;
 use App\Http\Controllers\Freelancer\FreelancerWorkController;
 use App\Http\Controllers\Employer\FreelancerBidController;
+use App\Http\Controllers\Freelancer\FreelancersJobController;
 
 Route::middleware(['member.auth'])
     ->name('freelancer.')
@@ -59,9 +60,9 @@ Route::middleware(['member.auth'])
         )->name('hired');
 
         Route::get(
-            '/archived',
-            [FreelancerWorkController::class, 'archived']
-        )->name('archived');
+    '/archived',
+    [FreelancersJobController::class, 'archived']
+)->name('archived');
 
         Route::get(
         '/employer/bids/{bid}',[FreelancerBidController::class, 'show']
@@ -76,4 +77,14 @@ Route::middleware(['member.auth'])
             '/employer/bids/{bid}/reject',
             [FreelancerBidController::class, 'reject']
         )->name('employer.bids.reject');
+
+        Route::post('/freelancer/jobs/{project}/archive', [FreelancersJobController::class, 'archiveJob'])->name('archive-job');
+        
+        Route::delete('/freelancer/jobs/{project}/archive', [FreelancersJobController::class, 'unarchiveJob'])->name('unarchive-job');
+        Route::get('/bids/{bid}/contract/{type?}', [FreelancerWorkController::class, 'downloadContract'])
+    ->where('type', 'contract|signed')
+    ->name('contract.download');
+
+    Route::post('/bids/{bid}/signed-contract', [FreelancerWorkController::class, 'uploadSignedContract'])
+    ->name('contract.upload-signed');
     });

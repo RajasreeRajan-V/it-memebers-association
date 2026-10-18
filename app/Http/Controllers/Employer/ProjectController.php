@@ -12,34 +12,67 @@ class ProjectController extends Controller
     /**
      * Display employer's projects.
      */
-    public function index(Request $request)
-{
-    $type = in_array($request->type, ['freelancer', 'employee'])
-        ? $request->type
-        : null;
 
-    $projects = Project::where('employer_id', Auth::id())
-        ->when($request->search, function ($query, $search) {
-            $query->where('title', 'like', "%{$search}%");
+public function index(Request $request)
+{
+    $employerId = auth()->id();
+
+    // Total projects belonging to this employer
+    $total =Project::where('employer_id', $employerId)
+        ->count();
+
+    // Count projects by visibility
+    $counts = Project::where('employer_id', $employerId)
+        ->get(['visibility'])
+        ->groupBy(function ($project) {
+            $visibility = $project->visibility;
+
+            if (is_string($visibility)) {
+                $decoded = json_decode($visibility, true);
+
+                if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                    $visibility = $decoded;
+                }
+            }
+
+            return is_array($visibility) ? $visibility : [];
         })
-        ->when($request->status, function ($query, $status) {
-            $query->where('status', $status);
-        })
-        ->when($type, function ($query, $type) {
-            $query->where('visibility', $type);
-        })
-        ->latest()
+        ->flatten()
+        
+        ->all();
+
+    $type = $request->query('type');
+
+    // Base query
+    $query = Project::where('employer_id', $employerId);
+
+    // Filter by visibility tab
+    if (in_array($type, ['freelancer', 'employee', 'student'], true)) {
+        $query->whereJsonContains('visibility', $type);
+    }
+
+    // Search by project title
+    if ($request->filled('search')) {
+        $query->where('title', 'like', '%' . $request->search . '%');
+    }
+
+    // Filter by status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    $projects = $query->latest()
         ->paginate(10)
         ->withQueryString();
 
-    // Counts for the tabs (ignores search/status so numbers stay stable)
-    $counts = Project::where('employer_id', Auth::id())
-        ->selectRaw('visibility, COUNT(*) as total')
-        ->groupBy('visibility')
-        ->pluck('total', 'visibility');
-
-    return view('employers.projects.index', compact('projects', 'type', 'counts'));
+    return view('employers.projects.index', compact(
+        'projects',
+        'total',
+        'counts',
+        'type'
+    ));
 }
+
 
     /**
      * Show create project form.
@@ -232,213 +265,77 @@ class ProjectController extends Controller
     /**
      * Validate project data.
      */
-    private function validateProject(Request $request): array
+   private function validateProject(Request $request): array
     {
-        return $request->validate(
-            [
-
-                /*
-                 * Project title
-                 * Alphabets + Numbers + Special characters
-                 */
-                'title' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    'regex:/^[A-Za-z0-9\s\-&().,]+$/',
-                ],
-
-                /*
-                 * Project category
-                 */
-                'category' => [
-                    'nullable',
-                    'string',
-                    'max:100',
-                ],
-
-                'budget' => [
-                    'required',
-                    'string',
-                    'max:100',
-                    'regex:/^[0-9₹$,.\-\s\/]+$/',
-                ],
-
-                'duration' => [
-                    'required',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z0-9\s-]+$/',
-                ],
-                /*
-                 * Project type
-                 */
-                'project_type' => [
-                    'required',
-                    'in:fixed,hourly',
-                ],
-
-                /*
-                 * Budget
-                 * Numbers + currency symbols only
-                 */
-
-
-                /*
-                 * Duration
-                 * Alphabets + Numbers + Hyphen
-                 */
-
-
-                /*
-                 * Experience level
-                 */
-                'experience_level' => [
-                    'nullable',
-                    'in:entry,intermediate,expert',
-                ],
-
-                /*
-                 * Skills
-                 */
-                'skills' => [
-                    'nullable',
-                    'string',
-                    'max:500',
-                    'regex:/^[A-Za-z0-9\s,.\-+#\/]+$/',
-                ],
-
-                /*
-                 * Deadline
-                 */
-                'deadline' => [
-                    'nullable',
-                    'date',
-                ],
-
-                /*
-                 * Work mode
-                 */
-                'work_mode' => [
-                    'required',
-                    'in:remote,onsite,hybrid',
-                ],
-
-                /*
-                 * Visibility
-                 */
-                'visibility' => [
-                    'required',
-                    'in:freelancer,employee',
-                ],
-
-                /*
-                 * Maximum bids
-                 *
-                 * This is now the only project application/proposal limit.
-                 */
-                'maximum_bids' => [
-                    'required',
-                    'integer',
-                    'min:1',
-                    'max:1000',
-                ],
-
-                /*
-                 * Country
-                 * Alphabets only
-                 */
-                'country' => [
-                    'nullable',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z\s]+$/',
-                ],
-
-                /*
-                 * State
-                 */
-                'state' => [
-                    'nullable',
-                    'required_if:work_mode,onsite,hybrid',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z\s]+$/',
-                ],
-
-                /*
-                 * District
-                 */
-                'district' => [
-                    'nullable',
-                    'required_if:work_mode,onsite,hybrid',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z\s]+$/',
-                ],
-
-                /*
-                 * City
-                 */
-                'city' => [
-                    'nullable',
-                    'required_if:work_mode,onsite,hybrid',
-                    'string',
-                    'max:100',
-                    'regex:/^[A-Za-z\s]+$/',
-                ],
-
-                /*
-                 * Project description
-                 */
-                'description' => [
-                    'required',
-                    'string',
-                    'max:5000',
-                ],
+        return $request->validate([
+            'title' => [
+                'required', 'string', 'max:255',
+                'regex:/^[A-Za-z0-9\s\-&().,]+$/',
             ],
-            [
 
-                'title.regex' =>
-                    'Title can only contain letters, numbers, and & ( ) . , -',
+            'project_type' => ['required', 'in:fixed,hourly'],
 
-                'budget.regex' =>
-                    'Budget can only contain numbers and ₹ $ , . - / (no letters).',
+            'budget' => [
+                'required', 'string', 'max:100',
+                'regex:/^[0-9₹$,.\-\s\/]+$/',
+            ],
 
-                'duration.regex' =>
-                    'Duration can only contain letters, numbers, and -',
+            'duration' => [
+                'required', 'string', 'max:100',
+                'regex:/^[A-Za-z0-9\s-]+$/',
+            ],
 
-                'skills.regex' =>
-                    'Skills can only contain letters, numbers, and , . - + # /',
+            'experience_level' => ['nullable', 'in:entry,intermediate,expert'],
 
-                'visibility.in' =>
-                    'Please select who can view/apply to this project.',
+            'skills' => [
+                'nullable', 'string', 'max:500',
+                'regex:/^[A-Za-z0-9\s,.\-+#\/]+$/',
+            ],
 
-                'maximum_bids.required' =>
-                    'Please specify the maximum number of bids allowed.',
+            'deadline'  => ['nullable', 'date'],
+            'work_mode' => ['required', 'in:remote,onsite,hybrid'],
 
-                'maximum_bids.integer' =>
-                    'Maximum bids must be a whole number.',
+            // Multi-select audience: one or more of freelancer / employee / student
+            'visibility'   => ['required', 'array', 'min:1'],
+            'visibility.*' => ['required', 'in:freelancer,employee,student', 'distinct'],
 
-                'maximum_bids.min' =>
-                    'Maximum bids must be at least 1.',
+            'maximum_bids' => ['required', 'integer', 'min:1', 'max:1000'],
 
-                'maximum_bids.max' =>
-                    'Maximum bids cannot exceed 1000.',
+            'country' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z\s]+$/'],
 
-                'country.regex' =>
-                    'Country can only contain letters.',
+            'state' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
 
-                'state.regex' =>
-                    'State can only contain letters.',
+            'district' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
 
-                'district.regex' =>
-                    'District can only contain letters.',
+            'city' => [
+                'nullable', 'required_if:work_mode,onsite,hybrid', 'string', 'max:100',
+                'regex:/^[A-Za-z\s]+$/',
+            ],
 
-                'city.regex' =>
-                    'City can only contain letters.',
-            ]
-        );
+            'description' => ['required', 'string', 'max:5000'],
+        ], [
+            'title.regex'           => 'Title can only contain letters, numbers, and & ( ) . , -',
+            'budget.regex'          => 'Budget can only contain numbers and ₹ $ , . - / (no letters).',
+            'duration.regex'        => 'Duration can only contain letters, numbers, and -',
+            'skills.regex'          => 'Skills can only contain letters, numbers, and , . - + # /',
+            'visibility.required'   => 'Please select at least one audience.',
+            'visibility.min'        => 'Please select at least one audience.',
+            'visibility.*.in'       => 'Invalid audience selected.',
+            'maximum_bids.required' => 'Please specify the maximum number of bids allowed.',
+            'maximum_bids.integer'  => 'Maximum bids must be a whole number.',
+            'maximum_bids.min'      => 'Maximum bids must be at least 1.',
+            'maximum_bids.max'      => 'Maximum bids cannot exceed 1000.',
+            'country.regex'         => 'Country can only contain letters.',
+            'state.regex'           => 'State can only contain letters.',
+            'district.regex'        => 'District can only contain letters.',
+            'city.regex'            => 'City can only contain letters.',
+        ]);
     }
 
     /**

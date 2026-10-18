@@ -979,6 +979,19 @@
 
     }
 
+
+    /* VISIBILITY MULTI-SELECT */
+    .visibility-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .visibility-chip { cursor: pointer; margin: 0; position: relative; }
+    .visibility-chip input { position: absolute; opacity: 0; pointer-events: none; }
+    .visibility-chip span {
+        display: inline-block; padding: 10px 16px; border: 1px solid #d9e1ec;
+        border-radius: 8px; font-size: 13px; font-weight: 600; color: #4b5563; background: #fff;
+        transition: all .15s ease;
+    }
+    .visibility-chip input:checked + span { background: #eef4ff; border-color: #3376f2; color: #3376f2; }
+    .visibility-chip input:focus-visible + span { box-shadow: 0 0 0 3px rgba(51,118,242,.15); }
+
 </style>
 
 

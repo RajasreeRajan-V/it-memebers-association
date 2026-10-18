@@ -711,12 +711,12 @@
 
                 <section id="project-list" class="min-w-0">
 
-                    {{-- SWITCH: ALL / FREELANCE / EMPLOYEE --}}
+                    {{-- SWITCH: ALL / FREELANCE / EMPLOYEE / STUDENT --}}
                     <div class="project-tabs">
                         <a href="{{ route('employer.projects.index', request()->except('type', 'page')) }}"
                             class="project-tab {{ !$type ? 'active' : '' }}">
                             All
-                            <span class="count">{{ $counts->sum() }}</span>
+                            <span class="count">{{ $total }}</span>
                         </a>
 
                         <a href="{{ route('employer.projects.index', array_merge(request()->except('page'), ['type' => 'freelancer'])) }}"
@@ -730,18 +730,21 @@
                             Employee Jobs
                             <span class="count">{{ $counts['employee'] ?? 0 }}</span>
                         </a>
-                    </div>
 
-                    <form method="GET" class="project-filters">
-                        @if ($type)
-                            <input type="hidden" name="type" value="{{ $type }}">
-                        @endif
-                        {{-- ...your existing search, status and button... --}}
-                    </form>
+                        <a href="{{ route('employer.projects.index', array_merge(request()->except('page'), ['type' => 'student'])) }}"
+                            class="project-tab {{ $type === 'student' ? 'active' : '' }}">
+                            Student Projects
+                            <span class="count">{{ $counts['student'] ?? 0 }}</span>
+                        </a>
+                    </div>
 
                     {{-- FILTER BAR --}}
 
                     <form method="GET" class="project-filters">
+
+                        @if ($type)
+                            <input type="hidden" name="type" value="{{ $type }}">
+                        @endif
 
                         <input type="text" name="search" value="{{ request('search') }}"
                             placeholder="Search by title...">
@@ -819,9 +822,9 @@
                                                     {{ $project->title }}
                                                 </h2>
 
-                                                <span class="visibility-tag">
-                                                    {{ $project->visibility === 'employee' ? 'Employee Job' : 'Freelance' }}
-                                                </span>
+                                                @foreach ((array) $project->visibility as $v)
+                                                    <span class="visibility-tag">{{ ucfirst($v) }}</span>
+                                                @endforeach
 
                                             </div>
 

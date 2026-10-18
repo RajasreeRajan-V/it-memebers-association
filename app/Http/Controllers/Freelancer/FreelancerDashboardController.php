@@ -10,6 +10,7 @@ use App\Models\FreelancerBid;
 use Illuminate\Support\Facades\DB;
 use App\Services\ProfileService;
 use App\Models\FreelancerSavedJob;
+use App\Models\FreelancerArchivedJob;
 
 class FreelancerDashboardController extends Controller
 {
@@ -36,12 +37,18 @@ class FreelancerDashboardController extends Controller
         if (Auth::user()->role !== 'freelancer') {
             abort(403, 'Unauthorized');
         }
-
+        $freelancer = Auth::user()->freelancerProfile;
+        $archivedProjectIds = $freelancer
+        ? FreelancerArchivedJob::where('freelancer_id', $freelancer->id)->select('project_id')
+        : collect();
         $projects = Project::query()
             ->with('employer.employerRegistration')
-
-            ->where('visibility', 'freelancer')
+            ->whereJsonContains('visibility', 'freelancer')
+           
             ->withCount('freelancerBids')
+            ->when($freelancer, function ($query) use ($archivedProjectIds) {
+            $query->whereNotIn('id', $archivedProjectIds);
+        })
             // Search
             ->when($request->filled('q'), function ($query) use ($request) {
                 $query->where(function ($q) use ($request) {

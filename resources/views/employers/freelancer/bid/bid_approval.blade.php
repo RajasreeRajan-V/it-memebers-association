@@ -290,7 +290,7 @@
                         </header>
                         <div class="ba-panel__body">
                             <form action="{{ route('employer.freelancer.bids.approve', $bid->id) }}" method="POST"
-                                id="approvalForm">
+    enctype="multipart/form-data" id="approvalForm">
                                 @csrf
                                 @method('PUT')
 
@@ -303,6 +303,14 @@
                                     @enderror
                                 </div>
 
+    <div class="ba-field">
+        <label for="contract">Contract Document <small class="ba-muted">(required when accepting)</small></label>
+        <input type="file" id="contract" name="contract" accept=".pdf,.doc,.docx">
+        <small class="ba-muted">PDF, DOC or DOCX, max 5 MB. It will be emailed to the freelancer.</small>
+        @error('contract')
+            <span class="ba-error">{{ $message }}</span>
+        @enderror
+    </div>
                                 <div class="ba-field">
                                     <label for="comments">Comments / Notes</label>
                                     <textarea id="comments" name="comments" rows="6" placeholder="Add any comments or notes about this bid...">{{ old('comments', 'Your proposal looks good, and your skills match our project requirements. We would like to proceed with your bid. We will contact you shortly to discuss the next steps.') }}</textarea>
@@ -323,7 +331,13 @@
                         </div>
                     </section>
                 @endif
+                @if ($bid->signed_contract_document)
+    <a href="{{ route('employer.freelancer.bids.signed-contract', $bid->id) }}" target="_blank" class="btn btn-sm btn-primary">
+        View Signed Contract
+    </a>
+@endif
             </aside>
+
         </div>
     </div>
 
@@ -1025,6 +1039,11 @@
 
             form.addEventListener('submit', function(e) {
                 var action = e.submitter ? e.submitter.value : null;
+                var contract = document.getElementById('contract');
+                    if (action === 'accepted' && (!contract.files || !contract.files.length)) {
+                        alert('Please upload the contract document before accepting this bid.');
+                        return e.preventDefault();
+                    }
                 var text = comments.value.trim();
                 var msg = action === 'rejected' ?
                     'Are you sure you want to REJECT this bid? This cannot be undone.' :

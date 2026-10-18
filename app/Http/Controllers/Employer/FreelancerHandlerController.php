@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class FreelancerHandlerController extends Controller
 {
@@ -156,9 +159,6 @@ class FreelancerHandlerController extends Controller
         );
     }
 
-
-
-
     /**
      * Show all bids for a project.
      */
@@ -209,59 +209,85 @@ class FreelancerHandlerController extends Controller
             compact('bid')
         );
     }
-    public function approve(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'approver_name' => 'required|string|max:255',
-            'comments' => 'nullable|string|max:2000',
-            'action' => 'required|in:accepted,rejected',
-        ]);
+  public function approve(Request $request, $id)
+{
+    $validated = $request->validate([
+        'approver_name' => 'required|string|max:255',
+        'comments'      => 'nullable|string|max:2000',
+        'action'        => 'required|in:accepted,rejected',
+        'contract'      => [
+            Rule::requiredIf(fn () => $request->input('action') === 'accepted'),
+            'nullable',
+            'file',
+            'mimes:pdf,doc,docx',
+            'max:5120', // 5 MB
+        ],
+    ]);
 
-        $employerId = auth()->id();
+    $employerId = auth()->id();
 
-        $bid = FreelancerBid::with([
-            'project',
-            'freelancer.user',
-            'employer',
-        ])
-            ->where('id', $id)
-            ->whereHas('project', function ($query) use ($employerId) {
-                $query->where('employer_id', $employerId);
-            })
-            ->firstOrFail();
+    $bid = FreelancerBid::with(['project', 'freelancer.user', 'employer'])
+        ->where('id', $id)
+        ->whereHas('project', fn ($q) => $q->where('employer_id', $employerId))
+        ->firstOrFail();
 
-        // Guard against re-processing an already-decided bid
-        if ($bid->status !== FreelancerBid::STATUS_PENDING) {
-            return redirect()
-                ->route('employer.freelancer.bids.show', $bid->id)
-                ->with('error', 'This bid has already been ' . $bid->status . ' and cannot be changed.');
-        }
-
-        $bid->status = $validated['action'] === 'accepted'
-            ? FreelancerBid::STATUS_ACCEPTED
-            : FreelancerBid::STATUS_REJECTED;
-        $bid->comments = $validated['comments'] ?? null;
-        $bid->save();
-
-        // Send notification email to the freelancer (never let a mail failure block the approval)
-        $recipientEmail = $bid->freelancer?->user?->email;
-
-        if ($recipientEmail) {
-            try {
-                Mail::to($recipientEmail)->send(
-                    new FreelancerBidStatusMail($bid, $validated['approver_name'], $validated['comments'] ?? null)
-                );
-            } catch (\Throwable $e) {
-                Log::error('Failed to send bid status email for bid #' . $bid->id . ': ' . $e->getMessage());
-            }
-        } else {
-            Log::warning('No email found for freelancer on bid #' . $bid->id . '; notification skipped.');
-        }
-
+    if ($bid->status !== FreelancerBid::STATUS_PENDING) {
         return redirect()
             ->route('employer.freelancer.bids.show', $bid->id)
-            ->with('success', 'Bid has been ' . $bid->status . ' and the freelancer has been notified.');
+            ->with('error', 'This bid has already been ' . $bid->status . ' and cannot be changed.');
     }
+
+    $accepted = $validated['action'] === 'accepted';
+
+    // Store the contract on the private disk (not publicly reachable)
+    $contractPath = null;
+    if ($accepted && $request->hasFile('contract')) {
+        $file = $request->file('contract');
+        $safeName = now()->format('YmdHis') . '_'
+            . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+            . '.' . $file->extension();
+
+        $contractPath = $file->storeAs('contracts/bid-' . $bid->id, $safeName, 'local');
+    }
+
+    $bid->status = $accepted ? FreelancerBid::STATUS_ACCEPTED : FreelancerBid::STATUS_REJECTED;
+    $bid->comments = $validated['comments'] ?? null;
+    $bid->contract_document = $contractPath;
+    $bid->save();
+
+    $mailSent = false;
+    $recipientEmail = $bid->freelancer?->user?->email;
+
+    if ($recipientEmail) {
+        try {
+            Mail::to($recipientEmail)->send(
+                new FreelancerBidStatusMail(
+                    $bid,
+                    $validated['approver_name'],
+                    $validated['comments'] ?? null,
+                    $contractPath
+                )
+            );
+            $mailSent = true;
+
+            if ($contractPath) {
+                $bid->forceFill(['contract_sent_at' => now()])->save();
+            }
+        } catch (\Throwable $e) {
+            Log::error('Failed to send bid status email for bid #' . $bid->id . ': ' . $e->getMessage());
+        }
+    } else {
+        Log::warning('No email found for freelancer on bid #' . $bid->id . '; notification skipped.');
+    }
+
+    $message = 'Bid has been ' . $bid->status . ($mailSent
+        ? ' and the freelancer has been notified' . ($contractPath ? ' with the contract attached.' : '.')
+        : ', but the notification email could not be sent.');
+
+    return redirect()
+        ->route('employer.freelancer.bids.show', $bid->id)
+        ->with($mailSent ? 'success' : 'error', $message);
+}
     public function resume($id)
     {
         $bid = FreelancerBid::with('freelancer')->findOrFail($id);
@@ -330,4 +356,20 @@ class FreelancerHandlerController extends Controller
 
         abort(404, 'Resume file does not exist on the server.');
     }
+    public function downloadSignedContract($id)
+{
+    $bid = FreelancerBid::where('id', $id)
+        ->whereHas('project', fn ($q) => $q->where('employer_id', auth()->id()))
+        ->firstOrFail();
+
+    abort_unless($bid->signed_contract_document, 404);
+
+    foreach (['local', 'public'] as $disk) {
+        if (Storage::disk($disk)->exists($bid->signed_contract_document)) {
+            return Storage::disk($disk)->response($bid->signed_contract_document);
+        }
+    }
+
+    abort(404, 'Signed contract file not found.');
+}
 }

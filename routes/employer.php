@@ -53,7 +53,9 @@ Route::middleware(['member.auth'])
     Route::post( '/projects/{project}/proposals/{application}/contract', [EmployeeProposalController::class, 'sendContract'])->name('projects.proposals.contract');
     
     Route::post('projects/{project}/proposals/{application}/send-contract',[EmployeeProposalController::class, 'sendContract'])->name('projects.proposals.send-contract');
-  /*
+    
+    Route::get('/freelancer/bids/{bid}/signed-contract', [FreelancerHandlerController::class, 'downloadSignedContract'])->name('freelancer.bids.signed-contract');
+    /*
     |--------------------------------------------------------------------------
     | Freelancer Bid Approval
     |--------------------------------------------------------------------------
@@ -629,4 +631,6 @@ Route::prefix('admin')
         Route::get('/cron/contracts/cancel-expired', ContractCronController::class)
             ->middleware('throttle:12,1')
             ->name('cron.contracts.cancel-expired');
+
+        
     });

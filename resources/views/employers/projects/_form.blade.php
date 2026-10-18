@@ -20,6 +20,9 @@
             $skillsValue = $project->skills;
         }
     }
+
+    $selectedVisibility = old('visibility', $project->visibility ?? []);
+    $selectedVisibility = is_array($selectedVisibility) ? $selectedVisibility : [$selectedVisibility];
 @endphp
 
 
@@ -567,62 +570,37 @@
 
 
 
-        {{-- VISIBILITY --}}
+        {{-- VISIBILITY (multi-select) --}}
 
         <div class="project-form-group">
 
-            <label
-                for="visibility"
-                class="project-label"
-            >
-
+            <label class="project-label">
                 <i class="fas fa-eye"></i>
-
-                Visibility
-
+                Visible To
                 <span class="project-required">*</span>
-
             </label>
 
-
-            <div class="project-input-wrap">
-
-                <i class="fas fa-eye project-input-icon"></i>
-
-              <select
-    id="visibility"
-    name="visibility"
-    class="project-select has-icon @error('visibility') is-invalid @enderror"
-    required
->
-    <option value="">
-        Select visibility
-    </option>
-
-    <option
-        value="freelancer"
-        @selected(old('visibility', $project->visibility ?? '') === 'freelancer')
-    >
-        Freelancers Only
-    </option>
-
-    <option
-        value="employee"
-        @selected(old('visibility', $project->visibility ?? '') === 'employee')
-    >
-        Employees Only
-    </option>
-</select>
-
+            <div class="visibility-options">
+                @foreach (['freelancer' => 'Freelancer', 'employee' => 'Employee', 'student' => 'Student'] as $value => $label)
+                    <label class="visibility-chip">
+                        <input type="checkbox" name="visibility[]" value="{{ $value }}"
+                            @checked(in_array($value, $selectedVisibility))>
+                        <span>{{ $label }}</span>
+                    </label>
+                @endforeach
             </div>
 
-
             @error('visibility')
-
-                <div class="project-invalid-feedback">
-                    {{ $message }}
+                <div class="project-invalid-feedback">{{ $message }}</div>
+            @else
+                <div class="project-help-text">
+                    <i class="fas fa-circle-info"></i>
+                    Select one or more who can view and apply.
                 </div>
+            @enderror
 
+            @error('visibility.*')
+                <div class="project-invalid-feedback">{{ $message }}</div>
             @enderror
 
         </div>
@@ -972,7 +950,6 @@
             <span class="project-required">*</span>
 
         </label>
-
 
         <textarea
             id="description"

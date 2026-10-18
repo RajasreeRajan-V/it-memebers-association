@@ -36,6 +36,7 @@ class Project extends Model
     protected $casts = [
         'skills' => 'array',
         'deadline' => 'date',
+        'visibility' => 'array', // ["freelancer","employee","student"]
     ];
 
     public function employer()

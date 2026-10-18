@@ -17,19 +17,25 @@ class FreelancerBid extends Model
     public const STATUS_WITHDRAWN = 'withdrawn';
     public const STATUS_PROCESSED = 'processed';
 
-    protected $fillable = [
-        'project_id',
-        'freelancer_id',
-        'employer_id',
-        'bid_amount',
-        'estimated_days',
-        'cover_letter',
-        'comments',
-        'status',
-    ];
+   protected $fillable = [
+    'project_id',
+    'freelancer_id',
+    'employer_id',
+    'bid_amount',
+    'estimated_days',
+    'cover_letter',
+    'comments',
+    'status',
+    'contract_document',          // was contract_original_name
+    'contract_sent_at',
+    'signed_contract_document',
+    'signed_contract_received_at',
+];
 
     protected $casts = [
         'bid_amount' => 'decimal:2',
+        'contract_sent_at' => 'datetime',
+        'signed_contract_received_at' => 'datetime',
     ];
 
     /**

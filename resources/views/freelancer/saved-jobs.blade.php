@@ -26,10 +26,6 @@
             Proposals
         </a>
 
-        <a href="{{ route('freelancer.interviews') }}">
-            Interviews
-        </a>
-
         <a href="{{ route('freelancer.in-progress') }}">
             In Progress
         </a>
