@@ -874,6 +874,66 @@
             width: auto;
         }
 
+        /* ---------- Workspace quick links ---------- */
+        .ws-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        .ws-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            transition: .15s;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .ws-card:hover {
+            border-color: var(--blue);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, .08);
+            transform: translateY(-2px);
+        }
+
+        .ws-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9px;
+            background: #eaf1ff;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 17px;
+        }
+
+        .ws-card b {
+            display: block;
+            font-size: 18px;
+            color: var(--navy);
+            line-height: 1.1;
+        }
+
+        .ws-card span {
+            font-size: 12.5px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .ws-sub {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--muted);
+            margin: 22px 0 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
         /* ---------- Enhanced Responsive Queries ---------- */
         @media (max-width:1200px) {
             .cat-grid {
@@ -905,6 +965,10 @@
 
             .how-step::after {
                 display: none;
+            }
+
+            .ws-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
@@ -946,6 +1010,10 @@
                 flex-direction: column;
                 text-align: center;
             }
+
+            .ws-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width:480px) {
@@ -974,6 +1042,10 @@
             .section-head h2 {
                 font-size: 20px;
             }
+
+            .ws-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
@@ -989,8 +1061,8 @@
                     <p>Tech Leaders Network helps freelancers find amazing projects, build their professional profile, and grow
                         their career worldwide.</p>
                     <div class="hero-ctas">
-                        <a class="btn btn-primary" href="#projects">Find Projects →</a>
-                        <a class="btn btn-outline" href="#join">Join as Freelancer</a>
+                        <a class="btn btn-primary" href="{{ route('freelancer.job') }}">Find Jobs →</a>
+                        <a class="btn btn-outline" href="{{ route('freelancer.services.index') }}"> Your Services</a>
                     </div>
                     <div class="stats">
                         <div class="stat">
@@ -1073,15 +1145,93 @@
             </div>
         </section>
 
+        <!-- My Workspace -->
+        <section style="padding-bottom:0">
+            <div class="wrap">
+                <div class="section-head">
+                    <h2>My Workspace</h2>
+                    <a class="view-all" href="{{ route('freelancer.job') }}">Find new jobs →</a>
+                </div>
+
+                <div class="ws-sub" style="margin-top:0">Jobs &amp; Proposals</div>
+                <div class="ws-grid">
+                    <a class="ws-card" href="{{ route('freelancer.saved-jobs') }}">
+                        <div class="ws-icon">🔖</div>
+                        <div><b>{{ $stats['saved'] ?? 0 }}</b><span>Saved Jobs</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.applied') }}">
+                        <div class="ws-icon">📨</div>
+                        <div><b>{{ $stats['applied'] ?? 0 }}</b><span>Applied Jobs</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.proposals') }}">
+                        <div class="ws-icon">📄</div>
+                        <div><b>{{ $stats['applied'] ?? 0 }}</b><span>My Proposals</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.interviews') }}">
+                        <div class="ws-icon">🎤</div>
+                        <div><b>{{ $stats['interviews'] ?? 0 }}</b><span>Interviews</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.archived') }}">
+                        <div class="ws-icon">🗄️</div>
+                        <div><b>&rarr;</b><span>Archived</span></div>
+                    </a>
+                </div>
+
+                <div class="ws-sub">Active Work</div>
+                <div class="ws-grid">
+                    <a class="ws-card" href="{{ route('freelancer.in-progress') }}">
+                        <div class="ws-icon">⏳</div>
+                        <div><b>{{ $stats['in_progress'] ?? 0 }}</b><span>In Progress</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.hired') }}">
+                        <div class="ws-icon">✅</div>
+                        <div><b>{{ $stats['hired'] ?? 0 }}</b><span>Hired</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.signed-jobs') }}">
+                        <div class="ws-icon">✍️</div>
+                        <div><b>{{ $stats['hired'] ?? 0 }}</b><span>My Signed Jobs</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.work-reports.index') }}">
+                        <div class="ws-icon">📝</div>
+                        <div><b>&rarr;</b><span>Work Reports</span></div>
+                    </a>
+                </div>
+
+                <div class="ws-sub">Services &amp; Content</div>
+                <div class="ws-grid">
+                    <a class="ws-card" href="{{ route('freelancer.services.index') }}">
+                        <div class="ws-icon">🛠️</div>
+                        <div><b>{{ $stats['services'] ?? 0 }}</b><span>My Services</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.services.create') }}">
+                        <div class="ws-icon">➕</div>
+                        <div><b>&rarr;</b><span>Add Service</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.inquiries.index') }}">
+                        <div class="ws-icon">💬</div>
+                        <div><b>{{ $stats['inquiries'] ?? 0 }}</b><span>Service Inquiries</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.articles.index') }}">
+                        <div class="ws-icon">📰</div>
+                        <div><b>&rarr;</b><span>Articles</span></div>
+                    </a>
+                    <a class="ws-card" href="{{ route('freelancer.articles.create') }}">
+                        <div class="ws-icon">✏️</div>
+                        <div><b>&rarr;</b><span>Write Article</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Popular Categories -->
         <section id="jobs">
             <div class="wrap">
                 <div class="section-head">
                     <h2>Popular Categories</h2>
-                    <a class="view-all" href="#">View all categories →</a>
+                    <a class="view-all" href="{{ route('freelancer.job') }}">View all categories →</a>
                 </div>
                 <div class="cat-grid">
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Web Development']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="4" width="20" height="14" rx="2" />
@@ -1089,47 +1239,47 @@
                                 <line x1="12" y1="18" x2="12" y2="21" />
                             </svg></div><span>Web Development</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Mobile Development']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <rect x="7" y="2" width="10" height="20" rx="2" />
                                 <line x1="11" y1="18" x2="13" y2="18" />
                             </svg></div><span>Mobile Development</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'UI/UX Design']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <circle cx="8" cy="8" r="5" />
                                 <circle cx="16" cy="16" r="5" />
                             </svg></div><span>UI/UX Design</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'WordPress']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="10" />
                                 <path d="M8 12h8M12 8v8" />
                             </svg></div><span>WordPress</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Graphics']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
                             </svg></div><span>Graphics &amp; Design</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Digital Marketing']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M3 11l18-7-7 18-2-8-9-3z" />
                             </svg></div><span>Digital Marketing</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Writing']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <path d="M4 19V5a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
                                 <path d="M14 3v6h6" />
                             </svg></div><span>Writing &amp; Translation</span>
                     </a>
-                    <a class="cat-card" href="#">
+                    <a class="cat-card" href="{{ route('freelancer.job', ['q' => 'Video']) }}">
                         <div class="cat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="6" width="14" height="12" rx="2" />
@@ -1140,171 +1290,7 @@
             </div>
         </section>
 
-        <!-- Latest Jobs & Sidebar -->
-        <section>
-            <div class="wrap main-grid">
-                <div class="jobs-card card">
-                    <div class="section-head" style="margin-bottom:6px">
-                        <h2 style="font-size:19px">Latest Freelance Jobs</h2>
-                        <a class="view-all" href="#">View all jobs →</a>
-                    </div>
-
-                    <div class="job-row">
-                        <div class="job-icon" style="background:#2563eb"><svg width="18" height="18"
-                                viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <rect x="3" y="4" width="18" height="14" rx="2" />
-                            </svg></div>
-                        <div>
-                            <div class="job-title">Build a Responsive Website</div>
-                            <div class="job-meta">🏢 TechVision Inc. &nbsp; 🌐 Web Development</div>
-                        </div>
-                        <div class="job-right">
-                            <div>
-                                <div class="job-pay">$1,500 - $2,300</div><span class="job-tag tag-full">Full Time</span>
-                            </div>
-                            <svg class="bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 3h12v18l-6-4-6 4z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="job-row">
-                        <div class="job-icon" style="background:#16a34a"><svg width="18" height="18"
-                                viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <circle cx="8" cy="8" r="5" />
-                                <circle cx="16" cy="16" r="5" />
-                            </svg></div>
-                        <div>
-                            <div class="job-title">Mobile App UI/UX Design</div>
-                            <div class="job-meta">🏢 Creative Studio &nbsp; 🎨 UI/UX Design</div>
-                        </div>
-                        <div class="job-right">
-                            <div>
-                                <div class="job-pay">$800 - $1,500</div><span class="job-tag tag-fixed">Fixed Price</span>
-                            </div>
-                            <svg class="bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 3h12v18l-6-4-6 4z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="job-row">
-                        <div class="job-icon" style="background:#f97316"><svg width="18" height="18"
-                                viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <circle cx="12" cy="12" r="9" />
-                                <path d="M8 12h8M12 8v8" />
-                            </svg></div>
-                        <div>
-                            <div class="job-title">WordPress Website Development</div>
-                            <div class="job-meta">🏢 BizGrowth &nbsp; 🌐 WordPress</div>
-                        </div>
-                        <div class="job-right">
-                            <div>
-                                <div class="job-pay">$1,000 - $1,800</div><span class="job-tag tag-full">Full Time</span>
-                            </div>
-                            <svg class="bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 3h12v18l-6-4-6 4z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="job-row">
-                        <div class="job-icon" style="background:#7c3aed"><svg width="18" height="18"
-                                viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <circle cx="11" cy="11" r="7" />
-                                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                            </svg></div>
-                        <div>
-                            <div class="job-title">SEO Specialist Needed</div>
-                            <div class="job-meta">🏢 RankBoost &nbsp; 📈 Digital Marketing</div>
-                        </div>
-                        <div class="job-right">
-                            <div>
-                                <div class="job-pay">$600 - $1,200</div><span class="job-tag tag-hourly">Hourly</span>
-                            </div>
-                            <svg class="bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 3h12v18l-6-4-6 4z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div class="job-row">
-                        <div class="job-icon" style="background:#ec4899"><svg width="18" height="18"
-                                viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                                <path d="M4 19V5a2 2 0 0 1 2-2h8l6 6v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
-                            </svg></div>
-                        <div>
-                            <div class="job-title">Content Writer for Tech Blog</div>
-                            <div class="job-meta">🏢 Tech Insider &nbsp; ✍️ Writing</div>
-                        </div>
-                        <div class="job-right">
-                            <div>
-                                <div class="job-pay">$150 - $300</div><span class="job-tag tag-fixed">Fixed Price</span>
-                            </div>
-                            <svg class="bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M6 3h12v18l-6-4-6 4z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <a class="browse-all" href="#">Browse All Jobs</a>
-                </div>
-
-                <div class="side-col">
-                    <div class="profile-promo">
-                        <span class="promo-badge">Grow Your Career</span>
-                        <h3>Create Your Profile &amp; Get Hired Fast</h3>
-                        <p>Join thousands of freelancers who are building successful careers on Tech Leaders Network.</p>
-                        <ul class="checklist">
-                            <li><span class="check">✓</span> Create a professional profile</li>
-                            <li><span class="check">✓</span> Showcase your skills &amp; experience</li>
-                            <li><span class="check">✓</span> Get matched with top clients</li>
-                            <li><span class="check">✓</span> Secure jobs and grow your earnings</li>
-                        </ul>
-                        <a class="btn btn-primary" href="#" style="width:100%;justify-content:center">Create Your
-                            Profile</a>
-
-                        <div class="profile-card">
-                            <div class="pc-top">
-                                <div class="pc-avatar">SW</div>
-                                <div>
-                                    <div class="pc-name">Sophia Williams</div>
-                                    <div class="pc-role">UI/UX Designer</div>
-                                    <span class="pc-badge">★ Top Rated</span>
-                                </div>
-                            </div>
-                            <div class="pc-bar-row"><span>Profile Strength</span><span>85%</span></div>
-                            <div class="pc-bar">
-                                <div class="pc-bar-fill"></div>
-                            </div>
-                            <div class="pc-skills">
-                                <span class="pc-skill">Figma</span>
-                                <span class="pc-skill">UI Design</span>
-                                <span class="pc-skill">Prototyping</span>
-                            </div>
-                            <div class="pc-stats">
-                                <div><span>Earnings</span><b>$24,500</b></div>
-                                <div><span>Projects Completed</span><b>48</b></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="pro-banner">
-                        <div>
-                            <h4>Become a Pro Member</h4>
-                            <p>Unlock premium features and get exclusive benefits.</p>
-                        </div>
-                        <a class="btn btn-primary btn-sm" href="#" style="background:#2563eb">Upgrade Now</a>
-                        <div class="crown">♛</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      
 
         <!-- How It Works -->
         <section class="how-section">
@@ -1408,15 +1394,7 @@
                                 <rect x="2" y="4" width="20" height="16" rx="2" />
                                 <path d="M2 6l10 7 10-7" />
                             </svg></div>
-                        <div>
-                            <h4>Get the best freelance opportunities straight to your inbox.</h4>
-                            <p>Join our newsletter and never miss an update.</p>
-                        </div>
-                    </div>
-                    <form class="nl-form" onsubmit="return false">
-                        <input type="email" placeholder="Enter your email">
-                        <button class="btn btn-primary" type="submit">Subscribe</button>
-                    </form>
+                       
                 </div>
             </div>
         </section>

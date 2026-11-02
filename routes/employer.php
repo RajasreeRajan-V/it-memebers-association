@@ -20,6 +20,8 @@ use App\Http\Controllers\Employer\EmployeeProposalController;
 use App\Http\Controllers\Admin\JobApprovalController;
 use App\Http\Controllers\Employer\FreelancerBidController;
 use App\Http\Controllers\Employer\ContractCronController;
+use App\Http\Controllers\Employer\FreelancerWorkReportAnalysisController;
+use App\Http\Controllers\Employer\FreelancerMarketPlaceController;
 /*
 |--------------------------------------------------------------------------
 | Employer Dashboard
@@ -55,6 +57,42 @@ Route::middleware(['member.auth'])
     Route::post('projects/{project}/proposals/{application}/send-contract',[EmployeeProposalController::class, 'sendContract'])->name('projects.proposals.send-contract');
     
     Route::get('/freelancer/bids/{bid}/signed-contract', [FreelancerHandlerController::class, 'downloadSignedContract'])->name('freelancer.bids.signed-contract');
+    
+    Route::get('/employer/work-reports', [FreelancerWorkReportAnalysisController::class, 'index'])
+    ->name('work-reports.index');
+
+Route::get('/employer/work-reports/{bid}', [FreelancerWorkReportAnalysisController::class, 'show'])
+    ->whereNumber('bid')
+    ->name('work-reports.show');
+
+Route::get('/employer/work-reports/report/{report}/attachment', [FreelancerWorkReportAnalysisController::class, 'attachment'])
+    ->name('work-reports.attachment');
+    
+    
+/*
+|--------------------------------------------------------------------------
+| Freelancer Services Marketplace
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('marketplace')
+    ->name('marketplace.')
+    ->controller(FreelancerMarketPlaceController::class)
+    ->group(function () {
+
+        // Browse active freelancer services
+        Route::get('/', 'index')
+            ->name('index');
+
+        // View service details
+        Route::get('/{service}', 'show')
+            ->name('show');
+
+        // Send an inquiry to the freelancer
+        Route::post('/{service}/inquire', 'inquire')
+            ->name('inquire');
+    });
+
     /*
     |--------------------------------------------------------------------------
     | Freelancer Bid Approval

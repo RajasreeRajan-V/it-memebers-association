@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\FreelancerService;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -163,5 +164,9 @@ public function unreadEmployerPortalNotifications(): HasMany
         EmployerPortalNotification::class,
         'employer_id'
     )->where('is_read', false);
+}
+public function services()
+{
+    return $this->hasMany(FreelancerService::class);
 }
 }

@@ -6,6 +6,10 @@ use App\Http\Controllers\Freelancer\BidController;
 use App\Http\Controllers\Freelancer\FreelancerWorkController;
 use App\Http\Controllers\Employer\FreelancerBidController;
 use App\Http\Controllers\Freelancer\FreelancersJobController;
+use App\Http\Controllers\Freelancer\FreelancerWorkReportController;
+use App\Http\Controllers\Freelancer\FreelancerServiceController;    
+use App\Http\Controllers\Freelancer\FreelancerServiceInquiryController;
+use App\Http\Controllers\Freelancer\ArticleController as FreelancerArticleController;
 
 Route::middleware(['member.auth'])
     ->name('freelancer.')
@@ -87,4 +91,38 @@ Route::middleware(['member.auth'])
 
     Route::post('/bids/{bid}/signed-contract', [FreelancerWorkController::class, 'uploadSignedContract'])
     ->name('contract.upload-signed');
+
+        
+    Route::get('/work-reports', [FreelancerWorkReportController::class, 'index'])->name('work-reports.index');
+    Route::post('/work-reports', [FreelancerWorkReportController::class, 'store'])->name('work-reports.store');
+    Route::get('/work-reports/{report}/attachment', [FreelancerWorkReportController::class, 'attachment'])->name('work-reports.attachment');
+    
+    Route::get('/signed-jobs', [FreelancerWorkReportController::class, 'signedJobs'])
+    ->name('signed-jobs');
+
+     Route::resource('services', FreelancerServiceController::class)->except('show');
+
+     Route::get('/inquiries', [FreelancerServiceInquiryController::class, 'index'])
+    ->name('inquiries.index');
+
+    Route::get('/articles', [FreelancerArticleController::class, 'index'])
+    ->name('articles.index');
+ 
+Route::get('/articles/create', [FreelancerArticleController::class, 'create'])
+    ->name('articles.create');
+ 
+Route::post('/articles', [FreelancerArticleController::class, 'store'])
+    ->name('articles.store');
+ 
+Route::get('/articles/{article}', [FreelancerArticleController::class, 'show'])
+    ->name('articles.show');
+ 
+Route::post('/articles/{article}/like', [FreelancerArticleController::class, 'toggleLike'])
+    ->name('articles.like');
+ 
+Route::post('/articles/{article}/comments', [FreelancerArticleController::class, 'storeComment'])
+    ->name('articles.comments.store');
+ 
+Route::delete('/articles/comments/{comment}', [FreelancerArticleController::class, 'destroyComment'])
+    ->name('articles.comments.destroy');
     });

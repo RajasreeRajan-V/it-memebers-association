@@ -22,12 +22,16 @@
                 <span>Notifications</span>
                 <span class="pill-badge">3</span>
             </a>
-
-            <!-- ACCOUNT -->
+             {{-- View Articles (pill with label) --}}
+            <a href="{{ route('freelancer.articles.index') }}" class="action-item action-item--label">
+                <i class="fa-solid fa-file-lines"></i>
+                <span>View Articles</span>
+            </a>
+            <!-- ACCOUNT / SETTINGS MENU -->
             <div class="settings-menu-wrap">
 
                 <button class="settings-top-btn" id="accountBtn" type="button" aria-expanded="false"
-                    aria-haspopup="true" aria-label="Account menu">
+                    aria-haspopup="true" aria-controls="accountDropdown" aria-label="Account menu">
                     <span class="settings-icon-circle">
                         {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
                     </span>
@@ -40,7 +44,7 @@
                     <i class="fa-solid fa-chevron-down arrow" id="accountArrow" aria-hidden="true"></i>
                 </button>
 
-                <!-- ACCOUNT DROPDOWN -->
+                <!-- ACCOUNT DROPDOWN (Profile + Logout live here) -->
                 <div class="settings-top-dropdown" id="accountDropdown" role="menu">
 
                     <div class="dropdown-header">
@@ -99,33 +103,45 @@
                 </a>
 
                 <a href="{{ route('freelancer.job') }}"
-                    class="{{ request()->routeIs('freelancer.job.*') ? 'active' : '' }}">
+                    class="{{ request()->routeIs('freelancer.job') ? 'active' : '' }}">
                     <i class="fa-solid fa-briefcase"></i>
                     <span>Jobs</span>
                 </a>
 
+                {{-- My Services (with dropdown) --}}
+                <div class="dropdown">
+                    <a href="{{ route('freelancer.services.index') }}"
+                        class="{{ request()->routeIs('freelancer.services.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-handshake"></i>
+                        <span>My Services</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ route('freelancer.services.index') }}">
+                                <i class="fa-solid fa-list"></i>  Services
+                            </a>
+                        </li>
+                          <li>
+                            <a href="{{ route('freelancer.inquiries.index') }}">
+                                <i class="fa-solid fa-plus"></i>  Inquiries
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
                 <a href="{{ route('events') }}" class="{{ request()->routeIs('events') ? 'active' : '' }}">
-                    <i class="fa-solid fa-calendar-days"></i>
+                    <i class="fa-solid fa-calendar"></i>
                     <span>Events</span>
                 </a>
-
                 <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Contact</span>
                 </a>
-
-                <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
-                    <i class="fa-solid fa-user"></i>
-                    <span>My Profile</span>
+                <a href="{{ route('freelancer.signed-jobs') }}"
+                    class="{{ request()->routeIs('freelancer.signed-jobs') ? 'active' : '' }}">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>My Jobs</span>
                 </a>
-
-                <form method="POST" action="{{ route('membership-logout') }}" class="nav-logout-form">
-                    @csrf
-                    <button type="submit" class="nav-logout-btn">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Logout</span>
-                    </button>
-                </form>
 
             </nav>
 
@@ -138,7 +154,6 @@
 <style>
     /* =========================================================
        TECH LEADERS NETWORK - HEADER (TWO-ROW STYLE)
-       Enhanced Visual Design
     ========================================================= */
 
     :root {
@@ -230,6 +245,9 @@
         gap: 34px;
         flex-shrink: 0;
         margin-left: auto;
+        position: relative;
+        z-index: 2;
+        /* keep above any accidental overlay */
     }
 
     .action-item {
@@ -282,13 +300,22 @@
     }
 
     @keyframes pulseBadge {
-        0%, 100% { box-shadow: 0 0 0 2px var(--tln-surface), 0 0 0 0 rgba(51, 100, 215, 0.4); }
-        50% { box-shadow: 0 0 0 2px var(--tln-surface), 0 0 0 5px rgba(51, 100, 215, 0); }
+
+        0%,
+        100% {
+            box-shadow: 0 0 0 2px var(--tln-surface), 0 0 0 0 rgba(51, 100, 215, 0.4);
+        }
+
+        50% {
+            box-shadow: 0 0 0 2px var(--tln-surface), 0 0 0 5px rgba(51, 100, 215, 0);
+        }
     }
 
     /* ---------- Account button ---------- */
     .settings-menu-wrap {
         position: relative;
+        z-index: 1001;
+        /* above header-actions */
     }
 
     .settings-top-btn {
@@ -301,6 +328,10 @@
         padding: 5px 8px;
         border-radius: var(--tln-radius);
         font-family: inherit;
+        pointer-events: auto;
+        /* ensure clickable even if parent has issues */
+        position: relative;
+        z-index: 1;
         transition: background var(--tln-transition);
     }
 
@@ -402,6 +433,7 @@
             opacity: 0;
             transform: translateY(-10px) scale(0.97);
         }
+
         to {
             opacity: 1;
             transform: translateY(0) scale(1);
@@ -520,7 +552,6 @@
         transform: scale(1.1);
     }
 
-    /* chevron that slides in on hover */
     .dropdown-item .dropdown-arrow {
         margin-left: auto;
         font-size: 11px;
@@ -589,7 +620,9 @@
         width: 100%;
     }
 
-    .main-nav > a {
+    /* Top-level links: plain links AND dropdown parent links */
+    .main-nav>a,
+    .dropdown>a {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -603,84 +636,127 @@
         white-space: nowrap;
         position: relative;
         border-radius: 10px;
+        cursor: pointer;
         transition: background var(--tln-transition), color var(--tln-transition), transform var(--tln-transition);
     }
 
-    .main-nav > a i {
+    .main-nav>a i,
+    .dropdown>a>i {
         font-size: 13px;
         color: rgba(255, 255, 255, 0.65);
         transition: color var(--tln-transition), transform var(--tln-transition);
     }
 
-    .main-nav > a:hover {
+    .main-nav>a:hover,
+    .dropdown>a:hover,
+    .dropdown:hover>a {
         color: #ffffff;
         background: rgba(255, 255, 255, 0.14);
         transform: translateY(-1px);
     }
 
-    .main-nav > a:hover i {
+    .main-nav>a:hover i,
+    .dropdown>a:hover i,
+    .dropdown:hover>a i {
         color: #ffffff;
         transform: scale(1.08);
     }
 
-    .main-nav > a:focus-visible {
+    .main-nav>a:focus-visible,
+    .dropdown>a:focus-visible {
         outline: 2px solid #ffffff;
         outline-offset: 2px;
     }
 
-    /* Active: white pill */
-    .main-nav > a.active {
+    .main-nav>a.active,
+    .dropdown>a.active {
         color: #1f2937;
         font-weight: 600;
         background: #ffffff;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    .main-nav > a.active i {
+    .main-nav>a.active i,
+    .dropdown>a.active i {
         color: var(--tln-primary);
     }
 
-    /* Nav logout button (mobile / inline) */
-    .nav-logout-form {
-        margin: 0;
-        display: inline-flex;
+    /* ---------- Nav dropdown menus ---------- */
+    .dropdown {
+        position: relative;
+        display: inline-block;
     }
 
-    .nav-logout-btn {
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 200px;
+        background: #ffffff;
+        border: 1px solid #eef0f3;
+        border-radius: 10px;
+        padding: 6px;
+        list-style: none;
+        margin: 0;
+        box-shadow: 0 12px 28px rgba(17, 24, 39, 0.18);
+        z-index: 1200;
+    }
+
+    /* invisible bridge so :hover survives the gap under the link */
+    .dropdown-menu::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -12px;
+        height: 12px;
+    }
+
+    .dropdown-menu li {
+        margin: 0;
+    }
+
+    .dropdown-menu li a {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 7px;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 8px;
         text-decoration: none;
-        font-weight: 500;
         font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.82);
-        padding: 10px 18px;
-        margin: 5px 0;
+        font-weight: 500;
+        color: #1f2937;
         white-space: nowrap;
-        position: relative;
-        border-radius: 10px;
-        border: none;
-        background: transparent;
-        cursor: pointer;
-        font-family: inherit;
-        transition: background var(--tln-transition), color var(--tln-transition), transform var(--tln-transition);
+        transition: background var(--tln-transition), color var(--tln-transition);
     }
 
-    .nav-logout-btn i {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.65);
-        transition: color var(--tln-transition);
+    .dropdown-menu li a i {
+        width: 14px;
+        text-align: center;
+        font-size: 12px;
+        color: #9ca3af;
     }
 
-    .nav-logout-btn:hover {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.14);
-        transform: translateY(-1px);
+    .dropdown-menu li a:hover {
+        background: #eef2ff;
+        color: var(--tln-primary);
     }
 
-    .nav-logout-btn:hover i {
-        color: #ffffff;
+    .dropdown-menu li a:hover i {
+        color: var(--tln-primary);
+    }
+
+    /* open on hover (mouse) or via JS .open (touch) */
+    @media (hover: hover) and (pointer: fine) {
+        .dropdown:hover>.dropdown-menu {
+            display: block;
+        }
+    }
+
+    .dropdown.open>.dropdown-menu {
+        display: block;
     }
 
     /* ---------- Mobile toggle ---------- */
@@ -732,8 +808,8 @@
             gap: 4px;
         }
 
-        .main-nav > a,
-        .nav-logout-btn {
+        .main-nav>a,
+        .dropdown>a {
             padding: 10px 13px;
             font-size: 0.82rem;
         }
@@ -763,8 +839,8 @@
             gap: 2px;
         }
 
-        .main-nav > a,
-        .nav-logout-btn {
+        .main-nav>a,
+        .dropdown>a {
             padding: 10px 11px;
             font-size: 0.78rem;
         }
@@ -806,8 +882,15 @@
         }
 
         @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .header-bottom-inner {
@@ -824,8 +907,8 @@
             padding: 0;
         }
 
-        .main-nav > a,
-        .nav-logout-btn {
+        .main-nav>a,
+        .dropdown>a {
             width: 100%;
             margin: 2px 0;
             padding: 13px 16px;
@@ -834,12 +917,49 @@
             border-radius: var(--tln-radius-sm);
         }
 
-        .nav-logout-form {
+        .dropdown {
+            display: block;
             width: 100%;
         }
 
-        .nav-logout-btn {
-            justify-content: flex-start;
+        .dropdown-menu,
+        .dropdown:hover>.dropdown-menu {
+            position: static;
+            transform: none;
+            box-shadow: none;
+            border: none;
+            background: #274ea3;
+            margin: 4px 0 6px;
+            min-width: 0;
+            width: 100%;
+            padding: 4px 6px;
+            box-sizing: border-box;
+            display: none;
+        }
+
+        .dropdown.open>.dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu::before {
+            display: none;
+        }
+
+        .dropdown-menu li a {
+            color: #ffffff;
+        }
+
+        .dropdown-menu li a i {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .dropdown-menu li a:hover i {
+            color: #ffffff;
         }
     }
 
@@ -883,8 +1003,8 @@
             padding: 10px 16px 14px;
         }
 
-        .main-nav > a,
-        .nav-logout-btn {
+        .main-nav>a,
+        .dropdown>a {
             padding: 12px 14px;
             font-size: 0.84rem;
         }
@@ -909,7 +1029,10 @@
 
     /* ---------- Reduced motion ---------- */
     @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
+
+        *,
+        *::before,
+        *::after {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
@@ -918,82 +1041,142 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    (function() {
+        function initNavbar() {
+            /* ---------- Account dropdown (event delegation) ---------- */
+            const accountDropdown = document.getElementById('accountDropdown');
 
-        /* ---------- Account dropdown ---------- */
-        const accountBtn = document.getElementById('accountBtn');
-        const accountDropdown = document.getElementById('accountDropdown');
+            function closeAccountDropdown() {
+                if (!accountDropdown) return;
+                accountDropdown.classList.remove('show');
+                const btn = document.getElementById('accountBtn');
+                if (btn) {
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            }
 
-        if (accountBtn && accountDropdown) {
-            accountBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const isOpen = accountDropdown.classList.toggle('show');
-                accountBtn.classList.toggle('open', isOpen);
-                accountBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-            });
+            function openAccountDropdown() {
+                if (!accountDropdown) return;
+                accountDropdown.classList.add('show');
+                const btn = document.getElementById('accountBtn');
+                if (btn) {
+                    btn.classList.add('open');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            }
 
+            // Delegate: works even if the button is re-rendered.
             document.addEventListener('click', function(e) {
-                if (!accountDropdown.contains(e.target) && !accountBtn.contains(e.target)) {
-                    accountDropdown.classList.remove('show');
-                    accountBtn.classList.remove('open');
-                    accountBtn.setAttribute('aria-expanded', 'false');
+                const btn = e.target.closest('#accountBtn');
+                if (btn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const isOpen = accountDropdown && accountDropdown.classList.contains('show');
+                    if (isOpen) closeAccountDropdown();
+                    else openAccountDropdown();
+                    return;
+                }
+
+                // Click outside → close
+                if (accountDropdown && accountDropdown.classList.contains('show')) {
+                    if (!accountDropdown.contains(e.target)) {
+                        closeAccountDropdown();
+                    }
                 }
             });
 
-            /* Close dropdown on Escape */
+            // Escape closes
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && accountDropdown.classList.contains('show')) {
-                    accountDropdown.classList.remove('show');
-                    accountBtn.classList.remove('open');
-                    accountBtn.setAttribute('aria-expanded', 'false');
-                    accountBtn.focus();
+                if (e.key === 'Escape') {
+                    closeAccountDropdown();
                 }
             });
-        }
 
-        /* ---------- Mobile navigation ---------- */
-        const navToggle = document.getElementById('navToggle');
-        const headerBottom = document.querySelector('.header-bottom');
-
-        if (navToggle && headerBottom) {
-            navToggle.addEventListener('click', function() {
-                const isOpen = headerBottom.classList.toggle('open');
-                navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            /* ---------- Mobile navigation ---------- */
+            document.addEventListener('click', function(e) {
+                const toggle = e.target.closest('#navToggle');
+                if (toggle) {
+                    const headerBottom = document.querySelector('.header-bottom');
+                    if (!headerBottom) return;
+                    const isOpen = headerBottom.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                }
             });
-        }
 
-        /* Close mobile nav after a link is clicked */
-        document.querySelectorAll('.main-nav > a, .main-nav .nav-logout-btn').forEach(function(link) {
-            link.addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
+            // Close mobile nav after a normal link or a submenu link is clicked
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('.main-nav > a, .main-nav .dropdown-menu a');
+                if (link && window.innerWidth <= 768) {
+                    const headerBottom = document.querySelector('.header-bottom');
+                    const navToggle = document.getElementById('navToggle');
                     headerBottom?.classList.remove('open');
                     navToggle?.setAttribute('aria-expanded', 'false');
                 }
             });
-        });
 
-        /* Reset mobile nav on desktop resize */
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 768) {
-                headerBottom?.classList.remove('open');
-                navToggle?.setAttribute('aria-expanded', 'false');
+            /* ---------- Nav dropdowns (My Services) ---------- */
+            const isHoverDevice = () =>
+                window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+            function closeAllDropdowns(except = null) {
+                document.querySelectorAll('.main-nav .dropdown.open').forEach(function(dd) {
+                    if (dd !== except) dd.classList.remove('open');
+                });
             }
-        });
 
-        /* ---------- Scroll shadow enhancement ---------- */
-        const siteHeader = document.querySelector('.site-header');
-        if (siteHeader) {
-            let lastScroll = 0;
-            window.addEventListener('scroll', function() {
-                const currentScroll = window.pageYOffset;
-                if (currentScroll > 10) {
-                    siteHeader.style.boxShadow = '0 6px 28px rgba(0, 0, 0, 0.10)';
-                } else {
-                    siteHeader.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('.main-nav .dropdown > a');
+
+                if (link) {
+                    // Desktop mouse: normal navigation (menu opens on hover)
+                    if (isHoverDevice() && window.innerWidth > 768) return;
+
+                    // Touch / mobile: toggle submenu instead of navigating
+                    e.preventDefault();
+                    const parent = link.parentElement;
+                    const willOpen = !parent.classList.contains('open');
+                    closeAllDropdowns(parent);
+                    parent.classList.toggle('open', willOpen);
+                    return;
                 }
-                lastScroll = currentScroll;
-            }, { passive: true });
+
+                // Click outside any dropdown → close all
+                if (!e.target.closest('.dropdown')) closeAllDropdowns();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeAllDropdowns();
+            });
+
+            // Reset mobile nav on desktop resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    document.querySelector('.header-bottom')?.classList.remove('open');
+                    document.getElementById('navToggle')?.setAttribute('aria-expanded', 'false');
+                    closeAllDropdowns();
+                }
+            });
+
+            /* ---------- Scroll shadow ---------- */
+            const siteHeader = document.querySelector('.site-header');
+            if (siteHeader) {
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 10) {
+                        siteHeader.style.boxShadow = '0 6px 28px rgba(0, 0, 0, 0.10)';
+                    } else {
+                        siteHeader.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+                    }
+                }, {
+                    passive: true
+                });
+            }
         }
 
-    });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initNavbar);
+        } else {
+            initNavbar();
+        }
+    })();
 </script>

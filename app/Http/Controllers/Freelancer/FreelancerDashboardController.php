@@ -11,16 +11,40 @@ use Illuminate\Support\Facades\DB;
 use App\Services\ProfileService;
 use App\Models\FreelancerSavedJob;
 use App\Models\FreelancerArchivedJob;
+use App\Models\FreelancerServiceInquiry;
 
 class FreelancerDashboardController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role !== 'freelancer') {
+        $user = Auth::user();
+
+        if ($user->role !== 'freelancer') {
             abort(403, 'Unauthorized');
         }
 
-        return view('freelancers.dashboard');
+        $registration = $user->freelancerRegistration;
+        $bids = $registration
+            ? FreelancerBid::where('freelancer_id', $registration->id)
+            : FreelancerBid::whereRaw('1 = 0');
+
+        $stats = [
+            'saved'       => FreelancerSavedJob::where('user_id', $user->id)->count(),
+            'applied'     => (clone $bids)->count(),
+            'interviews'  => (clone $bids)->whereIn('status', ['interview', 'interview_scheduled', 'shortlisted'])->count(),
+            'in_progress' => (clone $bids)->whereIn('status', [FreelancerBid::STATUS_ACCEPTED, 'in_progress'])->count(),
+            'hired'       => (clone $bids)->whereNotNull('signed_contract_document')->count(),
+            'services'    => $user->services()->count(),
+            'inquiries'   => FreelancerServiceInquiry::whereHas('service', fn ($q) => $q->where('user_id', $user->id))->count(),
+        ];
+
+        $latestProjects = Project::with('employer.employerRegistration')
+            ->whereJsonContains('visibility', 'freelancer')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('freelancers.dashboard', compact('stats', 'latestProjects'));
     }
 
     function about()

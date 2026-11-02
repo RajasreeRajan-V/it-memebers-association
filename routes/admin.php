@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\WebinarManagementController;
 use App\Http\Controllers\Admin\MockInterviewManagementController;
 use App\Http\Controllers\Admin\LegalHelpController;
 use App\Http\Controllers\Admin\TrainingController as AdminTrainingController;
+use App\Http\Controllers\Admin\FreelancerServiceReviewController;
 
 //Freelancer Bid Approval Controller
 /*
@@ -415,6 +416,27 @@ Route::post(
             [MockInterviewManagementController::class, 'show']
         )->name('mock-interviews.show');
 
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Freelancer Services Review
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('services')
+    ->name('services.')
+    ->controller(FreelancerServiceReviewController::class)
+    ->group(function () {
+
+        Route::get('/', 'index')
+            ->name('index');
+
+        Route::post('/{service}/approve', 'approve')
+            ->name('approve');
+
+        Route::post('/{service}/reject', 'reject')
+            ->name('reject');
     });
 
 });

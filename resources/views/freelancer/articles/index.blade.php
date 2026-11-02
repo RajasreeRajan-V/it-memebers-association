@@ -1,0 +1,1029 @@
+@extends('layouts.app')
+
+@section('content')
+
+@push('styles')
+<script src="https://cdn.tailwindcss.com"></script>
+@endpush
+
+<style>
+    /* ============================================================
+       ARTICLES PAGE — same design system as the Job Posts page
+    ============================================================ */
+
+    :root {
+        --blue: #3376f2;
+        --blue-dark: #245fd0;
+        --blue-light: #eef4ff;
+        --text: #172033;
+        --muted: #7b8498;
+        --border: #e8edf5;
+        --bg: #f8fafc;
+        --green: #059669;
+        --green-light: #ecfdf5;
+        --amber: #b45309;
+        --amber-light: #fff7ed;
+    }
+
+    .articles-page {
+        font-family:
+            Inter, Poppins, ui-sans-serif, system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .modal-body-text { white-space: pre-line; }
+
+    /* ============================================================
+       ARTICLE CARD  (same anatomy as .job-card)
+    ============================================================ */
+
+    .article-card {
+        position: relative;
+        border: 1px solid var(--border) !important;
+        border-radius: 16px !important;
+        padding: 18px 20px !important;
+        margin-bottom: 14px !important;
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(15, 23, 42, .025) !important;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .article-card:hover {
+        transform: translateY(-1px);
+        border-color: #d5e1f7 !important;
+        box-shadow: 0 10px 24px rgba(37, 99, 235, .07) !important;
+    }
+
+    .article-card-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px !important;
+    }
+
+    /* ---- thumbnail (same shape/size language as .job-company-logo) ---- */
+
+    .article-thumb {
+        position: relative;
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px;
+        border-radius: 12px !important;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e7ecf4;
+        box-shadow: 0 3px 9px rgba(15, 23, 42, .035);
+    }
+
+    .article-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ---- row 1: title + category badge | views + menu ---- */
+
+    .article-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px !important; }
+    .article-row + .article-row { margin-top: 4px !important; }
+
+    .article-title-line { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+
+    .article-title {
+        font-size: 15.5px !important;
+        line-height: 1.35 !important;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -.01em;
+        margin: 0;
+    }
+
+    .article-title:hover { color: var(--blue); }
+
+    .article-category-badge {
+        flex-shrink: 0;
+        font-size: 9.5px !important;
+        font-weight: 700;
+        letter-spacing: .03em;
+        text-transform: uppercase;
+        padding: 3px 9px !important;
+        border-radius: 999px;
+        background: var(--amber-light);
+        color: var(--amber);
+        white-space: nowrap;
+    }
+
+    .article-views {
+        flex-shrink: 0;
+        font-size: 13.5px !important;
+        font-weight: 700;
+        color: var(--green);
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* ---- row 2: author / read time | posted date ---- */
+
+    .article-subline { font-size: 11.5px !important; color: var(--muted); line-height: 1.5; min-width: 0; }
+    .article-subline strong { color: var(--text); font-weight: 600; }
+    .article-subline .dot { margin: 0 5px; color: #c7cedb; }
+
+    .posted-text { flex-shrink: 0; font-size: 10.5px !important; color: #9aa3b2; font-weight: 500; white-space: nowrap; }
+
+    /* ---- excerpt ---- */
+    .article-excerpt {
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+        color: #6b7280;
+        margin: 4px 0 0 !important;
+    }
+
+    /* ---- row 3: tags | like / comment footer ---- */
+
+    .article-tags-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 7px !important;
+        margin-top: 11px !important;
+    }
+
+    .tag-pill {
+        font-size: 11px !important;
+        font-weight: 600;
+        line-height: 1.5;
+        padding: 4px 11px !important;
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .tag-pill.tag-mode { background: var(--blue-light); color: var(--blue); }
+
+    .article-footer-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+
+    .footer-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12.5px !important;
+        font-weight: 600;
+        color: #9aa3b2;
+        transition: color .16s ease;
+    }
+
+    .footer-action-btn:hover { color: var(--blue); }
+    .footer-action-btn.is-liked { color: #ef4444; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+
+    .hero-title { letter-spacing: -.035em !important; }
+
+    .hero-search-bar {
+        box-shadow: 0 9px 22px rgba(51, 118, 242, .10) !important;
+    }
+
+    .hero-image {
+        border: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        filter: none !important;
+    }
+
+    .hero-float-card {
+        box-shadow: 0 12px 26px rgba(15, 23, 42, .10);
+    }
+
+    /* ============================================================
+       SIDEBAR
+    ============================================================ */
+
+    .listing-sidebar-card {
+        border-color: var(--border) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 3px 13px rgba(15, 23, 42, .03) !important;
+    }
+
+    /* ============================================================
+       EMPTY STATE
+    ============================================================ */
+
+    .empty-state { border-color: var(--border) !important; border-radius: 16px !important; }
+
+    /* ============================================================
+       COMMENT PANEL
+    ============================================================ */
+
+    .comment-textarea:focus { outline: none; }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+
+    @media (max-width: 767px) {
+        .article-card { padding: 14px !important; border-radius: 14px !important; }
+        .article-card-inner { gap: 10px !important; }
+        .article-thumb { width: 43px !important; height: 43px !important; min-width: 43px !important; }
+        .article-row { flex-wrap: wrap; }
+        .article-views { font-size: 12.5px !important; }
+        .article-title { font-size: 14px !important; }
+        .article-subline { width: 100%; }
+        .posted-text { width: 100%; margin-top: 2px; }
+        .hero-title { font-size: 34px !important; }
+    }
+
+    @media (max-width: 575px) {
+        .article-tags-row { gap: 6px !important; }
+    }
+
+    @media (max-width: 1023px) {
+        .articles-page .hero-title { font-size: 42px !important; }
+    }
+</style>
+
+@php
+    $categories       = $categories ?? [];
+    $trendingArticles = $trendingArticles ?? collect();
+    $activeTab        = $activeTab ?? 'all';
+    $activeCategory   = $activeCategory ?? null;
+    $sort             = $sort ?? 'latest';
+    $likedArticleIds  = $likedArticleIds ?? [];
+@endphp
+
+<div class="articles-page bg-slate-50 min-h-screen">
+
+    {{-- =========================================================
+        HERO SECTION
+    ========================================================== --}}
+    <div class="bg-gradient-to-b from-[#F5F8FF] via-[#F5F8FF] to-white border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-6 py-11 md:py-13 grid md:grid-cols-2 gap-7 lg:gap-9 items-center">
+
+            {{-- LEFT HERO CONTENT --}}
+            <div class="flex flex-col items-start text-left">
+
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 bg-blue-100/70 px-3.5 py-1.5 rounded-full mb-4">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 11-14h-7l0-6z"/></svg>
+                    {{ $categories[0]['count'] ?? 0 }}+ NEW ARTICLES THIS WEEK
+                </span>
+
+                <h1 class="hero-title text-4xl sm:text-5xl font-bold text-slate-900 leading-[1.12] tracking-tight mb-4 max-w-lg">
+                    Discover. Learn.
+                    <span class="text-blue-600 block">Grow.</span>
+                </h1>
+
+                <p class="text-slate-500 text-base mb-6 max-w-md leading-relaxed">
+                    Explore expert insights, tutorials, career advice & industry trends
+                    published by employers & professionals like you.
+                </p>
+
+                <form action="{{ route('employee.articles.index') }}" method="GET"
+                      class="hero-search-bar w-full flex items-stretch bg-white rounded-xl border border-slate-100 p-1.5 mb-6 gap-1">
+                    <div class="relative flex-[1.4]">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/>
+                        </svg>
+                        <input
+                            type="text" name="q" value="{{ request('q') }}"
+                            placeholder="Search articles, topics..."
+                            class="w-full h-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-slate-700 placeholder-slate-400 focus:outline-none"
+                        >
+                    </div>
+
+                    <div class="w-px bg-slate-200 my-1.5"></div>
+
+                    <div class="relative flex-1">
+                        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M7 12h10M10 18h4"/>
+                        </svg>
+                        <select name="category" class="w-full h-full appearance-none pl-9 pr-6 py-2.5 rounded-lg text-sm text-slate-700 bg-transparent focus:outline-none cursor-pointer">
+                            <option value="">All Categories</option>
+                            @foreach ($categories as $cat)
+                                @if ($cat['slug'])
+                                    <option value="{{ $cat['slug'] }}" {{ $activeCategory === $cat['slug'] ? 'selected' : '' }}>{{ $cat['label'] }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <svg class="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+
+                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shrink-0">
+                        Search
+                    </button>
+                </form>
+
+                {{-- Popular tags --}}
+                <div class="flex flex-nowrap items-center justify-start gap-2 text-sm w-full overflow-x-auto">
+                    <span class="text-slate-400 font-medium mr-1 shrink-0">Popular:</span>
+                    @foreach (['Career Advice', 'Web Dev', 'AIML', 'Productivity'] as $tag)
+                        <a href="{{ route('employee.articles.index', ['q' => strip_tags($tag)]) }}"
+                           class="shrink-0 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-600 transition whitespace-nowrap">
+                            {!! $tag !!}
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- RIGHT HERO IMAGE --}}
+            <div class="relative flex justify-center md:justify-end">
+
+                {{--
+                    ⬇️ YOUR OWN IMAGE GOES HERE ⬇️
+                    Drop your file into: public/assets/img/
+                    then update the filename below (currently "www.png").
+                --}}
+                <img
+                    src="{{ asset('assets/img/www.png') }}"
+                    alt="Articles hero"
+                    class="hero-image w-full max-w-sm lg:max-w-[420px] h-auto object-contain"
+                    onerror="this.style.display='none'"
+                >
+
+                {{-- TUTORIALS --}}
+                <div class="hero-float-card absolute top-4 left-0 md:-left-4 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+                    </span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Tutorials</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Guides & how-tos</p>
+                    </div>
+                </div>
+
+                {{-- BROWSE ARTICLES --}}
+                <div class="hero-float-card absolute top-24 right-0 md:right-4 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-violet-100 flex items-center justify-center shrink-0 text-violet-600 text-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Browse Articles</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">Curated for you</p>
+                    </div>
+                </div>
+
+                {{-- TRENDING NOW --}}
+                <div class="hero-float-card absolute bottom-6 left-0 md:-left-6 flex items-center gap-2 bg-white rounded-xl px-3.5 py-2">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0 text-emerald-600 text-sm">⚡</span>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">Trending Now</p>
+                        <p class="text-[10px] text-slate-400 leading-tight">What people are reading</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- =========================================================
+        MAIN CONTENT
+    ========================================================== --}}
+    <div class="max-w-7xl mx-auto px-4 py-7 md:py-8">
+
+        <div class="grid lg:grid-cols-[260px_minmax(0,1fr)_290px] gap-5 lg:gap-6">
+
+            {{-- ---------- LEFT: Filters ---------- --}}
+            <aside class="listing-sidebar-card bg-white border p-5 h-fit lg:sticky lg:top-6">
+
+                <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <h3 class="flex items-center gap-2 text-base font-semibold text-slate-800">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M7 12h10M10 18h4"/>
+                        </svg>
+                        Filters
+                    </h3>
+                    <a href="{{ route('employee.articles.index') }}" class="text-sm font-medium text-blue-600 hover:underline">Clear all</a>
+                </div>
+
+                <div class="py-4 border-b border-slate-100">
+                    <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Categories</h4>
+                    <ul class="space-y-1 max-h-72 overflow-y-auto pr-1">
+                        @foreach ($categories as $cat)
+                            @php
+                                $isActive = $activeCategory === $cat['slug'];
+                                $catUrl = route('employee.articles.index', array_filter(['category' => $cat['slug'], 'sort' => $sort, 'tab' => $activeTab])) . '#browse-articles';
+                            @endphp
+                            <li>
+                                <a href="{{ $catUrl }}"
+                                   class="flex items-center justify-between px-2.5 py-1.5 rounded-md text-sm transition
+                                          {{ $isActive ? 'bg-blue-50 text-blue-600 font-medium' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800' }}">
+                                    <span>{{ $cat['label'] }}</span>
+                                    <span class="text-xs {{ $isActive ? 'text-blue-500' : 'text-slate-400' }}">{{ $cat['count'] }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <form action="{{ route('employee.articles.index') }}#browse-articles" method="GET">
+                    <input type="hidden" name="category" value="{{ $activeCategory }}">
+                    <input type="hidden" name="tab" value="{{ $activeTab }}">
+
+                    <div class="py-4">
+                        <h4 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Sort By</h4>
+                        <select name="sort" class="w-full border border-slate-200 rounded-md text-sm py-1.5 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                            <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
+                            <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
+                            <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full rounded-xl bg-blue-600 text-white text-sm font-semibold py-2.5 hover:bg-blue-700 transition">
+                        Apply Filters
+                    </button>
+                </form>
+            </aside>
+
+            {{-- ---------- CENTER: Article list ---------- --}}
+            <section id="browse-articles" class="min-w-0">
+
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-2 mb-5">
+                    <div class="flex items-center gap-4">
+                        <a href="{{ route('employee.articles.index', array_filter(['tab' => 'all', 'category' => $activeCategory, 'sort' => $sort])) }}#browse-articles"
+                           class="pb-2 -mb-[9px] border-b-2 text-[15px] font-semibold tracking-tight transition
+                                  {{ $activeTab === 'all' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
+                            All Articles
+                        </a>
+                        <a href="{{ route('employee.articles.index', array_filter(['tab' => 'trending', 'category' => $activeCategory, 'sort' => $sort])) }}#browse-articles"
+                           class="pb-2 -mb-[9px] border-b-2 text-[15px] font-semibold tracking-tight transition
+                                  {{ $activeTab === 'trending' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800' }}">
+                            Trending
+                        </a>
+                    </div>
+
+                    <label class="flex items-center gap-2 text-sm font-medium text-slate-500">
+                        Sort by:
+                        <select name="sort" onchange="updateSort(this.value)" class="border border-slate-200 rounded-md text-sm font-medium py-1.5 px-2.5 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/40">
+                            <option value="latest" {{ $sort === 'latest' ? 'selected' : '' }}>Latest</option>
+                            <option value="most-viewed" {{ $sort === 'most-viewed' ? 'selected' : '' }}>Most Viewed</option>
+                            <option value="most-liked" {{ $sort === 'most-liked' ? 'selected' : '' }}>Most Liked</option>
+                        </select>
+                    </label>
+                </div>
+
+                @forelse ($articles as $article)
+                    @php
+                        $authorName = is_string($article->author ?? null)
+                            ? $article->author
+                            : ($article->author->name ?? 'Unknown Author');
+                        $isLiked = in_array($article->id, $likedArticleIds);
+                    @endphp
+
+                    <article class="article-card">
+                        <div class="article-card-inner">
+
+                            <button type="button" class="article-open-btn article-thumb shrink-0" data-article-id="{{ $article->id }}">
+                                <img src="{{ $article->image ? asset($article->image) : asset('assets/img/placeholder.png') }}" alt="{{ $article->title }}">
+                            </button>
+
+                            <div class="flex-1 min-w-0">
+
+                                {{-- row 1: title + badge | views --}}
+                                <div class="article-row">
+                                    <div class="article-title-line">
+                                        <button type="button" class="article-open-btn text-left" data-article-id="{{ $article->id }}">
+                                            <h2 class="article-title">{{ $article->title }}</h2>
+                                        </button>
+                                        <span class="article-category-badge">{{ $article->category }}</span>
+                                    </div>
+
+                                    <span class="article-views">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        {{ number_format($article->views_count) }}
+                                    </span>
+                                </div>
+
+                                {{-- row 2: author / read time | posted date --}}
+                                <div class="article-row">
+                                    <p class="article-subline">
+                                        <strong>{{ $authorName }}</strong>
+                                        <span class="dot">·</span>{{ $article->read_minutes ?? 5 }} min read
+                                    </p>
+                                    <span class="posted-text">
+                                        {{ optional($article->published_at)->diffForHumans() ?? 'Draft' }}
+                                    </span>
+                                </div>
+
+                                {{-- row 2.5: excerpt --}}
+                                @if (!empty($article->excerpt))
+                                    <p class="article-excerpt line-clamp-2">{{ $article->excerpt }}</p>
+                                @endif
+
+                                {{-- row 3: tag | like / comment footer --}}
+                                <div class="article-tags-row">
+                                    <span class="tag-pill tag-mode">{{ $article->category }}</span>
+
+                                    <span class="article-footer-right">
+                                        <button
+                                            type="button"
+                                            class="like-btn footer-action-btn {{ $isLiked ? 'is-liked' : '' }}"
+                                            data-article-id="{{ $article->id }}"
+                                            data-liked="{{ $isLiked ? '1' : '0' }}"
+                                        >
+                                            <svg class="like-icon w-3.5 h-3.5" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                                                 fill="{{ $isLiked ? 'currentColor' : 'none' }}">
+                                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+                                            </svg>
+                                            <span class="like-count">{{ $article->likes_count }}</span>
+                                        </button>
+
+                                        <button type="button" class="comment-toggle-btn footer-action-btn" data-article-id="{{ $article->id }}">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
+                                            <span class="comment-count">{{ $article->comments_count }}</span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Inline comment panel — hidden until the comment icon is clicked --}}
+                        <div id="comments-panel-{{ $article->id }}" class="hidden mt-4 pt-4 border-t border-slate-100">
+                            <form class="comment-form flex items-start gap-2 mb-4" data-article-id="{{ $article->id }}">
+                                @csrf
+                                <div class="relative flex-1">
+                                    <textarea
+                                        name="body" rows="2" required maxlength="1000"
+                                        placeholder="Write a comment..."
+                                        class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                                    ></textarea>
+                                    <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
+                                    </button>
+                                    <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
+                                        @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
+                                            <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-semibold px-4 py-2 hover:bg-blue-700 transition shrink-0">
+                                    Post
+                                </button>
+                            </form>
+
+                            <div class="comment-list space-y-3">
+                                @foreach ($article->comments as $comment)
+                                    <div class="flex gap-2.5" data-comment-id="{{ $comment->id }}">
+                                        <span class="w-7 h-7 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-bold text-slate-500 shrink-0">
+                                            {{ strtoupper(substr($comment->user->name ?? 'U', 0, 1)) }}
+                                        </span>
+                                        <div class="min-w-0">
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm font-semibold text-slate-700">{{ $comment->user->name ?? 'Unknown User' }}</p>
+                                                <p class="text-xs font-medium text-slate-400">{{ $comment->created_at->diffForHumans() }}</p>
+                                            </div>
+                                            <p class="text-sm text-slate-600 mt-0.5 leading-relaxed">{{ $comment->body }}</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @if ($article->comments->isEmpty())
+                                    <p class="no-comments-msg text-sm text-slate-400">No comments yet — be the first to share your thoughts.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <div class="empty-state bg-white border border-slate-200 py-14 px-6 text-center">
+                        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                <path d="M8 10h8M8 14h5"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-800 mb-1.5">No articles found</h3>
+                        <p class="text-sm text-slate-400">Try a different search or filter.</p>
+                    </div>
+                @endforelse
+
+                @if (isset($articles) && method_exists($articles, 'links'))
+                    <div class="mt-6">{{ $articles->links() }}</div>
+                @endif
+            </section>
+
+            {{-- ---------- RIGHT: Trending + Promo ---------- --}}
+            <aside class="space-y-4">
+
+                <div class="listing-sidebar-card bg-white border p-5">
+                    <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Trending Articles</h3>
+                    <ul class="space-y-4">
+                        @foreach ($trendingArticles as $t)
+                            <li>
+                                <button type="button" class="article-open-btn flex gap-3 group text-left w-full" data-article-id="{{ $t->id }}">
+                                    <img src="{{ $t->image ? asset($t->image) : asset('assets/img/placeholder.png') }}" alt="{{ $t->title }}" class="w-14 h-14 rounded-md object-cover shrink-0 bg-slate-100">
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-medium text-slate-800 group-hover:text-blue-600 leading-snug line-clamp-2">
+                                            {{ $t->title }}
+                                        </p>
+                                        <p class="text-xs text-slate-400 mt-1">{{ $t->read_minutes }} min read</p>
+                                    </div>
+                                </button>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div class="listing-sidebar-card relative overflow-hidden bg-gradient-to-br from-blue-600 to-violet-600 text-white p-5">
+                    <div class="absolute w-28 h-28 rounded-full bg-white/10 -right-8 -bottom-8"></div>
+                    <div class="absolute w-16 h-16 rounded-full bg-white/10 right-10 -top-6"></div>
+
+                    <h3 class="relative font-bold text-[16px] mb-2">Explore the Latest Tech Insights</h3>
+                    <p class="relative text-[13px] text-white/85 leading-relaxed mb-4">
+                        Expert-written guides on development, AI, cybersecurity, cloud, and more —
+                        stay sharp and grow your career.
+                    </p>
+
+                    <ul class="relative space-y-2 text-[13px]">
+                        <li class="flex items-center gap-2"><span>📘</span>Expert Technical Articles</li>
+                        <li class="flex items-center gap-2"><span>💡</span>Programming Tips & Tutorials</li>
+                        <li class="flex items-center gap-2"><span>🚀</span>Latest Technology Trends</li>
+                        <li class="flex items-center gap-2"><span>🎯</span>Career Growth & Best Practices</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+{{-- ============ ARTICLE POPUP MODAL ============ --}}
+<div id="article-modal-overlay" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 pt-20 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-2xl w-full my-8 relative shadow-2xl max-h-[90vh] flex flex-col">
+        <button id="modal-close-btn" type="button"
+                class="absolute top-5 right-5 w-9 h-9 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-500 hover:text-slate-800 shadow-sm z-20">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+
+        <div id="modal-loading" class="p-16 text-center text-slate-400 text-sm">Loading article...</div>
+
+        <div id="modal-content" class="hidden p-8 overflow-y-auto">
+            <span id="modal-category" class="inline-block text-xs font-semibold tracking-wide text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full mb-2 uppercase"></span>
+            <h2 id="modal-title" class="text-2xl font-bold text-slate-900 leading-snug mb-3"></h2>
+
+            <div class="flex flex-wrap items-center gap-4 text-sm text-slate-400 pb-4 border-b border-slate-100 mb-5">
+                <span class="flex items-center gap-2">
+                    <span id="modal-author-initial" class="w-6 h-6 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-semibold text-slate-500"></span>
+                    <span id="modal-author-name"></span>
+                </span>
+                <span id="modal-date"></span>
+                <span id="modal-read-minutes"></span>
+
+                <span class="ml-auto flex items-center gap-4">
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span id="modal-views-count"></span>
+                    </span>
+
+                    <button type="button" id="modal-like-btn" class="like-btn flex items-center gap-1.5 transition text-slate-400 hover:text-red-400">
+                        <svg class="like-icon w-4 h-4" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
+                        </svg>
+                        <span class="like-count" id="modal-like-count"></span>
+                    </button>
+
+                    <span class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 1 1 8.5-8.5z"/><path d="M8 10h8M8 14h5" stroke-linecap="round"/></svg>
+                        <span id="modal-comments-count"></span>
+                    </span>
+                </span>
+            </div>
+
+            <img id="modal-image" alt="" class="w-full h-56 object-cover rounded-lg bg-slate-100 mb-5">
+
+            <div id="modal-body" class="modal-body-text text-base text-slate-700 leading-relaxed mb-6"></div>
+
+            <div class="border-t border-slate-100 pt-5">
+                <h3 class="text-xs font-semibold tracking-widest text-slate-400 uppercase mb-3">Comments</h3>
+
+                <form class="comment-form flex items-start gap-2 mb-4" id="modal-comment-form" data-article-id="">
+                    @csrf
+                    <div class="relative flex-1">
+                        <textarea
+                            name="body" rows="2" required maxlength="1000"
+                            placeholder="Write a comment..."
+                            class="comment-textarea w-full rounded-md border border-slate-200 pl-3 pr-9 py-2 text-sm text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-400"
+                        ></textarea>
+                        <button type="button" class="emoji-toggle-btn absolute right-2 bottom-2 text-slate-400 hover:text-amber-500 transition" aria-label="Add emoji">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14s1.2 2 3.5 2 3.5-2 3.5-2" stroke-linecap="round"/><path d="M9 9h.01M15 9h.01" stroke-linecap="round"/></svg>
+                        </button>
+                        <div class="emoji-picker hidden absolute bottom-10 right-0 z-30 bg-white border border-slate-200 rounded-lg shadow-lg p-2 grid grid-cols-6 gap-1 w-56">
+                            @foreach (['😀','😂','😍','😊','👍','🙌','🎉','🔥','😢','😮','❤️','👏','🤔','😎','🙏','💯','😅','🥳'] as $emoji)
+                                <button type="button" class="emoji-option text-lg leading-none hover:bg-slate-100 rounded p-1">{{ $emoji }}</button>
+                            @endforeach
+                        </div>
+                    </div>
+                    <button type="submit" class="rounded-md bg-blue-600 text-white text-sm font-medium px-4 py-2 hover:bg-blue-700 transition shrink-0">
+                        Post
+                    </button>
+                </form>
+
+                <div class="comment-list space-y-3" id="modal-comment-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : null;
+
+    function buildCommentEl(c) {
+        const el = document.createElement('div');
+        el.className = 'flex gap-2.5';
+        el.dataset.commentId = c.id;
+
+        const avatar = document.createElement('span');
+        avatar.className = 'w-7 h-7 rounded-full bg-slate-200 inline-flex items-center justify-center text-xs font-semibold text-slate-500 shrink-0';
+        avatar.textContent = c.user_name.charAt(0).toUpperCase();
+
+        const wrap = document.createElement('div');
+        wrap.className = 'min-w-0';
+        wrap.innerHTML = `
+            <div class="flex items-center gap-2">
+                <p class="text-sm font-semibold text-slate-700"></p>
+                <p class="text-xs text-slate-400"></p>
+            </div>
+            <p class="text-sm text-slate-600 mt-0.5"></p>
+        `;
+        wrap.querySelectorAll('p')[0].textContent = c.user_name;
+        wrap.querySelectorAll('p')[1].textContent = c.created_at;
+        wrap.querySelectorAll('p')[2].textContent = c.body;
+
+        el.appendChild(avatar);
+        el.appendChild(wrap);
+        return el;
+    }
+
+    window.updateSort = function (value) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', value);
+        url.hash = 'browse-articles';
+        window.location.href = url.toString();
+    };
+
+    function scrollToBrowseArticles() {
+        if (window.location.hash === '#browse-articles') {
+            const target = document.getElementById('browse-articles');
+            if (target) target.scrollIntoView({ block: 'start' });
+        }
+    }
+    if (document.readyState === 'complete') {
+        setTimeout(scrollToBrowseArticles, 150);
+    } else {
+        window.addEventListener('load', function () {
+            setTimeout(scrollToBrowseArticles, 150);
+        });
+    }
+
+    const overlay = document.getElementById('article-modal-overlay');
+    const loadingEl = document.getElementById('modal-loading');
+    const contentEl = document.getElementById('modal-content');
+
+    async function openArticleModal(articleId) {
+        overlay.classList.remove('hidden');
+        loadingEl.classList.remove('hidden');
+        loadingEl.textContent = 'Loading article...';
+        contentEl.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+
+        try {
+            const response = await fetch(`/employee/articles/${articleId}`, {
+                headers: { 'Accept': 'application/json' },
+            });
+
+            if (!response.ok) throw new Error('Failed to load article');
+
+            const a = await response.json();
+
+            document.getElementById('modal-category').textContent = a.category ?? '';
+            document.getElementById('modal-title').textContent = a.title ?? '';
+            document.getElementById('modal-author-initial').textContent = (a.author_name || 'U').charAt(0).toUpperCase();
+            document.getElementById('modal-author-name').textContent = a.author_name ?? '';
+            document.getElementById('modal-date').textContent = a.published_at ?? '';
+            document.getElementById('modal-read-minutes').textContent = `${a.read_minutes ?? 5} min read`;
+            document.getElementById('modal-views-count').textContent = a.views_count ?? 0;
+            document.getElementById('modal-image').src = a.image ?? '';
+            document.getElementById('modal-image').classList.toggle('hidden', !a.image);
+            document.getElementById('modal-body').textContent = a.body ?? '';
+
+            const likeBtn = document.getElementById('modal-like-btn');
+            likeBtn.dataset.articleId = a.id;
+            document.getElementById('modal-like-count').textContent = a.likes_count ?? 0;
+            if (a.liked) {
+                likeBtn.classList.remove('text-slate-400', 'hover:text-red-400');
+                likeBtn.classList.add('text-red-500');
+                likeBtn.querySelector('.like-icon').setAttribute('fill', 'currentColor');
+            } else {
+                likeBtn.classList.remove('text-red-500');
+                likeBtn.classList.add('text-slate-400', 'hover:text-red-400');
+                likeBtn.querySelector('.like-icon').setAttribute('fill', 'none');
+            }
+
+            document.getElementById('modal-comments-count').textContent = a.comments_count ?? 0;
+            const commentForm = document.getElementById('modal-comment-form');
+            commentForm.dataset.articleId = a.id;
+            commentForm.querySelector('textarea').value = '';
+
+            const list = document.getElementById('modal-comment-list');
+            list.innerHTML = '';
+            if (a.comments && a.comments.length) {
+                a.comments.forEach(c => list.appendChild(buildCommentEl(c)));
+            } else {
+                const p = document.createElement('p');
+                p.className = 'no-comments-msg text-sm text-slate-400';
+                p.textContent = 'No comments yet — be the first to share your thoughts.';
+                list.appendChild(p);
+            }
+
+            loadingEl.classList.add('hidden');
+            contentEl.classList.remove('hidden');
+        } catch (err) {
+            console.error('Failed to open article:', err);
+            loadingEl.textContent = 'Could not load this article. Please try again.';
+        }
+    }
+
+    function closeArticleModal() {
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.article-open-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            openArticleModal(btn.dataset.articleId);
+        });
+    });
+
+    document.getElementById('modal-close-btn').addEventListener('click', closeArticleModal);
+    overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeArticleModal();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeArticleModal();
+    });
+
+    document.addEventListener('click', async function (e) {
+        const btn = e.target.closest('.like-btn');
+        if (!btn) return;
+
+        const articleId = btn.dataset.articleId;
+        if (!articleId) return;
+
+        if (!csrfToken) {
+            alert('Missing <meta name="csrf-token"> tag in your layout <head> — likes can\'t be saved without it.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/employee/articles/${articleId}/like`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (!response.ok) throw new Error('Request failed');
+
+            const data = await response.json();
+
+            document.querySelectorAll(`.like-btn[data-article-id="${articleId}"]`).forEach(function (b) {
+                const i = b.querySelector('.like-icon');
+                const c = b.querySelector('.like-count');
+                c.textContent = data.likes_count;
+                if (data.liked) {
+                    b.classList.add('is-liked');
+                    b.classList.remove('text-slate-400', 'hover:text-red-400');
+                    b.classList.add('text-red-500');
+                    i.setAttribute('fill', 'currentColor');
+                } else {
+                    b.classList.remove('is-liked');
+                    b.classList.remove('text-red-500');
+                    b.classList.add('text-slate-400', 'hover:text-red-400');
+                    i.setAttribute('fill', 'none');
+                }
+            });
+        } catch (err) {
+            console.error('Failed to toggle like:', err);
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.comment-toggle-btn');
+        if (!btn) return;
+        const panel = document.getElementById(`comments-panel-${btn.dataset.articleId}`);
+        if (panel) panel.classList.toggle('hidden');
+    });
+
+    document.addEventListener('submit', async function (e) {
+        const form = e.target.closest('.comment-form');
+        if (!form) return;
+        e.preventDefault();
+
+        const articleId = form.dataset.articleId;
+        const textarea = form.querySelector('textarea[name="body"]');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const body = textarea.value.trim();
+        if (!body || !articleId) return;
+
+        if (!csrfToken) {
+            alert('Missing <meta name="csrf-token"> tag in your layout <head> — comments can\'t be posted without it.');
+            return;
+        }
+
+        submitBtn.disabled = true;
+
+        try {
+            const formData = new FormData();
+            formData.append('body', body);
+
+            const response = await fetch(`/employee/articles/${articleId}/comments`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+
+            if (response.status === 419) {
+                alert('Session expired (CSRF token mismatch). Please refresh the page and try again.');
+                return;
+            }
+            if (response.status === 422) {
+                const errorData = await response.json();
+                alert('Could not post comment: ' + Object.values(errorData.errors).flat().join(' '));
+                return;
+            }
+            if (!response.ok) {
+                alert(`Could not post comment (server returned ${response.status}).`);
+                console.error('Comment post failed:', response.status, await response.text());
+                return;
+            }
+
+            const data = await response.json();
+
+            const isModalForm = form.id === 'modal-comment-form';
+            const list = isModalForm
+                ? document.getElementById('modal-comment-list')
+                : document.getElementById(`comments-panel-${articleId}`).querySelector('.comment-list');
+
+            const emptyMsg = list.querySelector('.no-comments-msg');
+            if (emptyMsg) emptyMsg.remove();
+
+            list.appendChild(buildCommentEl({
+                id: data.id,
+                user_name: data.user_name,
+                created_at: data.created_at,
+                body: data.body,
+            }));
+
+            const cardCountEl = document.querySelector(`.comment-toggle-btn[data-article-id="${articleId}"] .comment-count`);
+            if (cardCountEl) cardCountEl.textContent = data.comments_count;
+            const modalCountEl = document.getElementById('modal-comments-count');
+            if (isModalForm && modalCountEl) modalCountEl.textContent = data.comments_count;
+
+            textarea.value = '';
+        } catch (err) {
+            console.error('Failed to post comment:', err);
+            alert('Something went wrong posting your comment — check the browser console for details.');
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        const toggleBtn = e.target.closest('.emoji-toggle-btn');
+        if (toggleBtn) {
+            const picker = toggleBtn.parentElement.querySelector('.emoji-picker');
+            document.querySelectorAll('.emoji-picker').forEach(function (p) {
+                if (p !== picker) p.classList.add('hidden');
+            });
+            if (picker) picker.classList.toggle('hidden');
+            return;
+        }
+
+        const emojiOption = e.target.closest('.emoji-option');
+        if (emojiOption) {
+            const picker = emojiOption.closest('.emoji-picker');
+            const textarea = picker.parentElement.querySelector('.comment-textarea');
+            if (textarea) {
+                const start = textarea.selectionStart ?? textarea.value.length;
+                const end = textarea.selectionEnd ?? textarea.value.length;
+                const emoji = emojiOption.textContent;
+                textarea.value = textarea.value.slice(0, start) + emoji + textarea.value.slice(end);
+                const newPos = start + emoji.length;
+                textarea.focus();
+                textarea.setSelectionRange(newPos, newPos);
+            }
+            picker.classList.add('hidden');
+            return;
+        }
+
+        if (!e.target.closest('.emoji-picker')) {
+            document.querySelectorAll('.emoji-picker').forEach(function (p) {
+                p.classList.add('hidden');
+            });
+        }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const openId = params.get('article');
+    if (openId) openArticleModal(openId);
+});
+</script>
+@endsection

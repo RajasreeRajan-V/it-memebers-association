@@ -187,6 +187,11 @@
                         <span class="badge">{{ $pendingBidsCount }}</span>
                     @endif
                 </a> --}}
+                <a href="{{ Route::has('admin.services.index') ? route('admin.services.index') : '#' }}"
+   class="nav-subitem {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-briefcase"></i>
+    <span>Services Management</span>
+</a>
             </div>
         </div>
 

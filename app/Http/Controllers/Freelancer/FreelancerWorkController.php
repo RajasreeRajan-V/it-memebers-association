@@ -80,9 +80,9 @@ class FreelancerWorkController extends Controller
             abort(404, 'Freelancer registration not found.');
         }
         $proposals = FreelancerBid::with(['project.employer.employerRegistration'])
-        ->where('freelancer_id', $freelancer->id)
-        ->latest()
-        ->paginate(10);
+            ->where('freelancer_id', $freelancer->id)
+            ->latest()
+            ->paginate(10);
         return view('freelancer.proposals', compact('proposals'));
     }
 
@@ -109,54 +109,54 @@ class FreelancerWorkController extends Controller
     /**
      * In Progress
      */
-  public function inProgress()
-{
-    $freelancer = Auth::user()?->freelancerRegistration;
+    public function inProgress()
+    {
+        $freelancer = Auth::user()?->freelancerRegistration;
 
-    if (!$freelancer) {
-        abort(404, 'Freelancer registration not found.');
-    }
+        if (!$freelancer) {
+            abort(404, 'Freelancer registration not found.');
+        }
 
-    $proposals = FreelancerBid::with([
-        'project.employer.employerRegistration',
-    ])
-        ->where('freelancer_id', $freelancer->id)
-        // ->whereNull('signed_contract_document')
-        ->whereIn('status', [
-            FreelancerBid::STATUS_ACCEPTED, // set by the employer's approve()
-            'in_progress',
+        $proposals = FreelancerBid::with([
+            'project.employer.employerRegistration',
         ])
-        ->latest()
-        ->paginate(10);
+            ->where('freelancer_id', $freelancer->id)
+            // ->whereNull('signed_contract_document')
+            ->whereIn('status', [
+                FreelancerBid::STATUS_ACCEPTED, // set by the employer's approve()
+                'in_progress',
+            ])
+            ->latest()
+            ->paginate(10);
 
-    return view('freelancer.in-progress', compact('proposals'));
-}
+        return view('freelancer.in-progress', compact('proposals'));
+    }
     /**
      * Hired
      */
-  public function hired()
-{
-    $freelancer = Auth::user()?->freelancerRegistration;
+    public function hired()
+    {
+        $freelancer = Auth::user()?->freelancerRegistration;
 
-    if (!$freelancer) {
-        abort(404, 'Freelancer registration not found.');
-    }
+        if (!$freelancer) {
+            abort(404, 'Freelancer registration not found.');
+        }
 
-    $proposals = FreelancerBid::with([
-        'project.employer.employerRegistration',
-    ])
-        ->where('freelancer_id', $freelancer->id)
-        ->whereIn('status', [
-            FreelancerBid::STATUS_ACCEPTED,
-            'in_progress',
-            'hired',
+        $proposals = FreelancerBid::with([
+            'project.employer.employerRegistration',
         ])
-        ->whereNotNull('signed_contract_document')
-        ->orderByDesc('signed_contract_received_at')
-        ->paginate(10);
+            ->where('freelancer_id', $freelancer->id)
+            ->whereIn('status', [
+                FreelancerBid::STATUS_ACCEPTED,
+                'in_progress',
+                'hired',
+            ])
+            ->whereNotNull('signed_contract_document')
+            ->orderByDesc('signed_contract_received_at')
+            ->paginate(10);
 
-    return view('freelancer.hired', compact('proposals'));
-}
+        return view('freelancer.hired', compact('proposals'));
+    }
 
     /**
      * Archived
@@ -178,75 +178,84 @@ class FreelancerWorkController extends Controller
 
         return view('freelancer.archived', compact('proposals'));
     }
-public function downloadContract(FreelancerBid $bid, string $type = 'contract')
-{
-    $freelancer = Auth::user()?->freelancerRegistration;
-    abort_unless($freelancer && $bid->freelancer_id === $freelancer->id, 403);
+    public function downloadContract(FreelancerBid $bid, string $type = 'contract')
+    {
+        $freelancer = Auth::user()?->freelancerRegistration;
+        abort_unless($freelancer && $bid->freelancer_id === $freelancer->id, 403);
 
-    $path = $type === 'signed'
-        ? $bid->signed_contract_document
-        : $bid->contract_document;
+        $path = $type === 'signed'
+            ? $bid->signed_contract_document
+            : $bid->contract_document;
 
-    abort_unless($path, 404);
+        abort_unless($path, 404);
 
-    foreach (['public', 'local'] as $disk) {
-        if (Storage::disk($disk)->exists($path)) {
-            return Storage::disk($disk)->response($path); // opens in browser
+        foreach (['public', 'local'] as $disk) {
+            if (Storage::disk($disk)->exists($path)) {
+                return Storage::disk($disk)->response($path); // opens in browser
+            }
         }
+
+        abort(404, 'Contract file not found on disk.');
     }
+    public function uploadSignedContract(Request $request, FreelancerBid $bid)
+    {
+        $freelancer = Auth::user()?->freelancerRegistration;
+        abort_unless($freelancer && $bid->freelancer_id === $freelancer->id, 403);
 
-    abort(404, 'Contract file not found on disk.');
-}
-public function uploadSignedContract(Request $request, FreelancerBid $bid)
-{
-    $freelancer = Auth::user()?->freelancerRegistration;
-    abort_unless($freelancer && $bid->freelancer_id === $freelancer->id, 403);
+        // Only valid when employer sent a contract and nothing signed has been uploaded yet
+        abort_unless($bid->status === FreelancerBid::STATUS_ACCEPTED || $bid->status === 'in_progress', 403);
+        abort_unless($bid->contract_document, 403, 'No contract has been sent yet.');
 
-    // Only valid when employer sent a contract and nothing signed has been uploaded yet
-    abort_unless($bid->status === FreelancerBid::STATUS_ACCEPTED || $bid->status === 'in_progress', 403);
-    abort_unless($bid->contract_document, 403, 'No contract has been sent yet.');
-
-    if ($bid->signed_contract_document) {
-        return back()->with('error', 'A signed contract has already been uploaded.');
-    }
-
-    // Errors go into a per-bid bag so only the right card shows them
-    $request->validateWithBag('signed_' . $bid->id, [
-        'signed_contract' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
-    ]);
-
-    $file = $request->file('signed_contract');
-    $safeName = now()->format('YmdHis') . '_signed_'
-        . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-        . '.' . $file->extension();
-
-    $path = $file->storeAs('contracts/bid-' . $bid->id, $safeName, 'local');
-
-    $bid->forceFill([
-        'signed_contract_document'    => $path,
-        'signed_contract_received_at' => now(),
-    ])->save();
-
-    $bid->load(['project.employer', 'employer', 'freelancer.user']);
-    $employerEmail = $bid->employer?->email ?? $bid->project?->employer?->email;
-
-    $mailSent = false;
-    if ($employerEmail) {
-        try {
-            Mail::to($employerEmail)->send(new SignedContractReceivedMail($bid, $path));
-            $mailSent = true;
-        } catch (\Throwable $e) {
-            Log::error('Failed to send signed contract email for bid #' . $bid->id . ': ' . $e->getMessage());
+        if ($bid->signed_contract_document) {
+            return back()->with('error', 'A signed contract has already been uploaded.');
         }
-    } else {
-        Log::warning('No employer email for bid #' . $bid->id . '; signed contract notification skipped.');
-    }
 
-    return back()->with(
-        $mailSent ? 'success' : 'error',
-        $mailSent
+        // Errors go into a per-bid bag so only the right card shows them
+        $request->validateWithBag('signed_' . $bid->id, [
+            'signed_contract' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
+        ]);
+
+        $file = $request->file('signed_contract');
+        $safeName = now()->format('YmdHis') . '_signed_'
+            . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+            . '.' . $file->extension();
+
+        $path = $file->storeAs('contracts/bid-' . $bid->id, $safeName, 'local');
+
+        $receivedAt = now();
+
+        // next working day (Mon–Sat) after the signed contract is received
+        $workStart = $receivedAt->copy()->addDay();
+        if ($workStart->isSunday()) {
+            $workStart->addDay();
+        }
+
+        $bid->forceFill([
+            'signed_contract_document' => $path,
+            'signed_contract_received_at' => $receivedAt,
+            'work_started_at' => $workStart->toDateString(),
+        ])->save();
+
+        $bid->load(['project.employer', 'employer', 'freelancer.user']);
+        $employerEmail = $bid->employer?->email ?? $bid->project?->employer?->email;
+
+        $mailSent = false;
+        if ($employerEmail) {
+            try {
+                Mail::to($employerEmail)->send(new SignedContractReceivedMail($bid, $path));
+                $mailSent = true;
+            } catch (\Throwable $e) {
+                Log::error('Failed to send signed contract email for bid #' . $bid->id . ': ' . $e->getMessage());
+            }
+        } else {
+            Log::warning('No employer email for bid #' . $bid->id . '; signed contract notification skipped.');
+        }
+
+        return back()->with(
+            $mailSent ? 'success' : 'error',
+            $mailSent
             ? 'Signed contract uploaded and sent to the employer.'
             : 'Signed contract uploaded, but the employer notification email could not be sent.'
-    );
-} 
+        );
+    }
 }

@@ -540,7 +540,7 @@
                     career — all in one place.
                 </p>
                 <div class="hero-actions">
-                    <a href="#get-started" class="btn btn-primary">Get Started</a>
+                    <a href="#get-started" class="btn btn-primary">How to Get Started</a>
                     <a href="#features" class="btn btn-outline">Explore Features</a>
                 </div>
             </div>
